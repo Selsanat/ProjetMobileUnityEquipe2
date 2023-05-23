@@ -21,6 +21,8 @@ public class card : ScriptableObject
     [Header("looking")]
     [SerializeField] Sprite m_cardSprite;
 
+    public Sprite CardSprite { get => m_cardSprite;}
+
     public bool getIsDeleteOnTurn()
     {
         return m_isDeleteOnTurn;
