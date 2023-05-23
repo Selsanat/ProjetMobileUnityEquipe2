@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class card : ScriptableObject
 {
+    #region STATISTIC
     [Header("Stats")]
     [SerializeField] int m_mana;
     [SerializeField] int m_speed;
@@ -17,11 +18,12 @@ public class card : ScriptableObject
     [SerializeField] int m_boostPv;
     [SerializeField] int m_boostMana;
     [SerializeField] bool m_isDeleteOnTurn;
+    #endregion
 
     [Header("looking")]
     [SerializeField] Sprite m_cardSprite;
 
-    public Sprite CardSprite { get => m_cardSprite;}
+    public Sprite CardSprite { get => m_cardSprite; set => m_cardSprite = value; }
 
     public bool getIsDeleteOnTurn()
     {
