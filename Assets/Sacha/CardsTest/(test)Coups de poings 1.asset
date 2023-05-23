@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae1fa1b220ceaa4fae9d3d1a724796b, type: 3}
+  m_Name: (test)Coups de poings 1
+  m_EditorClassIdentifier: 
+  m_mana: 10
+  m_speed: 10
+  m_attack: 1
+  m_boostSpeed: 10
+  m_boostAttack: 10
+  m_boostCrit: 10
+  m_boostCritDmg: 11
+  m_boostDef: 1
+  m_boostPv: 101
+  m_boostMana: 12
+  m_isDeleteOnTurn: 1
+  m_cardSprite: {fileID: 21300000, guid: a50f47cf07de8ee4098dc3c526518bb1, type: 3}

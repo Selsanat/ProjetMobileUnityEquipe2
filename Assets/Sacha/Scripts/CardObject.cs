@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NaughtyAttributes;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -15,7 +16,7 @@ public class CardObject : MonoBehaviour
         return rer.sprite;
     }
 
-    [Button]
+    [SerializeField][Button]
     private void OnValidate()
     {
         SetSprite();
