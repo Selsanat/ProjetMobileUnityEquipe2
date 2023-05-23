@@ -20,7 +20,7 @@ public class deck : MonoBehaviour
         if(m_currentCard < m_maxCard)
         {
             m_listCard.Add(card);
-            m_currentCard--;
+            m_currentCard++;
         }
     }
     public void removeCardToDeck(card card)
@@ -32,14 +32,16 @@ public class deck : MonoBehaviour
         }
     }
 
-    public void drawCard()
+    public card drawCard()
     {
         if(m_currentCard >= 1)
         {
             card drawCard = m_listCard[Random.Range(0, m_currentCard)];
             removeCardToDeck(drawCard);
             m_currentCard--;
+            return drawCard;
         }
+        return null; // plus de carte à tirer
     }
 
 
