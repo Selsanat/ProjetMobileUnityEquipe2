@@ -14,9 +14,17 @@ public class card : MonoBehaviour
     [SerializeField] int m_boostDef;
     [SerializeField] int m_boostPv;
     [SerializeField] int m_boostMana;
-    [SerializeField] int m_boost;
-        
+    [SerializeField] bool m_isDeleteOnTurn;
 
+
+    public bool getIsDeleteOnTurn()
+    {
+        return m_isDeleteOnTurn;
+    }
+    public void setIsDeletOnTurn()
+    {
+        m_isDeleteOnTurn = true;
+    }
 
 }
 
