@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Card")]
+[CreateAssetMenu]
 public class card : ScriptableObject
 {
+    [Header("Stats")]
     [SerializeField] int m_mana;
     [SerializeField] int m_speed;
     [SerializeField] int m_attack;
@@ -17,6 +18,8 @@ public class card : ScriptableObject
     [SerializeField] int m_boostMana;
     [SerializeField] bool m_isDeleteOnTurn;
 
+    [Header("looking")]
+    [SerializeField] Sprite m_cardSprite;
 
     public bool getIsDeleteOnTurn()
     {
