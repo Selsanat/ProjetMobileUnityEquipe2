@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class card : MonoBehaviour
+[CreateAssetMenu(fileName = "Card")]
+public class card : ScriptableObject
 {
     [SerializeField] int m_mana;
     [SerializeField] int m_speed;
