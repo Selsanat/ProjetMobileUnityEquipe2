@@ -18,12 +18,18 @@ public class deck : MonoBehaviour
     public void addCardToDeck(card card)
     {
         if(m_currentCard < m_maxCard)
+        {
             m_listCard.Add(card);
+            m_currentCard--;
+        }
     }
     public void removeCardToDeck(card card)
     {
         if(m_listCard.Contains(card))
+        {
             m_listCard.Remove(card);
+            m_currentCard--;
+        }
     }
 
     public void drawCard()
@@ -32,6 +38,7 @@ public class deck : MonoBehaviour
         {
             card drawCard = m_listCard[Random.Range(0, m_currentCard)];
             removeCardToDeck(drawCard);
+            m_currentCard--;
         }
     }
 
