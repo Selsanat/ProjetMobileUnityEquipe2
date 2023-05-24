@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel.Design.Serialization;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] int RatioGrowHoverCard;
+    void OnMouseOver()
     {
-        
+        transform.localScale = new Vector3(RatioGrowHoverCard, RatioGrowHoverCard, RatioGrowHoverCard);
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnMouseExit()
     {
-        
+        transform.localScale = new Vector3(1, 1, 1) ;
     }
 }

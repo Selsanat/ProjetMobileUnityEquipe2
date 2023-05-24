@@ -9,6 +9,7 @@ using NaughtyAttributes;
 
 public class Deck : MonoBehaviour
 {
+    [SerializeField] int CarteAJouer;
     private List<GameObject> GraveYard = new List<GameObject>();
     private List<GameObject> Hand = new List<GameObject>();
     public List<GameObject> deck;
@@ -17,13 +18,26 @@ public class Deck : MonoBehaviour
     public TMP_Text DeckCount;
     public TMP_Text graveyardCount;
 
-    public void PlayFirstCard()
+    public void Awake()
+    {
+        UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+    }
+    public void PlayCard(int Index)
     {
         if(Hand.Count > 0)
         {
-            GraveYard.Add(Hand[0]);
-            GraveYard[0].SetActive(false);
-            Hand.RemoveAt(0);       
+            Hand[Index].SetActive(false);
+            GraveYard.Add(Hand[Index]);
+            Hand.RemoveAt(Index);
+            for (int i= Index; i < Hand.Count; i++)
+            {
+                Hand[i].transform.position = cardSlots[i].transform.position;
+                Hand[i].transform.rotation = cardSlots[i].transform.rotation;
+                availableCardSlots[i] = false;
+            }
+            availableCardSlots[Hand.Count] = true;
+
+
         }
         else
         {
@@ -43,18 +57,30 @@ public class Deck : MonoBehaviour
                 {
                     randCard.SetActive(true);
                     randCard.transform.position = cardSlots[i].position;
+                    randCard.transform.rotation = cardSlots[i].rotation;
                     Hand.Add(randCard);
                     availableCardSlots[i] = false;
                     deck.Remove(randCard);
+                    if (deck.Count == 0)
+                    {
+                        ShuffleGraveyardToHand();
+                    }
                     return;
                 }
             }
         }
         else
         {
-            print("Shuffle");
-            ShuffleGraveyardToHand();
-            DrawCard();
+            if (GraveYard.Count > 0) {
+                print("Shuffle");
+                ShuffleGraveyardToHand();
+                DrawCard();
+            }
+            else
+            {
+                print("Graveyard vide idiot");
+            }
+
         }
     }
     public List<GameObject> Shuffle(List<GameObject> liste)
@@ -70,7 +96,8 @@ public class Deck : MonoBehaviour
     }
     public void ShuffleGraveyardToHand()
     {
-        deck = Shuffle(GraveYard);
+        foreach(GameObject Carte in Shuffle(GraveYard))
+        deck.Add(Carte);
         GraveYard.Clear();
     }
 
@@ -87,6 +114,6 @@ public class Deck : MonoBehaviour
     [Button]
     private void IPlayCard()
     {
-        PlayFirstCard();
+        PlayCard(CarteAJouer);
     }
 }
