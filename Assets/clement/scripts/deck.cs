@@ -7,8 +7,8 @@ public class deck : MonoBehaviour
 
     [SerializeField] int m_maxCard;
     [SerializeField] int m_currentCard;
-    [SerializeField] List<card> m_listCard;
-    [SerializeField] List<card> m_listCardStart;
+    [SerializeField] List<dataCard> m_listCard;
+    [SerializeField] List<dataCard> m_listCardStart;
 
 
     void Start()
@@ -17,7 +17,7 @@ public class deck : MonoBehaviour
         Random.InitState((int)System.DateTime.Now.Ticks);
     }
     
-    public void addCardToDeck(card card)
+    public void addCardToDeck(dataCard card)
     {
         if(m_currentCard < m_maxCard)
         {
@@ -25,7 +25,7 @@ public class deck : MonoBehaviour
             m_currentCard++;
         }
     }
-    public void removeCardToDeck(card card)
+    public void removeCardToDeck(dataCard card)
     {
         if(m_listCard.Contains(card))
         {
@@ -34,11 +34,11 @@ public class deck : MonoBehaviour
         }
     }
 
-    public card drawCard()
+    public dataCard drawCard()
     {
         if(m_currentCard >= 1)
         {
-            card drawCard = m_listCard[Random.Range(0, m_currentCard)];
+            dataCard drawCard = m_listCard[Random.Range(0, m_currentCard)];
             removeCardToDeck(drawCard);
             m_currentCard--;
             return drawCard;
@@ -46,7 +46,7 @@ public class deck : MonoBehaviour
         else
         {
             reloadDeck();
-            card drawCard = m_listCard[Random.Range(0, m_currentCard)];
+            dataCard drawCard = m_listCard[Random.Range(0, m_currentCard)];
             removeCardToDeck(drawCard);
             m_currentCard--;
             return drawCard;
