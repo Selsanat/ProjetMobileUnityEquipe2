@@ -6,7 +6,7 @@ public class main : MonoBehaviour
 {
     [SerializeField] int m_cardToDraw;
     [SerializeField] int m_currentCard;
-    [SerializeField] List<card> m_listCard;
+    [SerializeField] List<dataCard> m_listCard;
     [SerializeField] deck deck;
 
 
@@ -14,7 +14,7 @@ public class main : MonoBehaviour
     {
         deck = FindObjectOfType<deck>();
     }
-    public void addCardToHand(card card)
+    public void addCardToHand(dataCard card)
     {
         m_listCard.Add(card);
         m_currentCard++;
@@ -22,7 +22,7 @@ public class main : MonoBehaviour
 
     public void tour()
     {
-        foreach(card card in m_listCard)
+        foreach(dataCard card in m_listCard)
         {
             if (card.getIsDeleteOnTurn())
                 m_listCard.Remove(card);

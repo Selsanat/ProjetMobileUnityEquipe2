@@ -10,7 +10,7 @@ using Unity.VisualScripting;
 public class CardObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [Header("LA CARTE EN SCRIPTABLE OBJECT")]
-    [SerializeField]private card ScriptableCard;
+    [SerializeField]private dataCard ScriptableCard;
 
 
     #region Leandro
