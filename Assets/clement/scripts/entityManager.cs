@@ -52,7 +52,7 @@ public class entityManager : MonoBehaviour
 
 public class hero : entityManager
 {
-    hero(Role role, int maxPV, int Pv, int speed, int buff, int nerf, deck deck, int mana)
+    public hero(Role role, int maxPV, int Pv, int speed, int buff, int nerf, deck deck, int mana)
     {
         m_role = role;
         m_maxPv = maxPV;
