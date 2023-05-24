@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class dataCard : ScriptableObject
     [SerializeField] int m_manaCost; //mana
     [SerializeField] int m_attack; //les nb dmgs
     [SerializeField] int m_heal; //les nb heal
+    [SerializeField] cardType m_cardType; // Damage /Heal / Buffs
     #region BOOST
     [Header("Buff Stats")]
     [SerializeField] int m_boostSpeed; //nb boost speed
@@ -31,6 +33,7 @@ public class dataCard : ScriptableObject
     [SerializeField] Sprite m_cardSprite;
 
     public Sprite CardSprite { get => m_cardSprite; private set => m_cardSprite = value; }
+    public cardType CardType { get => m_cardType; set => m_cardType = value; }
 
     public bool getIsDeleteOnTurn()
     {
@@ -41,7 +44,7 @@ public class dataCard : ScriptableObject
         m_isDeleteOnTurn = true;
     }
 
-
+    #region CARD EFFECTS
     public void heal(hero hero)
     {
         int currentPv = hero.getPv() + m_heal;
@@ -63,6 +66,13 @@ public class dataCard : ScriptableObject
             hero.setIsAlive(false);
         }
     }
+    internal void BuffDamage(hero hero)
+    {
+        throw new NotImplementedException();
+    }
+
+
+    #endregion
 
     public void draw(hero hero, int amout)
     {
@@ -70,6 +80,16 @@ public class dataCard : ScriptableObject
     }
 
 
+
+    public enum cardType
+    {
+        undifined = 0,
+        Damage = 1,
+        Heal = 2,
+        BuffDamage = 3, 
+        BuffHeal = 4,
+        Block = 5
+    }
 
 }
 

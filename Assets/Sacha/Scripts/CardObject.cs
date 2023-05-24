@@ -9,15 +9,18 @@ public class CardObject : MonoBehaviour
 {
     [Header("DATACARD")]
     [SerializeField]private dataCard m_dataCard;
+    public dataCard DataCard { get => m_dataCard;}
 
-
-    #region Leandro
-    [HorizontalLine]
     [Header("             Statistics")]
     [SerializeField] float RatioGrowHoverCard;
     private GameManager gameManager;
     public Vector3 PosBeforeDrag;
     private bool Interactible = true;
+
+
+
+    private List<hero> heroToAttack; //always Start Null
+    public List<hero> HeroToAttack { get => heroToAttack; set => heroToAttack = value; }
 
     void Awake()
     {
@@ -107,7 +110,6 @@ public class CardObject : MonoBehaviour
             Carte.gameObject.SetActive(true);
         }
     }
-    #endregion
     Sprite SetSprite()
     {
         SpriteRenderer Sr = GetComponent<SpriteRenderer>();
