@@ -6,7 +6,7 @@ using UnityEngine;
 using TMPro;
 using NaughtyAttributes;
 using UnityEngine.UI;
-
+using Unity.VisualScripting;
 
 public class Deck : MonoBehaviour
 {
@@ -14,6 +14,8 @@ public class Deck : MonoBehaviour
     [SerializeField] float RangePourActiverCarte;
     [SerializeField] Button Pioche;
     [SerializeField] Button Use;
+    [SerializeField] float DecalageX;
+    [SerializeField] float DecalageY;
     private List<CardObject> GraveYard = new List<CardObject>();
     private List<CardObject> Hand = new List<CardObject>();
     public List<CardObject> deck;
@@ -29,6 +31,19 @@ public class Deck : MonoBehaviour
         // Draw a semitransparent red cube at the transforms position
         Gizmos.color = new Color(1, 0, 0, 0.5f);
         Gizmos.DrawCube(new Vector3(0,-150+RangePourActiverCarte / 2, 0), new Vector3(300, 300+RangePourActiverCarte/2, 5));
+        Gizmos.color = new Color(0, 0, 1, 0.5f);
+        for (int i = 0; i < 10; i++)
+        {
+            if (i % 2 == 0)
+            {
+                Gizmos.DrawCube(new Vector3(cardSlots[0].position.x - DecalageX*i, cardSlots[0].position.y - DecalageY*i, i), new Vector3(1,1, 1));
+            }
+            else
+            {
+                Gizmos.DrawCube(new Vector3((cardSlots[0].position.x - DecalageX * i)*-1, cardSlots[0].position.y - DecalageY * i, i-1), new Vector3(1, 1, 1));
+            }
+        }
+
     }
     public void Awake()
     {
@@ -37,6 +52,17 @@ public class Deck : MonoBehaviour
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         Pioche.onClick.AddListener(DrawCard);
         Use.onClick.AddListener(PlayCard);
+        for (int i = 0; i < 10; i++)
+        {
+            if (i % 2 == 0)
+            {
+                cardSlots[i].position = new Vector3(cardSlots[0].position.x - DecalageX * i, cardSlots[0].position.y - DecalageY * i, i);
+            }
+            else
+            {
+                cardSlots[i].position = new Vector3((cardSlots[0].position.x - DecalageX * i) * -1, cardSlots[0].position.y - DecalageY * i, -i);
+            }
+        }
     }
     public void PlayCard(int Index)
     {
