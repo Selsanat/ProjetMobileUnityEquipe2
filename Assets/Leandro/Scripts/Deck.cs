@@ -5,11 +5,15 @@ using System.Globalization;
 using UnityEngine;
 using TMPro;
 using NaughtyAttributes;
+using UnityEngine.UI;
 
 
 public class Deck : MonoBehaviour
 {
     [SerializeField] int CarteAJouer;
+    [SerializeField] float RangePourActiverCarte;
+    [SerializeField] Button Pioche;
+    [SerializeField] Button Use;
     private List<CardObject> GraveYard = new List<CardObject>();
     private List<CardObject> Hand = new List<CardObject>();
     public List<CardObject> deck;
@@ -18,9 +22,21 @@ public class Deck : MonoBehaviour
     public TMP_Text DeckCount;
     public TMP_Text graveyardCount;
 
+    private GameManager gameManager;
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a semitransparent red cube at the transforms position
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.DrawCube(new Vector3(0,-150+RangePourActiverCarte / 2, 0), new Vector3(300, 300+RangePourActiverCarte/2, 5));
+    }
     public void Awake()
     {
+        gameManager = GameManager.Instance;
+        gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+        Pioche.onClick.AddListener(DrawCard);
+        Use.onClick.AddListener(PlayCard);
     }
     public void PlayCard(int Index)
     {
@@ -30,6 +46,28 @@ public class Deck : MonoBehaviour
             GraveYard.Add(Hand[Index]);
             Hand.RemoveAt(Index);
             for (int i= Index; i < Hand.Count; i++)
+            {
+                Hand[i].transform.position = cardSlots[i].transform.position;
+                Hand[i].transform.rotation = cardSlots[i].transform.rotation;
+                availableCardSlots[i] = false;
+            }
+            availableCardSlots[Hand.Count] = true;
+
+
+        }
+        else
+        {
+            print("Pas De Cartes bouffon");
+        }
+    }
+    public void PlayCard()
+    {
+        if (Hand.Count > 0)
+        {
+            Hand[0].gameObject.SetActive(false);
+            GraveYard.Add(Hand[0]);
+            Hand.RemoveAt(0);
+            for (int i = 0; i < Hand.Count; i++)
             {
                 Hand[i].transform.position = cardSlots[i].transform.position;
                 Hand[i].transform.rotation = cardSlots[i].transform.rotation;
