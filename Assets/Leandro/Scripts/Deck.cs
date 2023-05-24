@@ -5,12 +5,15 @@ using System.Globalization;
 using UnityEngine;
 using TMPro;
 using NaughtyAttributes;
+using UnityEngine.UI;
 
 
 public class Deck : MonoBehaviour
 {
     [SerializeField] int CarteAJouer;
     [SerializeField] float RangePourActiverCarte;
+    [SerializeField] Button Pioche;
+    [SerializeField] Button Use;
     private List<CardObject> GraveYard = new List<CardObject>();
     private List<CardObject> Hand = new List<CardObject>();
     public List<CardObject> deck;
@@ -32,6 +35,8 @@ public class Deck : MonoBehaviour
         gameManager = GameManager.Instance;
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+        Pioche.onClick.AddListener(DrawCard);
+        Use.onClick.AddListener(PlayCard);
     }
     public void PlayCard(int Index)
     {
@@ -41,6 +46,28 @@ public class Deck : MonoBehaviour
             GraveYard.Add(Hand[Index]);
             Hand.RemoveAt(Index);
             for (int i= Index; i < Hand.Count; i++)
+            {
+                Hand[i].transform.position = cardSlots[i].transform.position;
+                Hand[i].transform.rotation = cardSlots[i].transform.rotation;
+                availableCardSlots[i] = false;
+            }
+            availableCardSlots[Hand.Count] = true;
+
+
+        }
+        else
+        {
+            print("Pas De Cartes bouffon");
+        }
+    }
+    public void PlayCard()
+    {
+        if (Hand.Count > 0)
+        {
+            Hand[0].gameObject.SetActive(false);
+            GraveYard.Add(Hand[0]);
+            Hand.RemoveAt(0);
+            for (int i = 0; i < Hand.Count; i++)
             {
                 Hand[i].transform.position = cardSlots[i].transform.position;
                 Hand[i].transform.rotation = cardSlots[i].transform.rotation;
