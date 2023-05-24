@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[CreateAssetMenu]
-public class dataCard : MonoBehaviour
+[System.Serializable]
+
+[CreateAssetMenu]
+public class dataCard : ScriptableObject
 {
     #region STATISTIC
     [Header("Basic Stats")]

@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using NaughtyAttributes;
-using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 
 [ExecuteInEditMode]
-public class CardObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class CardObject : MonoBehaviour
 {
-    [Header("LA CARTE EN SCRIPTABLE OBJECT")]
-    [SerializeField]private dataCard ScriptableCard;
+    [Header("DATACARD")]
+    [SerializeField]private dataCard m_dataCard;
 
 
     #region Leandro
@@ -68,7 +66,7 @@ public class CardObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     Sprite SetSprite()
     {
         SpriteRenderer Sr = GetComponent<SpriteRenderer>();
-        Sr.sprite = ScriptableCard.CardSprite;
+        Sr.sprite = m_dataCard.CardSprite;
         return Sr.sprite;
     }
 

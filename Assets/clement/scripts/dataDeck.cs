@@ -1,12 +1,20 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu]
 public class dataDeck : ScriptableObject
 {
-    [SerializeField] List<dataCard> dataCards;
+    [SerializeField] dataCard[] dataCards;
 
 
+    [Button ("Validate")]
+    private void OnValidate()
+    {
+
+    }
 
 }
