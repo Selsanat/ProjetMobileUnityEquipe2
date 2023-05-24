@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using NaughtyAttributes;
-
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class CardObject : MonoBehaviour
 
 
     #region Leandro
+    [HorizontalLine]
     [Header("             Statistics")]
     [SerializeField] float RatioGrowHoverCard;
     void OnMouseOver()
@@ -25,9 +26,9 @@ public class CardObject : MonoBehaviour
     #endregion
     Sprite SetSprite()
     {
-        SpriteRenderer rer = GetComponent<SpriteRenderer>();
-        rer.sprite = ScriptableCard.CardSprite;
-        return rer.sprite;
+        SpriteRenderer Sr = GetComponent<SpriteRenderer>();
+        Sr.sprite = ScriptableCard.CardSprite;
+        return Sr.sprite;
     }
 
     [SerializeField][Button]

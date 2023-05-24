@@ -6,11 +6,12 @@ using UnityEngine;
 public class card : ScriptableObject
 {
     #region STATISTIC
-    [Header("Stats")]
+    [Header("Basic Stats")]
     [SerializeField] int m_manaCost; //mana
     [SerializeField] int m_attack; //les nb dmgs
     [SerializeField] int m_heal; //les nb heal
     #region BOOST
+    [Header("Buff Stats")]
     [SerializeField] int m_boostSpeed; //nb boost speed
     [SerializeField] int m_boostAttack; 
     [SerializeField] int m_boostCrit;
