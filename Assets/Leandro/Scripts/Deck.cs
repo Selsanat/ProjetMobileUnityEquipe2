@@ -10,6 +10,7 @@ using NaughtyAttributes;
 public class Deck : MonoBehaviour
 {
     [SerializeField] int CarteAJouer;
+    [SerializeField] float RangePourActiverCarte;
     private List<CardObject> GraveYard = new List<CardObject>();
     private List<CardObject> Hand = new List<CardObject>();
     public List<CardObject> deck;
@@ -18,8 +19,18 @@ public class Deck : MonoBehaviour
     public TMP_Text DeckCount;
     public TMP_Text graveyardCount;
 
+    private GameManager gameManager;
+
+    void OnDrawGizmosSelected()
+    {
+        // Draw a semitransparent red cube at the transforms position
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.DrawCube(new Vector3(0,-150+RangePourActiverCarte / 2, 0), new Vector3(300, 300+RangePourActiverCarte/2, 5));
+    }
     public void Awake()
     {
+        gameManager = GameManager.Instance;
+        gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
     }
     public void PlayCard(int Index)
