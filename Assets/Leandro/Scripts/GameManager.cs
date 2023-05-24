@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public float RangePourActiverCarte;
+    public List<CardObject> Hand;
     private static GameManager _instance;
     public static GameManager Instance
     {
