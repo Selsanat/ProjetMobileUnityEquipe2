@@ -27,17 +27,6 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected int m_mana;
     [SerializeField] protected deck m_deck;
 
-    #region Get Set
-    public int MaxPv { get => m_maxPv; private set => m_maxPv = value; }
-    public int Pv { get => m_Pv; private set => m_Pv = value; }
-    public int Attack { get => m_attack; private set => m_attack = value; }
-    public int Speed { get => m_speed; private set => m_speed = value; }
-    public int Buff { get => m_buff; private set => m_buff = value; }
-    public int Nerf { get => m_nerf; private set => m_nerf = value; }
-    public bool IsAlive { get => isAlive; private set => isAlive = value; }
-    public int Mana { get => m_mana; private set => m_mana = value; }
-    public deck Deck { get => m_deck; private set => m_deck = value; }
-    #endregion
 
     public void takeDamage (int damage)
     {
@@ -65,6 +54,23 @@ public class hero : entityManager
         m_deck = deck;
         m_mana = mana;
     }
+    #region GET & SET
+    public int getMaxPv() { return m_maxPv; }
+    public int getPv() { return m_Pv; }
+    public void setPv(int pv) { m_Pv = pv; }
+    public int getSpeed() { return m_speed; }
+    public void setSpeed(int speed) { m_speed = speed; }
+    public int getBuff() { return m_buff; }
+    public void setBuff(int buff) { m_buff = buff; }
+    public int getNerf() { return m_nerf; }
+    public void setNerf(int nerf) { m_nerf = nerf; }
+    public int getMana() { return m_mana; }
+    public void setMana(int mana) { m_mana = mana; }
+    public deck GetDeck() { return m_deck; }
+    public void setDeck(deck deck) { m_deck = deck; }
+    public bool getIsAlive() { return isAlive; }
+    public void setIsAlive(bool set) { isAlive = set; }
+    #endregion
 }
 
 public class enemy : entityManager

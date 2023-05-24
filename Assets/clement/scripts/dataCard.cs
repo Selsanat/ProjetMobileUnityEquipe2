@@ -42,24 +42,29 @@ public class dataCard : MonoBehaviour
 
     public void heal(hero hero)
     {
-        hero.m_Pv += m_heal;
-        if (hero.m_maxPv < hero.m_Pv)
-            hero.m_Pv = hero.m_maxPv;
+        int currentPv = hero.getPv() + m_heal;
+        int currentMaxPv = hero.getMaxPv();
+        hero.setPv(currentPv);
+        if (currentPv < currentMaxPv)
+            hero.setPv(currentMaxPv);
+
     }
 
     public void takeDamage(hero hero)
     {
-        hero.m_Pv -= m_attack; 
 
-        if (hero.m_Pv <= 0)
+        int currentPv = hero.getPv();
+        currentPv -= m_attack;
+
+        if (currentPv <= 0)
         {
-            hero.isAlive = false;
+            hero.setIsAlive(false);
         }
     }
 
     public void draw(hero hero, int amout)
     {
-        hero.deck.draw();
+        hero.GetDeck();
     }
 
 
