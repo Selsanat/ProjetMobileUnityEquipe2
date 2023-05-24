@@ -23,7 +23,7 @@ public class card : ScriptableObject
     [Header("looking")]
     [SerializeField] Sprite m_cardSprite;
 
-    public Sprite CardSprite { get => m_cardSprite; set => m_cardSprite = value; }
+    public Sprite CardSprite { get => m_cardSprite; private set => m_cardSprite = value; }
 
     public bool getIsDeleteOnTurn()
     {
