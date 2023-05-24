@@ -9,7 +9,7 @@ public class entityManager : MonoBehaviour
         Guerrier,
         Tank,
         Mage,
-        Prêtre,
+        Pretre,
         Arboriste,
         Debuffer,
         Paladin,

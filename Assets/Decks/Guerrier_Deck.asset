@@ -10,16 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23dd0271997c14f4eb390c7be1c1d0a0, type: 3}
-  m_Name: DeckWarrior
+  m_Name: Guerrier_Deck
   m_EditorClassIdentifier: 
+  m_name: Guerrier
+  m_role: 0
   dataCards:
+  - {fileID: 11400000, guid: 4a7cccee4137c6441948996eafa79afe, type: 2}
+  - {fileID: 11400000, guid: 0b84da248dcb2ed46bdfb94742786534, type: 2}
   - {fileID: 11400000, guid: 6bff0f33b431297418649405f43716eb, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
