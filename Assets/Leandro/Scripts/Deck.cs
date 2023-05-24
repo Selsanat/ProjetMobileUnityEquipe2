@@ -10,9 +10,9 @@ using NaughtyAttributes;
 public class Deck : MonoBehaviour
 {
     [SerializeField] int CarteAJouer;
-    private List<GameObject> GraveYard = new List<GameObject>();
-    private List<GameObject> Hand = new List<GameObject>();
-    public List<GameObject> deck;
+    private List<CardObject> GraveYard = new List<CardObject>();
+    private List<CardObject> Hand = new List<CardObject>();
+    public List<CardObject> deck;
     public Transform[] cardSlots;
     public bool[] availableCardSlots;
     public TMP_Text DeckCount;
@@ -26,7 +26,7 @@ public class Deck : MonoBehaviour
     {
         if(Hand.Count > 0)
         {
-            Hand[Index].SetActive(false);
+            Hand[Index].gameObject.SetActive(false);
             GraveYard.Add(Hand[Index]);
             Hand.RemoveAt(Index);
             for (int i= Index; i < Hand.Count; i++)
@@ -49,13 +49,13 @@ public class Deck : MonoBehaviour
         print("draw");
         if (deck.Count >= 1)
         {
-            GameObject randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
+            CardObject randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
 
             for (int i = 0; i < availableCardSlots.Length; i++)
             {
                 if (availableCardSlots[i] == true)
                 {
-                    randCard.SetActive(true);
+                    randCard.gameObject.SetActive(true);
                     randCard.transform.position = cardSlots[i].position;
                     randCard.transform.rotation = cardSlots[i].rotation;
                     Hand.Add(randCard);
@@ -83,12 +83,12 @@ public class Deck : MonoBehaviour
 
         }
     }
-    public List<GameObject> Shuffle(List<GameObject> liste)
+    public List<CardObject> Shuffle(List<CardObject> liste)
     {
-        List<GameObject> retour = new List<GameObject>();
+        List<CardObject> retour = new List<CardObject>();
         while (liste.Count != 0)
         {
-            GameObject elem = liste[UnityEngine.Random.Range(0, liste.Count)];
+            CardObject elem = liste[UnityEngine.Random.Range(0, liste.Count)];
             retour.Add(elem);
             liste.Remove(elem);
         }
@@ -96,7 +96,7 @@ public class Deck : MonoBehaviour
     }
     public void ShuffleGraveyardToHand()
     {
-        foreach(GameObject Carte in Shuffle(GraveYard))
+        foreach(CardObject Carte in Shuffle(GraveYard))
         deck.Add(Carte);
         GraveYard.Clear();
     }
