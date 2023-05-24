@@ -16,50 +16,95 @@ public class CardObject : MonoBehaviour
     [Header("             Statistics")]
     [SerializeField] float RatioGrowHoverCard;
     private GameManager gameManager;
-    private Vector3 PosBeforeDrag;
+    public Vector3 PosBeforeDrag;
+    private bool Interactible = true;
 
     void Awake()
     {
         gameManager = GameManager.Instance;
     }
-    void OnDrawGizmosSelected()
+    void OnMouseDown()
     {
+        if (Interactible)
+        {
+            PosBeforeDrag = transform.position;
+        }
     }
     void OnMouseOver()
     {
-        if (Input.GetMouseButton(0))
+        if (Interactible)
         {
-            transform.localScale = new Vector3(RatioGrowHoverCard, RatioGrowHoverCard, RatioGrowHoverCard);
+            if (Input.GetMouseButton(0))
+            {
+                transform.localScale = new Vector3(RatioGrowHoverCard, RatioGrowHoverCard, RatioGrowHoverCard);
+            }
         }
         
     }
     void OnMouseDrag()
     {
-        transform.position = Input.mousePosition;
+        if (Interactible)
+        {
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+        }
     }
     void OnMouseExit()
     {
-        transform.localScale = new Vector3(1, 1, 1);
+        if (Interactible)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
+    void SelectedCard(bool Side)
+    {
+        Interactible = false;
+        if (Side)
+        {
+            transform.position = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform.position;
+            transform.rotation = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform.rotation;
+        }
+        else
+        {
+            transform.position = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform.position;
+            transform.rotation = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform.rotation;
+        }
+        transform.localScale = new Vector3(2,2, 2);
+        HideHandExceptThis();
     }
     
     void OnMouseUp()
     {
-    }
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        PosBeforeDrag = transform.position;
-    }
-    public void OnDrag(PointerEventData eventData)
-    {
-        
-        transform.position = eventData.position;
+        if (Interactible)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            if (transform.position.y < gameManager.RangePourActiverCarte)
+            {
+                transform.position = PosBeforeDrag;
+            }
+            else
+            {
+                //Va falloir ajouter la condition
+                //True si on Cible les alliés, false si non
+                SelectedCard(true);
+            }
+        }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    void HideHandExceptThis()
     {
-        if (transform.position.y  < gameManager.RangePourActiverCarte)
+        foreach(CardObject Carte in gameManager.Hand)
         {
-            transform.position = PosBeforeDrag;
+            Carte.gameObject.SetActive(false);
+        }
+        this.gameObject.SetActive(true);
+    }
+    void ShowHand()
+    {
+        foreach (CardObject Carte in gameManager.Hand)
+        {
+            Carte.gameObject.SetActive(true);
         }
     }
     #endregion

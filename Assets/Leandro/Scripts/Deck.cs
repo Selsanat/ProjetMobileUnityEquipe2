@@ -59,6 +59,7 @@ public class Deck : MonoBehaviour
         {
             print("Pas De Cartes bouffon");
         }
+        gameManager.Hand = Hand;
     }
     public void PlayCard()
     {
@@ -81,6 +82,7 @@ public class Deck : MonoBehaviour
         {
             print("Pas De Cartes bouffon");
         }
+        gameManager.Hand = Hand;
     }
     public void DrawCard()
     {
@@ -103,6 +105,7 @@ public class Deck : MonoBehaviour
                     {
                         ShuffleGraveyardToHand();
                     }
+                    gameManager.Hand = Hand;
                     return;
                 }
             }
@@ -120,6 +123,7 @@ public class Deck : MonoBehaviour
             }
 
         }
+        gameManager.Hand = Hand;
     }
     public List<CardObject> Shuffle(List<CardObject> liste)
     {
