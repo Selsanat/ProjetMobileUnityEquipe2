@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class entityManager : MonoBehaviour
 {
-    [SerializeField] int m_Pv;
-    [SerializeField] int m_speed;
-    [SerializeField] int m_def;
-    [SerializeField] int m_buff;
-    [SerializeField] int m_nerf;
-    [SerializeField] bool m_condition;
-    [SerializeField] bool isStillAlive;
+    [SerializeField] protected int m_Pv;
+    [SerializeField] protected int m_attack;
+    [SerializeField] protected int m_speed;
+    [SerializeField] protected int m_buff;
+    [SerializeField] protected int m_nerf;
+    [SerializeField] protected bool isAlive;
 
     protected void takeDamage (int damage)
     {
@@ -18,15 +17,33 @@ public class entityManager : MonoBehaviour
 
         if (m_Pv <= 0)
         {
-            isStillAlive = false;
+            isAlive = false;
         }
     }
 }
 
 public class hero : entityManager
 {
-    hero()
+    hero(int Pv, int speed, int buff, int nerf)
     {
+        m_Pv = Pv;
+        m_attack = 0;
+        m_speed = speed;
+        m_buff = buff;
+        m_nerf = nerf;
+        isAlive = true;
+    }
+}
 
+public class enemy : entityManager
+{
+    enemy(int Pv, int attack, int speed, int buff, int nerf)
+    {
+        m_Pv = Pv;
+        m_attack = attack;
+        m_speed = speed;
+        m_buff = buff;
+        m_nerf = nerf;
+        isAlive = true;
     }
 }
