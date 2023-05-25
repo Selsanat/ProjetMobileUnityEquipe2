@@ -65,7 +65,7 @@ public class Fight : MonoBehaviour
     public void leandrogo()
     {
         selectedcard = Gm.CarteUtilisee.DataCard;
-        selectedhero = Gm.CarteUtilisee.HeroToAttack;
+        selectedhero = Gm.CarteUtilisee.heroToAttack;
         m_caca = true;
     }
 

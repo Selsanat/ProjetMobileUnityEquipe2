@@ -19,8 +19,7 @@ public class CardObject : MonoBehaviour
 
 
 
-    private List<hero> heroToAttack; //always Start Null
-    public List<hero> HeroToAttack { get => heroToAttack; set => heroToAttack = value; }
+    public List<hero> heroToAttack; //always Start Null
 
     void Awake()
     {
