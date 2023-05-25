@@ -7,17 +7,21 @@ using TMPro;
 using NaughtyAttributes;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.Linq;
+using System.Diagnostics.Tracing;
 
 public class Deck : MonoBehaviour
 {
     [SerializeField] int CarteAJouer;
     [SerializeField] float RangePourActiverCarte;
-    [SerializeField] Button Pioche;
-    [SerializeField] Button Use;
+    [SerializeField] Button PiocheButton;
+    [SerializeField] Button UseButton;
+    [SerializeField] Button EndTurnButton;
     [SerializeField] int  NbCarteHandPossible;
     [SerializeField] float DecalageX;
     [SerializeField] float DecalageY;
     [SerializeField] float Rotation;
+    [SerializeField] int NombrePiocheDebutTour;
     private List<CardObject> GraveYard = new List<CardObject>();
     private List<CardObject> Hand = new List<CardObject>();
     public List<CardObject> deck;
@@ -60,8 +64,9 @@ public class Deck : MonoBehaviour
         gameManager = GameManager.Instance;
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
-        Pioche.onClick.AddListener(DrawCard);
-        Use.onClick.AddListener(PlayCard);
+        PiocheButton.onClick.AddListener(DrawCard);
+        UseButton.onClick.AddListener(PlayCard);
+        EndTurnButton.onClick.AddListener(EndTurn);
         for (int i = 1; i < NbCarteHandPossible + 1; i++)
         {
             if (i % 2 == 0)
@@ -163,6 +168,13 @@ public class Deck : MonoBehaviour
         }
         gameManager.Hand = Hand;
     }
+    public void DrawCard(int number)
+    {
+        for (int i = 0;i < number; i++)
+        {
+            DrawCard();
+        }
+    }
     public List<CardObject> Shuffle(List<CardObject> liste)
     {
         List<CardObject> retour = new List<CardObject>();
@@ -186,15 +198,37 @@ public class Deck : MonoBehaviour
         DeckCount.text = deck.Count.ToString();
         graveyardCount.text = GraveYard.Count.ToString();
     }
+    private void CacheHand()
+    {
+        foreach (CardObject carte in Hand)
+        {
+            carte.gameObject.SetActive(false);
+        }
+    }
+    private void HandToGraveyard()
+    {
+        foreach (CardObject carte in Hand)
+        {
+            GraveYard.Add(carte);
+        }
+        Hand.Clear();
+    }
+    private void LibereEspacesHand() {
+        for(int i = 0; i < availableCardSlots.Count();i++){
+            availableCardSlots[i] = true;
+        }
 
+    }
     public void EndTurn()
     {
-        ;
+        CacheHand();
+        LibereEspacesHand();
+        HandToGraveyard();
     }
 
     public void StartTurn()
     {
-        ;
+        DrawCard(NombrePiocheDebutTour);
     }
 
     [Button]
