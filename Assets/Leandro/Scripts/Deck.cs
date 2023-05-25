@@ -14,8 +14,10 @@ public class Deck : MonoBehaviour
     [SerializeField] float RangePourActiverCarte;
     [SerializeField] Button Pioche;
     [SerializeField] Button Use;
+    [SerializeField] int  NbCarteHandPossible;
     [SerializeField] float DecalageX;
     [SerializeField] float DecalageY;
+    [SerializeField] float Rotation;
     private List<CardObject> GraveYard = new List<CardObject>();
     private List<CardObject> Hand = new List<CardObject>();
     public List<CardObject> deck;
@@ -30,37 +32,41 @@ public class Deck : MonoBehaviour
     {
         // Draw a semitransparent red cube at the transforms position
         Gizmos.color = new Color(1, 0, 0, 0.5f);
-        Gizmos.DrawCube(new Vector3(0,-150+RangePourActiverCarte / 2, 0), new Vector3(300, 300+RangePourActiverCarte/2, 5));
+        Gizmos.DrawCube(new Vector3(0,-50+RangePourActiverCarte / 2, 0), new Vector3(100, 100+RangePourActiverCarte/2, 5));
         Gizmos.color = new Color(0, 0, 1, 0.5f);
-        for (int i = 0; i < 10; i++)
+        Gizmos.DrawCube(cardSlots[0].transform.position, new Vector3(1, 1, 1)) ;
+        for (int i = 1; i < NbCarteHandPossible + 1; i++)
         {
             if (i % 2 == 0)
             {
-                Gizmos.DrawCube(new Vector3(cardSlots[0].position.x - DecalageX*i, cardSlots[0].position.y - DecalageY*i, i), new Vector3(1,1, 1));
+                Gizmos.DrawCube(new Vector3((-cardSlots[0].position.x - DecalageX * i) * -1, cardSlots[0].position.y - DecalageY * i, -i), new Vector3(1, 1, 1));
             }
             else
             {
-                Gizmos.DrawCube(new Vector3((cardSlots[0].position.x - DecalageX * i)*-1, cardSlots[0].position.y - DecalageY * i, i-1), new Vector3(1, 1, 1));
+                Gizmos.DrawCube(new Vector3(cardSlots[0].position.x - DecalageX * (i - 1)- DecalageX*2, cardSlots[0].position.y - DecalageY * (i - 1), i), new Vector3(1, 1, 1));
             }
         }
 
     }
-    public void Awake()
+    public void Start()
     {
+
         gameManager = GameManager.Instance;
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         Pioche.onClick.AddListener(DrawCard);
         Use.onClick.AddListener(PlayCard);
-        for (int i = 0; i < 10; i++)
+        for (int i = 1; i < NbCarteHandPossible + 1; i++)
         {
             if (i % 2 == 0)
             {
-                cardSlots[i].position = new Vector3(cardSlots[0].position.x - DecalageX * i, cardSlots[0].position.y - DecalageY * i, i);
+                cardSlots[i].position = new Vector3((-cardSlots[0].position.x - DecalageX * i) * -1, cardSlots[0].position.y - DecalageY * i, -i);
+                cardSlots[i].rotation = Quaternion.AngleAxis(Rotation * i, Vector3.back);
             }
             else
             {
-                cardSlots[i].position = new Vector3((cardSlots[0].position.x - DecalageX * i) * -1, cardSlots[0].position.y - DecalageY * i, -i);
+                cardSlots[i].position = new Vector3(cardSlots[0].position.x - DecalageX * (i - 1) - DecalageX * 2, cardSlots[0].position.y - DecalageY * (i - 1), i);
+                cardSlots[i].rotation = Quaternion.AngleAxis(Rotation * -i, Vector3.back);
             }
         }
     }
