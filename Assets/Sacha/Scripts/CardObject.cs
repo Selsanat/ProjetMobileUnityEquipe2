@@ -41,6 +41,10 @@ public class CardObject : MonoBehaviour
             {
                 transform.localScale = new Vector3(RatioGrowHoverCard, RatioGrowHoverCard, RatioGrowHoverCard);
             }
+            else
+            {
+
+            }
         }
         
     }
@@ -88,8 +92,7 @@ public class CardObject : MonoBehaviour
             }
             else
             {
-                //Va falloir ajouter la condition
-                //True si on Cible les alliés, false si non
+                gameManager.CarteUtilisee = this;
                 SelectedCard(true);
             }
         }

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public float RangePourActiverCarte;
     public List<CardObject> Hand;
+    public CardObject CarteUtilisee = null;
     private static GameManager _instance;
     public static GameManager Instance
     {
