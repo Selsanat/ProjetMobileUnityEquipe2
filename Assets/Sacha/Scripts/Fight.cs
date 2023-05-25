@@ -8,21 +8,33 @@ using UnityEngine.EventSystems;
 
 public class Fight : MonoBehaviour
 {
-    public main hand;
+    [SerializeField] GameManager Gm;
+    [SerializeField] Deck deck;
+
+
 
     private entityManager manager;
 
     private int mana;
 
-    private List<CardObject> playedCards;
 
     public List<hero> entities;
     List<hero> heroes;
     List<hero> enemies;
 
-
-    void startTurn()
+    private void Start()
     {
+        Gm = FindObjectOfType<GameManager>();
+
+        StartTurn();
+
+    }
+    void StartTurn()
+    {
+        deck.StartTurn();
+        heroes.Clear();
+        enemies.Clear();
+
         foreach(hero E in entities)
         {
             if(E.m_role != 0)
@@ -35,14 +47,11 @@ public class Fight : MonoBehaviour
             }
         }
     }
-    private void FixedUpdate()
-    {
-        
-    }
+
     [Button]
     void Turn()
     {
-        hand.tour();
+        //Pioche4
         //FIND WAY TO WAIT
         //EndHeroTurn();
     }
@@ -50,7 +59,8 @@ public class Fight : MonoBehaviour
     [Button]
     void EndHeroTurn()
     {
-        foreach (CardObject card in playedCards)
+        deck.EndTurn();
+        foreach (CardObject card in deck.PlayedCards)
         {
             if(card.HeroToAttack == null) { card.HeroToAttack.Add(FindObjectOfType<hero>()); }
             playCard(card.DataCard,card.HeroToAttack);

@@ -44,8 +44,8 @@ public class main : MonoBehaviour
                 m_listCard.Remove(card);
         }
 
-        for (int i = 0; i < m_cardToDraw; i++)
-            addCardToHand(Deck.DrawCard());
+        /*for (int i = 0; i < m_cardToDraw; i++)
+            addCardToHand(Deck.DrawCard());*/
     }
 
 

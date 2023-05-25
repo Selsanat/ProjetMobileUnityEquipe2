@@ -21,12 +21,18 @@ public class Deck : MonoBehaviour
     private List<CardObject> GraveYard = new List<CardObject>();
     private List<CardObject> Hand = new List<CardObject>();
     public List<CardObject> deck;
+
+    private List<CardObject> playedCards;
+
+
     public Transform[] cardSlots;
     public bool[] availableCardSlots;
     public TMP_Text DeckCount;
     public TMP_Text graveyardCount;
 
     private GameManager gameManager;
+
+    public List<CardObject> PlayedCards { get => playedCards; private set => playedCards = value; }
 
     void OnDrawGizmosSelected()
     {
@@ -179,6 +185,16 @@ public class Deck : MonoBehaviour
     {
         DeckCount.text = deck.Count.ToString();
         graveyardCount.text = GraveYard.Count.ToString();
+    }
+
+    public void EndTurn()
+    {
+        ;
+    }
+
+    public void StartTurn()
+    {
+        ;
     }
 
     [Button]
