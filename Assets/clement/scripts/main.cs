@@ -7,12 +7,12 @@ public class main : MonoBehaviour
     [SerializeField] int m_cardToDraw = 4;
     [SerializeField] int m_currentCard;
     [SerializeField] List<dataCard> m_listCard;
-    [SerializeField] deck deck;
+    [SerializeField] Deck deck;
 
 
     public void Start()
     {
-        deck = FindObjectOfType<deck>();
+        deck = FindObjectOfType<Deck>();
     }
     public void addCardToHand(dataCard card)
     {
@@ -45,7 +45,7 @@ public class main : MonoBehaviour
         }
 
         for (int i = 0; i < m_cardToDraw; i++)
-            addCardToHand(deck.drawCard());
+            addCardToHand(Deck.DrawCard());
     }
 
 

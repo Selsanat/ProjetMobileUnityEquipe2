@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class hero : entityManager
 {
-    public hero(Role role, int maxPV, int Pv, int buff, int nerf, deck deck, int mana)
+    public hero(Role role, int maxPV, int Pv, int buff, int nerf, Deck deck, int mana)
     {
         m_role = role;
         m_maxPv = maxPV;
@@ -30,8 +30,8 @@ public class hero : entityManager
     public void setNerf(int nerf) { m_nerf = nerf; }
     public int getMana() { return m_mana; }
     public void setMana(int mana) { m_mana = mana; }
-    public deck GetDeck() { return m_deck; }
-    public void setDeck(deck deck) { m_deck = deck; }
+    public Deck GetDeck() { return m_deck; }
+    public void setDeck(Deck deck) { m_deck = deck; }
     public bool getIsAlive() { return isAlive; }
     public void setIsAlive(bool set) { isAlive = set; }
     #endregion
@@ -50,7 +50,7 @@ public class hero : entityManager
         }
         else
         {
-            hero old = new hero(entityManager.Role.Arboriste, 99999, 99999, 0, 0, new deck(), 10);
+            hero old = new hero(entityManager.Role.Arboriste, 99999, 99999, 0, 0, new Deck(), 10);
             foreach (hero heroooo in heroesToAttack)
             {
                 if (heroooo.getPv() < old.getPv())

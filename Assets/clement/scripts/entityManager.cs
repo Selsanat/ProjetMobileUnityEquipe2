@@ -26,7 +26,7 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected int m_nerf;
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected int m_mana;
-    [SerializeField] protected deck m_deck;
+    [SerializeField] protected Deck m_deck;
 
     [SerializeField] protected bool multipleTarget;
 
