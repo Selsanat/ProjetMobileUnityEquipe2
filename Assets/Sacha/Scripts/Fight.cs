@@ -13,7 +13,7 @@ public class Fight : MonoBehaviour
 
     private bool m_caca;
     private bool m_canPlayEnemyTurn;
-    private bool endturnbool;
+    private bool endturnbool = false;
 
 
     private entityManager manager;
@@ -25,17 +25,24 @@ public class Fight : MonoBehaviour
     List<hero> heroes;
     List<hero> enemies;
 
+    List<hero> selectedhero;
+    dataCard selectedcard;
+
+    Coroutine coroutine;
+
     public bool Caca { get => m_caca; set => m_caca = value; }
 
     private void Start()
     {
         Gm = FindObjectOfType<GameManager>();
-
+        heroes = new List<hero>();
+        enemies = new List<hero>();
         StartTurn();
 
     }
     void StartTurn()
     {
+        endturnbool = false;
         deck.StartTurn();
         heroes.Clear();
         enemies.Clear();
@@ -51,50 +58,67 @@ public class Fight : MonoBehaviour
                 enemies.Add(E);
             }
         }
+        coroutine = StartCoroutine(turnwait());
     }
-    public IEnumerator turnwait(dataCard card, List<hero> selected)
+
+    [Button]
+    public void leandrogo()
+    {
+        selectedcard = Gm.CarteUtilisee.DataCard;
+        selectedhero = Gm.CarteUtilisee.HeroToAttack;
+        m_caca = true;
+    }
+
+    public IEnumerator turnwait()
     {
         while (!endturnbool)
         {
             yield return new WaitUntil(() => m_caca);
-            playCard(card, selected);
+            playCard(selectedcard, selectedhero);
+            m_caca = false;
+            if (!CheckifEnemyAreAlive())
+            {
+                WinFight();
+            }
+        }
+
+        PlayEnemyTurn();
+
+    }
+    [Button]
+    void EndButton()
+    {
+        endturnbool = !endturnbool;
+    }
+    /*    [Button]
+        void Turn()
+        {
+            //Pioche4
+            //FIND WAY TO WAIT
+            //EndHeroTurn();
+        }*/
+
+    /*    [Button]
+        void EndHeroTurn()
+        {
+            deck.EndTurn();
+            foreach (CardObject card in deck.PlayedCards)
+            {
+                if(card.HeroToAttack == null) { card.HeroToAttack.Add(FindObjectOfType<hero>()); }
+                playCard(card.DataCard,card.HeroToAttack);
+            }
             if (CheckifEnemyAreAlive())
             {
-
+                PlayEnemyTurn();
             }
-            m_caca = false;
-        }
-
-    }
-
-    [Button]
-    void Turn()
-    {
-        //Pioche4
-        //FIND WAY TO WAIT
-        //EndHeroTurn();
-    }
-
-    [Button]
-    void EndHeroTurn()
-    {
-        deck.EndTurn();
-        foreach (CardObject card in deck.PlayedCards)
-        {
-            if(card.HeroToAttack == null) { card.HeroToAttack.Add(FindObjectOfType<hero>()); }
-            playCard(card.DataCard,card.HeroToAttack);
-        }
-        if (CheckifEnemyAreAlive())
-        {
-            PlayEnemyTurn();
-        }
-        else
-        {
-            WinFight();
-        }
-    }
+            else
+            {
+                WinFight();
+            }
+        }*/
     private void PlayEnemyTurn()
     {
+        StopCoroutine(coroutine);
         foreach (hero En in enemies)
         {
             En.EnemyAttack(heroes);
@@ -104,18 +128,20 @@ public class Fight : MonoBehaviour
             }
             else
             {
-                Turn();
+                StartTurn();
             }
         }
     }
 
     private void LooseFight()
     {
+        StopCoroutine(coroutine);
         throw new NotImplementedException();
     }
     private void WinFight()
     {
-        throw new NotImplementedException();
+        StopCoroutine(coroutine);
+        Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
     }
 
     bool CheckifHeroAreAlive()//TRUE = min ONE ALIVE

@@ -80,7 +80,8 @@ public class CardObject : MonoBehaviour
         transform.localScale = new Vector3(2,2, 2);
         HideHandExceptThis();
     }
-    
+
+    [Button]
     void OnMouseUp()
     {
         if (Interactible)
