@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class main : MonoBehaviour
 {
-    [SerializeField] int m_cardToDraw;
+    [SerializeField] int m_cardToDraw = 4;
     [SerializeField] int m_currentCard;
     [SerializeField] List<dataCard> m_listCard;
     [SerializeField] deck deck;
@@ -18,6 +18,22 @@ public class main : MonoBehaviour
     {
         m_listCard.Add(card);
         m_currentCard++;
+    }
+    public void addCardToHand(dataCard card, int number)
+    {
+        for (int i = 0; i <= number; i++)
+        {
+            m_listCard.Add(card);
+            m_currentCard++;
+        }
+    }
+    public void addCardToHand(int number)
+    {
+        for (int i = 0; i <= number; i++)
+        {
+            m_listCard.Add(m_listCard[Random.Range(0,m_listCard.Count)]);
+            m_currentCard++;
+        }
     }
 
     public void tour()

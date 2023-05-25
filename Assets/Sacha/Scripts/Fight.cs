@@ -1,18 +1,51 @@
 using NaughtyAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Fight : MonoBehaviour
 {
     public main hand;
 
-    public entityManager manager;
+    private entityManager manager;
 
-    public int mana;
+    private int mana;
 
-    public List<CardObject> playedCards;
+    private List<CardObject> playedCards;
 
+    public List<hero> entities;
+    List<hero> heroes;
+    List<hero> enemies;
+
+
+    void startTurn()
+    {
+        foreach(hero E in entities)
+        {
+            if(E.m_role != 0)
+            {
+                heroes.Add(E);
+            }
+            else
+            {
+                enemies.Add(E);
+            }
+        }
+    }
+    private void FixedUpdate()
+    {
+        
+    }
+    [Button]
+    void Turn()
+    {
+        hand.tour();
+        //FIND WAY TO WAIT
+        //EndHeroTurn();
+    }
 
     [Button]
     void EndHeroTurn()
@@ -22,8 +55,64 @@ public class Fight : MonoBehaviour
             if(card.HeroToAttack == null) { card.HeroToAttack.Add(FindObjectOfType<hero>()); }
             playCard(card.DataCard,card.HeroToAttack);
         }
+        if (CheckifEnemyAreAlive())
+        {
+            PlayEnemyTurn();
+        }
+        else
+        {
+            WinFight();
+        }
+    }
+    private void PlayEnemyTurn()
+    {
+        foreach (hero En in enemies)
+        {
+            En.EnemyAttack(heroes);
+            if (!CheckifHeroAreAlive())
+            {
+                LooseFight();
+            }
+            else
+            {
+                Turn();
+            }
+        }
     }
 
+    private void LooseFight()
+    {
+        throw new NotImplementedException();
+    }
+    private void WinFight()
+    {
+        throw new NotImplementedException();
+    }
+
+    bool CheckifHeroAreAlive()//TRUE = min ONE ALIVE
+    {
+        foreach (hero En in heroes)
+        {
+            if (En.getIsAlive())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    bool CheckifEnemyAreAlive()//TRUE = min ONE ALIVE
+    {
+        foreach(hero En in enemies)
+        {
+            if (En.getIsAlive())
+            {
+                return true;
+            } 
+        }
+        return false;
+    }
     void playCard(dataCard card, List<hero> selected)
     {
 
