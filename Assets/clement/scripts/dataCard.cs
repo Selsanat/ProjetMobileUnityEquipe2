@@ -83,12 +83,12 @@ public class dataCard : ScriptableObject
 
     public enum cardType
     {
-        undifined = 0,
-        Damage = 1,
-        Heal = 2,
-        BuffDamage = 3, 
-        BuffHeal = 4,
-        Block = 5
+        undifined,
+        Damage,
+        Heal,
+        BuffDamage, 
+        BuffHeal,
+        Block
     }
 
 }
