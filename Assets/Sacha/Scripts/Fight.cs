@@ -11,6 +11,9 @@ public class Fight : MonoBehaviour
     [SerializeField] GameManager Gm;
     [SerializeField] Deck deck;
 
+    private bool m_caca;
+    private bool m_canPlayEnemyTurn;
+    private bool endturnbool;
 
 
     private entityManager manager;
@@ -21,6 +24,8 @@ public class Fight : MonoBehaviour
     public List<hero> entities;
     List<hero> heroes;
     List<hero> enemies;
+
+    public bool Caca { get => m_caca; set => m_caca = value; }
 
     private void Start()
     {
@@ -46,6 +51,20 @@ public class Fight : MonoBehaviour
                 enemies.Add(E);
             }
         }
+    }
+    public IEnumerator turnwait(dataCard card, List<hero> selected)
+    {
+        while (!endturnbool)
+        {
+            yield return new WaitUntil(() => m_caca);
+            playCard(card, selected);
+            if (CheckifEnemyAreAlive())
+            {
+
+            }
+            m_caca = false;
+        }
+
     }
 
     [Button]
