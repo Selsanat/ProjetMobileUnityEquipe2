@@ -16,6 +16,7 @@ public class CardObject : MonoBehaviour
     private GameManager gameManager;
     public Vector3 PosBeforeDrag;
     private bool Interactible = true;
+    private bool HasCardInHand = false;
 
 
 
@@ -28,22 +29,20 @@ public class CardObject : MonoBehaviour
     }
     void OnMouseDown()
     {
-        if (Interactible)
+        if (Interactible && !HasCardInHand)
         {
             PosBeforeDrag = transform.position;
         }
     }
     void OnMouseOver()
     {
-        if (Interactible)
+        if (Interactible && !HasCardInHand)
         {
             if (Input.GetMouseButton(0))
             {
                 transform.localScale = new Vector3(RatioGrowHoverCard, RatioGrowHoverCard, RatioGrowHoverCard);
-            }
-            else
-            {
-
+                
+                
             }
         }
         
@@ -54,13 +53,15 @@ public class CardObject : MonoBehaviour
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+            HasCardInHand = true;
         }
     }
     void OnMouseExit()
     {
-        if (Interactible)
+        if (Interactible && !HasCardInHand)
         {
             transform.localScale = new Vector3(1, 1, 1);
+            
         }
     }
 
@@ -85,6 +86,7 @@ public class CardObject : MonoBehaviour
     {
         if (Interactible)
         {
+            
             transform.localScale = new Vector3(1, 1, 1);
             if (transform.position.y < gameManager.RangePourActiverCarte)
             {
@@ -96,6 +98,7 @@ public class CardObject : MonoBehaviour
                 SelectedCard(true);
             }
         }
+        HasCardInHand = false;
     }
 
     void HideHandExceptThis()
@@ -123,7 +126,7 @@ public class CardObject : MonoBehaviour
     [SerializeField][Button]
     private void OnValidate()
     {
-        SetSprite();
+       //SetSprite();
     }
 
 
