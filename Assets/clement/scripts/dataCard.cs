@@ -71,10 +71,12 @@ public class dataCard : ScriptableObject
         hero.GetDeck();
     }
 
-
+    [System.Serializable]
     public struct CardEffect
     {
-
+        [SerializeField] CardType type;
+        [SerializeField] int value;
+        [SerializeField] int nbTour;
     }
     public enum CardType
     {
