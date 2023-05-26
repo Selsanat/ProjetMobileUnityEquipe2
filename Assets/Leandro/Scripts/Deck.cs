@@ -71,14 +71,6 @@ public class Deck : MonoBehaviour
         EndTurnButton.onClick.AddListener(EndTurn);
         CancelButton.onClick.AddListener(CancelChosenCard);
         gameManager.deck = this;
-        if(gameManager == null)
-        {
-            Debug.Log("Deck is null");
-        }
-        else
-        {
-            Debug.Log("Deck is not null");
-        }
         
 
         for (int i = 1; i < NbCarteHandPossible + 1; i++)

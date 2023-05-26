@@ -26,6 +26,7 @@ public class hero : entityManager
         }   
         gameManager.entityManager.heroList.Add(this);
 
+
     }
     #region GET & SET
     public int getMaxPv() { return m_maxPv; }

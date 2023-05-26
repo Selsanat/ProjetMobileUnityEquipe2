@@ -142,6 +142,11 @@ public class Fight : MonoBehaviour
         hero en1 = new hero(entityManager.Role.Squellettes, 10, 10, 0, 0, null, 0);
         
         hero En2 = new hero(entityManager.Role.Squellettes, 10, 10, 0, 0, null, 0);
+
+        foreach (hero E in Gm.entityManager.getListHero())
+        {
+            Debug.Log(E);
+        }
         StartTurn();
 
     }
