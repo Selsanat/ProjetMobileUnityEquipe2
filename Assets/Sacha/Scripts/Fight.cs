@@ -86,17 +86,17 @@ public class Fight : MonoBehaviour
 
     }
 
-    private void PlayPlayerEffects()
+    void PlayPlayerEffects()
     {
 
         //DOEFFECTS
 
-        if (!CheckifEnemyAreAlive())
+        if (!CheckifHeroAreAlive())
         {
-            WinFight();
+            LooseFight();
         }
     }
-}
+
 
     [Button]
     void EndButton()
