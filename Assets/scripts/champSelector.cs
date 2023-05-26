@@ -38,11 +38,26 @@ public class champSelector : MonoBehaviour
 
     public void startNewLevel()
     {
-        Fight fight;
-        fight = GetComponent<Fight>();
-        fight.perso1 = selectedArboriste;
-        fight.perso2 = selectedPretre;
-        SceneManager.LoadScene("TestSceneSacha2");
+        if(selectedArboriste || selectedPretre)
+        {
+            Fight fight = FindObjectOfType<Fight>();
+            fight.perso1 = selectedArboriste;
+            fight.perso2 = selectedPretre;
+            buttonArboriste.gameObject.SetActive(false);
+            buttonPretre.gameObject.SetActive(false);
+            start.gameObject.SetActive(false);
+            SceneManager.LoadScene("TestSceneSacha2");
+            
+        }
+        
+    }
+
+
+    public void setctive()
+    {
+        buttonArboriste.gameObject.SetActive(true);
+        buttonPretre.gameObject.SetActive(true);
+        start.gameObject.SetActive(true);
     }
 
 }

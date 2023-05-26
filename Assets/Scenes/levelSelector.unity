@@ -123,6 +123,104 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &71729142
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 71729143}
+  - component: {fileID: 71729144}
+  - component: {fileID: 71729145}
+  - component: {fileID: 71729146}
+  m_Layer: 0
+  m_Name: manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &71729143
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71729142}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 840.68176, y: 387.02676, z: 12.341058}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &71729144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71729142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4af0c5bf1d017b46857181bc042a9b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Gm: {fileID: 0}
+  deck: {fileID: 0}
+  heroSprite: {fileID: 21300000, guid: 667b8bf87b70e6a439a6b16c63a893c1, type: 3}
+  heroSprite2: {fileID: 21300000, guid: dce94dc369a5d31439b1c18ef6592d61, type: 3}
+  ennemy1Sprite: {fileID: 21300000, guid: 9c4898b238b31f346ac8c5e8bd08724b, type: 3}
+  ennemy2Sprite: {fileID: 21300000, guid: 9c4898b238b31f346ac8c5e8bd08724b, type: 3}
+  perso1: 0
+  perso2: 0
+  image: {fileID: 0}
+  entities: []
+--- !u!114 &71729145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71729142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b37ee88dc88a24da22f26519d69421, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RangePourActiverCarte: -2
+  Hand: []
+  CarteUtilisee: {fileID: 0}
+  HasCardInHand: 0
+  entityManager: {fileID: 0}
+  FM: {fileID: 0}
+--- !u!114 &71729146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71729142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47d36e924ab6bde4ea9b948e18d4b97a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_role: 0
+  m_maxPv: 0
+  m_Pv: 0
+  m_attack: 0
+  m_speed: 0
+  m_buff: 0
+  m_nerf: 0
+  isAlive: 1
+  m_mana: 0
+  m_deck: {fileID: 0}
+  heroList: []
+  multipleTarget: 0
 --- !u!1 &549249554
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonArboriste: {fileID: 1345611249}
   buttonPretre: {fileID: 1683225286}
+  start: {fileID: 2059744546}
   notSelectedArboriste: {fileID: 21300000, guid: 9c4898b238b31f346ac8c5e8bd08724b, type: 3}
   notSelectedPretre: {fileID: 21300000, guid: 09510ceff5a60a24081a1b21a2cdfc6d, type: 3}
   SelectedArboriste: {fileID: 21300000, guid: 667b8bf87b70e6a439a6b16c63a893c1, type: 3}
@@ -532,6 +631,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5337413450055484461, guid: 6dc8f4ee6004b5345a5925b01e34cb27, type: 3}
+      propertyPath: champSelection
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6173653652465991376, guid: 6dc8f4ee6004b5345a5925b01e34cb27, type: 3}
       propertyPath: m_Name
       value: MapObjects
@@ -694,7 +797,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1345611248
 RectTransform:
   m_ObjectHideFlags: 0
@@ -962,7 +1065,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1683225285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1207,7 +1310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2059744545
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1226,8 +1329,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -812, y: -95}
+  m_SizeDelta: {x: 453.6919, y: 182.0287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2059744546
 MonoBehaviour:
@@ -1273,13 +1376,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 573982630}
+        m_TargetAssemblyTypeName: champSelector, Assembly-CSharp
+        m_MethodName: startNewLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

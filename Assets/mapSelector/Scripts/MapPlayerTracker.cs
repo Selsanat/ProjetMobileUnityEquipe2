@@ -7,7 +7,8 @@ namespace Map
 {
     public class MapPlayerTracker : MonoBehaviour
     {
-        public entityManager entityScript;
+        public champSelector champSelection = null;
+        public entityManager entityScript = null;
         public bool lockAfterSelecting = false;
         public float enterNodeDelay = 1f;
         public MapManager mapManager;
@@ -58,11 +59,13 @@ namespace Map
             mapNode.ShowSwirlAnimation();
             if (entityScript = null)
                 entityScript = GetComponent<entityManager>();
+            if (champSelection == null)
+                champSelection = GameObject.Find("buttonManagerHero").GetComponent<champSelector>();
 
-            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode, entityScript));
+            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode, entityScript, champSelection));
         }
 
-        private static void EnterNode(MapNode mapNode, entityManager champ)
+        private static void EnterNode(MapNode mapNode, entityManager champ, champSelector champi)
         {
             // we have access to blueprint name here as well
             Debug.Log("Entering node: " + mapNode.Node.blueprintName + " of type: " + mapNode.Node.nodeType);
@@ -72,6 +75,8 @@ namespace Map
             switch (mapNode.Node.nodeType)
             {
                 case NodeType.MinorEnemy:
+                    GameObject.Find("OuterMapParent").SetActive(false);
+                    champi.setctive();
                     break;
                 case NodeType.EliteEnemy:
                     break;

@@ -5,43 +5,42 @@ using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using static OneLine.Example.SlicesTest;
+
 
 public class Fight : MonoBehaviour
 {
     [SerializeField] GameManager Gm;
-    private Deck deck;
-
+    [SerializeField] Deck deck;
+    
     private bool isCardSend;
     private bool m_canPlayEnemyTurn;
     private bool endturnbool = false;
 
     public Sprite heroSprite;
+    public Sprite heroSprite2;
     public Sprite ennemy1Sprite;
     public Sprite ennemy2Sprite;
     public bool perso1 = false;
     public bool perso2 = false;
+    public Image image;
+    bool test = false;
 
 
-    public static Fight instance;
 
     private void Awake()
     {
-        if (instance != null)
-        {
-            Debug.LogWarning("Il y a plus d'une instance de Inventory dans la scène");
-            return;
-        }
-
-        instance = this;
+        DontDestroyOnLoad(gameObject);
+        
     }
 
-    private entityManager manager;
+    private entityManager entityManager;
 
     private int mana;
 
-    public Transform targets;
-    public Transform targets2;
-    public Transform targets3;
+    
 
     public List<hero> entities;
     List<hero> heroes;
@@ -58,38 +57,96 @@ public class Fight : MonoBehaviour
 
     public bool IsCardSend { get => isCardSend; set => isCardSend = value; }
 
+    private void Update()
+    {
+        if(test == false)
+        {
+            if (SceneManager.GetActiveScene().name == "TestSceneSacha2")
+            {
+                StartFight();
+
+                test = true;
+            }
+        }
+        
+    }
+
     private void Start()
     {
         Gm = GameManager.Instance;
-        deck = FindObjectOfType<Deck>();
+        entityManager = Gm.entityManager;
         heroes = new List<hero>();
         enemies = new List<hero>();
-        StartFight();
+        //StartFight();
         //StartTurn();
 
     }
-    void StartFight()
+    public void StartFight()
     {
-        GameObject goEn1 = Instantiate(new GameObject());
-        goEn1.transform.position = targets.position;
-        //hero var = goEn1.AddComponent<hero>();
-        //hero var2 = goEn1.GetComponent<hero>();
+        GameObject.Find("enemy1").GetComponent<Image>().sprite = ennemy1Sprite;
+        GameObject.Find("enemy2").GetComponent<Image>().sprite = ennemy2Sprite;
+        hero H1;
+        hero H2;
+        if (perso1 && perso2)
+        {
+            GameObject.Find("champ").GetComponent<Image>().sprite = heroSprite;
+            GameObject.Find("champ2").GetComponent<Image>().sprite = heroSprite2;
+            GameObject.Find("champSolo").SetActive(false);
+            int countArbo = 0;
+            int countPretre = 0;
+            foreach (hero camp in entityManager.getListHero())
+            {
+                if (camp.m_role == entityManager.Role.Pretre)
+                    countPretre++;
+                if (camp.m_role == entityManager.Role.Arboriste)
+                    countArbo++;
+            }
 
-        hero H1 = new hero(entityManager.Role.Pretre, 10, 10, 0, 0, null, 0);
+            if (countPretre == 0)
+                H1 = new hero(entityManager.Role.Pretre, 10, 10, 0, 0, null, 0);
+
+            if (countArbo == 0)
+                H2 = new hero(entityManager.Role.Arboriste, 10, 10, 0, 0, null, 0);
+        }
+        else if(perso1)
+        {
+            GameObject.Find("champ2").SetActive(false);
+            GameObject.Find("champ").SetActive(false);
+            GameObject.Find("champSolo").GetComponent<Image>().sprite = heroSprite;
+            int count = 0;
+            foreach (hero camp in entityManager.getListHero())
+            {
+                if (camp.m_role == entityManager.Role.Arboriste)
+                    count++;
+            }
+            if (count == 0)
+                H1 = new hero(entityManager.Role.Arboriste, 10, 10, 0, 0, null, 0);
+            
+
+
+        }
+        else if(perso2)
+        {
+            GameObject.Find("champ2").SetActive(false);
+            GameObject.Find("champ").SetActive(false);
+            GameObject.Find("champSolo").GetComponent<Image>().sprite = heroSprite2;
+            int count = 0;
+            foreach (hero camp in entityManager.getListHero())
+            {
+                if (camp.m_role == entityManager.Role.Pretre)
+                    count++;
+            }
+            if (count == 0)
+                H1 = new hero(entityManager.Role.Pretre, 10, 10, 0, 0, null, 0);
+        }
+
         //goEn1.AddComponent<>();
 
-        SpriteRenderer rer = new SpriteRenderer();
 
 
         hero en1 = new hero(entityManager.Role.Squellettes, 10, 10, 0, 0, null, 0);
         
         hero En2 = new hero(entityManager.Role.Squellettes, 10, 10, 0, 0, null, 0);
-
-
-        entities.Add(H1);
-        entities.Add(en1);
-        entities.Add(En2);
-
 
     }
     void StartTurn()
@@ -99,7 +156,7 @@ public class Fight : MonoBehaviour
         heroes.Clear();
         enemies.Clear();
 
-        foreach (hero E in entities)
+        foreach (hero E in entityManager.getListHero())
         {
             if (E.m_role != 0)
             {
@@ -229,6 +286,7 @@ public class Fight : MonoBehaviour
                 {
                     return true;
                 }
+                
             }
             return false;
         }

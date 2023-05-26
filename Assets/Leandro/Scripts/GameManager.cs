@@ -7,12 +7,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     
-    public float RangePourActiverCarte;
+    
     public List<CardObject> Hand;
+    public entityManager entityManager;
+    public Fight FM;
+
+
     public CardObject CarteUtilisee = null;
     public bool HasCardInHand = false;
+    public float RangePourActiverCarte;
 
-    public Fight FM;
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -26,6 +30,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         FM = FindObjectOfType<Fight>();
+        entityManager = FindObjectOfType<entityManager>();
 
     }
 
