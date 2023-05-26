@@ -74,18 +74,34 @@ public class dataCard : ScriptableObject
     [System.Serializable]
     public struct CardEffect
     {
-        [SerializeField] CardType type;
+        [SerializeField] List<CardType> effects;
         [SerializeField] int value;
         [SerializeField] int nbTour;
+        [SerializeField] bool KeepCard;
+
     }
     public enum CardType
     {
-        undifined,
-        Damage,
         Heal,
+        Damage,
+        Injury, //dégat sur plusieurs tours
+        Block,
+        EmptyMana,
+        DoubleShieldMana, //donne autant de shield que le joueur avait de mana
+        DoubleHeal,
+        DoubleInjury,
+        InjuryOnAttack,
+        ArmureAsDamage,
+        DeleteNerf,
+        DeleteArmor,
+
+
+
+
+        undifined,
         BuffDamage, 
         BuffHeal,
-        Block
+        
     }
 
 }
