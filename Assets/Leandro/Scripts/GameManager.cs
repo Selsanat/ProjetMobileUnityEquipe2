@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-
+[RequireComponent(typeof(Fight))]
 public class GameManager : MonoBehaviour
 {
+    
     public float RangePourActiverCarte;
     public List<CardObject> Hand;
     public CardObject CarteUtilisee = null;
     public bool HasCardInHand = false;
 
     public Fight FM;
-
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -29,14 +29,15 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void CardSended(CardObject card)
-    {
-        FM.Cardsend(card);
-    }
+
     private void Awake()
     {
 
         _instance = this;
     }
-
+/*    public void CardSended(CardObject card)
+    {
+        CarteUtilisee = card;
+        FM.Cardsend(card);
+    }*/
 }
