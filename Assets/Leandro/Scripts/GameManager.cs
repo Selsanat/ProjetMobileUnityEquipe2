@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public CardObject CarteUtilisee = null;
     public bool HasCardInHand = false;
 
+    public Fight FM;
+
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -21,9 +23,19 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
+    private void Start()
+    {
+        FM = FindObjectOfType<Fight>();
 
+    }
+
+    public void CardSended(CardObject card)
+    {
+        FM.Cardsend(card);
+    }
     private void Awake()
     {
+
         _instance = this;
     }
 
