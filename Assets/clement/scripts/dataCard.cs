@@ -74,9 +74,11 @@ public class dataCard : ScriptableObject
     [System.Serializable]
     public struct CardEffect
     {
+
         [SerializeField] List<CardType> effects;
         [SerializeField] int value;
-        [SerializeField] int nbTour;
+        //[SerializeField] int nbTour; //pas necessaire
+        [SerializeField] bool nextTour; //l'effet se fait sur le tour suivant
         [SerializeField] bool KeepCard;
 
     }
@@ -84,16 +86,25 @@ public class dataCard : ScriptableObject
     {
         Heal,
         Damage,
-        Injury, //dégat sur plusieurs tours
+        Injury, //degat sur plusieurs tours
         Block,
         EmptyMana,
-        DoubleShieldMana, //donne autant de shield que le joueur avait de mana
-        DoubleHeal,
-        DoubleInjury,
-        InjuryOnAttack,
-        ArmureAsDamage,
-        DeleteNerf,
-        DeleteArmor,
+        DoubleShieldMana, //donne autant de shield que le joueur a de mana
+        DoubleHeal, //double le heal du joueur
+        DoubleInjury, //double les blessures infliges
+        InjuryOnAttack, //si ennemie attaque il prend des blessures
+        ArmureAsDamage, //armure devient des degats qu'on inflige a tout les ennemies
+        AttackAsArmure, // les degats inflige aux ennemis donne de armure
+        DamageAsArmur, // les degats subis aux ennemis donne de armure
+        DeleteNerf, // supprime tout les effets negatifs
+        DeleteArmor, // retire l'armure des ennemies
+        GainMana,
+        GainCard,
+        BlockAsHeal, //chaque degat bloque devient un heal
+        AllWoundAsInjury, //Inflige autant de blessures que de points de vie manquants à tout les ennemis
+        MonsterDead, //quand un monstre meurt 
+
+
 
 
 
