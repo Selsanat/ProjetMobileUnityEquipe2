@@ -73,14 +73,14 @@ public class dataCard : ScriptableObject
     }
 
     [System.Serializable]
-    public class CardEffect
+    public struct CardEffect
     {
 
-        public List<CardType> effects;
-        public int value;
-        public int nbTour;
-        public bool nextTour; //l'effet se fait sur le tour suivant
-        public bool KeepCard;
+        [SerializeField] public List<CardType> effects;
+        [SerializeField] public List<int> values;
+        [SerializeField] public int nbTour;
+        [SerializeField] public bool nextTour; //l'effet se fait sur le tour suivant
+        [SerializeField] public bool KeepCard;
 
     }
     public enum CardType
@@ -103,17 +103,7 @@ public class dataCard : ScriptableObject
         GainCard,
         BlockAsHeal, //chaque degat bloque devient un heal
         AllWoundAsInjury, //Inflige autant de blessures que de points de vie manquants � tout les ennemis
-        MonsterDead, //quand un monstre meurt 
-
-
-
-
-
-
-        undifined,
-        BuffDamage, 
-        BuffHeal,
-        
+        MonsterDead, //quand un monstre meurt      
     }
 
 }

@@ -93,9 +93,9 @@ public class Fight : MonoBehaviour
 
     void PlayPlayerEffects()
     {
-
-        foreach (dataCard.CardEffect E in heroesEffects)
+        for(int i = 0; i < heroesEffects.Count; i++)
         {
+            dataCard.CardEffect E = heroesEffects[i];
             if (E.nbTour != 0)
             {
                 E.nbTour--;
