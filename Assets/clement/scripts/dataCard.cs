@@ -76,11 +76,11 @@ public class dataCard : ScriptableObject
     public class CardEffect
     {
 
-        [SerializeField] List<CardType> effects;
-        [SerializeField] int value;
-        [SerializeField] int nbTour;
-        [SerializeField] bool nextTour; //l'effet se fait sur le tour suivant
-        [SerializeField] bool KeepCard;
+        public List<CardType> effects;
+        public int value;
+        public int nbTour;
+        public bool nextTour; //l'effet se fait sur le tour suivant
+        public bool KeepCard;
 
     }
     public enum CardType
