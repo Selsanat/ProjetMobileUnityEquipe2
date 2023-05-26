@@ -101,12 +101,14 @@ public class Fight : MonoBehaviour
                 if(E.nbTour == 0)
                 {
                     heroesEffects.Remove(E);
-                    break;
                 }
             }
-            foreach (dataCard.CardType turneffect in E.effects)
+            foreach (dataCard.CardType turnEffect in E.effects)
             {
-
+                switch (turnEffect)
+                {
+                    //BRUH LA MEME CHOSE PUTAIN
+                }
             }
 
             if (!CheckifHeroAreAlive())
