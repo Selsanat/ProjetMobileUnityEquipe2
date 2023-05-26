@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 public class Fight : MonoBehaviour
 {
     [SerializeField] GameManager Gm;
-    [SerializeField] Deck deck;
+    private Deck deck;
 
     private bool isCardSend;
     private bool m_canPlayEnemyTurn;
@@ -34,11 +34,12 @@ public class Fight : MonoBehaviour
 
     Coroutine coroutine;
 
-    public bool Caca { get => isCardSend; set => isCardSend = value; }
+    public bool IsCardSend { get => isCardSend; set => isCardSend = value; }
 
     private void Start()
     {
-        Gm = FindObjectOfType<GameManager>();
+        Gm = GameManager.Instance;
+        deck = FindObjectOfType<Deck>();
         heroes = new List<hero>();
         enemies = new List<hero>();
         StartTurn();

@@ -100,7 +100,8 @@ public class CardObject : MonoBehaviour
             }
             else
             {
-                gameManager.CardSended(this);
+                gameManager.CarteUtilisee = this;
+                gameManager.FM.Cardsend(this);
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
                 SelectedCard(true);
             }
