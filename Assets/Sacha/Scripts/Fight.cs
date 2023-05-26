@@ -134,7 +134,7 @@ public class Fight : MonoBehaviour
             StopCoroutine(coroutine);
             foreach (hero En in enemies)
             {
-                En.EnemyAttack(heroes);
+                En.EnemyAttack(heroes, enemies);
                 if (!CheckifHeroAreAlive())
                 {
                     LooseFight();
