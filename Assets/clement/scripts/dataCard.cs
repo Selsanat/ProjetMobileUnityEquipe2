@@ -77,7 +77,7 @@ public class dataCard : ScriptableObject
 
         [SerializeField] List<CardType> effects;
         [SerializeField] int value;
-        //[SerializeField] int nbTour; //pas necessaire
+        [SerializeField] int nbTour;
         [SerializeField] bool nextTour; //l'effet se fait sur le tour suivant
         [SerializeField] bool KeepCard;
 
