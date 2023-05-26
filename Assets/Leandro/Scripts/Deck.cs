@@ -17,6 +17,7 @@ public class Deck : MonoBehaviour
     [SerializeField] Button PiocheButton;
     [SerializeField] Button UseButton;
     [SerializeField] Button EndTurnButton;
+    [SerializeField] public Button CancelButton;
     [SerializeField] int  NbCarteHandPossible;
     [SerializeField] float DecalageX;
     [SerializeField] float DecalageY;
@@ -29,7 +30,7 @@ public class Deck : MonoBehaviour
     private List<CardObject> playedCards;
 
 
-    public Transform[] cardSlots;
+    public List<Transform> cardSlots;
     public bool[] availableCardSlots;
     public TMP_Text DeckCount;
     public TMP_Text graveyardCount;
@@ -58,6 +59,7 @@ public class Deck : MonoBehaviour
         }
 
     }
+    
     public void Start()
     {
 
@@ -67,6 +69,7 @@ public class Deck : MonoBehaviour
         PiocheButton.onClick.AddListener(DrawCard);
         UseButton.onClick.AddListener(PlayCard);
         EndTurnButton.onClick.AddListener(EndTurn);
+        CancelButton.onClick.AddListener(CancelChosenCard);
         for (int i = 1; i < NbCarteHandPossible + 1; i++)
         {
             if (i % 2 == 0)
@@ -127,6 +130,16 @@ public class Deck : MonoBehaviour
         }
         gameManager.Hand = Hand;
     }
+/*    public void DecaleCartes(int Decalage)
+    {
+        for(int i = 0; i < Hand.Count;i++)
+        {
+            Hand[i].transform.position = cardSlots[i+Decalage].transform.position;
+            Hand[i].transform.rotation = cardSlots[i+Decalage].transform.rotation;
+            availableCardSlots[i] = false;
+            (Hand[i],Hand[i+Decalage]) = (Hand[i + Decalage],Hand[i]);
+        }
+    }*/
     public void DrawCard()
     {
         print("draw");
@@ -138,9 +151,23 @@ public class Deck : MonoBehaviour
             {
                 if (availableCardSlots[i] == true)
                 {
+
                     randCard.gameObject.SetActive(true);
                     randCard.transform.position = cardSlots[i].position;
                     randCard.transform.rotation = cardSlots[i].rotation;
+                    if (i == 0)
+                    {
+                        randCard.GetComponent<Renderer>().sortingOrder = 0;
+                    }
+                    else if (i%2 == 0)
+                    {
+                        randCard.GetComponent<Renderer>().sortingOrder = i;
+                    }
+                    else
+                    {
+                        randCard.GetComponent<Renderer>().sortingOrder = -i;
+                    }
+                    randCard.Slot = cardSlots[i];
                     Hand.Add(randCard);
                     availableCardSlots[i] = false;
                     deck.Remove(randCard);
@@ -197,12 +224,32 @@ public class Deck : MonoBehaviour
     {
         DeckCount.text = deck.Count.ToString();
         graveyardCount.text = GraveYard.Count.ToString();
+
     }
     private void CacheHand()
     {
         foreach (CardObject carte in Hand)
         {
             carte.gameObject.SetActive(false);
+        }
+    }
+    private void ShowHand()
+    {
+        foreach (CardObject carte in Hand)
+        {
+            carte.transform.localScale = new Vector3(1, 1, 1);
+
+            carte.gameObject.SetActive(true);
+            
+        }
+    }
+    private void ReturnCardsToHand()
+    {
+        foreach(CardObject carte in Hand)
+        {
+            carte.transform.position = carte.Slot.position;
+            carte.transform.rotation = carte.Slot.rotation;
+
         }
     }
     private void HandToGraveyard()
@@ -231,12 +278,21 @@ public class Deck : MonoBehaviour
         DrawCard(NombrePiocheDebutTour);
     }
 
+    public void CancelChosenCard()
+    {
+        ShowHand();
+        ReturnCardsToHand();
+        gameManager.CarteUtilisee.Interactible = true;
+        gameManager.CarteUtilisee = null;
+        CancelButton.gameObject.SetActive(false);
+    }
+
     [Button]
-    private void IDrawCard() {
+    private void BDrawCard() {
         DrawCard();
     }
     [Button]
-    private void IPlayCard()
+    private void BPlayCard()
     {
         PlayCard(CarteAJouer);
     }
