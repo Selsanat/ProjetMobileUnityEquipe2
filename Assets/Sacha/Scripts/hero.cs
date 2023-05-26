@@ -41,7 +41,7 @@ public class hero : entityManager
 
 
 
-    public void EnemyAttack(List<hero> heroesToAttack)
+    public void EnemyAttack(List<hero> heroesToAttack, List<hero> listEnnemis)
     {
 
         switch(this.m_role)
@@ -121,6 +121,7 @@ public class hero : entityManager
         int firtAttack = 60;
         int secondAttack = 40;
         int dmg = 3;
+        int armor = 3;
         int totalWeight = firtAttack + secondAttack;
         float diceRoll = Random.Range(0f, totalWeight);
 
@@ -151,8 +152,48 @@ public class hero : entityManager
         }
     }
 
-    public void main(List<hero> heroesToAttack)
+    public void main(List<hero> heroesToAttack, List<hero> listEnnemies)
     {
+        int nbMain = 0;
+
+        foreach (hero hero in listEnnemies)
+        {
+            if (hero.m_role == Role.Mains)
+                nbMain++;
+        }
+
+        int dmg = 5 * nbMain;
+        int armor = 9;
+        int firtAttack = 55;
+        int secondAttack = 25;
+        int thridAttack = 20;
+        int totalWeight = firtAttack + secondAttack + thridAttack;
+        float diceRoll = Random.Range(0f, totalWeight);
+        
+
+
+        if (thridAttack >= diceRoll)
+        {
+            hero temp = heroesToAttack[0];
+
+            foreach (hero champ in heroesToAttack)
+            {
+                if (champ.getPv() < temp.getPv())
+                    temp = champ;
+            }
+            temp.takeDamage(dmg);
+        }
+        else if (secondAttack >= diceRoll)
+        {
+            //nerf draw card
+        }
+        else if (firtAttack >= diceRoll)
+        {
+            //buff armor
+        }
+
+
+
 
     }
     #endregion

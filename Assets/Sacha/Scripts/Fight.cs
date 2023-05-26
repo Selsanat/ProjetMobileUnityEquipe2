@@ -9,9 +9,9 @@ using UnityEngine.EventSystems;
 public class Fight : MonoBehaviour
 {
     [SerializeField] GameManager Gm;
-    [SerializeField] Deck deck;
+    private Deck deck;
 
-    private bool m_caca;
+    private bool isCardSend;
     private bool m_canPlayEnemyTurn;
     private bool endturnbool = false;
 
@@ -34,11 +34,12 @@ public class Fight : MonoBehaviour
 
     Coroutine coroutine;
 
-    public bool Caca { get => m_caca; set => m_caca = value; }
+    public bool IsCardSend { get => isCardSend; set => isCardSend = value; }
 
     private void Start()
     {
-        Gm = FindObjectOfType<GameManager>();
+        Gm = GameManager.Instance;
+        deck = FindObjectOfType<Deck>();
         heroes = new List<hero>();
         enemies = new List<hero>();
         StartTurn();
@@ -66,20 +67,20 @@ public class Fight : MonoBehaviour
     }
 
     [Button]
-    public void leandrogo()
+    public void Cardsend(CardObject card)
     {
-        selectedcard = Gm.CarteUtilisee.DataCard;
-        selectedhero = Gm.CarteUtilisee.heroToAttack;
-        m_caca = true;
+        selectedcard = card.DataCard;
+        selectedhero = card.heroToAttack;
+        isCardSend = true;
     }
 
     public IEnumerator turnwait()
     {
         while (!endturnbool)
         {
-            yield return new WaitUntil(() => m_caca);
+            yield return new WaitUntil(() => isCardSend);
             playCard(selectedcard, selectedhero);
-            m_caca = false;
+            isCardSend = false;
             if (!CheckifEnemyAreAlive())
             {
                 WinFight();
@@ -134,7 +135,7 @@ public class Fight : MonoBehaviour
             StopCoroutine(coroutine);
             foreach (hero En in enemies)
             {
-                En.EnemyAttack(heroes);
+                En.EnemyAttack(heroes, enemies);
                 if (!CheckifHeroAreAlive())
                 {
                     LooseFight();
