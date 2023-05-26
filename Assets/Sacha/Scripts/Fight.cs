@@ -39,7 +39,6 @@ public class Fight : MonoBehaviour
     private void Start()
     {
         Gm = GameManager.Instance;
-        deck = FindObjectOfType<Deck>();
         heroes = new List<hero>();
         enemies = new List<hero>();
         StartTurn();
@@ -48,7 +47,7 @@ public class Fight : MonoBehaviour
     void StartTurn()
     {
         endturnbool = false;
-        deck.StartTurn();
+        Gm.deck.StartTurn();
         heroes.Clear();
         enemies.Clear();
 

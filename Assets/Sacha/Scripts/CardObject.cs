@@ -20,6 +20,7 @@ public class CardObject : MonoBehaviour
     public Transform Slot;
     public Vector2 BaseColliderDimensions;
     public float TempsClick;
+    public Renderer rendeureur;
 
 
     public List<hero> heroToAttack; //always Start Null
@@ -29,6 +30,7 @@ public class CardObject : MonoBehaviour
         gameManager = GameManager.Instance;
         TempsClick = gameManager.TempsPourClickCardInspect;
         BaseColliderDimensions = this.GetComponent<BoxCollider2D>().size;
+        rendeureur = GetComponent<Renderer>();
     }
     void OnMouseDown()
     {
@@ -50,10 +52,13 @@ public class CardObject : MonoBehaviour
 
                 transform.localScale = new Vector3(RatioGrowHoverCard, RatioGrowHoverCard, RatioGrowHoverCard);
                 this.GetComponent<BoxCollider2D>().size = BaseColliderDimensions;
+                gameManager.deck.ReorderZCards();
+               rendeureur.sortingOrder = 10;
             }
             else
             {
                 transform.localScale = new Vector3(1, 1, 1);
+                gameManager.deck.ReorderZCards();
             }
         }
         
@@ -72,7 +77,8 @@ public class CardObject : MonoBehaviour
         if (gameManager.CardsInteractable  && !gameManager.HasCardInHand)
         {
             transform.localScale = new Vector3(1, 1, 1);
-            
+            gameManager.deck.ReorderZCards();
+
         }
     }
 
@@ -81,7 +87,7 @@ public class CardObject : MonoBehaviour
         gameManager.CardsInteractable  = false;
         if (Side)
         {
-            transform.position = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform.position;
+            transform.position = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform.position; 
             transform.rotation = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform.rotation;
         }
         else
@@ -90,6 +96,7 @@ public class CardObject : MonoBehaviour
             transform.rotation = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform.rotation;
         }
         transform.localScale = new Vector3(2,2, 2);
+        rendeureur.sortingOrder = 10;
         HideHandExceptThis();
     }
 
@@ -100,6 +107,7 @@ public class CardObject : MonoBehaviour
         {
             
             transform.localScale = new Vector3(1, 1, 1);
+            gameManager.deck.ReorderZCards();
             if (transform.position.y < gameManager.RangePourActiverCarte)
             {
                 transform.position = PosBeforeDrag;

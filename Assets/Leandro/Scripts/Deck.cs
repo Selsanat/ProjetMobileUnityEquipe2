@@ -71,6 +71,7 @@ public class Deck : MonoBehaviour
         UseButton.onClick.AddListener(PlayCard);
         EndTurnButton.onClick.AddListener(EndTurn);
         CancelButton.onClick.AddListener(CancelChosenCard);
+        gameManager.deck = this;
         for (int i = 1; i < NbCarteHandPossible + 1; i++)
         {
             if (i % 2 == 0)
@@ -188,7 +189,7 @@ public class Deck : MonoBehaviour
     }
     public void DrawCard(int number)
     {
-        for (int i = 0;i < number; i++)
+        for (int i = 0; i < number; i++)
         {
             DrawCard();
         }
@@ -266,7 +267,10 @@ public class Deck : MonoBehaviour
 
     public void StartTurn()
     {
-        DrawCard(NombrePiocheDebutTour);
+        DrawCard();
+        DrawCard();
+        DrawCard();
+        DrawCard();
     }
 
     public void CancelChosenCard()

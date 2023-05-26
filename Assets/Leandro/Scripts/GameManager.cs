@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public bool HasCardInHand = false;
     public InspectCard InspectUI;
     public float TempsPourClickCardInspect = 0.5f;
+    public Deck deck;
 
     public Fight FM;
     private static GameManager _instance;
