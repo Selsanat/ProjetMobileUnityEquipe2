@@ -48,6 +48,7 @@ public class Deck : MonoBehaviour
         Gizmos.DrawCube(cardSlots[0].transform.position, new Vector3(1, 1, 1)) ;
         for (int i = 1; i < NbCarteHandPossible + 1; i++)
         {
+
             if (i % 2 == 0)
             {
                 Gizmos.DrawCube(new Vector3((-cardSlots[0].position.x - DecalageX * i) * -1, cardSlots[0].position.y - DecalageY * i, -i), new Vector3(1, 1, 1));
@@ -84,6 +85,23 @@ public class Deck : MonoBehaviour
             }
         }
     }
+
+    public void ReorderZCards()
+    {
+        for(int i = 0; i < Hand.Count; i++)
+        if (i == 0)
+        {
+            Hand[i].GetComponent<Renderer>().sortingOrder = 0;
+        }
+        else if (i % 2 == 0)
+        {
+            Hand[i].GetComponent<Renderer>().sortingOrder = i;
+        }
+        else
+        {
+            Hand[i].GetComponent<Renderer>().sortingOrder = -i;
+        }
+    }
     public void PlayCard(int Index)
     {
         if(Hand.Count > 0)
@@ -91,10 +109,11 @@ public class Deck : MonoBehaviour
             Hand[Index].gameObject.SetActive(false);
             GraveYard.Add(Hand[Index]);
             Hand.RemoveAt(Index);
-            for (int i= Index; i < Hand.Count; i++)
+            for (int i= 0; i < Hand.Count; i++)
             {
                 Hand[i].transform.position = cardSlots[i].transform.position;
                 Hand[i].transform.rotation = cardSlots[i].transform.rotation;
+                Hand[i].Slot = cardSlots[i].transform;
                 availableCardSlots[i] = false;
             }
             availableCardSlots[Hand.Count] = true;
@@ -109,26 +128,7 @@ public class Deck : MonoBehaviour
     }
     public void PlayCard()
     {
-        if (Hand.Count > 0)
-        {
-            Hand[0].gameObject.SetActive(false);
-            GraveYard.Add(Hand[0]);
-            Hand.RemoveAt(0);
-            for (int i = 0; i < Hand.Count; i++)
-            {
-                Hand[i].transform.position = cardSlots[i].transform.position;
-                Hand[i].transform.rotation = cardSlots[i].transform.rotation;
-                availableCardSlots[i] = false;
-            }
-            availableCardSlots[Hand.Count] = true;
-
-
-        }
-        else
-        {
-            print("Pas De Cartes bouffon");
-        }
-        gameManager.Hand = Hand;
+        PlayCard(0);
     }
 /*    public void DecaleCartes(int Decalage)
     {
@@ -155,18 +155,7 @@ public class Deck : MonoBehaviour
                     randCard.gameObject.SetActive(true);
                     randCard.transform.position = cardSlots[i].position;
                     randCard.transform.rotation = cardSlots[i].rotation;
-                    if (i == 0)
-                    {
-                        randCard.GetComponent<Renderer>().sortingOrder = 0;
-                    }
-                    else if (i%2 == 0)
-                    {
-                        randCard.GetComponent<Renderer>().sortingOrder = i;
-                    }
-                    else
-                    {
-                        randCard.GetComponent<Renderer>().sortingOrder = -i;
-                    }
+
                     randCard.Slot = cardSlots[i];
                     Hand.Add(randCard);
                     availableCardSlots[i] = false;
@@ -176,6 +165,7 @@ public class Deck : MonoBehaviour
                         ShuffleGraveyardToHand();
                     }
                     gameManager.Hand = Hand;
+                    ReorderZCards();
                     return;
                 }
             }
@@ -193,6 +183,7 @@ public class Deck : MonoBehaviour
             }
 
         }
+        ReorderZCards();
         gameManager.Hand = Hand;
     }
     public void DrawCard(int number)
@@ -282,9 +273,10 @@ public class Deck : MonoBehaviour
     {
         ShowHand();
         ReturnCardsToHand();
-        gameManager.CarteUtilisee.Interactible = true;
+        gameManager.CardsInteractable = true;
         gameManager.CarteUtilisee = null;
         CancelButton.gameObject.SetActive(false);
+        ReorderZCards();
     }
 
     [Button]
