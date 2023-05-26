@@ -114,7 +114,7 @@ public class CardObject : MonoBehaviour
                 if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect)
                 {
                     gameManager.CardsInteractable = false;
-                    print(gameManager.InspectUI.Image.sprite);
+                    //print(gameManager.InspectUI.Image.sprite);
                     print(this.GetComponent<SpriteRenderer>().sprite);
                     gameManager.InspectUI.Image.sprite = this.GetComponent<SpriteRenderer>().sprite;
                     gameManager.InspectUI.UI.SetActive(true);

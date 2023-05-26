@@ -504,9 +504,10 @@ MonoBehaviour:
   m_dataCard: {fileID: 0}
   RatioGrowHoverCard: 2
   PosBeforeDrag: {x: 0, y: 0, z: 0}
-  Interactible: 1
   Slot: {fileID: 0}
   BaseColliderDimensions: {x: 0, y: 0}
+  TempsClick: 0
+  rendeureur: {fileID: 0}
   heroToAttack: []
 --- !u!61 &304877188
 BoxCollider2D:
@@ -728,9 +729,10 @@ MonoBehaviour:
   m_dataCard: {fileID: 0}
   RatioGrowHoverCard: 2
   PosBeforeDrag: {x: 0, y: 0, z: 0}
-  Interactible: 1
   Slot: {fileID: 0}
   BaseColliderDimensions: {x: 0, y: 0}
+  TempsClick: 0
+  rendeureur: {fileID: 0}
   heroToAttack: []
 --- !u!61 &542583533
 BoxCollider2D:
@@ -936,9 +938,10 @@ MonoBehaviour:
   m_dataCard: {fileID: 0}
   RatioGrowHoverCard: 2
   PosBeforeDrag: {x: 0, y: 0, z: 0}
-  Interactible: 1
   Slot: {fileID: 0}
   BaseColliderDimensions: {x: 0, y: 0}
+  TempsClick: 0
+  rendeureur: {fileID: 0}
   heroToAttack: []
 --- !u!61 &602804150
 BoxCollider2D:
@@ -1059,6 +1062,7 @@ MonoBehaviour:
   m_deck: {fileID: 0}
   heroList: []
   multipleTarget: 0
+  gameManager: {fileID: 0}
 --- !u!4 &629146757
 Transform:
   m_ObjectHideFlags: 0
@@ -1365,9 +1369,10 @@ MonoBehaviour:
   m_dataCard: {fileID: 0}
   RatioGrowHoverCard: 2
   PosBeforeDrag: {x: 0, y: 0, z: 0}
-  Interactible: 1
   Slot: {fileID: 0}
   BaseColliderDimensions: {x: 0, y: 0}
+  TempsClick: 0
+  rendeureur: {fileID: 0}
   heroToAttack: []
 --- !u!61 &1110868717
 BoxCollider2D:
@@ -1519,6 +1524,7 @@ MonoBehaviour:
   m_deck: {fileID: 0}
   heroList: []
   multipleTarget: 1
+  gameManager: {fileID: 0}
 --- !u!4 &1261772169
 Transform:
   m_ObjectHideFlags: 0
@@ -1853,9 +1859,10 @@ MonoBehaviour:
   m_dataCard: {fileID: 11400000, guid: 4a7cccee4137c6441948996eafa79afe, type: 2}
   RatioGrowHoverCard: 2
   PosBeforeDrag: {x: 0, y: 0, z: 0}
-  Interactible: 1
   Slot: {fileID: 0}
   BaseColliderDimensions: {x: 2.5190954, y: 3.5923686}
+  TempsClick: 0.5
+  rendeureur: {fileID: 1392341099}
   heroToAttack:
   - {fileID: 1261772168}
 --- !u!61 &1392341098
@@ -2063,9 +2070,10 @@ MonoBehaviour:
   m_dataCard: {fileID: 0}
   RatioGrowHoverCard: 2
   PosBeforeDrag: {x: 0, y: 0, z: 0}
-  Interactible: 1
   Slot: {fileID: 0}
   BaseColliderDimensions: {x: 0, y: 0}
+  TempsClick: 0
+  rendeureur: {fileID: 0}
   heroToAttack: []
 --- !u!1 &1541143287
 GameObject:
@@ -2947,8 +2955,8 @@ MonoBehaviour:
   RangePourActiverCarte: -2
   PiocheButton: {fileID: 1271524342}
   UseButton: {fileID: 1923740434}
-  EndTurnButton: {fileID: 0}
-  CancelButton: {fileID: 0}
+  EndTurnButton: {fileID: 1923740434}
+  CancelButton: {fileID: 1271524342}
   NbCarteHandPossible: 6
   DecalageX: 0.79
   DecalageY: 0.11
@@ -2975,6 +2983,7 @@ MonoBehaviour:
   availableCardSlots: 01010101010101010101
   DeckCount: {fileID: 210426284}
   graveyardCount: {fileID: 797134745}
+  gameManager: {fileID: 0}
 --- !u!1 &2124353634
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,7 +35,7 @@ public class Deck : MonoBehaviour
     public TMP_Text DeckCount;
     public TMP_Text graveyardCount;
 
-    private GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
 
     public List<CardObject> PlayedCards { get => playedCards; private set => playedCards = value; }
 
@@ -63,7 +63,6 @@ public class Deck : MonoBehaviour
     
     public void Start()
     {
-
         gameManager = GameManager.Instance;
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
@@ -72,6 +71,16 @@ public class Deck : MonoBehaviour
         EndTurnButton.onClick.AddListener(EndTurn);
         CancelButton.onClick.AddListener(CancelChosenCard);
         gameManager.deck = this;
+        if(gameManager == null)
+        {
+            Debug.Log("Deck is null");
+        }
+        else
+        {
+            Debug.Log("Deck is not null");
+        }
+        
+
         for (int i = 1; i < NbCarteHandPossible + 1; i++)
         {
             if (i % 2 == 0)

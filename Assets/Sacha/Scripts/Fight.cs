@@ -13,7 +13,6 @@ using static OneLine.Example.SlicesTest;
 public class Fight : MonoBehaviour
 {
     [SerializeField] GameManager Gm;
-    [SerializeField] Deck deck;
     
     private bool isCardSend;
     private bool m_canPlayEnemyTurn;
@@ -25,7 +24,6 @@ public class Fight : MonoBehaviour
     public Sprite ennemy2Sprite;
     public bool perso1 = false;
     public bool perso2 = false;
-    public Image image;
     bool test = false;
 
 
@@ -36,7 +34,6 @@ public class Fight : MonoBehaviour
         
     }
 
-    private entityManager entityManager;
 
     private int mana;
 
@@ -61,11 +58,10 @@ public class Fight : MonoBehaviour
     {
         if(test == false)
         {
-            if (SceneManager.GetActiveScene().name == "TestSceneSacha2")
+            if (SceneManager.GetActiveScene().buildIndex == 0)
             {
-                StartFight();
-
                 test = true;
+                StartFight();
             }
         }
         
@@ -74,7 +70,6 @@ public class Fight : MonoBehaviour
     private void Start()
     {
         Gm = GameManager.Instance;
-        entityManager = Gm.entityManager;
         heroes = new List<hero>();
         enemies = new List<hero>();
         //StartFight();
@@ -94,7 +89,7 @@ public class Fight : MonoBehaviour
             GameObject.Find("champSolo").SetActive(false);
             int countArbo = 0;
             int countPretre = 0;
-            foreach (hero camp in entityManager.getListHero())
+            foreach (hero camp in Gm.entityManager.getListHero())
             {
                 if (camp.m_role == entityManager.Role.Pretre)
                     countPretre++;
@@ -114,7 +109,7 @@ public class Fight : MonoBehaviour
             GameObject.Find("champ").SetActive(false);
             GameObject.Find("champSolo").GetComponent<Image>().sprite = heroSprite;
             int count = 0;
-            foreach (hero camp in entityManager.getListHero())
+            foreach (hero camp in Gm.entityManager.getListHero())
             {
                 if (camp.m_role == entityManager.Role.Arboriste)
                     count++;
@@ -131,7 +126,7 @@ public class Fight : MonoBehaviour
             GameObject.Find("champ").SetActive(false);
             GameObject.Find("champSolo").GetComponent<Image>().sprite = heroSprite2;
             int count = 0;
-            foreach (hero camp in entityManager.getListHero())
+            foreach (hero camp in Gm.entityManager.getListHero())
             {
                 if (camp.m_role == entityManager.Role.Pretre)
                     count++;
@@ -147,6 +142,7 @@ public class Fight : MonoBehaviour
         hero en1 = new hero(entityManager.Role.Squellettes, 10, 10, 0, 0, null, 0);
         
         hero En2 = new hero(entityManager.Role.Squellettes, 10, 10, 0, 0, null, 0);
+        StartTurn();
 
     }
     void StartTurn()
@@ -156,7 +152,7 @@ public class Fight : MonoBehaviour
         heroes.Clear();
         enemies.Clear();
 
-        foreach (hero E in entityManager.getListHero())
+        foreach (hero E in Gm.entityManager.getListHero())
         {
             if (E.m_role != 0)
             {

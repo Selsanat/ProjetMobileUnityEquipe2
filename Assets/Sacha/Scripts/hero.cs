@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class hero : entityManager
 {
+
+ 
     public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana)
     {
         m_role = role;
@@ -18,7 +20,11 @@ public class hero : entityManager
         int a = Random.Range(0, 1);
         if (a == 0) { multipleTarget = false; }
         else { multipleTarget = true; }
-        heroList.Add(this);
+        if(gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();
+        }   
+        gameManager.entityManager.heroList.Add(this);
 
     }
     #region GET & SET

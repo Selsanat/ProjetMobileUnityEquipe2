@@ -32,9 +32,14 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected int m_mana;
     [SerializeField] protected Deck m_deck;
-    [SerializeField] protected List<hero> heroList;
+    [SerializeField] public List<hero> heroList;
     [SerializeField] protected bool multipleTarget;
+    [SerializeField] protected GameManager gameManager;
 
+    public void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
     public List<hero> getListHero() { return heroList; }
 
 
