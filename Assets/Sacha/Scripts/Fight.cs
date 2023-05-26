@@ -81,10 +81,23 @@ public class Fight : MonoBehaviour
                 WinFight();
             }
         }
-
+        PlayPlayerEffects();
         PlayEnemyTurn();
 
     }
+
+    private void PlayPlayerEffects()
+    {
+
+        //DOEFFECTS
+
+        if (!CheckifEnemyAreAlive())
+        {
+            WinFight();
+        }
+    }
+}
+
     [Button]
     void EndButton()
     {
@@ -118,6 +131,7 @@ public class Fight : MonoBehaviour
         }*/
     private void PlayEnemyTurn()
     {
+        Debug.Log("Ennemyturn");
         StopCoroutine(coroutine);
         foreach (hero En in enemies)
         {
@@ -135,6 +149,7 @@ public class Fight : MonoBehaviour
 
     private void LooseFight()
     {
+        Debug.Log("Loosedfight");
         StopCoroutine(coroutine);
         throw new NotImplementedException();
     }
@@ -170,34 +185,37 @@ public class Fight : MonoBehaviour
     }
     void playCard(dataCard card, List<hero> selected)
     {
-
-        switch (card.CardType)
+        foreach(dataCard.CardType cardT in card.CardTypes)
         {
-            case 0:
-                Debug.LogError("CARTE TYPE UNDIFINED");
-                break;
-            case (dataCard.cardType)1:
-                foreach(hero hero in selected)
-                {
-                    card.takeDamage(hero);
-                }
-                break;
-            case (dataCard.cardType)2:
-                foreach (hero hero in selected)
-                {
-                    card.heal(hero);
-                }
-                break;
-            case (dataCard.cardType)3:
-                foreach (hero hero in selected)
-                {
-                    card.BuffDamage(hero);
-                }
-                break;
+            switch (cardT)
+            {
+                case 0:
+                    Debug.LogError("CARTE TYPE UNDIFINED");
+                    break;
+                case (dataCard.CardType)1:
+                    foreach (hero hero in selected)
+                    {
+                        card.takeDamage(hero);
+                    }
+                    break;
+                case (dataCard.CardType)2:
+                    foreach (hero hero in selected)
+                    {
+                        card.heal(hero);
+                    }
+                    break;
+                case (dataCard.CardType)3:
+                    foreach (hero hero in selected)
+                    {
+                        card.BuffDamage(hero);
+                    }
+                    break;
+            }
         }
+        
     }
 
-   /* public enum cardType
+   /* public enum CardType
     {
         undifined = 0,
         Damage = 1,
