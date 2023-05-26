@@ -25,6 +25,10 @@ public class Fight : MonoBehaviour
     List<hero> heroes;
     List<hero> enemies;
 
+    List<dataCard.CardEffect> heroesEffects;
+    List<dataCard.CardEffect> enemyEffects;
+
+
     List<hero> selectedhero;
     dataCard selectedcard;
 
@@ -47,9 +51,9 @@ public class Fight : MonoBehaviour
         heroes.Clear();
         enemies.Clear();
 
-        foreach(hero E in entities)
+        foreach (hero E in entities)
         {
-            if(E.m_role != 0)
+            if (E.m_role != 0)
             {
                 heroes.Add(E);
             }
@@ -81,16 +85,172 @@ public class Fight : MonoBehaviour
                 WinFight();
             }
         }
-
+        PlayPlayerEffects();
         PlayEnemyTurn();
 
     }
-    [Button]
-    void EndButton()
+
+    void PlayPlayerEffects()
     {
-        endturnbool = !endturnbool;
+
+        foreach (dataCard.CardEffect E in heroesEffects)
+        {
+            if (E.nbTour != 0)
+            {
+                E.nbTour--;
+                if(E.nbTour == 0)
+                {
+                    heroesEffects.Remove(E);
+                    break;
+                }
+            }
+            foreach (dataCard.CardType turneffect in E.effects)
+            {
+
+            }
+
+            if (!CheckifHeroAreAlive())
+            {
+                LooseFight();
+            }
+        }
     }
-    /*    [Button]
+        private void PlayEnemyEffects()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Button]
+        void EndButton()
+        {
+            endturnbool = !endturnbool;
+        }
+
+        private void PlayEnemyTurn()
+        {
+            Debug.Log("Ennemyturn");
+            StopCoroutine(coroutine);
+            foreach (hero En in enemies)
+            {
+                En.EnemyAttack(heroes);
+                if (!CheckifHeroAreAlive())
+                {
+                    LooseFight();
+                }
+                else
+                {
+                    StartTurn();
+                }
+            }
+            PlayEnemyEffects();
+        }
+
+
+        private void LooseFight()
+        {
+            Debug.Log("Loosedfight");
+            StopCoroutine(coroutine);
+            throw new NotImplementedException();
+        }
+        private void WinFight()
+        {
+            StopCoroutine(coroutine);
+            Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
+        }
+
+        bool CheckifHeroAreAlive()//TRUE = min ONE ALIVE
+        {
+            foreach (hero En in heroes)
+            {
+                if (En.getIsAlive())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        bool CheckifEnemyAreAlive()//TRUE = min ONE ALIVE
+        {
+            foreach (hero En in enemies)
+            {
+                if (En.getIsAlive())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        void playCard(dataCard card, List<hero> selected)
+        {
+            foreach (dataCard.CardType cardT in card.CardTypes)
+            {
+                switch (cardT)
+                {
+                    case 0:
+                        Debug.LogError("CARTE TYPE UNDIFINED");
+                        break;
+                    case (dataCard.CardType)1:
+                        foreach (hero hero in selected)
+                        {
+                            card.takeDamage(hero);
+                        }
+                        break;
+                    case (dataCard.CardType)2:
+                        foreach (hero hero in selected)
+                        {
+                            card.heal(hero);
+                        }
+                        break;
+                    case (dataCard.CardType)3:
+                        foreach (hero hero in selected)
+                        {
+                            card.BuffDamage(hero);
+                        }
+                        break;
+                    case (dataCard.CardType)4:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case (dataCard.CardType)5:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case (dataCard.CardType)6:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case (dataCard.CardType)7:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                }
+            }
+
+        }
+
+        /* public enum CardType
+         {
+             undifined = 0,
+             Damage = 1,
+             Heal = 2,
+             BuffDamage = 3,
+             BuffHeal = 4,
+             Block = 5
+         }*/
+
+
+
+        /*    [Button]
         void Turn()
         {
             //Pioche4
@@ -98,112 +258,22 @@ public class Fight : MonoBehaviour
             //EndHeroTurn();
         }*/
 
-    /*    [Button]
-        void EndHeroTurn()
-        {
-            deck.EndTurn();
-            foreach (CardObject card in deck.PlayedCards)
+        /*    [Button]
+            void EndHeroTurn()
             {
-                if(card.HeroToAttack == null) { card.HeroToAttack.Add(FindObjectOfType<hero>()); }
-                playCard(card.DataCard,card.HeroToAttack);
-            }
-            if (CheckifEnemyAreAlive())
-            {
-                PlayEnemyTurn();
-            }
-            else
-            {
-                WinFight();
-            }
-        }*/
-    private void PlayEnemyTurn()
-    {
-        StopCoroutine(coroutine);
-        foreach (hero En in enemies)
-        {
-            En.EnemyAttack(heroes);
-            if (!CheckifHeroAreAlive())
-            {
-                LooseFight();
-            }
-            else
-            {
-                StartTurn();
-            }
-        }
-    }
-
-    private void LooseFight()
-    {
-        StopCoroutine(coroutine);
-        throw new NotImplementedException();
-    }
-    private void WinFight()
-    {
-        StopCoroutine(coroutine);
-        Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
-    }
-
-    bool CheckifHeroAreAlive()//TRUE = min ONE ALIVE
-    {
-        foreach (hero En in heroes)
-        {
-            if (En.getIsAlive())
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    bool CheckifEnemyAreAlive()//TRUE = min ONE ALIVE
-    {
-        foreach(hero En in enemies)
-        {
-            if (En.getIsAlive())
-            {
-                return true;
-            } 
-        }
-        return false;
-    }
-    void playCard(dataCard card, List<hero> selected)
-    {
-
-        switch (card.CardType)
-        {
-            case 0:
-                Debug.LogError("CARTE TYPE UNDIFINED");
-                break;
-            case (dataCard.cardType)1:
-                foreach(hero hero in selected)
+                deck.EndTurn();
+                foreach (CardObject card in deck.PlayedCards)
                 {
-                    card.takeDamage(hero);
+                    if(card.HeroToAttack == null) { card.HeroToAttack.Add(FindObjectOfType<hero>()); }
+                    playCard(card.DataCard,card.HeroToAttack);
                 }
-                break;
-            case (dataCard.cardType)2:
-                foreach (hero hero in selected)
+                if (CheckifEnemyAreAlive())
                 {
-                    card.heal(hero);
+                    PlayEnemyTurn();
                 }
-                break;
-            case (dataCard.cardType)3:
-                foreach (hero hero in selected)
+                else
                 {
-                    card.BuffDamage(hero);
+                    WinFight();
                 }
-                break;
-        }
-    }
-
-   /* public enum cardType
-    {
-        undifined = 0,
-        Damage = 1,
-        Heal = 2,
-        BuffDamage = 3,
-        BuffHeal = 4,
-        Block = 5
-    }*/
+            }*/
 }

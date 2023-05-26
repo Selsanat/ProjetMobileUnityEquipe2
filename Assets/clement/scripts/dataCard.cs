@@ -13,17 +13,9 @@ public class dataCard : ScriptableObject
     [SerializeField] int m_manaCost; //mana
     [SerializeField] int m_attack; //les nb dmgs
     [SerializeField] int m_heal; //les nb heal
-    [SerializeField] cardType m_cardType; // Damage /Heal / Buffs
-    #region BOOST
-    [Header("Buff Stats")]
-    [SerializeField] int m_boostSpeed; //nb boost speed
-    [SerializeField] int m_boostAttack; 
-    [SerializeField] int m_boostCrit;
-    [SerializeField] int m_boostCritDmg;
-    [SerializeField] int m_boostDef;
-    [SerializeField] int m_boostPv;
-    [SerializeField] int m_boostMana;
-    #endregion
+    [SerializeField] List<CardType> m_cardTypes;
+    
+
     #endregion
     [SerializeField] bool m_isDeleteOnTurn;
     [SerializeField] bool m_isUpsideDown;
@@ -33,7 +25,7 @@ public class dataCard : ScriptableObject
     [SerializeField] Sprite m_cardSprite;
 
     public Sprite CardSprite { get => m_cardSprite; private set => m_cardSprite = value; }
-    public cardType CardType { get => m_cardType; set => m_cardType = value; }
+    public List<CardType> CardTypes { get => m_cardTypes; set => m_cardTypes = value; }
 
     public bool getIsDeleteOnTurn()
     {
@@ -79,16 +71,36 @@ public class dataCard : ScriptableObject
         hero.GetDeck();
     }
 
-
-
-    public enum cardType
+    [System.Serializable]
+    public class CardEffect
     {
-        undifined,
-        Damage,
+        public CardType type;
+        public  int value;
+        public int nbTour;
+        [SerializeField] bool KeepCard;
+    }
+    public enum CardType
+    {
         Heal,
+        Damage,
+        Injury, //d�gat sur plusieurs tours
+        Block,
+        EmptyMana,
+        DoubleShieldMana, //donne autant de shield que le joueur avait de mana
+        DoubleHeal,
+        DoubleInjury,
+        InjuryOnAttack,
+        ArmureAsDamage,
+        DeleteNerf,
+        DeleteArmor,
+
+
+
+
+        undifined,
         BuffDamage, 
         BuffHeal,
-        Block
+        
     }
 
 }
