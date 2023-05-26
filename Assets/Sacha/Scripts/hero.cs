@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class hero : entityManager
 {
-    public hero(Role role, int maxPV, int Pv, int buff, int nerf, Deck deck, int mana)
+    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana)
     {
         m_role = role;
         m_maxPv = maxPV;
         m_Pv = Pv;
-        m_attack = 0;
-        m_buff = buff;
+        m_attack = attack;
+        m_buff = 0;
         m_nerf = nerf;
         isAlive = true;
         m_deck = deck;

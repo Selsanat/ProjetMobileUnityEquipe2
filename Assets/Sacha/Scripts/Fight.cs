@@ -15,11 +15,33 @@ public class Fight : MonoBehaviour
     private bool m_canPlayEnemyTurn;
     private bool endturnbool = false;
 
+    public Sprite heroSprite;
+    public Sprite ennemy1Sprite;
+    public Sprite ennemy2Sprite;
+    public bool perso1 = false;
+    public bool perso2 = false;
+
+
+    public static Fight instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("Il y a plus d'une instance de Inventory dans la scène");
+            return;
+        }
+
+        instance = this;
+    }
 
     private entityManager manager;
 
     private int mana;
 
+    public Transform targets;
+    public Transform targets2;
+    public Transform targets3;
 
     public List<hero> entities;
     List<hero> heroes;
@@ -42,7 +64,32 @@ public class Fight : MonoBehaviour
         deck = FindObjectOfType<Deck>();
         heroes = new List<hero>();
         enemies = new List<hero>();
-        StartTurn();
+        StartFight();
+        //StartTurn();
+
+    }
+    void StartFight()
+    {
+        GameObject goEn1 = Instantiate(new GameObject());
+        goEn1.transform.position = targets.position;
+        //hero var = goEn1.AddComponent<hero>();
+        //hero var2 = goEn1.GetComponent<hero>();
+
+        hero H1 = new hero(entityManager.Role.Pretre, 10, 10, 0, 0, null, 0);
+        //goEn1.AddComponent<>();
+
+        SpriteRenderer rer = new SpriteRenderer();
+
+
+        hero en1 = new hero(entityManager.Role.Squellettes, 10, 10, 0, 0, null, 0);
+        
+        hero En2 = new hero(entityManager.Role.Squellettes, 10, 10, 0, 0, null, 0);
+
+
+        entities.Add(H1);
+        entities.Add(en1);
+        entities.Add(En2);
+
 
     }
     void StartTurn()
@@ -194,13 +241,13 @@ public class Fight : MonoBehaviour
                     case 0:
                         Debug.LogError("CARTE TYPE UNDIFINED");
                         break;
-                    case (dataCard.CardType)1:
+                    case (dataCard.CardType)2:
                         foreach (hero hero in selected)
                         {
                             card.takeDamage(hero);
                         }
                         break;
-                    case (dataCard.CardType)2:
+                    case (dataCard.CardType)1:
                         foreach (hero hero in selected)
                         {
                             card.heal(hero);

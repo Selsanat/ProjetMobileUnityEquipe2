@@ -139,7 +139,7 @@ public class CardObject : MonoBehaviour
 
     private void Update()
     {
-        print(gameManager.HasCardInHand);
+        //print(gameManager.HasCardInHand);
     }
 
 
