@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using NaughtyAttributes;
 using Unity.VisualScripting.Dependencies.Sqlite;
+using DG.Tweening.Core.Easing;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -16,9 +17,10 @@ public class CardObject : MonoBehaviour
     [SerializeField] float RatioGrowHoverCard;
     private GameManager gameManager;
     public Vector3 PosBeforeDrag;
-    public bool Interactible = true;
     public Transform Slot;
     public Vector2 BaseColliderDimensions;
+    public float TempsClick;
+    public Renderer rendeureur;
 
 
     public List<hero> heroToAttack; //always Start Null
@@ -26,35 +28,44 @@ public class CardObject : MonoBehaviour
     void Awake()
     {
         gameManager = GameManager.Instance;
+        TempsClick = gameManager.TempsPourClickCardInspect;
         BaseColliderDimensions = this.GetComponent<BoxCollider2D>().size;
+        rendeureur = GetComponent<Renderer>();
     }
     void OnMouseDown()
     {
-        if (Interactible && !gameManager.HasCardInHand)
+        if (gameManager.CardsInteractable  && !gameManager.HasCardInHand)
         {
             PosBeforeDrag = transform.position;
+            TempsClick = Time.time;
         }
     }
+/*    void OnMouseUpAsButton()
+    {
+    }*/
     void OnMouseOver()
     {
-        if (Interactible && !gameManager.HasCardInHand)
+        if (gameManager.CardsInteractable  && !gameManager.HasCardInHand)
         {
             if (Input.GetMouseButton(0))
             {
 
                 transform.localScale = new Vector3(RatioGrowHoverCard, RatioGrowHoverCard, RatioGrowHoverCard);
                 this.GetComponent<BoxCollider2D>().size = BaseColliderDimensions;
+                gameManager.deck.ReorderZCards();
+               rendeureur.sortingOrder = 10;
             }
             else
             {
                 transform.localScale = new Vector3(1, 1, 1);
+                gameManager.deck.ReorderZCards();
             }
         }
         
     }
     void OnMouseDrag()
     {
-        if (Interactible)
+        if (gameManager.CardsInteractable )
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
@@ -63,19 +74,20 @@ public class CardObject : MonoBehaviour
     }
     void OnMouseExit()
     {
-        if (Interactible && !gameManager.HasCardInHand)
+        if (gameManager.CardsInteractable  && !gameManager.HasCardInHand)
         {
             transform.localScale = new Vector3(1, 1, 1);
-            
+            gameManager.deck.ReorderZCards();
+
         }
     }
 
     void SelectedCard(bool Side)
     {
-        Interactible = false;
+        gameManager.CardsInteractable  = false;
         if (Side)
         {
-            transform.position = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform.position;
+            transform.position = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform.position; 
             transform.rotation = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform.rotation;
         }
         else
@@ -84,19 +96,29 @@ public class CardObject : MonoBehaviour
             transform.rotation = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform.rotation;
         }
         transform.localScale = new Vector3(2,2, 2);
+        rendeureur.sortingOrder = 10;
         HideHandExceptThis();
     }
 
     [Button]
     void OnMouseUp()
     {
-        if (Interactible)
+        if (gameManager.CardsInteractable )
         {
             
             transform.localScale = new Vector3(1, 1, 1);
+            gameManager.deck.ReorderZCards();
             if (transform.position.y < gameManager.RangePourActiverCarte)
             {
                 transform.position = PosBeforeDrag;
+                if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect)
+                {
+                    gameManager.CardsInteractable = false;
+                    print(gameManager.InspectUI.Image.sprite);
+                    print(this.GetComponent<SpriteRenderer>().sprite);
+                    gameManager.InspectUI.Image.sprite = this.GetComponent<SpriteRenderer>().sprite;
+                    gameManager.InspectUI.UI.SetActive(true);
+                }
             }
             else
             {
@@ -107,6 +129,7 @@ public class CardObject : MonoBehaviour
             }
         }
         gameManager.HasCardInHand = false;
+
     }
 
     void HideHandExceptThis()
