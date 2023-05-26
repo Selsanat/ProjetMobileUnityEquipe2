@@ -21,7 +21,6 @@ public class CardObject : MonoBehaviour
     public Vector2 BaseColliderDimensions;
 
 
-
     public List<hero> heroToAttack; //always Start Null
 
     void Awake()
@@ -101,7 +100,7 @@ public class CardObject : MonoBehaviour
             }
             else
             {
-                gameManager.CarteUtilisee = this;
+                gameManager.CardSended(this);
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
                 SelectedCard(true);
             }
