@@ -34,11 +34,11 @@ public class Fight : MonoBehaviour
 
     Coroutine coroutine;
 
-    public bool Caca { get => isCardSend; set => isCardSend = value; }
+    public bool IsCardSend { get => isCardSend; set => isCardSend = value; }
 
     private void Start()
     {
-        Gm = FindObjectOfType<GameManager>();
+        Gm = GameManager.Instance;
         heroes = new List<hero>();
         enemies = new List<hero>();
         StartTurn();

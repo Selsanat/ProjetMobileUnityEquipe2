@@ -14,7 +14,8 @@ public class dataCard : ScriptableObject
     [SerializeField] int m_attack; //les nb dmgs
     [SerializeField] int m_heal; //les nb heal
     [SerializeField] List<CardType> m_cardTypes;
-    
+
+    [SerializeField] List<CardEffect> m_cardEffects;
 
     #endregion
     [SerializeField] bool m_isDeleteOnTurn;
