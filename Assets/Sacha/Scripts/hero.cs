@@ -208,10 +208,6 @@ public class hero : entityManager
         {
             //buff armor
         }
-
-
-
-
     }
     #endregion
 

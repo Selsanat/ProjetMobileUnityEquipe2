@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ae1fa1b220ceaa4fae9d3d1a724796b, type: 3}
-  m_Name: Ennemy
+  m_Name: AOEEnnemies single allies
   m_EditorClassIdentifier: 
   m_manaCost: 0
   m_attack: 50
   m_heal: 0
-  m_index: 0
+  m_index: 2
   m_cardTypes: 01000000
   m_cardEffects: []
-  TargetAllies: 0
-  TargetEnnemies: 0
+  TargetAllies: 1
+  TargetEnnemies: 1
   AOEAllies: 0
-  AOEEnnemies: 0
+  AOEEnnemies: 1
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0
