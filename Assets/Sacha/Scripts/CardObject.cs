@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using NaughtyAttributes;
+using Unity.VisualScripting.Dependencies.Sqlite;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -15,8 +16,9 @@ public class CardObject : MonoBehaviour
     [SerializeField] float RatioGrowHoverCard;
     private GameManager gameManager;
     public Vector3 PosBeforeDrag;
-    private bool Interactible = true;
-    private bool HasCardInHand = false;
+    public bool Interactible = true;
+    public Transform Slot;
+    public Vector2 BaseColliderDimensions;
 
 
 
@@ -25,23 +27,28 @@ public class CardObject : MonoBehaviour
     void Awake()
     {
         gameManager = GameManager.Instance;
+        BaseColliderDimensions = this.GetComponent<BoxCollider2D>().size;
     }
     void OnMouseDown()
     {
-        if (Interactible && !HasCardInHand)
+        if (Interactible && !gameManager.HasCardInHand)
         {
             PosBeforeDrag = transform.position;
         }
     }
     void OnMouseOver()
     {
-        if (Interactible && !HasCardInHand)
+        if (Interactible && !gameManager.HasCardInHand)
         {
             if (Input.GetMouseButton(0))
             {
+
                 transform.localScale = new Vector3(RatioGrowHoverCard, RatioGrowHoverCard, RatioGrowHoverCard);
-                
-                
+                this.GetComponent<BoxCollider2D>().size = BaseColliderDimensions;
+            }
+            else
+            {
+                transform.localScale = new Vector3(1, 1, 1);
             }
         }
         
@@ -52,12 +59,12 @@ public class CardObject : MonoBehaviour
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-            HasCardInHand = true;
+            gameManager.HasCardInHand = true;
         }
     }
     void OnMouseExit()
     {
-        if (Interactible && !HasCardInHand)
+        if (Interactible && !gameManager.HasCardInHand)
         {
             transform.localScale = new Vector3(1, 1, 1);
             
@@ -95,10 +102,11 @@ public class CardObject : MonoBehaviour
             else
             {
                 gameManager.CarteUtilisee = this;
+                FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
                 SelectedCard(true);
             }
         }
-        HasCardInHand = false;
+        gameManager.HasCardInHand = false;
     }
 
     void HideHandExceptThis()
@@ -127,6 +135,11 @@ public class CardObject : MonoBehaviour
     private void OnValidate()
     {
        //SetSprite();
+    }
+
+    private void Update()
+    {
+        print(gameManager.HasCardInHand);
     }
 
 

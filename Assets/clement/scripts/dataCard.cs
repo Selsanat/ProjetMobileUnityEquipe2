@@ -74,10 +74,10 @@ public class dataCard : ScriptableObject
     [System.Serializable]
     public class CardEffect
     {
-        public CardType type;
+        public List<CardType> effects;
         public  int value;
         public int nbTour;
-        [SerializeField] bool KeepCard;
+        public bool KeepCard;
     }
     public enum CardType
     {
