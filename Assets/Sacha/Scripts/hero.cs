@@ -15,10 +15,11 @@ public class hero : entityManager
         isAlive = true;
         m_deck = deck;
         m_mana = mana;
-
         int a = Random.Range(0, 1);
         if (a == 0) { multipleTarget = false; }
         else { multipleTarget = true; }
+        heroList.Add(this);
+
     }
     #region GET & SET
     public int getMaxPv() { return m_maxPv; }
@@ -34,13 +35,28 @@ public class hero : entityManager
     public void setDeck(Deck deck) { m_deck = deck; }
     public bool getIsAlive() { return isAlive; }
     public void setIsAlive(bool set) { isAlive = set; }
+    public void setFullLife() { this.m_Pv = this.m_maxPv; }
     #endregion
 
 
 
 
-    public void EnemyAttack(List<hero> heroesToAttack)
+    public void EnemyAttack(List<hero> heroesToAttack, List<hero> listEnnemis)
     {
+
+        switch(this.m_role)
+        {
+            case Role.ChienEnemy:
+                chienIA(heroesToAttack);
+                break;
+            case Role.Squellettes:
+                squelettes(heroesToAttack);
+                break;
+
+            default:
+                return;
+        }
+
         if (multipleTarget)
         {
             foreach (hero hero in heroesToAttack)
@@ -63,6 +79,86 @@ public class hero : entityManager
 
     }
 
+    #region IA
+    public void chienIA(List<hero> heroesToAttack)
+    {
+        int firtAttack = 65;
+        int secondAttack = 25;
+        int thridAttack = 10;
+        int dmg = 5;
+        int AOEDmg = 3;
+        int totalWeight = firtAttack + secondAttack + thridAttack;
+        float diceRoll = Random.Range(0f, totalWeight);
+
+        if (thridAttack >= diceRoll)
+        {
+            hero temp = heroesToAttack[0];
+
+            foreach (hero champ in heroesToAttack)
+            {
+                if (champ.getPv() < temp.getPv())
+                    temp = champ;
+            }
+            temp.takeDamage(dmg);
+        }
+        else if(secondAttack >= diceRoll)
+        {
+            foreach (hero hero in heroesToAttack)
+            {
+                hero.takeDamage(AOEDmg);
+            }
+        }
+        else if (firtAttack >= diceRoll)
+        {
+            //add buff
+        }
+
+    }
+
+
+    public void squelettes(List<hero> heroesToAttack)
+    {
+        int firtAttack = 60;
+        int secondAttack = 40;
+        int dmg = 3;
+        int totalWeight = firtAttack + secondAttack;
+        float diceRoll = Random.Range(0f, totalWeight);
+
+        foreach (hero champ in heroesToAttack)
+        {
+            if (champ.getPv() <= dmg)
+            {
+                champ.takeDamage(dmg);
+                return;
+
+            }
+        }
+
+        if (secondAttack >= diceRoll)
+        {
+            //buff
+        }
+        else if (firtAttack >= diceRoll)
+        {
+            hero temp = heroesToAttack[0];
+
+            foreach (hero champ in heroesToAttack)
+            {
+                if (champ.getPv() < temp.getPv())
+                    temp = champ;
+            }
+            temp.takeDamage(5);
+        }
+    }
+
+    public void main(List<hero> heroesToAttack, List<hero> listEnnemies)
+    {
+        foreach(hero hero in listEnnemies)
+        {
+
+        }
+    }
+    #endregion
 
 }
 

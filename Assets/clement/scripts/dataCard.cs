@@ -14,7 +14,8 @@ public class dataCard : ScriptableObject
     [SerializeField] int m_attack; //les nb dmgs
     [SerializeField] int m_heal; //les nb heal
     [SerializeField] List<CardType> m_cardTypes;
-    
+
+    [SerializeField] List<CardEffect> m_cardEffects;
 
     #endregion
     [SerializeField] bool m_isDeleteOnTurn;
@@ -72,7 +73,7 @@ public class dataCard : ScriptableObject
     }
 
     [System.Serializable]
-    public struct CardEffect
+    public class CardEffect
     {
 
         public List<CardType> effects;
@@ -101,7 +102,7 @@ public class dataCard : ScriptableObject
         GainMana,
         GainCard,
         BlockAsHeal, //chaque degat bloque devient un heal
-        AllWoundAsInjury, //Inflige autant de blessures que de points de vie manquants à tout les ennemis
+        AllWoundAsInjury, //Inflige autant de blessures que de points de vie manquants ï¿½ tout les ennemis
         MonsterDead, //quand un monstre meurt 
 
 

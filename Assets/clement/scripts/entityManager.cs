@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class entityManager : MonoBehaviour
 {
+
     public enum Role 
     {
         Enemy,
@@ -13,6 +14,10 @@ public class entityManager : MonoBehaviour
         Pretre,
         Arboriste,
         Debuffer,
+        ChienEnemy,
+        Squellettes,
+        Mains
+
 /*        Paladin,
         Demoniste,*/
     }
@@ -27,8 +32,10 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected int m_mana;
     [SerializeField] protected Deck m_deck;
-
+    [SerializeField] protected List<hero> heroList;
     [SerializeField] protected bool multipleTarget;
+
+    public List<hero> getListHero() { return heroList; }
 
 
     public void takeDamage (int damage)

@@ -7,6 +7,7 @@ namespace Map
 {
     public class MapPlayerTracker : MonoBehaviour
     {
+        public entityManager entityScript;
         public bool lockAfterSelecting = false;
         public float enterNodeDelay = 1f;
         public MapManager mapManager;
@@ -55,11 +56,13 @@ namespace Map
             view.SetAttainableNodes();
             view.SetLineColors();
             mapNode.ShowSwirlAnimation();
+            if (entityScript = null)
+                entityScript = GetComponent<entityManager>();
 
-            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode));
+            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode, entityScript));
         }
 
-        private static void EnterNode(MapNode mapNode)
+        private static void EnterNode(MapNode mapNode, entityManager champ)
         {
             // we have access to blueprint name here as well
             Debug.Log("Entering node: " + mapNode.Node.blueprintName + " of type: " + mapNode.Node.nodeType);
@@ -75,6 +78,8 @@ namespace Map
                 case NodeType.RestSite:
                     break;
                 case NodeType.Treasure:
+                    foreach (hero perso in champ.getListHero())
+                        perso.setFullLife();
                     break;
                 case NodeType.Store:
                     break;
