@@ -41,7 +41,7 @@ public class hero : entityManager
 
 
 
-    public void EnemyAttack(List<hero> heroesToAttack)
+    public void EnemyAttack(List<hero> heroesToAttack, List<hero> listEnnemis)
     {
 
         switch(this.m_role)
@@ -151,9 +151,12 @@ public class hero : entityManager
         }
     }
 
-    public void main(List<hero> heroesToAttack)
+    public void main(List<hero> heroesToAttack, List<hero> listEnnemies)
     {
+        foreach(hero hero in listEnnemies)
+        {
 
+        }
     }
     #endregion
 
