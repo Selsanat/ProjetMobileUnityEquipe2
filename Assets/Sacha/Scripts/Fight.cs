@@ -222,6 +222,23 @@ public class Fight : MonoBehaviour
             playCard(selectedcard, selectedhero);
             Gm.deck.PlayCard(selectedcard.m_index);
             isCardSend = false;
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if(enemies[i].getPv() <= 0)
+                {
+                    if(i == 0)
+                    {
+                        ennemisButton1?.onClick.RemoveAllListeners();
+                        ennemisButton1.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        ennemisButton2?.onClick.RemoveAllListeners();
+                        ennemisButton2.gameObject.SetActive(false);
+                    }
+                }
+            }   
+
             if (!CheckifEnemyAreAlive())
             {
                 WinFight();
