@@ -31,7 +31,15 @@ public class Fight : MonoBehaviour
     [SerializeField] Button ennemisButton1;
     [SerializeField] Button ennemisButton2;
     [SerializeField] Button selectedButton;
+    private int mana;
+    [SerializeField] List<hero> heroes;
+    [SerializeField] List<hero> enemies;
+    List<dataCard.CardEffect> heroesEffects;
+    List<dataCard.CardEffect> enemyEffects;
+    [SerializeField] List<hero> selectedhero;
+    dataCard selectedcard;
 
+    Coroutine coroutine;
 
 
     private void Awake()
@@ -41,21 +49,7 @@ public class Fight : MonoBehaviour
     }
 
 
-    private int mana;
-
-
-
-    [SerializeField] List<hero> heroes;
-    [SerializeField] List<hero> enemies;
-
-    List<dataCard.CardEffect> heroesEffects;
-    List<dataCard.CardEffect> enemyEffects;
-
-
-    [SerializeField] List<hero> selectedhero;
-    dataCard selectedcard;
-
-    Coroutine coroutine;
+    
 
     public bool IsCardSend { get => isCardSend; set => isCardSend = value; }
 
@@ -195,8 +189,8 @@ public class Fight : MonoBehaviour
         ennemisButton2.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(enemies[1]); });
 
         arboristeButton?.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(heroes[0]); });
-        //on peut rendre plus beau en faisant une récurtion pour savoir le nombre de héros, ce sera a faire si on ajoute d autre héros
-        pretreButton?.onClick.AddListener(() => { selectedhero.Clear(); int toAdd = (heroes[0].m_role == hero.Role.Arboriste) ? 1 : 0; selectedhero.Add(heroes[toAdd]); }); 
+
+        pretreButton?.onClick.AddListener(() => { selectedhero.Clear(); if (perso1 == true) selectedhero.Add(heroes[0]); else selectedhero.Add(heroes[1]); }); 
         coroutine = StartCoroutine(turnwait());
     }
 
@@ -249,7 +243,7 @@ public class Fight : MonoBehaviour
 
     }
 
-    void PlayPlayerEffects()
+    void PlayPlayerEffects() 
     {
         for(int i = 0; i < heroesEffects.Count; i++)
         {
@@ -269,7 +263,28 @@ public class Fight : MonoBehaviour
                     //BRUH LA MEME CHOSE PUTAIN
                 }
             }
-
+            if (heroes[i].getPv() <= 0)
+            {
+                if (i == 0)
+                {
+                    if(perso1)
+                    {
+                        arboristeButton?.onClick.RemoveAllListeners();
+                        arboristeButton.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        pretreButton?.onClick.RemoveAllListeners();
+                        pretreButton.gameObject.SetActive(false);
+                    }
+                    
+                }
+                else
+                {
+                    pretreButton?.onClick.RemoveAllListeners();
+                    pretreButton.gameObject.SetActive(false);
+                }
+            }
             if (!CheckifHeroAreAlive())
             {
                 LooseFight();
