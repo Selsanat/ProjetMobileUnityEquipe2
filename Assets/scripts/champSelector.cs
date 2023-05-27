@@ -16,10 +16,17 @@ public class champSelector : MonoBehaviour
     public Sprite notSelectedPretre;
     public Sprite SelectedArboriste;
     public Sprite SelectedPretre;
+    [SerializeField] GameManager gameManager;
     
-
+    public void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }   
     public void selectArboriste()
     {
+        if(gameManager.LifeArboriste <= 0)
+            return;
+
         selectedArboriste = !selectedArboriste;
         if (selectedArboriste)
             buttonArboriste.image.sprite = SelectedArboriste;
@@ -28,6 +35,9 @@ public class champSelector : MonoBehaviour
     }
     public void selectPretre()
     {
+        if(gameManager.LifePretre <= 0)
+            return;
+
         selectedPretre = !selectedPretre;
         if (selectedPretre)
             buttonPretre.image.sprite = SelectedPretre;

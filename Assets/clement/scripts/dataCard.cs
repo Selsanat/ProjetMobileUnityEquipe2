@@ -1,7 +1,9 @@
+using DG.Tweening.Core.Easing;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static entityManager;
 
 [System.Serializable]
 
@@ -61,6 +63,7 @@ public class dataCard : ScriptableObject
         {
             hero.setIsAlive(false);
         }
+        hero.setVarHero();
     }
     internal void BuffDamage(hero hero)
     {

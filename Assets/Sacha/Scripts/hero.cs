@@ -46,7 +46,17 @@ public class hero : entityManager
     #endregion
 
 
-
+    public void setVarHero()
+    {
+        if (m_role == Role.Arboriste)
+        {
+            gameManager.LifeArboriste = m_Pv;
+        }
+        else if (m_role == Role.Pretre)
+        {
+            gameManager.LifePretre = m_Pv;
+        }
+    }
 
     public void EnemyAttack(List<hero> heroesToAttack, List<hero> listEnnemis)
     {

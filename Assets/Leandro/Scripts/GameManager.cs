@@ -21,7 +21,10 @@ public class GameManager : MonoBehaviour
     public InspectCard InspectUI;
     public float TempsPourClickCardInspect = 0.5f;
     public Deck deck;
-
+    public int LifeArboriste = 50;
+    public int LifePretre = 50;
+    public bool IsArboristePlayed = false;
+    public bool IsPretrePlayed = false;
     private static GameManager _instance;
     public static GameManager Instance
     {

@@ -49,10 +49,19 @@ public class entityManager : MonoBehaviour
         Debug.Log("Pv avant : " + m_Pv + m_role);
 
         m_Pv -= damage;
-        Debug.Log("Pv apres: " + m_Pv + m_role);
+        Debug.Log("Pv apres: hero" + m_Pv + m_role);
         if (m_Pv <= 0)
         {
             isAlive = false;
+        }
+
+        if(m_role == Role.Arboriste)
+        {
+            gameManager.LifeArboriste = m_Pv;
+        }
+        else if(m_role == Role.Pretre)
+        {
+            gameManager.LifePretre = m_Pv;
         }
     }
 }

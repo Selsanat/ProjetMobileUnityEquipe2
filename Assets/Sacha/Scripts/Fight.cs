@@ -101,21 +101,27 @@ public class Fight : MonoBehaviour
             temp.GetComponent<Image>().sprite = heroSprite2;
             pretreButton = temp.GetComponent<Button>();
             GameObject.Find("champSolo").SetActive(false);
-            int countArbo = 0;
-            int countPretre = 0;
-            foreach (hero camp in Gm.entityManager.getListHero())
+            
+
+            if (Gm.IsPretrePlayed == false)
             {
-                if (camp.m_role == entityManager.Role.Pretre)
-                    countPretre++;
-                if (camp.m_role == entityManager.Role.Arboriste)
-                    countArbo++;
-            }
-
-            if (countPretre == 0)
                 H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0);
-
-            if (countArbo == 0)
+                Gm.LifePretre = H1.getPv();
+                Gm.IsPretrePlayed = true;
+            }
+            else
+                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0);
+                
+            if (Gm.IsArboristePlayed == false)
+            {
                 H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
+                Gm.LifeArboriste = H2.getPv();
+                Gm.IsArboristePlayed = true;
+            }
+            else
+                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0);
+
+
         }
         else if(perso1)
         {
@@ -124,19 +130,16 @@ public class Fight : MonoBehaviour
             temp = GameObject.Find("champSolo");
             temp.GetComponent<Image>().sprite = heroSprite;
             arboristeButton = temp.GetComponent<Button>();
-            int count = 0;
-            foreach (hero camp in Gm.entityManager.getListHero())
+            if (Gm.IsArboristePlayed == false)
             {
-                if (camp.m_role == entityManager.Role.Arboriste)
-                    count++;
+                H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
+                Gm.LifeArboriste = H2.getPv();
+                Gm.IsArboristePlayed = true;
+                Debug.Log("creer arboriste");
             }
-            if (count == 0)
-                H1 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
             else
-            {
+                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0);
 
-            }
-            
 
 
         }
@@ -147,14 +150,14 @@ public class Fight : MonoBehaviour
             temp = GameObject.Find("champSolo");
             temp.GetComponent<Image>().sprite = heroSprite2;
             pretreButton = temp.GetComponent<Button>();
-            int count = 0;
-            foreach (hero camp in Gm.entityManager.getListHero())
+            if (Gm.IsPretrePlayed == false)
             {
-                if (camp.m_role == entityManager.Role.Pretre)
-                    count++;
-            }
-            if (count == 0)
                 H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0);
+                Gm.LifePretre = H1.getPv();
+                Gm.IsPretrePlayed = true;
+            }
+            else
+                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0);
         }
 
         //goEn1.AddComponent<>();
@@ -192,7 +195,8 @@ public class Fight : MonoBehaviour
         ennemisButton2.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(enemies[1]); });
 
         arboristeButton?.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(heroes[0]); });
-        pretreButton?.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(heroes[1]); }); 
+        //on peut rendre plus beau en faisant une récurtion pour savoir le nombre de héros, ce sera a faire si on ajoute d autre héros
+        pretreButton?.onClick.AddListener(() => { selectedhero.Clear(); int toAdd = (heroes[0].m_role == hero.Role.Arboriste) ? 1 : 0; selectedhero.Add(heroes[toAdd]); }); 
         coroutine = StartCoroutine(turnwait());
     }
 
@@ -301,15 +305,7 @@ public class Fight : MonoBehaviour
 
         Gm.Hand.Clear();
         Gm.deck = null;
-
-        foreach (hero E in Gm.entityManager.getListHero())
-        {
-            if (E.m_role != entityManager.Role.Pretre || E.m_role != entityManager.Role.Arboriste)
-            {
-                Gm.entityManager.heroList.Remove(E);
-                Debug.Log(E.m_role);
-            }
-        }
+        Gm.entityManager.getListHero().Clear();
         ennemisButton1.onClick.RemoveAllListeners();
         ennemisButton2.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
