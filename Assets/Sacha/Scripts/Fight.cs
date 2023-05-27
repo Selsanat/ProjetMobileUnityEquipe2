@@ -298,13 +298,16 @@ public class Fight : MonoBehaviour
         
 
         SceneManager.LoadScene(1);
-       /* 
+
         Gm.Hand.Clear();
+        Gm.deck = null;
+
         foreach (hero E in Gm.entityManager.getListHero())
         {
             if (E.m_role != entityManager.Role.Pretre || E.m_role != entityManager.Role.Arboriste)
             {
                 Gm.entityManager.heroList.Remove(E);
+                Debug.Log(E.m_role);
             }
         }
         ennemisButton1.onClick.RemoveAllListeners();
@@ -320,7 +323,7 @@ public class Fight : MonoBehaviour
         enemies.Clear();
         selectedhero.Clear();
         selectedcard = null;
-        test = false;*/
+        test = false;
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
     }
 

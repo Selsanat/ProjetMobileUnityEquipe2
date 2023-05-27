@@ -39,6 +39,7 @@ public class entityManager : MonoBehaviour
     public void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        Debug.Log("start");
     }
     public List<hero> getListHero() { return heroList; }
 
