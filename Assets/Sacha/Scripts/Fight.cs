@@ -30,6 +30,7 @@ public class Fight : MonoBehaviour
     [SerializeField] Button pretreButton;
     [SerializeField] Button ennemisButton1;
     [SerializeField] Button ennemisButton2;
+    [SerializeField] Button selectedButton;
 
 
 
@@ -131,6 +132,10 @@ public class Fight : MonoBehaviour
             }
             if (count == 0)
                 H1 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
+            else
+            {
+
+            }
             
 
 
@@ -290,8 +295,32 @@ public class Fight : MonoBehaviour
     private void WinFight()
     {
         StopCoroutine(coroutine);
+        
+
         SceneManager.LoadScene(1);
-        test = false;
+       /* 
+        Gm.Hand.Clear();
+        foreach (hero E in Gm.entityManager.getListHero())
+        {
+            if (E.m_role != entityManager.Role.Pretre || E.m_role != entityManager.Role.Arboriste)
+            {
+                Gm.entityManager.heroList.Remove(E);
+            }
+        }
+        ennemisButton1.onClick.RemoveAllListeners();
+        ennemisButton2.onClick.RemoveAllListeners();
+        arboristeButton?.onClick.RemoveAllListeners();
+        pretreButton?.onClick.RemoveAllListeners();
+        ennemisButton1 = null;
+        ennemisButton2 = null;
+        arboristeButton = null;
+        pretreButton = null;
+
+        heroes.Clear();
+        enemies.Clear();
+        selectedhero.Clear();
+        selectedcard = null;
+        test = false;*/
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
     }
 
@@ -315,6 +344,12 @@ public class Fight : MonoBehaviour
             if (En.getIsAlive())
             {
                 return true;
+            }
+            else
+            {
+                Gm.entityManager.heroList.Remove(En);
+                selectedhero.Remove(En);
+                
             }
                 
         }
@@ -381,44 +416,76 @@ public class Fight : MonoBehaviour
         selectedhero.Clear();
     }
 
-
-    
-        /* public enum CardType
-         {
-             undifined = 0,
-             Damage = 1,
-             Heal = 2,
-             BuffDamage = 3,
-             BuffHeal = 4,
-             Block = 5
-         }*/
-
-
-
-        /*    [Button]
-        void Turn()
+    public void OnSelect(BaseEventData eventData)
+    {
+        if (eventData.selectedObject == ennemisButton1)
         {
-            //Pioche4
-            //FIND WAY TO WAIT
-            //EndHeroTurn();
-        }*/
+            selectedButton = ennemisButton1;
+            selectedhero.Clear();
+            selectedhero.Add(enemies[0]);
+        }
+        else if (eventData.selectedObject == ennemisButton2)
+        {
+            selectedhero.Clear();
+            selectedhero.Add(enemies[1]);
+            selectedButton = ennemisButton2;
+        }
+        else if(eventData.selectedObject == arboristeButton)
+        {
+            selectedhero.Clear();
+            selectedhero.Add(heroes[0]);
+            selectedButton = arboristeButton;
+        }
+        else if(eventData.selectedObject == pretreButton)
+        {
+            selectedhero.Clear();
+            selectedhero.Add(heroes[1]);
+            selectedButton = pretreButton;
+        }
+        else
+        {
+            selectedButton = null;
+        }
+    }
 
-        /*    [Button]
-            void EndHeroTurn()
+
+
+    /* public enum CardType
+     {
+         undifined = 0,
+         Damage = 1,
+         Heal = 2,
+         BuffDamage = 3,
+         BuffHeal = 4,
+         Block = 5
+     }*/
+
+
+
+    /*    [Button]
+    void Turn()
+    {
+        //Pioche4
+        //FIND WAY TO WAIT
+        //EndHeroTurn();
+    }*/
+
+    /*    [Button]
+        void EndHeroTurn()
+        {
+            deck.EndTurn();
+            foreach (CardObject card in deck.PlayedCards)
             {
-                deck.EndTurn();
-                foreach (CardObject card in deck.PlayedCards)
-                {
-                    if(card.HeroToAttack == null) { card.HeroToAttack.Add(FindObjectOfType<hero>()); }
-                    playCard(card.DataCard,card.HeroToAttack);
-                }
-                if (CheckifEnemyAreAlive())
-                {
-                    PlayEnemyTurn();
-                }
-                else
-                {
-                    WinFight();
-                }
-            }*/
+                if(card.HeroToAttack == null) { card.HeroToAttack.Add(FindObjectOfType<hero>()); }
+                playCard(card.DataCard,card.HeroToAttack);
+            }
+            if (CheckifEnemyAreAlive())
+            {
+                PlayEnemyTurn();
+            }
+            else
+            {
+                WinFight();
+            }
+        }*/
 }

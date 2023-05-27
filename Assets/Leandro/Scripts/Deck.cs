@@ -290,6 +290,7 @@ public class Deck : MonoBehaviour
         gameManager.CardsInteractable = true;
         gameManager.CarteUtilisee = null;
         CancelButton.gameObject.SetActive(false);
+        PlayButton.gameObject.SetActive(false);
         ReorderZCards();
     }
 
