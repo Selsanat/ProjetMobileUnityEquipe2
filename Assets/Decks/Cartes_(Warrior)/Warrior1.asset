@@ -13,15 +13,11 @@ MonoBehaviour:
   m_Name: Warrior1
   m_EditorClassIdentifier: 
   m_manaCost: 0
-  m_attack: 0
+  m_attack: 10
   m_heal: 0
-  m_boostSpeed: 0
-  m_boostAttack: 0
-  m_boostCrit: 0
-  m_boostCritDmg: 0
-  m_boostDef: 0
-  m_boostPv: 0
-  m_boostMana: 0
+  m_index: 1
+  m_cardTypes: 01000000
+  m_cardEffects: []
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0

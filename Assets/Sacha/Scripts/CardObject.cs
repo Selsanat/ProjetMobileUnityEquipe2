@@ -21,6 +21,7 @@ public class CardObject : MonoBehaviour
     public Vector2 BaseColliderDimensions;
     public float TempsClick;
     public Renderer rendeureur;
+    public int indexHand;
 
 
     public List<hero> heroToAttack; //always Start Null
@@ -123,8 +124,9 @@ public class CardObject : MonoBehaviour
             else
             {
                 gameManager.CarteUtilisee = this;
-                gameManager.FM.Cardsend(this);
+                gameManager.FM.Cardsend(this, indexHand);
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
+                FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true) ;
                 SelectedCard(true);
             }
         }

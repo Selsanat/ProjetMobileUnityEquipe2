@@ -45,8 +45,10 @@ public class entityManager : MonoBehaviour
 
     public void takeDamage (int damage)
     {
-        m_Pv -= damage;
+        Debug.Log("Pv avant : " + m_Pv + m_role);
 
+        m_Pv -= damage;
+        Debug.Log("Pv apres: " + m_Pv + m_role);
         if (m_Pv <= 0)
         {
             isAlive = false;

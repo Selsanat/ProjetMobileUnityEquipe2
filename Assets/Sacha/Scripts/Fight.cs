@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using static OneLine.Example.SlicesTest;
-
+using Unity.VisualScripting;
 
 public class Fight : MonoBehaviour
 {
@@ -25,6 +25,11 @@ public class Fight : MonoBehaviour
     public bool perso1 = false;
     public bool perso2 = false;
     bool test = false;
+    [SerializeField] public Button play;
+    [SerializeField] Button arboristeButton;
+    [SerializeField] Button pretreButton;
+    [SerializeField] Button ennemisButton1;
+    [SerializeField] Button ennemisButton2;
 
 
 
@@ -37,17 +42,16 @@ public class Fight : MonoBehaviour
 
     private int mana;
 
-    
 
-    public List<hero> entities;
-    List<hero> heroes;
-    List<hero> enemies;
+
+    [SerializeField] List<hero> heroes;
+    [SerializeField] List<hero> enemies;
 
     List<dataCard.CardEffect> heroesEffects;
     List<dataCard.CardEffect> enemyEffects;
 
 
-    List<hero> selectedhero;
+    [SerializeField] List<hero> selectedhero;
     dataCard selectedcard;
 
     Coroutine coroutine;
@@ -78,14 +82,23 @@ public class Fight : MonoBehaviour
     }
     public void StartFight()
     {
-        GameObject.Find("enemy1").GetComponent<Image>().sprite = ennemy1Sprite;
-        GameObject.Find("enemy2").GetComponent<Image>().sprite = ennemy2Sprite;
+        GameObject temp = GameObject.Find("enemy1");
+        temp.GetComponent<Image>().sprite = ennemy1Sprite;
+        ennemisButton1 = temp.GetComponent<Button>();
+        temp = GameObject.Find("enemy2");
+        temp.GetComponent<Image>().sprite = ennemy2Sprite;
+        ennemisButton2 = temp.GetComponent<Button>();
         hero H1;
         hero H2;
         if (perso1 && perso2)
         {
-            GameObject.Find("champ").GetComponent<Image>().sprite = heroSprite;
-            GameObject.Find("champ2").GetComponent<Image>().sprite = heroSprite2;
+            temp = GameObject.Find("champ");
+            temp.GetComponent<Image>().sprite = heroSprite;
+            arboristeButton = temp.GetComponent<Button>();
+            
+            temp = GameObject.Find("champ2");
+            temp.GetComponent<Image>().sprite = heroSprite2;
+            pretreButton = temp.GetComponent<Button>();
             GameObject.Find("champSolo").SetActive(false);
             int countArbo = 0;
             int countPretre = 0;
@@ -98,16 +111,18 @@ public class Fight : MonoBehaviour
             }
 
             if (countPretre == 0)
-                H1 = new hero(entityManager.Role.Pretre, 10, 10, 0, 0, null, 0);
+                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0);
 
             if (countArbo == 0)
-                H2 = new hero(entityManager.Role.Arboriste, 10, 10, 0, 0, null, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
         }
         else if(perso1)
         {
             GameObject.Find("champ2").SetActive(false);
             GameObject.Find("champ").SetActive(false);
-            GameObject.Find("champSolo").GetComponent<Image>().sprite = heroSprite;
+            temp = GameObject.Find("champSolo");
+            temp.GetComponent<Image>().sprite = heroSprite;
+            arboristeButton = temp.GetComponent<Button>();
             int count = 0;
             foreach (hero camp in Gm.entityManager.getListHero())
             {
@@ -115,7 +130,7 @@ public class Fight : MonoBehaviour
                     count++;
             }
             if (count == 0)
-                H1 = new hero(entityManager.Role.Arboriste, 10, 10, 0, 0, null, 0);
+                H1 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
             
 
 
@@ -124,7 +139,9 @@ public class Fight : MonoBehaviour
         {
             GameObject.Find("champ2").SetActive(false);
             GameObject.Find("champ").SetActive(false);
-            GameObject.Find("champSolo").GetComponent<Image>().sprite = heroSprite2;
+            temp = GameObject.Find("champSolo");
+            temp.GetComponent<Image>().sprite = heroSprite2;
+            pretreButton = temp.GetComponent<Button>();
             int count = 0;
             foreach (hero camp in Gm.entityManager.getListHero())
             {
@@ -132,21 +149,18 @@ public class Fight : MonoBehaviour
                     count++;
             }
             if (count == 0)
-                H1 = new hero(entityManager.Role.Pretre, 10, 10, 0, 0, null, 0);
+                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0);
         }
 
         //goEn1.AddComponent<>();
 
 
 
-        hero en1 = new hero(entityManager.Role.Squellettes, 10, 10, 0, 0, null, 0);
+        hero en1 = new hero(entityManager.Role.Squellettes, 50, 50, 0, 0, null, 0);
         
-        hero En2 = new hero(entityManager.Role.Squellettes, 10, 10, 0, 0, null, 0);
+        hero En2 = new hero(entityManager.Role.Squellettes, 50, 50, 0, 0, null, 0);
 
-        foreach (hero E in Gm.entityManager.getListHero())
-        {
-            Debug.Log(E);
-        }
+        
         StartTurn();
 
     }
@@ -159,7 +173,7 @@ public class Fight : MonoBehaviour
 
         foreach (hero E in Gm.entityManager.getListHero())
         {
-            if (E.m_role != 0)
+            if (E.m_role == entityManager.Role.Pretre || E.m_role == entityManager.Role.Arboriste)
             {
                 heroes.Add(E);
             }
@@ -168,15 +182,26 @@ public class Fight : MonoBehaviour
                 enemies.Add(E);
             }
         }
+        ennemisButton1.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(enemies[0]); });
+        //ennemisButton1.OnDeselect(clearCardSelected());
+        ennemisButton2.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(enemies[1]); });
+
+        arboristeButton?.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(heroes[0]); });
+        pretreButton?.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(heroes[1]); }); 
         coroutine = StartCoroutine(turnwait());
     }
 
     [Button]
-    public void Cardsend(CardObject card)
+    public void Cardsend(CardObject card, int index)
     {
+        Debug.Log("card send");
+        card.DataCard.m_index = card.indexHand;
         selectedcard = card.DataCard;
-        selectedhero = card.heroToAttack;
-        isCardSend = true;
+        if(play == null)
+        {
+            play = GameObject.Find("Play").GetComponent<Button>();
+        }
+        play.onClick.AddListener(() => { if(selectedhero != null) isCardSend = true; });
     }
 
     public IEnumerator turnwait()
@@ -184,7 +209,9 @@ public class Fight : MonoBehaviour
         while (!endturnbool)
         {
             yield return new WaitUntil(() => isCardSend);
+
             playCard(selectedcard, selectedhero);
+            Gm.deck.PlayCard(selectedcard.m_index);
             isCardSend = false;
             if (!CheckifEnemyAreAlive())
             {
@@ -223,130 +250,139 @@ public class Fight : MonoBehaviour
             }
         }
     }
-        private void PlayEnemyEffects()
-        {
-            throw new NotImplementedException();
-        }
+    private void PlayEnemyEffects()
+    {
+        throw new NotImplementedException();
+    }
 
-        [Button]
-        void EndButton()
-        {
-            endturnbool = !endturnbool;
-        }
+    [Button]
+    void EndButton()
+    {
+        endturnbool = !endturnbool;
+    }
 
-        private void PlayEnemyTurn()
+    private void PlayEnemyTurn()
+    {
+        Debug.Log("Ennemyturn");
+        StopCoroutine(coroutine);
+        foreach (hero En in enemies)
         {
-            Debug.Log("Ennemyturn");
-            StopCoroutine(coroutine);
-            foreach (hero En in enemies)
+            En.EnemyAttack(heroes, enemies);
+            if (!CheckifHeroAreAlive())
             {
-                En.EnemyAttack(heroes, enemies);
-                if (!CheckifHeroAreAlive())
-                {
-                    LooseFight();
-                }
-                else
-                {
-                    StartTurn();
-                }
+                LooseFight();
             }
-            PlayEnemyEffects();
-        }
-
-
-        private void LooseFight()
-        {
-            Debug.Log("Loosedfight");
-            StopCoroutine(coroutine);
-            throw new NotImplementedException();
-        }
-        private void WinFight()
-        {
-            StopCoroutine(coroutine);
-            Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
-        }
-
-        bool CheckifHeroAreAlive()//TRUE = min ONE ALIVE
-        {
-            foreach (hero En in heroes)
+            else
             {
-                if (En.getIsAlive())
-                {
-                    return true;
-                }
+                StartTurn();
             }
-            return false;
         }
+        PlayEnemyEffects();
+    }
 
 
-        bool CheckifEnemyAreAlive()//TRUE = min ONE ALIVE
+    private void LooseFight()
+    {
+        Debug.Log("Loosedfight");
+        StopCoroutine(coroutine);
+        throw new NotImplementedException();
+    }
+    private void WinFight()
+    {
+        StopCoroutine(coroutine);
+        SceneManager.LoadScene(1);
+        test = false;
+        Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
+    }
+
+    bool CheckifHeroAreAlive()//TRUE = min ONE ALIVE
+    {
+        foreach (hero En in heroes)
         {
-            foreach (hero En in enemies)
+            if (En.getIsAlive())
             {
-                if (En.getIsAlive())
-                {
-                    return true;
-                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    bool CheckifEnemyAreAlive()//TRUE = min ONE ALIVE
+    {
+        foreach (hero En in enemies)
+        {
+            if (En.getIsAlive())
+            {
+                return true;
+            }
                 
-            }
-            return false;
         }
-        void playCard(dataCard card, List<hero> selected)
+        return false;
+    }
+    void playCard(dataCard card, List<hero> selected)
+    {
+       
+        foreach (dataCard.CardType cardT in card.CardTypes)
         {
-            foreach (dataCard.CardType cardT in card.CardTypes)
+            Debug.Log("card type" + cardT);
+            Debug.Log("enemy count" + selected.Count);
+            switch (cardT)
             {
-                switch (cardT)
-                {
-                    case 0:
-                        Debug.LogError("CARTE TYPE UNDIFINED");
-                        break;
-                    case (dataCard.CardType)2:
-                        foreach (hero hero in selected)
-                        {
-                            card.takeDamage(hero);
-                        }
-                        break;
-                    case (dataCard.CardType)1:
-                        foreach (hero hero in selected)
-                        {
-                            card.heal(hero);
-                        }
-                        break;
-                    case (dataCard.CardType)3:
-                        foreach (hero hero in selected)
-                        {
-                            card.BuffDamage(hero);
-                        }
-                        break;
-                    case (dataCard.CardType)4:
-                        foreach (hero hero in selected)
-                        {
+                case dataCard.CardType.Damage:
+                    foreach (hero hero in selected)
+                    {
+                        Debug.Log("card damage");
+                        card.takeDamage(hero);
+                    }
+                    break;
+                case dataCard.CardType.Heal:
+                    foreach (hero hero in selected)
+                    {
+                        card.heal(hero);
+                    }
+                    break;
+                case dataCard.CardType.GainMana:
+                    foreach (hero hero in selected)
+                    {
+                        card.BuffDamage(hero);
+                    }
+                    break;
+                case (dataCard.CardType)4:
+                    foreach (hero hero in selected)
+                    {
 
-                        }
-                        break;
-                    case (dataCard.CardType)5:
-                        foreach (hero hero in selected)
-                        {
+                    }
+                    break;
+                case (dataCard.CardType)5:
+                    foreach (hero hero in selected)
+                    {
 
-                        }
-                        break;
-                    case (dataCard.CardType)6:
-                        foreach (hero hero in selected)
-                        {
+                    }
+                    break;
+                case (dataCard.CardType)6:
+                    foreach (hero hero in selected)
+                    {
 
-                        }
-                        break;
-                    case (dataCard.CardType)7:
-                        foreach (hero hero in selected)
-                        {
+                    }
+                    break;
+                case (dataCard.CardType)7:
+                    foreach (hero hero in selected)
+                    {
 
-                        }
-                        break;
-                }
+                    }
+                    break;
             }
-
         }
 
+    }
+    public void clearCardSelected()
+    {
+        selectedhero.Clear();
+    }
+
+
+    
         /* public enum CardType
          {
              undifined = 0,

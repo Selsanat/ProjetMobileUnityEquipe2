@@ -13,6 +13,7 @@ public class dataCard : ScriptableObject
     [SerializeField] int m_manaCost; //mana
     [SerializeField] int m_attack; //les nb dmgs
     [SerializeField] int m_heal; //les nb heal
+    [SerializeField] public int m_index; //index de la carte dans la liste
     [SerializeField] List<CardType> m_cardTypes;
 
     [SerializeField] List<CardEffect> m_cardEffects;
@@ -48,11 +49,13 @@ public class dataCard : ScriptableObject
 
     }
 
-    public void takeDamage(hero hero)
+    public void takeDamage(hero hero) 
     {
-
+        Debug.Log("Pv avant : " + hero.getPv());
         int currentPv = hero.getPv();
         currentPv -= m_attack;
+        hero.setPv(currentPv);
+        Debug.Log("Pv apres : " + hero.getPv());
 
         if (currentPv <= 0)
         {

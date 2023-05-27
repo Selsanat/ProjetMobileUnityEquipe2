@@ -42,7 +42,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-
+        if(_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         _instance = this;
     }
 /*    public void CardSended(CardObject card)
