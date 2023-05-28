@@ -74,7 +74,7 @@ public class Deck : MonoBehaviour
         gameManager.FM.play = this.PlayButton;
         
 
-        for (int i = 1; i < NbCarteHandPossible + 1; i++)
+        for (int i = 1; i < NbCarteHandPossible; i++)
         {
             if (i % 2 == 0)
             {
@@ -117,6 +117,7 @@ public class Deck : MonoBehaviour
     {
         if(Hand.Count > 0)
         {
+            Hand[Index].transform.localScale = new Vector3(1, 1, 1);
             Hand[Index].gameObject.SetActive(false);
             GraveYard.Add(Hand[Index]);
             Hand.RemoveAt(Index);
@@ -126,7 +127,7 @@ public class Deck : MonoBehaviour
                 Hand[i].transform.rotation = cardSlots[i].transform.rotation;
                 Hand[i].Slot = cardSlots[i].transform;
                 availableCardSlots[i] = false;
-            }
+            } 
             availableCardSlots[Hand.Count] = true;
 
 

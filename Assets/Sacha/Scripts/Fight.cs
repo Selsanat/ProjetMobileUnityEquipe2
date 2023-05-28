@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using static OneLine.Example.SlicesTest;
 using Unity.VisualScripting;
+using UnityEngine.Rendering.Universal;
 
 public class Fight : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Fight : MonoBehaviour
     private bool isCardSend;
     private bool m_canPlayEnemyTurn;
     private bool endturnbool = false;
+    private List<Light2D> lights = new List<Light2D>();
 
     public Sprite heroSprite;
     public Sprite heroSprite2;
@@ -25,6 +27,7 @@ public class Fight : MonoBehaviour
     public bool perso1 = false;
     public bool perso2 = false;
     bool test = false;
+    private bool prout;
     [SerializeField] public Button play;
     [SerializeField] Button arboristeButton;
     [SerializeField] Button pretreButton;
@@ -63,6 +66,10 @@ public class Fight : MonoBehaviour
                 StartFight();
             }
         }
+        if (Input.GetMouseButton(0))
+        {
+            EteintLesLumieres();
+        }
         
     }
 
@@ -73,29 +80,67 @@ public class Fight : MonoBehaviour
         enemies = new List<hero>();
         //StartFight();
         //StartTurn();
-
     }
+    #region MerdeLeandro
+    void ChangerBouttonEnGameObject(Button ComponentBouton, Sprite SpritreUtilise)
+    {
+        GameObject perso = new GameObject();
+        perso.transform.position = Camera.main.ScreenToWorldPoint(ComponentBouton.transform.position);
+        SpriteRenderer SpritePerso = perso.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
+        SpritePerso.sprite = SpritreUtilise;
+        perso.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        perso.transform.parent = ComponentBouton.transform;
+        Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
+        lumiere.enabled = false;
+        lights.Add(lumiere);
+    }
+    void EteintLesLumieres()
+    {
+        foreach (Light2D light in lights)
+        {
+            light.enabled = false;
+        }
+    }
+    void switchLightSelection(Button Boutton)
+    {
+        EteintLesLumieres();
+        Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(0).gameObject.GetComponent<Light2D>();
+        lightDuBoutton.enabled = true;
+    }
+    #endregion
     public void StartFight()
     {
         GameObject temp = GameObject.Find("enemy1");
         temp.GetComponent<Image>().sprite = ennemy1Sprite;
         ennemisButton1 = temp.GetComponent<Button>();
+        ChangerBouttonEnGameObject(ennemisButton1, ennemy1Sprite);
+
+
         temp = GameObject.Find("enemy2");
         temp.GetComponent<Image>().sprite = ennemy2Sprite;
         ennemisButton2 = temp.GetComponent<Button>();
+        ChangerBouttonEnGameObject(ennemisButton2, ennemy2Sprite);
+
+
         hero H1;
         hero H2;
         if (perso1 && perso2)
         {
+
             temp = GameObject.Find("champ");
             temp.GetComponent<Image>().sprite = heroSprite;
             arboristeButton = temp.GetComponent<Button>();
-            
+            ChangerBouttonEnGameObject(arboristeButton, heroSprite);
+
+
+
+
             temp = GameObject.Find("champ2");
             temp.GetComponent<Image>().sprite = heroSprite2;
             pretreButton = temp.GetComponent<Button>();
             GameObject.Find("champSolo").SetActive(false);
-            
+            ChangerBouttonEnGameObject(pretreButton, heroSprite2);
+
 
             if (Gm.IsPretrePlayed == false)
             {
@@ -124,6 +169,7 @@ public class Fight : MonoBehaviour
             temp = GameObject.Find("champSolo");
             temp.GetComponent<Image>().sprite = heroSprite;
             arboristeButton = temp.GetComponent<Button>();
+            ChangerBouttonEnGameObject(arboristeButton, heroSprite);
             if (Gm.IsArboristePlayed == false)
             {
                 H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
@@ -144,6 +190,7 @@ public class Fight : MonoBehaviour
             temp = GameObject.Find("champSolo");
             temp.GetComponent<Image>().sprite = heroSprite2;
             pretreButton = temp.GetComponent<Button>();
+            ChangerBouttonEnGameObject(pretreButton, heroSprite2);
             if (Gm.IsPretrePlayed == false)
             {
                 H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0);
@@ -184,15 +231,17 @@ public class Fight : MonoBehaviour
                 enemies.Add(E);
             }
         }
-        ennemisButton1.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(enemies[0]); });
+        ennemisButton1.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(enemies[0]); switchLightSelection(ennemisButton1); });
         //ennemisButton1.OnDeselect(clearCardSelected());
-        ennemisButton2.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(enemies[1]); });
+        ennemisButton2.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(enemies[1]); switchLightSelection(ennemisButton2); });
 
-        arboristeButton?.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(heroes[0]); });
+        arboristeButton?.onClick.AddListener(() => { selectedhero.Clear(); selectedhero.Add(heroes[0]); switchLightSelection(arboristeButton); });
 
-        pretreButton?.onClick.AddListener(() => { selectedhero.Clear(); if (perso1 == true) selectedhero.Add(heroes[0]); else selectedhero.Add(heroes[1]); }); 
+        pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton); selectedhero.Clear(); if (perso1 == true) selectedhero.Add(heroes[0]); else selectedhero.Add(heroes[1]);});
         coroutine = StartCoroutine(turnwait());
     }
+
+
 
     [Button]
     public void Cardsend(CardObject card, int index)
@@ -214,6 +263,7 @@ public class Fight : MonoBehaviour
             yield return new WaitUntil(() => isCardSend);
 
             playCard(selectedcard, selectedhero);
+            EteintLesLumieres();
             Gm.deck.PlayCard(selectedcard.m_index);
             isCardSend = false;
             for (int i = 0; i < enemies.Count; i++)
