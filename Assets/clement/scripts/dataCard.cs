@@ -36,7 +36,6 @@ public class dataCard : ScriptableObject
     [SerializeField] bool m_isBonusCard;
 
 
-    #endregion
     [Header("TEXT")]
     [SerializeField] string m_cardName;
     [SerializeField] string m_onCardExplain;
