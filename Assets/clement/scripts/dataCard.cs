@@ -1,7 +1,9 @@
 using DG.Tweening.Core.Easing;
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static entityManager;
 
@@ -37,6 +39,7 @@ public class dataCard : ScriptableObject
 
 
     [Header("TEXT")]
+    [InfoBox("/!/ ATTENTION /!/ NE PAS DONNER DEUX FOIS LE MÊME NOM A DEUX CARTE SOUS PEINE DE LAG")]
     [SerializeField] string m_cardName;
     [SerializeField] string m_onCardExplain;
     [SerializeField] string m_FullCardExplain;
@@ -47,6 +50,14 @@ public class dataCard : ScriptableObject
 
     public Sprite CardSprite { get => m_cardFrontSprite; private set => m_cardFrontSprite = value; }
     public List<CardType> CardTypes { get => m_cardTypes; set => m_cardTypes = value; }
+
+    void OnValidate()
+    {
+        if(this.name != m_cardName && m_cardName != null)
+        {         
+            AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(this), m_cardName);
+        }
+    }
 
     public bool getIsDeleteOnTurn()
     {
