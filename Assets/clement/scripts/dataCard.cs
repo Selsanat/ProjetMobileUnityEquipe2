@@ -8,7 +8,7 @@ using UnityEngine;
 using static entityManager;
 
 [System.Serializable]
-
+[ExecuteInEditMode]
 [CreateAssetMenu]
 public class dataCard : ScriptableObject
 {
