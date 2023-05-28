@@ -15,8 +15,13 @@ MonoBehaviour:
   m_manaCost: 0
   m_attack: 0
   m_heal: 0
+  m_index: 0
   m_cardTypes: 
   m_cardEffects: []
+  TargetAllies: 0
+  TargetEnnemies: 0
+  AOEAllies: 0
+  AOEEnnemies: 0
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0

@@ -83,18 +83,25 @@ public class CardObject : MonoBehaviour
         }
     }
 
-    void SelectedCard(bool Side)
+    void SelectedCard(bool Side1, bool Side2)
     {
         gameManager.CardsInteractable  = false;
-        if (Side)
+        Transform AllyCardTransform = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform;
+        Transform EnnemyCardTransform = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform;
+        if (Side1 && Side2)
         {
-            transform.position = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform.position; 
-            transform.rotation = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform.rotation;
+            transform.position = Vector3.Lerp(AllyCardTransform.position, EnnemyCardTransform.transform.position, 0.5f);
+            transform.rotation = Quaternion.Lerp(AllyCardTransform.rotation, EnnemyCardTransform.transform.rotation, 0.5f);
+        }
+        else if (Side1)
+        {
+            transform.position = AllyCardTransform.position; 
+            transform.rotation = AllyCardTransform.rotation;
         }
         else
         {
-            transform.position = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform.position;
-            transform.rotation = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform.rotation;
+            transform.position = EnnemyCardTransform.transform.position;
+            transform.rotation = EnnemyCardTransform.transform.rotation;
         }
         transform.localScale = new Vector3(2,2, 2);
         rendeureur.sortingOrder = 10;
@@ -127,7 +134,7 @@ public class CardObject : MonoBehaviour
                 gameManager.FM.Cardsend(this, indexHand);
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
                 FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true) ;
-                SelectedCard(true);
+                SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies) ;
             }
         }
         gameManager.HasCardInHand = false;
