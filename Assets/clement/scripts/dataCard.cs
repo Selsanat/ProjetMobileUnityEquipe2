@@ -20,15 +20,22 @@ public class dataCard : ScriptableObject
 
     [SerializeField] List<CardEffect> m_cardEffects;
 
-    #endregion
-    [SerializeField] bool m_isDeleteOnTurn;
+        [SerializeField] bool m_isDeleteOnTurn;
     [SerializeField] bool m_isUpsideDown;
     [SerializeField] bool m_isBonusCard;
 
-    [Header("looking")]
-    [SerializeField] Sprite m_cardSprite;
 
-    public Sprite CardSprite { get => m_cardSprite; private set => m_cardSprite = value; }
+    #endregion
+    [Header("TEXT")]
+    [SerializeField] string m_cardName;
+    [SerializeField] string m_onCardExplain;
+    [SerializeField] string m_FullCardExplain;
+
+    [Header("looking")]
+    [SerializeField] Sprite m_cardFrontSprite;
+    [SerializeField] Sprite m_cardBackSprite;
+
+    public Sprite CardSprite { get => m_cardFrontSprite; private set => m_cardFrontSprite = value; }
     public List<CardType> CardTypes { get => m_cardTypes; set => m_cardTypes = value; }
 
     public bool getIsDeleteOnTurn()
