@@ -21,6 +21,16 @@ public class dataCard : ScriptableObject
     [SerializeField] List<CardEffect> m_cardEffects;
 
     #endregion
+    #region TARGET
+    [Header("Define Target")]
+    [SerializeField] public bool TargetAllies;
+    [SerializeField] public bool TargetEnnemies;
+    [SerializeField] public bool AOEAllies;
+    [SerializeField] public bool AOEEnnemies;
+
+    #endregion
+
+    [Header("MISCELLANEAOUS")]
     [SerializeField] bool m_isDeleteOnTurn;
     [SerializeField] bool m_isUpsideDown;
     [SerializeField] bool m_isBonusCard;
