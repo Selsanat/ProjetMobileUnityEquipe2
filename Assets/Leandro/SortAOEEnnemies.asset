@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SortAOEEnnemies
   m_EditorClassIdentifier: 
   m_manaCost: 0
-  m_attack: 0
+  m_attack: 50
   m_heal: 0
   m_index: 0
-  m_cardTypes: 
+  m_cardTypes: 01000000
   m_cardEffects: []
   TargetAllies: 0
   TargetEnnemies: 1

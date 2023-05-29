@@ -58,7 +58,8 @@ public class Fight : MonoBehaviour
 
     private void Update()
     {
-        if(test == false)
+        print(Gm.isHoverButton);
+        if (test == false)
         {
             if (SceneManager.GetActiveScene().buildIndex == 0)
             {
@@ -68,7 +69,15 @@ public class Fight : MonoBehaviour
         }
         if (Input.GetMouseButton(0))
         {
-            Deselection(false);
+            if (!Gm.isHoverButton)
+            {
+                if (selectedcard != null)
+                {
+                    Deselection(false);
+                }
+
+            }
+            
         }
         
     }
@@ -104,10 +113,10 @@ public class Fight : MonoBehaviour
     {
         ClearSide(true);
         ClearSide(false);
-        ennemisButton1.onClick.RemoveAllListeners();
-        ennemisButton2.onClick.RemoveAllListeners();
-        arboristeButton.onClick.RemoveAllListeners();
-        pretreButton.onClick.RemoveAllListeners();
+        ennemisButton1?.onClick.RemoveAllListeners();
+        ennemisButton2?.onClick.RemoveAllListeners();
+        arboristeButton?.onClick.RemoveAllListeners();
+        pretreButton?.onClick.RemoveAllListeners();
         Deselection(true);
     }
     void Deselection(bool ForceDeselec)

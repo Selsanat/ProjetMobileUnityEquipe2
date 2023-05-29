@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public int LifePretre = 50;
     public bool IsArboristePlayed = false;
     public bool IsPretrePlayed = false;
+    public bool isHoverButton = false;
     private static GameManager _instance;
     public static GameManager Instance
     {
