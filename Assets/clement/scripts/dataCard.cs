@@ -88,11 +88,12 @@ public class dataCard : ScriptableObject
         Damage,
         Heal,
         Armor,
+        AddMana,
+        AddCard,//pioche une carte
         UpgradeCard,//la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
         ChangeCardMana,//change le mana d'une carte
         ChangeDamage,//change le damage d'une carte
         FromNow,//les effets de cette carte dure jusqu'a la fin du combat
-        AddCard,//pioche une carte
         Venerate,//augmente la barre de veneration d'un allie
         Transcend,//un personnage avec assez de points de veneration peut se transcender
         Poison,//le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
