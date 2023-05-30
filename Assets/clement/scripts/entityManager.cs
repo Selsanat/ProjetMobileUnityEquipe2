@@ -29,6 +29,7 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected int m_speed;
     [SerializeField] protected int m_buff;
     [SerializeField] protected int m_nerf;
+    [SerializeField] protected int m_armor;
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected int m_mana;
     [SerializeField] protected Deck m_deck;
@@ -47,8 +48,14 @@ public class entityManager : MonoBehaviour
     public void takeDamage (int damage)
     {
         Debug.Log("Pv avant : " + m_Pv + m_role);
-
+        damage -= m_armor;
+        if (damage >= 0)
+            m_armor = 0;
+        else
+            damage = 0;
+        
         m_Pv -= damage;
+
         Debug.Log("Pv apres: hero" + m_Pv + m_role);
         if (m_Pv <= 0)
         {

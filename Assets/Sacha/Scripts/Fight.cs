@@ -58,7 +58,6 @@ public class Fight : MonoBehaviour
 
     private void Update()
     {
-        print(Gm.isHoverButton);
         if (test == false)
         {
             if (SceneManager.GetActiveScene().buildIndex == 0)
@@ -391,6 +390,7 @@ public class Fight : MonoBehaviour
                         ennemisButton2.gameObject.SetActive(false);
                     }
                 }
+                enemies[i].resetArmor();
             }   
 
             if (!CheckifEnemyAreAlive())
@@ -446,6 +446,7 @@ public class Fight : MonoBehaviour
                     pretreButton?.onClick.RemoveAllListeners();
                     pretreButton.gameObject.SetActive(false);
                 }
+                heroes[i].resetArmor();
             }
             if (!CheckifHeroAreAlive())
             {

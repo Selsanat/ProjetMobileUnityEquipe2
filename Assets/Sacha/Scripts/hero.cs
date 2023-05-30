@@ -17,6 +17,7 @@ public class hero : entityManager
         isAlive = true;
         m_deck = deck;
         m_mana = mana;
+        m_armor = 0;
         int a = Random.Range(0, 1);
         if (a == 0) { multipleTarget = false; }
         else { multipleTarget = true; }
@@ -43,6 +44,11 @@ public class hero : entityManager
     public bool getIsAlive() { return isAlive; }
     public void setIsAlive(bool set) { isAlive = set; }
     public void setFullLife() { this.m_Pv = this.m_maxPv; }
+
+    public int getArmor() { return m_armor; }
+    public void setArmor(int armor) { m_armor = armor; }
+    public void resetArmor() { m_armor = 0; }
+    
     #endregion
 
 
@@ -154,7 +160,7 @@ public class hero : entityManager
 
         if (secondAttack >= diceRoll)
         {
-            //buff
+            //amror
         }
         else if (firtAttack >= diceRoll)
         {
@@ -181,9 +187,10 @@ public class hero : entityManager
 
         int dmg = 5 * nbMain;
         int armor = 9;
-        int firtAttack = 55;
+        int firtAttack = 45;
         int secondAttack = 25;
         int thridAttack = 20;
+        int fourthAttack = 10;
         int totalWeight = firtAttack + secondAttack + thridAttack;
         float diceRoll = Random.Range(0f, totalWeight);
         
@@ -209,6 +216,12 @@ public class hero : entityManager
             //buff armor
         }
     }
+
+
+
+
+
+
     #endregion
 
 }
