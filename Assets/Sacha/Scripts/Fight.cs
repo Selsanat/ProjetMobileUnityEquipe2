@@ -31,6 +31,7 @@ public class Fight : MonoBehaviour
     bool test = false;
     private bool prout;
     [SerializeField] public Button play;
+    [SerializeField] public Button cancel;
     [SerializeField] Button arboristeButton;
     [SerializeField] Button pretreButton;
     [SerializeField] Button ennemisButton1;
@@ -58,10 +59,9 @@ public class Fight : MonoBehaviour
 
     private void Update()
     {
-        print(Gm.isHoverButton);
         if (test == false)
         {
-            if (SceneManager.GetActiveScene().buildIndex == 0)
+            if (SceneManager.GetActiveScene().buildIndex == 1)
             {
                 test = true;
                 StartFight();
@@ -101,12 +101,19 @@ public class Fight : MonoBehaviour
         perso.transform.parent = ComponentBouton.transform;
         Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
         lumiere.enabled = false;
-        if (sideTrueIsAllies)
+        
+        if (ComponentBouton == ennemisButton1 || ComponentBouton == ennemisButton2)
         {
-            lightsAllies.Add(lumiere);
+            lightsEnnemies.Add(lumiere);
+            lumiere.color = Color.red;
             return;
         }
-        lightsEnnemies.Add(lumiere);
+        else
+        {
+            lumiere.color = Color.green;
+        }
+        lightsAllies.Add(lumiere);
+        
     }
 
     public void CancelCard()
@@ -181,8 +188,22 @@ public class Fight : MonoBehaviour
     }
     void switchLightSelection(Button Boutton)
     {
+        print(Boutton);
         Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(0).gameObject.GetComponent<Light2D>();
         lightDuBoutton.enabled = true;
+    }
+
+    public IEnumerator CardAnimDisolve()
+    {
+        play.gameObject.SetActive(false);
+        cancel.gameObject.SetActive(false);
+        DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
+        
+        dissolveController.isDissolving = true;
+        yield return new WaitUntil(() => dissolveController.dissolveAmount < 0);
+        dissolveController.isDissolving = false;
+        dissolveController.dissolveAmount = 1;
+        isCardSend = true;
     }
     #endregion
     public void StartFight()
@@ -315,18 +336,23 @@ public class Fight : MonoBehaviour
     [Button]
     public void Cardsend(CardObject card, int index)
     {
-        Debug.Log("card send");
         card.DataCard.m_index = card.indexHand;
         selectedcard = card.DataCard;
-        if(play == null)
+/*        if(play == null)
         {
             play = GameObject.Find("Play").GetComponent<Button>();
         }
+        if (cancel == null)
+        {
+            print("testAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            cancel = GameObject.Find("Cancel").GetComponent<Button>();
+        }*/
+
         //condition a voir en fonction des besoins
         //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alliée qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null || selectedhero != null || ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
-        play.onClick.AddListener(() => { if(conditionjouer) isCardSend = true; });
+        play.onClick.AddListener(() => { if(conditionjouer) StartCoroutine(CardAnimDisolve());});
         //[WIP]je dois le changer[WIP]
 
         if (!selectedcard.AOEEnnemies && selectedcard.TargetEnnemies)
@@ -495,7 +521,7 @@ public class Fight : MonoBehaviour
         StopCoroutine(coroutine);
         
 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
 
         Gm.Hand.Clear();
         Gm.deck = null;
@@ -550,18 +576,14 @@ public class Fight : MonoBehaviour
     }
     void playCard(dataCard card, List<hero> selected)
     {
-        print("Play Card");
-        print(selected.Count);
         foreach (dataCard.CardType cardT in card.CardTypes)
         {
-            Debug.Log("card type" + cardT);
-            Debug.Log("enemy count" + selected.Count);
             switch (cardT)
             {
                 case dataCard.CardType.Damage:
                     foreach (hero hero in selected)
                     {
-                        Debug.Log("card damage");
+
                         card.takeDamage(hero);
                     }
                     break;

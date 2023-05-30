@@ -24,6 +24,7 @@ public class Deck : MonoBehaviour
     [SerializeField] float DecalageY;
     [SerializeField] float Rotation;
     [SerializeField] int NombrePiocheDebutTour;
+
     private List<CardObject> GraveYard = new List<CardObject>();
     [SerializeField] List<CardObject> Hand = new List<CardObject>();
     public List<CardObject> deck;
@@ -72,7 +73,8 @@ public class Deck : MonoBehaviour
         CancelButton.onClick.AddListener(CancelChosenCard);
         gameManager.deck = this;
         gameManager.FM.play = this.PlayButton;
-        
+        gameManager.FM.cancel = this.CancelButton;
+
 
         for (int i = 1; i < NbCarteHandPossible; i++)
         {
@@ -87,6 +89,20 @@ public class Deck : MonoBehaviour
                 cardSlots[i].rotation = Quaternion.AngleAxis(Rotation * -i, Vector3.back);
             }
         }
+        List<Transform> newTempList = new List<Transform>();
+        for(int i = NbCarteHandPossible; i > 0; i--)
+        {
+            if(i%2 !=0)
+                newTempList.Add(cardSlots[i]);
+        }
+        for (int i = 0; i < NbCarteHandPossible; i++)
+        {
+            if (i % 2 == 0)
+                newTempList.Add(cardSlots[i]);
+        }
+
+        cardSlots = newTempList;
+
     }
 
     public void ReorderZCards()
@@ -138,7 +154,6 @@ public class Deck : MonoBehaviour
         }
         gameManager.Hand = Hand;
         CancelChosenCard();
-
     }
 /*    public void DecaleCartes(int Decalage)
     {
@@ -152,7 +167,6 @@ public class Deck : MonoBehaviour
     }*/
     public void DrawCard()
     {
-        print("draw");
         if (deck.Count >= 1)
         {
             CardObject randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
@@ -184,7 +198,6 @@ public class Deck : MonoBehaviour
         else
         {
             if (GraveYard.Count > 0) {
-                print("Shuffle");
                 ShuffleGraveyardToHand();
                 DrawCard();
             }
