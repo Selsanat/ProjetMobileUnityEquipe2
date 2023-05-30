@@ -35,6 +35,7 @@ public class entityManager : MonoBehaviour
     [SerializeField] public List<hero> heroList;
     [SerializeField] protected bool multipleTarget;
     [SerializeField] protected GameManager gameManager;
+    [SerializeField] public List<dataCard.CardEffect> MyEffects;
 
     public void Start()
     {

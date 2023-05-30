@@ -39,8 +39,6 @@ public class Fight : MonoBehaviour
     private int mana;
     [SerializeField] List<hero> heroes;
     [SerializeField] List<hero> enemies;
-    List<dataCard.CardEffect> heroesEffects;
-    List<dataCard.CardEffect> enemyEffects;
     [SerializeField] List<hero> selectedhero;
     dataCard selectedcard;
 
@@ -407,49 +405,51 @@ public class Fight : MonoBehaviour
 
     void PlayPlayerEffects() 
     {
-        for(int i = 0; i < heroesEffects.Count; i++)
+        foreach (hero h in selectedhero)
         {
-            dataCard.CardEffect E = heroesEffects[i];
-            if (E.nbTour != 0)
+            for (int i = 0; i < h.MyEffects.Count; i++)
             {
-                E.nbTour--;
-                if(E.nbTour == 0)
+                dataCard.CardEffect e = h.MyEffects[i];
+                if (e.nbTour != 0)
                 {
-                    heroesEffects.Remove(E);
-                }
-            }
-            foreach (dataCard.CardType turnEffect in E.effects)
-            {
-                switch (turnEffect)
-                {
-                    //BRUH LA MEME CHOSE PUTAIN
-                }
-            }
-            if (heroes[i].getPv() <= 0)
-            {
-                if (i == 0)
-                {
-                    if(perso1)
+                    e.nbTour--;
+                    if (e.nbTour == 0)
                     {
-                        arboristeButton?.onClick.RemoveAllListeners();
-                        arboristeButton.gameObject.SetActive(false);
+                        h.MyEffects.Remove(e);
+                    }
+
+                    switch (e.effects)
+                    {
+                        
+                    }
+                }
+
+                if (h.getPv() <= 0)
+                {
+                    if (i == 0)
+                    {
+                        if (perso1)
+                        {
+                            arboristeButton?.onClick.RemoveAllListeners();
+                            arboristeButton.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            pretreButton?.onClick.RemoveAllListeners();
+                            pretreButton.gameObject.SetActive(false);
+                        }
+
                     }
                     else
                     {
                         pretreButton?.onClick.RemoveAllListeners();
                         pretreButton.gameObject.SetActive(false);
                     }
-                    
                 }
-                else
+                if (!CheckifHeroAreAlive())
                 {
-                    pretreButton?.onClick.RemoveAllListeners();
-                    pretreButton.gameObject.SetActive(false);
+                    LooseFight();
                 }
-            }
-            if (!CheckifHeroAreAlive())
-            {
-                LooseFight();
             }
         }
     }
@@ -601,6 +601,13 @@ public class Fight : MonoBehaviour
 
                     }
                     break;
+            }
+        }
+        foreach(dataCard.CardEffect effect in card.CardEffects)
+        {
+            foreach(hero h in selectedhero)
+            {
+                h.MyEffects.Add(effect);
             }
         }
 

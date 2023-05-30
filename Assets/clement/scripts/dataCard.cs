@@ -50,6 +50,7 @@ public class dataCard : ScriptableObject
 
     public Sprite CardSprite { get => m_cardFrontSprite; private set => m_cardFrontSprite = value; }
     public List<CardType> CardTypes { get => m_cardTypes; set => m_cardTypes = value; }
+    public List<CardEffect> CardEffects { get => m_cardEffects; set => m_cardEffects = value; }
 
     void OnValidate()
     {
