@@ -679,44 +679,4 @@ public class Fight : MonoBehaviour
         }
     }
 
-
-
-    /* public enum CardType
-     {
-         undifined = 0,
-         Damage = 1,
-         Heal = 2,
-         BuffDamage = 3,
-         BuffHeal = 4,
-         Block = 5
-     }*/
-
-
-
-    /*    [Button]
-    void Turn()
-    {
-        //Pioche4
-        //FIND WAY TO WAIT
-        //EndHeroTurn();
-    }*/
-
-    /*    [Button]
-        void EndHeroTurn()
-        {
-            deck.EndTurn();
-            foreach (CardObject card in deck.PlayedCards)
-            {
-                if(card.HeroToAttack == null) { card.HeroToAttack.Add(FindObjectOfType<hero>()); }
-                playCard(card.DataCard,card.HeroToAttack);
-            }
-            if (CheckifEnemyAreAlive())
-            {
-                PlayEnemyTurn();
-            }
-            else
-            {
-                WinFight();
-            }
-        }*/
 }

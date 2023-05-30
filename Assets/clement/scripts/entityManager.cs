@@ -8,8 +8,6 @@ public class entityManager : MonoBehaviour
     public enum Role 
     {
         Enemy,
-/*        Guerrier,
-        Tank,*/
         Mage,
         Pretre,
         Arboriste,
@@ -22,8 +20,11 @@ public class entityManager : MonoBehaviour
         Demon,
         Dragon
 
-/*        Paladin,
-        Demoniste,*/
+/*      Paladin,
+        Demoniste,
+        Guerrier,
+        Tank
+*/
     }
 
     [SerializeField] public Role m_role;
