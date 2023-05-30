@@ -85,25 +85,18 @@ public class dataCard : ScriptableObject
     }
     public enum CardType
     {
-        Heal,
         Damage,
-        Injury, //degat sur plusieurs tours
-        Block,
-        EmptyMana,
-        DoubleShieldMana, //donne autant de shield que le joueur a de mana
-        DoubleHeal, //double le heal du joueur
-        DoubleInjury, //double les blessures infliges
-        InjuryOnAttack, //si ennemie attaque il prend des blessures
-        ArmureAsDamage, //armure devient des degats qu'on inflige a tout les ennemies
-        AttackAsArmure, // les degats inflige aux ennemis donne de armure
-        DamageAsArmur, // les degats subis aux ennemis donne de armure
-        DeleteNerf, // supprime tout les effets negatifs
-        DeleteArmor, // retire l'armure des ennemies
-        GainMana,
-        GainCard,
-        BlockAsHeal, //chaque degat bloque devient un heal
-        AllWoundAsInjury, //Inflige autant de blessures que de points de vie manquants � tout les ennemis
-        MonsterDead, //quand un monstre meurt      
+        Heal,
+        Armor,
+        UpgradeCard,//la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
+        ChangeCardMana,//change le mana d'une carte
+        ChangeDamage,//change le damage d'une carte
+        FromNow,//les effets de cette carte dure jusqu'a la fin du combat
+        AddCard,//pioche une carte
+        Venerate,//augmente la barre de veneration d'un allie
+        Transcend,//un personnage avec assez de points de veneration peut se transcender
+        Poison,//le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
+        Steal,//inflige X degat et soigne X à un autre personnage
     }
 
 }
