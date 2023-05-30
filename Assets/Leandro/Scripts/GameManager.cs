@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public Deck deck;
     public int LifeArboriste = 50;
     public int LifePretre = 50;
+    public int debuffDraw = 0;
+    public bool IsAnyProv = false;
     public bool IsArboristePlayed = false;
     public bool IsPretrePlayed = false;
     public bool isHoverButton = false;

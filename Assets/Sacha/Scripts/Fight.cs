@@ -330,9 +330,45 @@ public class Fight : MonoBehaviour
 
         if (!selectedcard.AOEEnnemies && selectedcard.TargetEnnemies)
         {
-            ennemisButton1.onClick.AddListener(() => { ClearSide(false); selectedhero.Add(enemies[0]); switchLightSelection(ennemisButton1); });
+            ennemisButton1.onClick.AddListener(() => 
+            { 
+                ClearSide(false); 
+                if(Gm.IsAnyProv) 
+                { 
+                    if(enemies[0].getIsProvocation()) 
+                    { 
+                        selectedhero.Add(enemies[0]); 
+                        switchLightSelection(ennemisButton1); 
+                    } 
+                } 
+                else 
+                { 
+                    selectedhero.Add(enemies[0]); 
+                    switchLightSelection(ennemisButton1);
+                }
+            });
+
+
             //ennemisButton1.OnDeselect(clearCardSelected());
-            ennemisButton2.onClick.AddListener(() => { ClearSide(false); selectedhero.Add(enemies[1]); switchLightSelection(ennemisButton2); });
+
+
+            ennemisButton2.onClick.AddListener(() => 
+            { 
+                ClearSide(false);
+                if (Gm.IsAnyProv) 
+                { 
+                    if (enemies[1].getIsProvocation()) 
+                    { 
+                        selectedhero.Add(enemies[1]); 
+                        switchLightSelection(ennemisButton2); 
+                    } 
+                } 
+                else 
+                { 
+                    selectedhero.Add(enemies[1]); 
+                    switchLightSelection(ennemisButton2); 
+                }
+            });
 
         }
         else
@@ -471,7 +507,7 @@ public class Fight : MonoBehaviour
         StopCoroutine(coroutine);
         foreach (hero En in enemies)
         {
-            En.EnemyAttack(heroes, enemies);
+            En.EnemyAttack(heroes);
             if (!CheckifHeroAreAlive())
             {
                 LooseFight();

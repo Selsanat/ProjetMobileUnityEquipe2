@@ -157,7 +157,7 @@ public class Deck : MonoBehaviour
         {
             CardObject randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
 
-            for (int i = 0; i < availableCardSlots.Length; i++)
+            for (int i = 0; i < availableCardSlots.Length - gameManager.debuffDraw; i++)
             {
                 if (availableCardSlots[i] == true)
                 {
@@ -180,6 +180,7 @@ public class Deck : MonoBehaviour
                     return;
                 }
             }
+
         }
         else
         {
@@ -196,6 +197,7 @@ public class Deck : MonoBehaviour
         }
         ReorderZCards();
         gameManager.Hand = Hand;
+        gameManager.debuffDraw = 0;
     }
     public void DrawCard(int number)
     {

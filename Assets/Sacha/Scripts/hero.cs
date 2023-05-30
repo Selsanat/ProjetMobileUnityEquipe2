@@ -44,11 +44,11 @@ public class hero : entityManager
     public bool getIsAlive() { return isAlive; }
     public void setIsAlive(bool set) { isAlive = set; }
     public void setFullLife() { this.m_Pv = this.m_maxPv; }
-
     public int getArmor() { return m_armor; }
     public void setArmor(int armor) { m_armor += armor; }
     public void resetArmor() { m_armor = 0; }
-    
+    public bool getIsProvocation() { return isProvocation; }
+
     #endregion
 
 
@@ -64,7 +64,7 @@ public class hero : entityManager
         }
     }
 
-    public void EnemyAttack(List<hero> heroesToAttack, List<hero> listEnnemis)
+    public void EnemyAttack(List<hero> heroesToAttack)
     {
 
         switch(this.m_role)
@@ -75,7 +75,21 @@ public class hero : entityManager
             case Role.Squellettes:
                 squelettes(heroesToAttack);
                 break;
-
+           case Role.Gargouilles:
+                gargouilleAttack(heroesToAttack);
+                break;
+            case Role.HommesVers:
+                hommeVers(heroesToAttack);
+                break;
+            case Role.Demon:
+                demonAttack(heroesToAttack);
+                break;
+            case Role.Dragon:
+                dragonAttack(heroesToAttack);
+                break;
+            case Role.Mains:
+                main(heroesToAttack);
+                break;
             default:
                 return;
         }
@@ -115,7 +129,8 @@ public class hero : entityManager
 
         if(fourthAttack >= diceRoll)
         {
-            //diminue de moitier l'armur gagné pd 1 tour
+            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].m_isDebufArmor = true;
+
         }
         else if (thridAttack >= diceRoll) //booste la force
         {
@@ -187,11 +202,12 @@ public class hero : entityManager
         
         if(fourthAttack >= diceRoll)
         {
-                // nerf : ajoute des cartes injouables dans la pioche
+            throw new System.NotImplementedException("attaque pas encore implémenté (ajoute des cartes injouables dans la pioche)");
+            // nerf : ajoute des cartes injouables dans la pioche
         }
         else if (thridAttack >= diceRoll)
         {
-            //nerf draw card - 1
+            gameManager.debuffDraw++;
 
         }
         else if (secondAttack >= diceRoll)
@@ -233,11 +249,12 @@ public class hero : entityManager
                     temp = champ;
             }
 
-            //ajout du debuff p^rochain * 2
+            temp.m_damageMultiplier = 2;
         }
         else if (thridAttack >= diceRoll)
         {
-            //provocation
+            this.isProvocation = true;
+            gameManager.IsAnyProv = true;
         }
         else if (secondAttack >= diceRoll)
         {
@@ -280,10 +297,11 @@ public class hero : entityManager
         else if (secondAttack >= diceRoll)
         {
             //nerf et on ne vois plus la description des cartes
+            throw new System.NotImplementedException("attaque pas encore implémenté (ne plus voir la description des cartes)");
         }
         else if (firtAttack >= diceRoll)
         {
-            //réduit les cartes d amrmor /2
+            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].m_isDebufArmor = true;
         }
     }
 
@@ -340,7 +358,7 @@ public class hero : entityManager
 
         if (sixth >= diceRoll)
         {
-            //anti heal 
+            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].isAntiHeal = true;
         }
         else if (fithAttack >= diceRoll)
         {
@@ -367,46 +385,10 @@ public class hero : entityManager
         {
             heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
         }
-        
-        
-        
-       
+  
     }
-
-
-
-
 
     #endregion
 
 }
 
-/*public class enemy : entityManager
-{
-    enemy(int maxPV, int Pv, int attack, int buff, int nerf, int mana)
-    {
-        m_maxPv = maxPV;
-        m_Pv = Pv;
-        m_attack = attack;
-        m_buff = buff;
-        m_nerf = nerf;
-        m_mana = mana;
-        isAlive = true;
-    }
-    #region GET & SET
-    public int getMaxPv() { return m_maxPv; }
-    public int getPv() { return m_Pv; }
-    public void setPv(int pv) { m_Pv = pv; }
-    public int getBuff() { return m_buff; }
-    public void setBuff(int buff) { m_buff = buff; }
-    public int getNerf() { return m_nerf; }
-    public void setNerf(int nerf) { m_nerf = nerf; }
-    public int getMana() { return m_mana; }
-    public void setMana(int mana) { m_mana = mana; }
-    public deck GetDeck() { return m_deck; }
-    public void setDeck(deck deck) { m_deck = deck; }
-    public bool getIsAlive() { return isAlive; }
-    public void setIsAlive(bool set) { isAlive = set; }
-    #endregion
-}
-*/

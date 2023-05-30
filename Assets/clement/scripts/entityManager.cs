@@ -16,7 +16,11 @@ public class entityManager : MonoBehaviour
         Debuffer,
         ChienEnemy,
         Squellettes,
-        Mains
+        Mains,
+        Gargouilles,
+        HommesVers,
+        Demon,
+        Dragon
 
 /*        Paladin,
         Demoniste,*/
@@ -30,7 +34,11 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected int m_buff;
     [SerializeField] protected int m_nerf;
     [SerializeField] protected int m_armor;
+    [SerializeField] protected bool m_isDebufArmor = false;
     [SerializeField] protected bool isAlive = true;
+    [SerializeField] protected bool isAntiHeal = false;
+    [SerializeField] protected bool isProvocation = false;
+    [SerializeField] protected int m_damageMultiplier = 1;
     [SerializeField] protected int m_mana;
     [SerializeField] protected Deck m_deck;
     [SerializeField] public List<hero> heroList;
@@ -48,13 +56,18 @@ public class entityManager : MonoBehaviour
     public void takeDamage (int damage)
     {
         Debug.Log("Pv avant : " + m_Pv + m_role);
+        if(m_isDebufArmor)
+        {
+            m_armor /= 2;
+            m_isDebufArmor = false;
+        }
         damage -= m_armor;
         if (damage >= 0)
             m_armor = 0;
         else
             damage = 0;
         
-        m_Pv -= damage;
+        m_Pv -= damage * m_damageMultiplier;
 
         Debug.Log("Pv apres: hero" + m_Pv + m_role);
         if (m_Pv <= 0)
@@ -71,5 +84,7 @@ public class entityManager : MonoBehaviour
             gameManager.LifePretre = m_Pv;
         }
     }
+
+
 }
 
