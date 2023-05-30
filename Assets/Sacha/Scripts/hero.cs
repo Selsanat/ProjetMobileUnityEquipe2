@@ -46,7 +46,7 @@ public class hero : entityManager
     public void setFullLife() { this.m_Pv = this.m_maxPv; }
 
     public int getArmor() { return m_armor; }
-    public void setArmor(int armor) { m_armor = armor; }
+    public void setArmor(int armor) { m_armor += armor; }
     public void resetArmor() { m_armor = 0; }
     
     #endregion
@@ -105,15 +105,33 @@ public class hero : entityManager
     #region IA
     public void chienIA(List<hero> heroesToAttack)
     {
-        int firtAttack = 65;
-        int secondAttack = 25;
-        int thridAttack = 10;
+        int firtAttack = 100;
+        int secondAttack = 45;
+        int thridAttack = 20;
+        int fourthAttack = 10;
         int dmg = 5;
         int AOEDmg = 3;
-        int totalWeight = firtAttack + secondAttack + thridAttack;
-        float diceRoll = Random.Range(0f, totalWeight);
+        float diceRoll = Random.Range(0f, 100);
 
-        if (thridAttack >= diceRoll)
+        if(fourthAttack >= diceRoll)
+        {
+            //diminue de moitier l'armur gagné pd 1 tour
+        }
+        else if (thridAttack >= diceRoll) //booste la force
+        {
+            dmg++;
+            AOEDmg++;
+            
+        }
+        else if(secondAttack >= diceRoll) //attaque tout les allier
+        {
+
+            foreach (hero hero in heroesToAttack)
+            {
+                hero.takeDamage(AOEDmg);
+            }
+        }
+        else if (firtAttack >= diceRoll) //attauqe le plus faible
         {
             hero temp = heroesToAttack[0];
 
@@ -123,17 +141,6 @@ public class hero : entityManager
                     temp = champ;
             }
             temp.takeDamage(dmg);
-        }
-        else if(secondAttack >= diceRoll)
-        {
-            foreach (hero hero in heroesToAttack)
-            {
-                hero.takeDamage(AOEDmg);
-            }
-        }
-        else if (firtAttack >= diceRoll)
-        {
-            //add buff
         }
 
     }
@@ -141,26 +148,16 @@ public class hero : entityManager
 
     public void squelettes(List<hero> heroesToAttack)
     {
-        int firtAttack = 60;
+        int firtAttack = 100;
         int secondAttack = 40;
         int dmg = 3;
-        int armor = 3;
-        int totalWeight = firtAttack + secondAttack;
-        float diceRoll = Random.Range(0f, totalWeight);
+        int armor = 2;
+        float diceRoll = Random.Range(0f, 100);
 
-        foreach (hero champ in heroesToAttack)
-        {
-            if (champ.getPv() <= dmg)
-            {
-                champ.takeDamage(dmg);
-                return;
-
-            }
-        }
 
         if (secondAttack >= diceRoll)
         {
-            //amror
+            this.setArmor(armor);
         }
         else if (firtAttack >= diceRoll)
         {
@@ -168,35 +165,41 @@ public class hero : entityManager
 
             foreach (hero champ in heroesToAttack)
             {
-                if (champ.getPv() < temp.getPv())
-                    temp = champ;
+                if (champ.getPv() - dmg <= 0)
+                {
+                    temp.takeDamage(dmg);
+                    return;
+                }
             }
-            temp.takeDamage(5);
+            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
         }
     }
 
-    public void main(List<hero> heroesToAttack, List<hero> listEnnemies)
+    public void main(List<hero> heroesToAttack)
     {
-        int nbMain = 0;
-
-        foreach (hero hero in listEnnemies)
-        {
-            if (hero.m_role == Role.Mains)
-                nbMain++;
-        }
-
-        int dmg = 5 * nbMain;
-        int armor = 9;
-        int firtAttack = 45;
-        int secondAttack = 25;
-        int thridAttack = 20;
+        int dmg = 5;
+        int armor = 8;
+        int firtAttack = 100;
+        int secondAttack = 55;
+        int thridAttack = 35;
         int fourthAttack = 10;
-        int totalWeight = firtAttack + secondAttack + thridAttack;
-        float diceRoll = Random.Range(0f, totalWeight);
+        float diceRoll = Random.Range(0f, 100);
         
+        if(fourthAttack >= diceRoll)
+        {
+                // nerf : ajoute des cartes injouables dans la pioche
+        }
+        else if (thridAttack >= diceRoll)
+        {
+            //nerf draw card - 1
 
+        }
+        else if (secondAttack >= diceRoll)
+        {
+            this.setArmor(armor);
 
-        if (thridAttack >= diceRoll)
+        }
+        else if (firtAttack >= diceRoll)
         {
             hero temp = heroesToAttack[0];
 
@@ -207,16 +210,168 @@ public class hero : entityManager
             }
             temp.takeDamage(dmg);
         }
+    }
+
+    public void gargouilleAttack(List<hero> heroesToAttack)
+    {
+        int firtAttack = 100;
+        int secondAttack = 60;
+        int thridAttack = 25;
+        int fourthAttack = 10;
+        int dmgAOE = 6;
+        int dmg = 8;
+        float diceRoll = Random.Range(0f, 100);
+
+        if (fourthAttack >= diceRoll) //debuff next round
+        {
+
+            hero temp = heroesToAttack[0];
+
+            foreach (hero champ in heroesToAttack)
+            {
+                if (champ.getPv() < temp.getPv())
+                    temp = champ;
+            }
+
+            //ajout du debuff p^rochain * 2
+        }
+        else if (thridAttack >= diceRoll)
+        {
+            //provocation
+        }
         else if (secondAttack >= diceRoll)
         {
-            //nerf draw card
+            foreach(hero champ in heroesToAttack)
+                champ.takeDamage(dmgAOE);
         }
         else if (firtAttack >= diceRoll)
         {
-            //buff armor
+            hero temp = heroesToAttack[0];
+
+            foreach (hero champ in heroesToAttack)
+            {
+                if (champ.getPv() < temp.getPv())
+                    temp = champ;
+            }
+            temp.takeDamage(dmg);
         }
     }
 
+    public void hommeVers(List<hero> heroesToAttack)
+    {
+        int firtAttack = 100;
+        int secondAttack = 65;
+        int thridAttack = 30;
+        int fourthAttack = 10;
+        float diceRoll = Random.Range(0f, 100);
+        int dmgLourd = 10;
+        int dmg = 7;
+        int heal = 3;
+
+        if (fourthAttack >= diceRoll)
+        {
+            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
+            this.m_Pv += heal;
+        }
+        else if (thridAttack >= diceRoll)
+        {
+            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmgLourd);
+        }
+        else if (secondAttack >= diceRoll)
+        {
+            //nerf et on ne vois plus la description des cartes
+        }
+        else if (firtAttack >= diceRoll)
+        {
+            //réduit les cartes d amrmor /2
+        }
+    }
+
+    public void demonAttack(List<hero> heroesToAttack)
+    {
+        int firtAttack = 100;
+        int secondAttack = 45;
+        int thridAttack = 12;
+        float diceRoll = Random.Range(0f, 100);
+        int dmg = 12;
+
+        if (thridAttack >= diceRoll)
+        {
+            this.m_Pv = this.m_Pv * 15 / 100;
+        }
+        else if (secondAttack >= diceRoll)
+        {
+            hero temp = heroesToAttack[0];
+
+            foreach (hero champ in heroesToAttack)
+            {
+                if (champ.getPv() > temp.getPv())
+                    temp = champ;
+            }
+            temp.takeDamage(dmg);
+        }
+        else if (firtAttack >= diceRoll)
+        {
+            hero temp = heroesToAttack[0];
+
+            foreach (hero champ in heroesToAttack)
+            {
+                if (champ.getPv() < temp.getPv())
+                    temp = champ;
+            }
+            temp.takeDamage(dmg);
+        }
+    }
+
+
+    public void dragonAttack(List<hero> heroesToAttack)
+    {
+        int firtAttack = 100;
+        int secondAttack = 75;
+        int thridAttack = 55;
+        int fourthAttack = 25;
+        int fithAttack = 10;
+        int sixth = 5;
+        float diceRoll = Random.Range(0f, 100);
+        int dmg = 16;
+        int dmgAOE = 10;
+        int dmgLourd = 20;
+        int armor = 12;
+
+        if (sixth >= diceRoll)
+        {
+            //anti heal 
+        }
+        else if (fithAttack >= diceRoll)
+        {
+            dmg += 2;
+            dmgAOE += 2;
+            dmgLourd += 2;
+        }
+        else if (fourthAttack >= diceRoll)
+        {
+            this.setArmor(armor);
+        }
+        else if (thridAttack >= diceRoll)
+        {
+            foreach (hero hero in heroesToAttack)
+            {
+                hero.takeDamage(dmgAOE);
+            }
+        }
+        else if (secondAttack >= diceRoll)
+        {
+            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmgLourd);
+        }
+        else if (firtAttack >= diceRoll)
+        {
+            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
+        }
+        
+        
+        
+       
+    }
 
 
 
