@@ -16,8 +16,7 @@ public class dataCard : ScriptableObject
     #region STATISTIC
     [Header("Basic Stats")]
     [SerializeField] int m_manaCost; //mana
-    [SerializeField] int m_attack; //les nb dmgs
-    [SerializeField] int m_heal; //les nb heal
+    [SerializeField] int m_value;
     [SerializeField] public int m_index; //index de la carte dans la liste
     [SerializeField] public int nombreDexecutiion = 1; //nb de fois que la cartee s'execute
     [SerializeField] List<CardType> m_cardTypes;
@@ -73,7 +72,7 @@ public class dataCard : ScriptableObject
     #region CARD EFFECTS
     public void heal(hero hero)
     {
-        int currentPv = hero.getPv() + m_heal;
+        int currentPv = hero.getPv() + m_value;
         int currentMaxPv = hero.getMaxPv();
         hero.setPv(currentPv);
         if (currentPv < currentMaxPv)
@@ -85,7 +84,7 @@ public class dataCard : ScriptableObject
     {
         Debug.Log("Pv avant : " + hero.getPv());
         int currentPv = hero.getPv();
-        currentPv -= m_attack;
+        currentPv -= m_value;
         hero.setPv(currentPv);
         Debug.Log("Pv apres : " + hero.getPv());
 
@@ -96,15 +95,15 @@ public class dataCard : ScriptableObject
         hero.setVarHero();
     }
 
-    public void AddArmor(hero hero, int value)
+    public void AddArmor(hero hero)
     {
-        hero.setArmor(value);
+        hero.setArmor(m_value);
     }
 
-    public void AddMana(hero hero, int value)
+    public void AddMana(hero hero)
     {
         int currentMana = hero.getMana();
-        currentMana+= value;
+        currentMana+= m_value;
         hero.setMana(currentMana);
     }
 
@@ -113,19 +112,19 @@ public class dataCard : ScriptableObject
         GM.deck.DrawCard();
     }
 
-    public void UpgradeCard (hero hero)
+    public void UpgradeCard (hero hero, hero target)
     {
         throw new NotImplementedException();
     }
 
-    public void ChangeCardMana (CardObject card, int value)
+    public void ChangeCardMana (CardObject card)
     {
-        card.DataCard.m_manaCost += value;
+        card.DataCard.m_manaCost += m_value;
     }
 
-    public void ChangeCardDamage (CardObject card, int value)
+    public void ChangeCardDamage (CardObject card)
     {
-        card.DataCard.m_attack += value;
+        card.DataCard.m_value += m_value;
     }
 
     public void FromNow()
@@ -143,13 +142,13 @@ public class dataCard : ScriptableObject
         throw new NotImplementedException();
     }
 
-    public void Steal(hero enemy, hero ally, int value)
+    public void Steal(hero enemy, hero ally)
     {
         int currentEnemyLife = enemy.getPv();
-        enemy.setPv(currentEnemyLife -= value);
+        enemy.setPv(currentEnemyLife -= m_value);
 
         int currentAllyLife = ally.getPv();
-        ally.setPv(currentAllyLife += value);
+        ally.setPv(currentAllyLife += m_value);
     }
 
     public static void DamageEffect(hero h, int value)
