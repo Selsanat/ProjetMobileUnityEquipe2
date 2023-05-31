@@ -1,12 +1,14 @@
 using DG.Tweening.Core.Easing;
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static entityManager;
 
 [System.Serializable]
-
+[ExecuteInEditMode]
 [CreateAssetMenu]
 public class dataCard : ScriptableObject
 {
@@ -35,11 +37,28 @@ public class dataCard : ScriptableObject
     [SerializeField] bool m_isUpsideDown;
     [SerializeField] bool m_isBonusCard;
 
-    [Header("looking")]
-    [SerializeField] Sprite m_cardSprite;
 
-    public Sprite CardSprite { get => m_cardSprite; private set => m_cardSprite = value; }
+    [Header("TEXT")]
+    [InfoBox("/!/ ATTENTION /!/ NE PAS DONNER DEUX FOIS LE MÊME NOM A DEUX CARTE SOUS PEINE DE LAG")]
+    [SerializeField] string m_cardName;
+    [SerializeField] string m_onCardExplain;
+    [SerializeField] string m_FullCardExplain;
+
+    [Header("looking")]
+    [SerializeField] Sprite m_cardFrontSprite;
+    [SerializeField] Sprite m_cardBackSprite;
+
+    public Sprite CardSprite { get => m_cardFrontSprite; private set => m_cardFrontSprite = value; }
     public List<CardType> CardTypes { get => m_cardTypes; set => m_cardTypes = value; }
+    public List<CardEffect> CardEffects { get => m_cardEffects; set => m_cardEffects = value; }
+
+    void OnValidate()
+    {
+        if(this.name != m_cardName && m_cardName != null)
+        {         
+            AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(this), m_cardName);
+        }
+    }
 
     public bool getIsDeleteOnTurn()
     {
