@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SortSingleAlly
   m_EditorClassIdentifier: 
   m_manaCost: 0
-  m_attack: 50
+  m_attack: 10
   m_heal: 0
   m_index: 0
   m_cardTypes: 01000000
@@ -25,4 +25,8 @@ MonoBehaviour:
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0
-  m_cardSprite: {fileID: 0}
+  m_cardName: 
+  m_onCardExplain: 
+  m_FullCardExplain: 
+  m_cardFrontSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 0}

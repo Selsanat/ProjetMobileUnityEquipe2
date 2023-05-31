@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class hero : entityManager
 {
@@ -29,6 +30,25 @@ public class hero : entityManager
         }   
         gameManager.entityManager.heroList.Add(this);
 
+
+    }
+    public hero(hero copy)
+    {
+        m_role = copy.m_role;
+        m_maxPv = copy.m_maxPv;
+        m_Pv = copy.m_Pv;
+        m_attack = copy.m_attack;
+        m_buff = copy.m_buff;
+        m_nerf = copy.m_nerf;
+        isAlive = copy.isAlive;
+        m_deck = copy.m_deck;
+        m_mana = copy.m_mana;
+        m_armor = copy.m_armor;
+        m_level = copy.m_level;
+        m_experience = copy.m_experience;
+        multipleTarget = copy.multipleTarget;
+        gameManager = copy.gameManager;
+        gameManager.entityManager.heroList.Add(this);
 
     }
     public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int level, int experience)

@@ -61,6 +61,7 @@ MonoBehaviour:
   isProvocation: 0
   m_damageMultiplier: 1
   m_mana: 0
+  m_sprite: {fileID: 21300000, guid: 6bc9bd32f9849474ca31d1bc8b2454c1, type: 3}
   m_deck: {fileID: 0}
   heroList: []
   multipleTarget: 0
