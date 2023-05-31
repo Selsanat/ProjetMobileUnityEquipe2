@@ -311,7 +311,7 @@ public class Fight : MonoBehaviour
 
 
 
-    [Button]
+
     public void Cardsend(CardObject card, int index)
     {
         Debug.Log("card send");
