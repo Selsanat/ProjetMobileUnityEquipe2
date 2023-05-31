@@ -445,7 +445,7 @@ public class Fight : MonoBehaviour
 
     void PlayPlayerEffects() 
     {
-        foreach (hero h in selectedhero)
+        foreach (hero h in heroes)
         {
             for (int i = 0; i < h.MyEffects.Count; i++)
             {
@@ -467,9 +467,6 @@ public class Fight : MonoBehaviour
                                 break;
                             case dataCard.CardType.Poison:
                                 dataCard.DamageEffect(h, e.values[howFar]);
-                                break;
-                            case dataCard.CardType.Armor:
-                                ;
                                 break;
                         }
                         howFar++;
@@ -508,7 +505,36 @@ public class Fight : MonoBehaviour
     }
     private void PlayEnemyEffects()
     {
-        throw new NotImplementedException();
+        foreach (hero h in enemies)
+        {
+            for (int i = 0; i < h.MyEffects.Count; i++)
+            {
+                dataCard.CardEffect e = h.MyEffects[i];
+                if (e.nbTour != 0)
+                {
+                    e.nbTour--;
+                    if (e.nbTour == 0)
+                    {
+                        h.MyEffects.Remove(e);
+                    }
+                    int howFar = 0;
+                    foreach(dataCard.CardType c in e.effects)
+                    {
+                        switch (c)
+                        {
+                            case dataCard.CardType.Damage:
+                                dataCard.DamageEffect(h, e.values[howFar]);
+                                break;
+                            case dataCard.CardType.Poison:
+                                dataCard.DamageEffect(h, e.values[howFar]);
+                                break;
+                        }
+                        howFar++;
+                    }
+                }
+            }
+        }
+
     }
 
     [Button]
@@ -629,7 +655,7 @@ public class Fight : MonoBehaviour
                             card.heal(hero);
                         }
                         break;
-                    case dataCard.CardType.Armor:
+                    case dataCard.CardType.AddArmor:
                         foreach (hero hero in selected)
                         {
                             hero.setArmor(2); // mettre la valeur de l'armure
@@ -638,16 +664,16 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.AddMana:
                         foreach (hero hero in selected)
                         {
-                            card.BuffDamage(hero);
+                            card.AddMana(hero);
                         }
                         break;
-
                     case dataCard.CardType.AddCard: //pioche une carte
                         Gm.deck.DrawCard(1);
                         break;
                     case dataCard.CardType.UpgradeCard://la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
                         foreach (hero hero in selected)
                         {
+                            
                         }
                         break;
                     case dataCard.CardType.ChangeCardMana://change le mana d'une carte
@@ -656,7 +682,7 @@ public class Fight : MonoBehaviour
 
                         }
                         break;
-                    case dataCard.CardType.ChangeDamage://change le damage d'une carte
+                    case dataCard.CardType.ChangeCardDamage://change le damage d'une carte
                         foreach (hero hero in selected)
                         {
 
@@ -674,25 +700,13 @@ public class Fight : MonoBehaviour
 
                         }
                         break;
-                    case dataCard.CardType.Transcend://un personnage avec assez de points de veneration peut se transcender
-                        foreach (hero hero in selected)
-                        {
-
-                        }
-                        break;
                     case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
                         foreach (hero hero in selected)
                         {
-
+                            //DONTDO
                         }
                         break;
                     case dataCard.CardType.Steal://inflige X degat et soigne X à un autre personnage
-                        foreach (hero hero in selected)
-                        {
-
-                        }
-                        break;
-                    case dataCard.CardType.GainMana:
                         foreach (hero hero in selected)
                         {
 
