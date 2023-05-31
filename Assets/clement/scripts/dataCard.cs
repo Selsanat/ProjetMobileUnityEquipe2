@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using static entityManager;
+using static UnityEngine.Rendering.DebugUI;
 
 [System.Serializable]
 [ExecuteInEditMode]
@@ -49,13 +50,15 @@ public class dataCard : ScriptableObject
     [SerializeField] Sprite m_cardFrontSprite;
     [SerializeField] Sprite m_cardBackSprite;
 
+    private GameManager GM;
+
     public Sprite CardSprite { get => m_cardFrontSprite; private set => m_cardFrontSprite = value; }
     public List<CardType> CardTypes { get => m_cardTypes; set => m_cardTypes = value; }
     public List<CardEffect> CardEffects { get => m_cardEffects; set => m_cardEffects = value; }
 
-    void OnValidate()
+    void Start ()
     {
-        
+        GM = GameManager.Instance;
     }
 
     public bool getIsDeleteOnTurn()
@@ -92,12 +95,62 @@ public class dataCard : ScriptableObject
         }
         hero.setVarHero();
     }
-    internal void BuffDamage(hero hero)
+
+    public void AddArmor(hero hero, int value)
+    {
+        hero.setArmor(value);
+    }
+
+    public void AddMana(hero hero, int value)
+    {
+        int currentMana = hero.getMana();
+        currentMana+= value;
+        hero.setMana(currentMana);
+    }
+
+    public void AddCard ()
+    {
+        GM.deck.DrawCard();
+    }
+
+    public void UpgradeCard (hero hero)
     {
         throw new NotImplementedException();
     }
 
-    ///////
+    public void ChangeCardMana (CardObject card, int value)
+    {
+        card.DataCard.m_manaCost += value;
+    }
+
+    public void ChangeCardDamage (CardObject card, int value)
+    {
+        card.DataCard.m_attack += value;
+    }
+
+    public void FromNow()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Venerate()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Transcend()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Steal(hero enemy, hero ally, int value)
+    {
+        int currentEnemyLife = enemy.getPv();
+        enemy.setPv(currentEnemyLife -= value);
+
+        int currentAllyLife = ally.getPv();
+        ally.setPv(currentAllyLife += value);
+    }
 
     public static void DamageEffect(hero h, int value)
     {
@@ -131,18 +184,16 @@ public class dataCard : ScriptableObject
     {
         Damage,
         Heal,
-        Armor,
+        AddArmor,
         AddMana,
         AddCard,//pioche une carte
         UpgradeCard,//la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
-        ChangeCardMana,//change le mana d'une carte
-        ChangeDamage,//change le damage d'une carte
+        ChangeCardMana,//change le cout de mana d'une carte
+        ChangeCardDamage,//change le damage d'une carte
         FromNow,//les effets de cette carte dure jusqu'a la fin du combat
         Venerate,//augmente la barre de veneration d'un allie
-        Transcend,//un personnage avec assez de points de veneration peut se transcender
         Poison,//le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
         Steal,//inflige X degat et soigne X à un autre personnage
-        GainMana
     }
 
 }
