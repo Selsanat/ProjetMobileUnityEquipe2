@@ -56,7 +56,7 @@ public class champSelector : MonoBehaviour
             buttonArboriste.gameObject.SetActive(false);
             buttonPretre.gameObject.SetActive(false);
             start.gameObject.SetActive(false);
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
             
         }
         

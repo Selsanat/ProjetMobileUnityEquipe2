@@ -14,12 +14,10 @@ public class IsHovering : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        print("exit");
         gameManager.isHoverButton = false;
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        print("hover");
         gameManager.isHoverButton = true;
     }
 

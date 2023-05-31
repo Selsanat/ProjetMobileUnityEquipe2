@@ -31,6 +31,7 @@ public class Fight : MonoBehaviour
     bool test = false;
     private bool prout;
     [SerializeField] public Button play;
+    [SerializeField] public Button cancel;
     [SerializeField] Button arboristeButton;
     [SerializeField] Button pretreButton;
     [SerializeField] Button ennemisButton1;
@@ -39,6 +40,8 @@ public class Fight : MonoBehaviour
     private int mana;
     [SerializeField] List<hero> heroes;
     [SerializeField] List<hero> enemies;
+    List<dataCard.CardEffect> heroesEffects;
+    List<dataCard.CardEffect> enemyEffects;
     [SerializeField] List<hero> selectedhero;
     dataCard selectedcard;
 
@@ -58,7 +61,7 @@ public class Fight : MonoBehaviour
     {
         if (test == false)
         {
-            if (SceneManager.GetActiveScene().buildIndex == 0)
+            if (SceneManager.GetActiveScene().buildIndex == 1)
             {
                 test = true;
                 StartFight();
@@ -98,12 +101,19 @@ public class Fight : MonoBehaviour
         perso.transform.parent = ComponentBouton.transform;
         Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
         lumiere.enabled = false;
-        if (sideTrueIsAllies)
+        
+        if (ComponentBouton == ennemisButton1 || ComponentBouton == ennemisButton2)
         {
-            lightsAllies.Add(lumiere);
+            lightsEnnemies.Add(lumiere);
+            lumiere.color = Color.red;
             return;
         }
-        lightsEnnemies.Add(lumiere);
+        else
+        {
+            lumiere.color = Color.green;
+        }
+        lightsAllies.Add(lumiere);
+        
     }
 
     public void CancelCard()
@@ -178,8 +188,22 @@ public class Fight : MonoBehaviour
     }
     void switchLightSelection(Button Boutton)
     {
+        print(Boutton);
         Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(0).gameObject.GetComponent<Light2D>();
         lightDuBoutton.enabled = true;
+    }
+
+    public IEnumerator CardAnimDisolve()
+    {
+        play.gameObject.SetActive(false);
+        cancel.gameObject.SetActive(false);
+        DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
+        
+        dissolveController.isDissolving = true;
+        yield return new WaitUntil(() => dissolveController.dissolveAmount < 0);
+        dissolveController.isDissolving = false;
+        dissolveController.dissolveAmount = 1;
+        isCardSend = true;
     }
     #endregion
     public void StartFight()
@@ -223,16 +247,16 @@ public class Fight : MonoBehaviour
                 Gm.IsPretrePlayed = true;
             }
             else
-                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
+                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0);
                 
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
             }
             else
-                H2 = new hero(entityManager.Role.Pretre, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
+                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0);
 
 
         }
@@ -252,9 +276,7 @@ public class Fight : MonoBehaviour
                 Debug.Log("creer arboriste");
             }
             else
-                H2 = new hero(entityManager.Role.Pretre, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
-
-
+                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0);
 
 
 
@@ -274,9 +296,7 @@ public class Fight : MonoBehaviour
                 Gm.IsPretrePlayed = true;
             }
             else
-                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
-
-
+                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0);
         }
 
         //goEn1.AddComponent<>();
@@ -313,64 +333,33 @@ public class Fight : MonoBehaviour
 
 
 
-
+    [Button]
     public void Cardsend(CardObject card, int index)
     {
-        Debug.Log("card send");
         card.DataCard.m_index = card.indexHand;
         selectedcard = card.DataCard;
-        if(play == null)
+/*        if(play == null)
         {
             play = GameObject.Find("Play").GetComponent<Button>();
         }
+        if (cancel == null)
+        {
+            print("testAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            cancel = GameObject.Find("Cancel").GetComponent<Button>();
+        }*/
+
         //condition a voir en fonction des besoins
         //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alliée qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null || selectedhero != null || ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
-        play.onClick.AddListener(() => { if(conditionjouer) isCardSend = true; });
+        play.onClick.AddListener(() => { if(conditionjouer) StartCoroutine(CardAnimDisolve());});
         //[WIP]je dois le changer[WIP]
 
         if (!selectedcard.AOEEnnemies && selectedcard.TargetEnnemies)
         {
-            ennemisButton1.onClick.AddListener(() => 
-            { 
-                ClearSide(false); 
-                if(Gm.IsAnyProv) 
-                { 
-                    if(enemies[0].getIsProvocation()) 
-                    { 
-                        selectedhero.Add(enemies[0]); 
-                        switchLightSelection(ennemisButton1); 
-                    } 
-                } 
-                else 
-                { 
-                    selectedhero.Add(enemies[0]); 
-                    switchLightSelection(ennemisButton1);
-                }
-            });
-
-
+            ennemisButton1.onClick.AddListener(() => { ClearSide(false); selectedhero.Add(enemies[0]); switchLightSelection(ennemisButton1); });
             //ennemisButton1.OnDeselect(clearCardSelected());
-
-
-            ennemisButton2.onClick.AddListener(() => 
-            { 
-                ClearSide(false);
-                if (Gm.IsAnyProv) 
-                { 
-                    if (enemies[1].getIsProvocation()) 
-                    { 
-                        selectedhero.Add(enemies[1]); 
-                        switchLightSelection(ennemisButton2); 
-                    } 
-                } 
-                else 
-                { 
-                    selectedhero.Add(enemies[1]); 
-                    switchLightSelection(ennemisButton2); 
-                }
-            });
+            ennemisButton2.onClick.AddListener(() => { ClearSide(false); selectedhero.Add(enemies[1]); switchLightSelection(ennemisButton2); });
 
         }
         else
@@ -428,7 +417,6 @@ public class Fight : MonoBehaviour
                         ennemisButton2.gameObject.SetActive(false);
                     }
                 }
-                enemies[i].resetArmor();
             }   
 
             if (!CheckifEnemyAreAlive())
@@ -445,52 +433,49 @@ public class Fight : MonoBehaviour
 
     void PlayPlayerEffects() 
     {
-        foreach (hero h in selectedhero)
+        for(int i = 0; i < heroesEffects.Count; i++)
         {
-            for (int i = 0; i < h.MyEffects.Count; i++)
+            dataCard.CardEffect E = heroesEffects[i];
+            if (E.nbTour != 0)
             {
-                dataCard.CardEffect e = h.MyEffects[i];
-                if (e.nbTour != 0)
+                E.nbTour--;
+                if(E.nbTour == 0)
                 {
-                    e.nbTour--;
-                    if (e.nbTour == 0)
-                    {
-                        h.MyEffects.Remove(e);
-                    }
-
-                    switch (e.effects)
-                    {
-                        
-                    }
+                    heroesEffects.Remove(E);
                 }
-
-                if (h.getPv() <= 0)
+            }
+            foreach (dataCard.CardType turnEffect in E.effects)
+            {
+                switch (turnEffect)
                 {
-                    if (i == 0)
+                    //BRUH LA MEME CHOSE PUTAIN
+                }
+            }
+            if (heroes[i].getPv() <= 0)
+            {
+                if (i == 0)
+                {
+                    if(perso1)
                     {
-                        if (perso1)
-                        {
-                            arboristeButton?.onClick.RemoveAllListeners();
-                            arboristeButton.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            pretreButton?.onClick.RemoveAllListeners();
-                            pretreButton.gameObject.SetActive(false);
-                        }
-
+                        arboristeButton?.onClick.RemoveAllListeners();
+                        arboristeButton.gameObject.SetActive(false);
                     }
                     else
                     {
                         pretreButton?.onClick.RemoveAllListeners();
                         pretreButton.gameObject.SetActive(false);
                     }
+                    
                 }
-                if (!CheckifHeroAreAlive())
+                else
                 {
-                    LooseFight();
+                    pretreButton?.onClick.RemoveAllListeners();
+                    pretreButton.gameObject.SetActive(false);
                 }
-                heroes[i].resetArmor();
+            }
+            if (!CheckifHeroAreAlive())
+            {
+                LooseFight();
             }
         }
     }
@@ -511,7 +496,7 @@ public class Fight : MonoBehaviour
         StopCoroutine(coroutine);
         foreach (hero En in enemies)
         {
-            En.EnemyAttack(heroes);
+            En.EnemyAttack(heroes, enemies);
             if (!CheckifHeroAreAlive())
             {
                 LooseFight();
@@ -535,11 +520,8 @@ public class Fight : MonoBehaviour
     {
         StopCoroutine(coroutine);
         
-        foreach(hero hero in heroes)
-        {
-            hero.gainExperience(20);
-        }
-        SceneManager.LoadScene(1);
+
+        SceneManager.LoadScene(0);
 
         Gm.Hand.Clear();
         Gm.deck = null;
@@ -594,18 +576,14 @@ public class Fight : MonoBehaviour
     }
     void playCard(dataCard card, List<hero> selected)
     {
-        print("Play Card");
-        print(selected.Count);
         foreach (dataCard.CardType cardT in card.CardTypes)
         {
-            Debug.Log("card type" + cardT);
-            Debug.Log("enemy count" + selected.Count);
             switch (cardT)
             {
                 case dataCard.CardType.Damage:
                     foreach (hero hero in selected)
                     {
-                        Debug.Log("card damage");
+
                         card.takeDamage(hero);
                     }
                     break;
@@ -615,85 +593,36 @@ public class Fight : MonoBehaviour
                         card.heal(hero);
                     }
                     break;
-                case dataCard.CardType.Armor:
-                    foreach (hero hero in selected)
-                    {
-                        hero.setArmor(2); // mettre la valeur de l'armure
-                    }
-                    break;
-                case dataCard.CardType.AddMana:
+                case dataCard.CardType.GainMana:
                     foreach (hero hero in selected)
                     {
                         card.BuffDamage(hero);
                     }
                     break;
-                
-                case dataCard.CardType.AddCard: //pioche une carte
-                    foreach (hero hero in selected)
-                    {
-                        Gm.deck.DrawCard(1);
-                    }
-                    break;
-                case dataCard.CardType.UpgradeCard://la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
-                    foreach (hero hero in selected)
-                    {
-                    }
-                    break;
-                case dataCard.CardType.ChangeCardMana://change le mana d'une carte
+                case (dataCard.CardType)4:
                     foreach (hero hero in selected)
                     {
 
                     }
                     break;
-                case dataCard.CardType.ChangeDamage://change le damage d'une carte
+                case (dataCard.CardType)5:
                     foreach (hero hero in selected)
                     {
 
                     }
                     break;
-                case dataCard.CardType.FromNow://les effets de cette carte dure jusqu'a la fin du combat
+                case (dataCard.CardType)6:
                     foreach (hero hero in selected)
                     {
 
                     }
                     break;
-                case dataCard.CardType.Venerate://augmente la barre de veneration d'un allie
+                case (dataCard.CardType)7:
                     foreach (hero hero in selected)
                     {
 
                     }
                     break;
-                case dataCard.CardType.Transcend://un personnage avec assez de points de veneration peut se transcender
-                    foreach (hero hero in selected)
-                    {
-
-                    }
-                    break;
-                case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
-                    foreach (hero hero in selected)
-                    {
-
-                    }
-                    break;
-                case dataCard.CardType.Steal://inflige X degat et soigne X à un autre personnage
-                    foreach (hero hero in selected)
-                    {
-
-                    }
-                    break;
-                case dataCard.CardType.GainMana:
-                    foreach (hero hero in selected)
-                    {
-
-                    }
-                    break;
-            }
-        }
-        foreach(dataCard.CardEffect effect in card.CardEffects)
-        {
-            foreach(hero h in selectedhero)
-            {
-                h.MyEffects.Add(effect);
             }
         }
 
@@ -735,4 +664,44 @@ public class Fight : MonoBehaviour
         }
     }
 
+
+
+    /* public enum CardType
+     {
+         undifined = 0,
+         Damage = 1,
+         Heal = 2,
+         BuffDamage = 3,
+         BuffHeal = 4,
+         Block = 5
+     }*/
+
+
+
+    /*    [Button]
+    void Turn()
+    {
+        //Pioche4
+        //FIND WAY TO WAIT
+        //EndHeroTurn();
+    }*/
+
+    /*    [Button]
+        void EndHeroTurn()
+        {
+            deck.EndTurn();
+            foreach (CardObject card in deck.PlayedCards)
+            {
+                if(card.HeroToAttack == null) { card.HeroToAttack.Add(FindObjectOfType<hero>()); }
+                playCard(card.DataCard,card.HeroToAttack);
+            }
+            if (CheckifEnemyAreAlive())
+            {
+                PlayEnemyTurn();
+            }
+            else
+            {
+                WinFight();
+            }
+        }*/
 }
