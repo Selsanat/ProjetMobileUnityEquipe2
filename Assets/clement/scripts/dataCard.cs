@@ -18,6 +18,7 @@ public class dataCard : ScriptableObject
     [SerializeField] int m_attack; //les nb dmgs
     [SerializeField] int m_heal; //les nb heal
     [SerializeField] public int m_index; //index de la carte dans la liste
+    [SerializeField] public int nombreDexecutiion = 1; //nb de fois que la cartee s'execute
     [SerializeField] List<CardType> m_cardTypes;
 
     [SerializeField] List<CardEffect> m_cardEffects;
@@ -54,10 +55,7 @@ public class dataCard : ScriptableObject
 
     void OnValidate()
     {
-        if(this.name != m_cardName && m_cardName != null)
-        {         
-            AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(this), m_cardName);
-        }
+        
     }
 
     public bool getIsDeleteOnTurn()
@@ -99,6 +97,17 @@ public class dataCard : ScriptableObject
         throw new NotImplementedException();
     }
 
+    ///////
+
+    public static void DamageEffect(hero h, int value)
+    {
+        h.setPv(h.getPv() - value);
+    }
+
+    public static void HealEffect(hero h, int value)
+    {
+        h.setPv(h.getPv() + value);
+    }
 
     #endregion
 

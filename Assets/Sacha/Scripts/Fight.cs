@@ -457,10 +457,22 @@ public class Fight : MonoBehaviour
                     {
                         h.MyEffects.Remove(e);
                     }
-
-                    switch (e.effects)
+                    int howFar = 0;
+                    foreach(dataCard.CardType c in e.effects)
                     {
-                        
+                        switch (c)
+                        {
+                            case dataCard.CardType.Damage:
+                                dataCard.DamageEffect(h, e.values[howFar]);
+                                break;
+                            case dataCard.CardType.Heal:
+                                dataCard.HealEffect(h, e.values[howFar]);
+                                break;
+                            case dataCard.CardType.Armor:
+                                ;
+                                break;
+                        }
+                        howFar++;
                     }
                 }
 
@@ -600,93 +612,93 @@ public class Fight : MonoBehaviour
         {
             Debug.Log("card type" + cardT);
             Debug.Log("enemy count" + selected.Count);
-            switch (cardT)
+            for (int i = card.nombreDexecutiion; i != 0; i--)
             {
-                case dataCard.CardType.Damage:
-                    foreach (hero hero in selected)
-                    {
-                        Debug.Log("card damage");
-                        card.takeDamage(hero);
-                    }
-                    break;
-                case dataCard.CardType.Heal:
-                    foreach (hero hero in selected)
-                    {
-                        card.heal(hero);
-                    }
-                    break;
-                case dataCard.CardType.Armor:
-                    foreach (hero hero in selected)
-                    {
-                        hero.setArmor(2); // mettre la valeur de l'armure
-                    }
-                    break;
-                case dataCard.CardType.AddMana:
-                    foreach (hero hero in selected)
-                    {
-                        card.BuffDamage(hero);
-                    }
-                    break;
-                
-                case dataCard.CardType.AddCard: //pioche une carte
-                    foreach (hero hero in selected)
-                    {
+                switch (cardT)
+                {
+                    case dataCard.CardType.Damage:
+                        foreach (hero hero in selected)
+                        {
+                            Debug.Log("card damage");
+                            card.takeDamage(hero);
+                        }
+                        break;
+                    case dataCard.CardType.Heal:
+                        foreach (hero hero in selected)
+                        {
+                            card.heal(hero);
+                        }
+                        break;
+                    case dataCard.CardType.Armor:
+                        foreach (hero hero in selected)
+                        {
+                            hero.setArmor(2); // mettre la valeur de l'armure
+                        }
+                        break;
+                    case dataCard.CardType.AddMana:
+                        foreach (hero hero in selected)
+                        {
+                            card.BuffDamage(hero);
+                        }
+                        break;
+
+                    case dataCard.CardType.AddCard: //pioche une carte
                         Gm.deck.DrawCard(1);
-                    }
-                    break;
-                case dataCard.CardType.UpgradeCard://la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
-                    foreach (hero hero in selected)
-                    {
-                    }
-                    break;
-                case dataCard.CardType.ChangeCardMana://change le mana d'une carte
-                    foreach (hero hero in selected)
-                    {
+                        break;
+                    case dataCard.CardType.UpgradeCard://la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
+                        foreach (hero hero in selected)
+                        {
+                        }
+                        break;
+                    case dataCard.CardType.ChangeCardMana://change le mana d'une carte
+                        foreach (hero hero in selected)
+                        {
 
-                    }
-                    break;
-                case dataCard.CardType.ChangeDamage://change le damage d'une carte
-                    foreach (hero hero in selected)
-                    {
+                        }
+                        break;
+                    case dataCard.CardType.ChangeDamage://change le damage d'une carte
+                        foreach (hero hero in selected)
+                        {
 
-                    }
-                    break;
-                case dataCard.CardType.FromNow://les effets de cette carte dure jusqu'a la fin du combat
-                    foreach (hero hero in selected)
-                    {
+                        }
+                        break;
+                    case dataCard.CardType.FromNow://les effets de cette carte dure jusqu'a la fin du combat
+                        foreach (hero hero in selected)
+                        {
 
-                    }
-                    break;
-                case dataCard.CardType.Venerate://augmente la barre de veneration d'un allie
-                    foreach (hero hero in selected)
-                    {
+                        }
+                        break;
+                    case dataCard.CardType.Venerate://augmente la barre de veneration d'un allie
+                        foreach (hero hero in selected)
+                        {
 
-                    }
-                    break;
-                case dataCard.CardType.Transcend://un personnage avec assez de points de veneration peut se transcender
-                    foreach (hero hero in selected)
-                    {
+                        }
+                        break;
+                    case dataCard.CardType.Transcend://un personnage avec assez de points de veneration peut se transcender
+                        foreach (hero hero in selected)
+                        {
 
-                    }
-                    break;
-                case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
-                    foreach (hero hero in selected)
-                    {
+                        }
+                        break;
+                    case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
+                        foreach (hero hero in selected)
+                        {
 
-                    }
-                    break;
-                case dataCard.CardType.Steal://inflige X degat et soigne X à un autre personnage
-                    foreach (hero hero in selected)
-                    {
+                        }
+                        break;
+                    case dataCard.CardType.Steal://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
 
-                    }
-                    break;
-                case dataCard.CardType.GainMana:
-                    foreach (hero hero in selected)
-                    {
+                        }
+                        break;
+                    case dataCard.CardType.GainMana:
+                        foreach (hero hero in selected)
+                        {
 
-                    }
-                    break;
+                        }
+                        break;
+                }
             }
         }
         foreach(dataCard.CardEffect effect in card.CardEffects)
