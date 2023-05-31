@@ -35,6 +35,9 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected int m_buff;
     [SerializeField] protected int m_nerf;
     [SerializeField] protected int m_armor;
+    [SerializeField] protected int m_experience;
+    [SerializeField] protected int m_level;
+    [SerializeField] protected int m_experienceMax;
     [SerializeField] protected bool m_isDebufArmor = false;
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected bool isAntiHeal = false;

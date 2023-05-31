@@ -223,16 +223,16 @@ public class Fight : MonoBehaviour
                 Gm.IsPretrePlayed = true;
             }
             else
-                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0);
+                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
                 
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
             }
             else
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0);
+                H2 = new hero(entityManager.Role.Pretre, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
 
 
         }
@@ -252,7 +252,9 @@ public class Fight : MonoBehaviour
                 Debug.Log("creer arboriste");
             }
             else
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0);
+                H2 = new hero(entityManager.Role.Pretre, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
+
+
 
 
 
@@ -272,7 +274,9 @@ public class Fight : MonoBehaviour
                 Gm.IsPretrePlayed = true;
             }
             else
-                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0);
+                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
+
+
         }
 
         //goEn1.AddComponent<>();
@@ -531,7 +535,10 @@ public class Fight : MonoBehaviour
     {
         StopCoroutine(coroutine);
         
-
+        foreach(hero hero in heroes)
+        {
+            hero.gainExperience(20);
+        }
         SceneManager.LoadScene(1);
 
         Gm.Hand.Clear();

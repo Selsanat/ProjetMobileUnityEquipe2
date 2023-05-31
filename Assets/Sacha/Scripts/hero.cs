@@ -18,6 +18,8 @@ public class hero : entityManager
         m_deck = deck;
         m_mana = mana;
         m_armor = 0;
+        m_level = 0;
+        m_experience = 0;
         int a = Random.Range(0, 1);
         if (a == 0) { multipleTarget = false; }
         else { multipleTarget = true; }
@@ -25,6 +27,31 @@ public class hero : entityManager
         {
             gameManager = FindObjectOfType<GameManager>();
         }   
+        gameManager.entityManager.heroList.Add(this);
+
+
+    }
+    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int level, int experience)
+    {
+        m_role = role;
+        m_maxPv = maxPV;
+        m_Pv = Pv;
+        m_attack = attack;
+        m_buff = 0;
+        m_nerf = nerf;
+        isAlive = true;
+        m_deck = deck;
+        m_mana = mana;
+        m_armor = 0;
+        m_level = level;
+        m_experience = experience;
+        int a = Random.Range(0, 1);
+        if (a == 0) { multipleTarget = false; }
+        else { multipleTarget = true; }
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();
+        }
         gameManager.entityManager.heroList.Add(this);
 
 
@@ -44,6 +71,7 @@ public class hero : entityManager
     public bool getIsAlive() { return isAlive; }
     public void setIsAlive(bool set) { isAlive = set; }
     public void setFullLife() { this.m_Pv = this.m_maxPv; }
+    public void healMidLife() { this.m_Pv = this.m_maxPv / 2; }
     public int getArmor() { return m_armor; }
     public void setArmor(int armor) { m_armor += armor; }
     public void resetArmor() { m_armor = 0; }
@@ -51,7 +79,74 @@ public class hero : entityManager
 
     #endregion
 
+    #region LEVEL UP
+    public void levelUp()
+    {
+        m_level++;
+        m_experience = 0;
+        if (this.m_role == Role.Arboriste)
+        {
+            gameManager.expArboriste = m_experience;
+            gameManager.levelArboriste = m_level;
+        }
+        else if (this.m_role == Role.Pretre)
+        {
+            gameManager.expPretre = m_experience;
+            gameManager.levelPretre = m_level;
+        }
 
+        /*m_maxPv = m_maxPv + 10;
+        m_Pv = m_maxPv;*/
+
+        if (m_level == 1)
+        {
+            //Accueillir les nécessiteux
+            //Armure d'écorse
+        }
+        else if (m_level == 2)
+        {
+            //Suivre les étoiles
+            //"Par ma main, soit béni !"
+        }
+        else if (m_level == 3)
+        {
+            //Au pied des tabernacles
+            //Dormir prêt de l'autre
+        }
+        else if (m_level == 4)
+        {
+            //Surgissement Vitalique
+            //Cultiver son âme
+        }
+        else if (m_level == 5)
+        {
+            //Communion avec la nature
+            //Allumer les cierges 
+        }
+        else if (m_level == 6)
+        {
+            //conversion
+            //Application de cataplasme
+        }
+    }
+
+    public void gainExperience(int experience)
+    {
+        m_experience += experience;
+        if(this.m_role == Role.Arboriste)
+        {
+            gameManager.expArboriste = m_experience;
+        }
+        else if(this.m_role == Role.Pretre)
+        {
+            gameManager.expPretre = m_experience;
+        }
+        if (m_experience >= m_experienceMax)
+        {
+            levelUp();
+        }
+    }
+    #endregion
     public void setVarHero()
     {
         if (m_role == Role.Arboriste)

@@ -8,7 +8,7 @@ namespace Map
     public class MapPlayerTracker : MonoBehaviour
     {
         public champSelector champSelection = null;
-        public entityManager entityScript = null;
+        public GameManager gameManager = null;
         public bool lockAfterSelecting = false;
         public float enterNodeDelay = 1f;
         public MapManager mapManager;
@@ -57,15 +57,15 @@ namespace Map
             view.SetAttainableNodes();
             view.SetLineColors();
             mapNode.ShowSwirlAnimation();
-            if (entityScript = null)
-                entityScript = GetComponent<entityManager>();
+            if (gameManager = null)
+                gameManager = GetComponent<GameManager>();
             if (champSelection == null)
                 champSelection = GameObject.Find("buttonManagerHero").GetComponent<champSelector>();
 
-            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode, entityScript, champSelection));
+            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode, gameManager, champSelection));
         }
 
-        private static void EnterNode(MapNode mapNode, entityManager champ, champSelector champi)
+        private static void EnterNode(MapNode mapNode, GameManager manager, champSelector champi)
         {
             // we have access to blueprint name here as well
             Debug.Log("Entering node: " + mapNode.Node.blueprintName + " of type: " + mapNode.Node.nodeType);
@@ -83,8 +83,18 @@ namespace Map
                 case NodeType.RestSite:
                     break;
                 case NodeType.Treasure:
-                    foreach (hero perso in champ.getListHero())
-                        perso.setFullLife();
+                    if(UnityEngine.Random.Range(1,2) == 1)
+                    {
+                        manager.LifeArboriste += 25;
+                        if(manager.LifeArboriste > 50)
+                            manager.LifeArboriste = 50;
+                    }
+                    else
+                    {
+                        manager.LifePretre += 25;
+                        if(manager.LifePretre > 50)
+                            manager.LifePretre = 50;
+                    }
                     break;
                 case NodeType.Store:
                     break;
