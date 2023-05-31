@@ -465,8 +465,8 @@ public class Fight : MonoBehaviour
                             case dataCard.CardType.Damage:
                                 dataCard.DamageEffect(h, e.values[howFar]);
                                 break;
-                            case dataCard.CardType.Heal:
-                                dataCard.HealEffect(h, e.values[howFar]);
+                            case dataCard.CardType.Poison:
+                                dataCard.DamageEffect(h, e.values[howFar]);
                                 break;
                             case dataCard.CardType.Armor:
                                 ;
