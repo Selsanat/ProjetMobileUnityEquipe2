@@ -133,6 +133,7 @@ public class dataCard : ScriptableObject
         Transcend,//un personnage avec assez de points de veneration peut se transcender
         Poison,//le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
         Steal,//inflige X degat et soigne X à un autre personnage
+        GainMana
     }
 
 }

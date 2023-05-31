@@ -608,31 +608,73 @@ public class Fight : MonoBehaviour
                         card.heal(hero);
                     }
                     break;
-                case dataCard.CardType.GainMana:
+                case dataCard.CardType.Armor:
+                    foreach (hero hero in selected)
+                    {
+                        hero.setArmor(2); // mettre la valeur de l'armure
+                    }
+                    break;
+                case dataCard.CardType.AddMana:
                     foreach (hero hero in selected)
                     {
                         card.BuffDamage(hero);
                     }
                     break;
-                case (dataCard.CardType)4:
+                
+                case dataCard.CardType.AddCard: //pioche une carte
+                    foreach (hero hero in selected)
+                    {
+                        Gm.deck.DrawCard(1);
+                    }
+                    break;
+                case dataCard.CardType.UpgradeCard://la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
+                    foreach (hero hero in selected)
+                    {
+                    }
+                    break;
+                case dataCard.CardType.ChangeCardMana://change le mana d'une carte
                     foreach (hero hero in selected)
                     {
 
                     }
                     break;
-                case (dataCard.CardType)5:
+                case dataCard.CardType.ChangeDamage://change le damage d'une carte
                     foreach (hero hero in selected)
                     {
 
                     }
                     break;
-                case (dataCard.CardType)6:
+                case dataCard.CardType.FromNow://les effets de cette carte dure jusqu'a la fin du combat
                     foreach (hero hero in selected)
                     {
 
                     }
                     break;
-                case (dataCard.CardType)7:
+                case dataCard.CardType.Venerate://augmente la barre de veneration d'un allie
+                    foreach (hero hero in selected)
+                    {
+
+                    }
+                    break;
+                case dataCard.CardType.Transcend://un personnage avec assez de points de veneration peut se transcender
+                    foreach (hero hero in selected)
+                    {
+
+                    }
+                    break;
+                case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
+                    foreach (hero hero in selected)
+                    {
+
+                    }
+                    break;
+                case dataCard.CardType.Steal://inflige X degat et soigne X à un autre personnage
+                    foreach (hero hero in selected)
+                    {
+
+                    }
+                    break;
+                case dataCard.CardType.GainMana:
                     foreach (hero hero in selected)
                     {
 
