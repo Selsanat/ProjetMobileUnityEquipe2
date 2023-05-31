@@ -6,9 +6,14 @@ using UnityEngine;
 using TMPro;
 using NaughtyAttributes;
 using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
+using Color = UnityEngine.Color;
 using Unity.VisualScripting;
 using System.Linq;
 using System.Diagnostics.Tracing;
+using UnityEngine.UIElements;
+using DG.Tweening.Core.Easing;
+using System.Drawing;
 
 public class Deck : MonoBehaviour
 {
@@ -23,7 +28,14 @@ public class Deck : MonoBehaviour
     [SerializeField] float DecalageX;
     [SerializeField] float DecalageY;
     [SerializeField] float Rotation;
-    [SerializeField] int NombrePiocheDebutTour;
+    [SerializeField] int NombrePiocheDebutTour = 4;
+    [SerializeField] Transform MilieuPlaceCard;
+    [SerializeField] float VitesseTranspo = 10f;
+    [SerializeField] float TempsTrans = 0.5f;
+    
+
+
+
 
     private List<CardObject> GraveYard = new List<CardObject>();
     [SerializeField] List<CardObject> Hand = new List<CardObject>();
@@ -47,20 +59,145 @@ public class Deck : MonoBehaviour
         Gizmos.color = new Color(1, 0, 0, 0.5f);
         Gizmos.DrawCube(new Vector3(0,-50+RangePourActiverCarte / 2, 0), new Vector3(100, 100+RangePourActiverCarte/2, 5));
         Gizmos.color = new Color(0, 0, 1, 0.5f);
-        Gizmos.DrawCube(cardSlots[0].transform.position, new Vector3(1, 1, 1)) ;
-        for (int i = 1; i < NbCarteHandPossible + 1; i++)
-        {
 
-            if (i % 2 == 0)
+        if (Hand.Count % 2 == 0)
+        {
+            Gizmos.DrawCube(new Vector3((MilieuPlaceCard.position.x +DecalageX), MilieuPlaceCard.position.y, 0), new Vector3(1, 1, 1));
+        }
+        else
+        {
+            Gizmos.DrawCube(MilieuPlaceCard.transform.position, new Vector3(1, 1, 1));
+        }
+        for (int i = 1; i < NbCarteHandPossible; i++)
+        {
+            if (i == 1 && Hand.Count % 2 != 0)
             {
-                Gizmos.DrawCube(new Vector3((-cardSlots[0].position.x - DecalageX * i) * -1, cardSlots[0].position.y - DecalageY * i, -i), new Vector3(1, 1, 1));
+                Gizmos.DrawCube(new Vector3((MilieuPlaceCard.position.x - DecalageX-DecalageX), MilieuPlaceCard.position.y -DecalageY, -i), new Vector3(1, 1, 1));
             }
             else
             {
-                Gizmos.DrawCube(new Vector3(cardSlots[0].position.x - DecalageX * (i - 1)- DecalageX*2, cardSlots[0].position.y - DecalageY * (i - 1), i), new Vector3(1, 1, 1));
+                if (i % 2 == 0)
+                {
+                    if (Hand.Count % 2 == 0)
+                    {
+                        Gizmos.DrawCube(new Vector3((-MilieuPlaceCard.position.x - DecalageX * i) * -1 + DecalageX, MilieuPlaceCard.position.y - DecalageY * i, -i), new Vector3(1, 1, 1));
+                    }
+                    else
+                    {
+                        Gizmos.DrawCube(new Vector3((-MilieuPlaceCard.position.x - DecalageX * i) * -1, MilieuPlaceCard.position.y - DecalageY * i, -i), new Vector3(1, 1, 1));
+                    }
+                     
+                }
+                else
+                {
+                    if (Hand.Count % 2 != 0)
+                    {
+                        Gizmos.DrawCube(new Vector3(MilieuPlaceCard.position.x - DecalageX * (i - 1) - DecalageX * 2, MilieuPlaceCard.position.y - DecalageY - DecalageY * (i - 1), i), new Vector3(1, 1, 1));
+                    }
+                    else
+                    {
+                        Gizmos.DrawCube(new Vector3(MilieuPlaceCard.position.x - DecalageX * (i - 1) - DecalageX * 2+DecalageX, MilieuPlaceCard.position.y - DecalageY * (i - 1), i), new Vector3(1, 1, 1));
+                    }
+                }
             }
+
         }
 
+    }
+
+    public void rearangecardslots()
+    {
+        cardSlots[0].position = MilieuPlaceCard.position;
+        if (Hand.Count % 2 == 0)
+        {
+            cardSlots[0].position = new Vector3((MilieuPlaceCard.position.x + DecalageX), MilieuPlaceCard.position.y, 0);
+        }
+        else
+        {
+            cardSlots[0].position = MilieuPlaceCard.transform.position;
+        }
+            cardSlots[0].rotation = Quaternion.AngleAxis(0, Vector3.back);
+
+        for (int i = 1; i < NbCarteHandPossible; i++)
+        {
+            if (i == 1 && Hand.Count % 2 != 0)
+            {
+                cardSlots[i].position = new Vector3((MilieuPlaceCard.position.x - DecalageX - DecalageX), MilieuPlaceCard.position.y - DecalageY, -i);
+                cardSlots[i].rotation = Quaternion.AngleAxis(0, Vector3.back);
+            }
+            else
+            {
+                if (i % 2 == 0)
+                {
+                    if (Hand.Count % 2 == 0)
+                    {
+                        cardSlots[i].position = new Vector3((-MilieuPlaceCard.position.x - DecalageX * i) * -1 + DecalageX, MilieuPlaceCard.position.y - DecalageY * i, -i);
+                    }
+                    else
+                    {
+                        cardSlots[i].position = new Vector3((-MilieuPlaceCard.position.x - DecalageX * i) * -1, MilieuPlaceCard.position.y - DecalageY * i, -i);
+                    }
+                        
+                    cardSlots[i].rotation = Quaternion.AngleAxis(Rotation * i, Vector3.back);
+                }
+                else
+                {
+                    if (Hand.Count % 2 != 0)
+                    {
+                        cardSlots[i].position = new Vector3(MilieuPlaceCard.position.x - DecalageX * (i - 1) - DecalageX * 2, MilieuPlaceCard.position.y - DecalageY - DecalageY * (i - 1), i);
+
+
+                    }
+                    else {
+                        cardSlots[i].position = new Vector3(MilieuPlaceCard.position.x - DecalageX * (i - 1) - DecalageX * 2 + DecalageX, MilieuPlaceCard.position.y - DecalageY * (i - 1), i);
+                    }
+                    cardSlots[i].rotation = Quaternion.AngleAxis(Rotation * -i, Vector3.back);
+                }
+            }
+
+
+        }
+        List<Transform> newTempList = new List<Transform>();
+        for (int i = NbCarteHandPossible; i > 0; i--)
+        {
+            if (i % 2 != 0)
+                newTempList.Add(cardSlots[i]);
+
+        }
+        for (int i = 0; i < NbCarteHandPossible; i++)
+        {
+            if (i % 2 == 0)
+                newTempList.Add(cardSlots[i]);
+        }
+
+        cardSlots = newTempList;
+
+    }
+
+    void RestoreCardPosition(bool hard)
+    {
+        for(int i = 0; i < Hand.Count; i++)
+        {
+            if (Hand[i] != gameManager?.CarteUtilisee)
+            {
+                if (hard)
+                {
+                    Hand[i].gameObject.transform.position = cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].position;
+                    Hand[i].gameObject.transform.rotation = cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].rotation;
+                }
+                else
+                {
+                    if (Hand[i].gameObject.transform.position != cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].position)
+                    {
+                        StartCoroutine(TransposeAtoB(Hand[i].gameObject, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].position));
+                    }
+                    if (Hand[i].gameObject.transform.rotation != cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].rotation)
+                    {
+                        StartCoroutine(TransposeAtoBRotation(Hand[i].gameObject, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].rotation));
+                    }
+                }
+            }
+        }
     }
     
     public void Start()
@@ -75,34 +212,7 @@ public class Deck : MonoBehaviour
         gameManager.FM.play = this.PlayButton;
         gameManager.FM.cancel = this.CancelButton;
 
-
-        for (int i = 1; i < NbCarteHandPossible; i++)
-        {
-            if (i % 2 == 0)
-            {
-                cardSlots[i].position = new Vector3((-cardSlots[0].position.x - DecalageX * i) * -1, cardSlots[0].position.y - DecalageY * i, -i);
-                cardSlots[i].rotation = Quaternion.AngleAxis(Rotation * i, Vector3.back);
-            }
-            else
-            {
-                cardSlots[i].position = new Vector3(cardSlots[0].position.x - DecalageX * (i - 1) - DecalageX * 2, cardSlots[0].position.y - DecalageY * (i - 1), i);
-                cardSlots[i].rotation = Quaternion.AngleAxis(Rotation * -i, Vector3.back);
-            }
-        }
-        List<Transform> newTempList = new List<Transform>();
-        for(int i = NbCarteHandPossible; i > 0; i--)
-        {
-            if(i%2 !=0)
-                newTempList.Add(cardSlots[i]);
-        }
-        for (int i = 0; i < NbCarteHandPossible; i++)
-        {
-            if (i % 2 == 0)
-                newTempList.Add(cardSlots[i]);
-        }
-
-        cardSlots = newTempList;
-
+            rearangecardslots();
     }
 
     public void ReorderZCards()
@@ -152,8 +262,12 @@ public class Deck : MonoBehaviour
         {
             print("Pas De Cartes bouffon");
         }
+        gameManager.CarteUtilisee = null;
+        rearangecardslots();
+        RestoreCardPosition(true);
+        ReorderZCards();
         gameManager.Hand = Hand;
-        CancelChosenCard();
+        CancelChosenCard(true);
     }
 /*    public void DecaleCartes(int Decalage)
     {
@@ -190,6 +304,8 @@ public class Deck : MonoBehaviour
                         ShuffleGraveyardToHand();
                     }
                     gameManager.Hand = Hand;
+                    rearangecardslots();
+                    RestoreCardPosition(false);
                     ReorderZCards();
                     return;
                 }
@@ -207,7 +323,6 @@ public class Deck : MonoBehaviour
             }
 
         }
-        ReorderZCards();
         gameManager.Hand = Hand;
     }
     public void DrawCard(int number)
@@ -252,20 +367,13 @@ public class Deck : MonoBehaviour
     {
         foreach (CardObject carte in Hand)
         {
-            carte.transform.localScale = new Vector3(1, 1, 1);
+            if (gameManager?.CarteUtilisee!= carte)
+            {
+                carte.transform.localScale = new Vector3(1, 1, 1);
 
-            carte.gameObject.SetActive(true);
-            
-        }
-    }
-    private void ReturnCardsToHand()
-    {
-        foreach(CardObject carte in Hand)
-        {
-            carte.transform.position = carte.Slot.position;
-            carte.transform.rotation = carte.Slot.rotation;
-            
-
+                carte.gameObject.SetActive(true);
+            }
+            StartCoroutine(TransposeTransparency(carte.gameObject));
         }
     }
     private void HandToGraveyard()
@@ -291,22 +399,34 @@ public class Deck : MonoBehaviour
 
     public void StartTurn()
     {
-        DrawCard();
-        DrawCard();
-        DrawCard();
-        DrawCard();
+        DrawCard(NombrePiocheDebutTour);
     }
 
-    public void CancelChosenCard()
+    public void CancelChosenCard(bool TrueIfPlay)
     {
         ShowHand();
-        ReturnCardsToHand();
+        RestoreCardPosition(true);
+        if (!TrueIfPlay)
+        {
+
+            StartCoroutine(TransposeAtoBScale(gameManager.CarteUtilisee.gameObject, new Vector3(1, 1, 1)));
+            StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + gameManager.CarteUtilisee.indexHand].position));
+            StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + gameManager.CarteUtilisee.indexHand].rotation));
+        }
         gameManager.CardsInteractable = true;
         gameManager.CarteUtilisee = null;
         CancelButton.gameObject.SetActive(false);
         PlayButton.gameObject.SetActive(false);
+        rearangecardslots();
+
+
         ReorderZCards();
         gameManager.FM.CancelCard();
+
+    }
+    public void CancelChosenCard()
+    {
+        CancelChosenCard(false);
     }
 
 
@@ -318,5 +438,58 @@ public class Deck : MonoBehaviour
     private void BPlayCard()
     {
         //PlayCard(CarteAJouer);
+    }
+
+    IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
+    {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        while (timeElapsed< TempsTransition)
+        {
+            objetABouger.transform.position = Vector3.Lerp(objetABouger.transform.position, position, Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        objetABouger.transform.position = position;
+
+
+    }
+    IEnumerator TransposeAtoBRotation(GameObject objetABouger, Quaternion position)
+    {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        while (timeElapsed < TempsTransition)
+        {
+            objetABouger.transform.rotation = Quaternion.Lerp(objetABouger.transform.rotation, position, Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        objetABouger.transform.rotation = position;
+    }
+
+    IEnumerator TransposeAtoBScale(GameObject objetABouger, Vector3 position) {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        while (timeElapsed < TempsTransition)
+        {
+            objetABouger.transform.localScale = Vector3.Lerp(objetABouger.transform.localScale, position, Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        objetABouger.transform.localScale = position;
+    }
+    IEnumerator TransposeTransparency(GameObject objetABouger)
+    {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        SpriteRenderer mesh = objetABouger.GetComponent<SpriteRenderer>();
+        mesh.color = new Color(mesh.color.r, mesh.color.g, mesh.color.b,0);
+        while (timeElapsed < TempsTransition)
+        {
+            mesh.color = Color.Lerp(mesh.color, new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1), Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1);
     }
 }
