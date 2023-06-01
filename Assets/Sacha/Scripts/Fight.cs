@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using static OneLine.Example.SlicesTest;
 using Unity.VisualScripting;
 using UnityEngine.Rendering.Universal;
+using System.Linq;
 
 public class Fight : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class Fight : MonoBehaviour
     [SerializeField] Button endTurnButton;
 
     private int mana;
+    private int transfo = 0;
     [SerializeField] List<hero> heroes;
     [SerializeField] List<hero> enemies;
     [SerializeField] List<hero> selectedhero;
@@ -315,7 +317,6 @@ public class Fight : MonoBehaviour
         if(Gm.allWave[Gm.waveCounter][waveType].Count == 1)
         {
             en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
-            Gm.entityManager.heroList.Add(en1);
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
             ennemisButton1 = temp.GetComponent<Button>();
@@ -330,7 +331,6 @@ public class Fight : MonoBehaviour
         else if (Gm.allWave[Gm.waveCounter][waveType].Count == 2)
         {
             en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
-            Gm.entityManager.heroList.Add(en1);
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
             ennemisButton1 = temp.GetComponent<Button>();
@@ -340,7 +340,6 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             Debug.Log(en1.getPv());
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
-            Gm.entityManager.heroList.Add(En2);
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
             ennemisButton2 = temp.GetComponent<Button>();
@@ -348,13 +347,13 @@ public class Fight : MonoBehaviour
             En2.m_slider.maxValue = En2.getMaxPv();
             En2.m_slider.value = En2.getPv();
             ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
+            Debug.Log(En2.getPv());
             GameObject.Find("enemy3").SetActive(false);
 
         }
         else if (Gm.allWave[Gm.waveCounter][waveType].Count == 3)
         {
             en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
-            Gm.entityManager.heroList.Add(en1);
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
             ennemisButton1 = temp.GetComponent<Button>();
@@ -364,7 +363,6 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             Debug.Log(en1.getPv());
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
-            Gm.entityManager.heroList.Add(En2);
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
             ennemisButton2 = temp.GetComponent<Button>();
@@ -374,7 +372,6 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
 
             En3 = Gm.allWave[Gm.waveCounter][waveType][2].SetEnemy();
-            Gm.entityManager.heroList.Add(En3);
             temp = GameObject.Find("enemy3");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
             ennemisButton3 = temp.GetComponent<Button>();
@@ -637,7 +634,7 @@ public class Fight : MonoBehaviour
     }
     private void PlayEnemyEffects()
     {
-        foreach (hero h in enemies)
+        foreach (hero h in enemies.ToList())
         {
             for (int i = 0; i < h.MyEffects.Count; i++)
             {
@@ -677,10 +674,14 @@ public class Fight : MonoBehaviour
 
     private void PlayEnemyTurn()
     {
+
+        transfo += mana;
+        mana = 0;
+
         Debug.Log("Ennemyturn");
         if(coroutine != null)
             StopCoroutine(coroutine);
-        foreach (hero En in enemies)
+        foreach (hero En in enemies.ToList())
         {
             En.EnemyAttack(heroes);
             if (!CheckifHeroAreAlive())
@@ -722,9 +723,10 @@ public class Fight : MonoBehaviour
         pretreButton?.onClick.RemoveAllListeners();
         ennemisButton1 = null;
         ennemisButton2 = null;
+        ennemisButton3 = null;
         arboristeButton = null;
         pretreButton = null;
-
+        transfo = 0;
         heroes.Clear();
         enemies.Clear();
         selectedhero.Clear();
