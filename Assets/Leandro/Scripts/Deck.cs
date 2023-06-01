@@ -268,6 +268,7 @@ public class Deck : MonoBehaviour
         ReorderZCards();
         gameManager.Hand = Hand;
         CancelChosenCard(true);
+        gameManager.isHoverButton = false;
     }
     /*    public void DecaleCartes(int Decalage)
         {
@@ -422,7 +423,7 @@ public class Deck : MonoBehaviour
 
         ReorderZCards();
         gameManager.FM.CancelCard();
-
+        gameManager.isHoverButton = false;
     }
     public void CancelChosenCard()
     {

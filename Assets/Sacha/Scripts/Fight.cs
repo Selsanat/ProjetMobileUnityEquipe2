@@ -188,7 +188,6 @@ public class Fight : MonoBehaviour
     }
     void switchLightSelection(Button Boutton)
     {
-        print(Boutton);
         Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(0).gameObject.GetComponent<Light2D>();
         lightDuBoutton.enabled = true;
     }
@@ -357,9 +356,9 @@ public class Fight : MonoBehaviour
 
         if (!selectedcard.AOEEnnemies && selectedcard.TargetEnnemies)
         {
-            ennemisButton1.onClick.AddListener(() => { ClearSide(false); selectedhero.Add(enemies[0]); switchLightSelection(ennemisButton1); });
+            ennemisButton1.onClick.AddListener(() => { Deselection(false); selectedhero.Add(enemies[0]); switchLightSelection(ennemisButton1); });
             //ennemisButton1.OnDeselect(clearCardSelected());
-            ennemisButton2.onClick.AddListener(() => { ClearSide(false); selectedhero.Add(enemies[1]); switchLightSelection(ennemisButton2); });
+            ennemisButton2.onClick.AddListener(() => { Deselection(false); selectedhero.Add(enemies[1]); switchLightSelection(ennemisButton2); });
 
         }
         else
@@ -375,8 +374,8 @@ public class Fight : MonoBehaviour
         }
         if (!selectedcard.AOEAllies && selectedcard.TargetAllies)
         {
-            arboristeButton?.onClick.AddListener(() => { ClearSide(true); selectedhero.Add(heroes[0]); switchLightSelection(arboristeButton); });
-            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton); ClearSide(true); ; if (perso1 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); });
+            arboristeButton?.onClick.AddListener(() => { Deselection(false); selectedhero.Add(heroes[0]); switchLightSelection(arboristeButton); });
+            pretreButton?.onClick.AddListener(() => { Deselection(false); switchLightSelection(pretreButton); if (perso1 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); });
         }
         else
         {
