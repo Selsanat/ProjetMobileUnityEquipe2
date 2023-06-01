@@ -17,6 +17,10 @@ using System.Drawing;
 
 public class Deck : MonoBehaviour
 {
+
+    [SerializeField] dataDeck DATADECK;
+
+
     [SerializeField] int CarteAJouer;
     [SerializeField] float RangePourActiverCarte;
     [SerializeField] Button PiocheButton;
@@ -203,6 +207,12 @@ public class Deck : MonoBehaviour
     
     public void Start()
     {
+        int count = 0;
+        foreach(CardObject card in deck)
+        {
+            card.DataCard = DATADECK.dataCards[count];
+            count++;
+        }
         gameManager = GameManager.Instance;
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
