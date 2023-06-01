@@ -1,14 +1,12 @@
 using DG.Tweening.Core.Easing;
-using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using static entityManager;
 
 [System.Serializable]
-[ExecuteInEditMode]
+
 [CreateAssetMenu]
 public class dataCard : ScriptableObject
 {
@@ -37,28 +35,13 @@ public class dataCard : ScriptableObject
     [SerializeField] bool m_isUpsideDown;
     [SerializeField] bool m_isBonusCard;
 
-
-    [Header("TEXT")]
-    [InfoBox("/!/ ATTENTION /!/ NE PAS DONNER DEUX FOIS LE MÊME NOM A DEUX CARTE SOUS PEINE DE LAG")]
-    [SerializeField] string m_cardName;
-    [SerializeField] string m_onCardExplain;
-    [SerializeField] string m_FullCardExplain;
-
     [Header("looking")]
-    [SerializeField] Sprite m_cardFrontSprite;
-    [SerializeField] Sprite m_cardBackSprite;
+    [SerializeField] Sprite m_cardSprite;
+    [SerializeField] public String Description;
+    [SerializeField] public String Name;
 
-    public Sprite CardSprite { get => m_cardFrontSprite; private set => m_cardFrontSprite = value; }
+    public Sprite CardSprite { get => m_cardSprite; private set => m_cardSprite = value; }
     public List<CardType> CardTypes { get => m_cardTypes; set => m_cardTypes = value; }
-    public List<CardEffect> CardEffects { get => m_cardEffects; set => m_cardEffects = value; }
-
-    void OnValidate()
-    {
-        if(this.name != m_cardName && m_cardName != null)
-        {         
-            AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(this), m_cardName);
-        }
-    }
 
     public bool getIsDeleteOnTurn()
     {
@@ -120,20 +103,25 @@ public class dataCard : ScriptableObject
     }
     public enum CardType
     {
-        Damage,
         Heal,
-        Armor,
-        AddMana,
-        AddCard,//pioche une carte
-        UpgradeCard,//la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
-        ChangeCardMana,//change le mana d'une carte
-        ChangeDamage,//change le damage d'une carte
-        FromNow,//les effets de cette carte dure jusqu'a la fin du combat
-        Venerate,//augmente la barre de veneration d'un allie
-        Transcend,//un personnage avec assez de points de veneration peut se transcender
-        Poison,//le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
-        Steal,//inflige X degat et soigne X à un autre personnage
-        GainMana
+        Damage,
+        Injury, //degat sur plusieurs tours
+        Block,
+        EmptyMana,
+        DoubleShieldMana, //donne autant de shield que le joueur a de mana
+        DoubleHeal, //double le heal du joueur
+        DoubleInjury, //double les blessures infliges
+        InjuryOnAttack, //si ennemie attaque il prend des blessures
+        ArmureAsDamage, //armure devient des degats qu'on inflige a tout les ennemies
+        AttackAsArmure, // les degats inflige aux ennemis donne de armure
+        DamageAsArmur, // les degats subis aux ennemis donne de armure
+        DeleteNerf, // supprime tout les effets negatifs
+        DeleteArmor, // retire l'armure des ennemies
+        GainMana,
+        GainCard,
+        BlockAsHeal, //chaque degat bloque devient un heal
+        AllWoundAsInjury, //Inflige autant de blessures que de points de vie manquants � tout les ennemis
+        MonsterDead, //quand un monstre meurt      
     }
 
 }

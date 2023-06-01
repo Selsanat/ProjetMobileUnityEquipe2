@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using NaughtyAttributes;
 //using Unity.VisualScripting.Dependencies.Sqlite;
 using DG.Tweening.Core.Easing;
+using Unity.VisualScripting;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -126,12 +127,15 @@ public class CardObject : MonoBehaviour
                     print(this.GetComponent<SpriteRenderer>().sprite);
                     gameManager.InspectUI.Image.sprite = this.GetComponent<SpriteRenderer>().sprite;
                     gameManager.InspectUI.UI.SetActive(true);
+                    gameManager.InspectUI.Name.text = this.DataCard.Name;
+                    gameManager.InspectUI.description.text = this.DataCard.Description;
                 }
             }
             else
             {
                 gameManager.CarteUtilisee = this;
                 gameManager.FM.Cardsend(this, indexHand);
+                Slot = this.gameObject.transform;
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
                 FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true) ;
                 SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies) ;

@@ -26,3 +26,6 @@ MonoBehaviour:
   m_isUpsideDown: 0
   m_isBonusCard: 0
   m_cardSprite: {fileID: 0}
+  Description: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait
+    des trucs avec ta soeur
+  Name: Sort ennemy single
