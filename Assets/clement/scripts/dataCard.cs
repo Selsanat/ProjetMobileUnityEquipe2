@@ -44,6 +44,8 @@ public class dataCard : ScriptableObject
     [Header("looking")]
     [SerializeField] Sprite m_cardFrontSprite;
     [SerializeField] Sprite m_cardBackSprite;
+    [SerializeField] public String Description;
+    [SerializeField] public String Name;
 
     private GameManager GM;
 
