@@ -541,4 +541,25 @@ public class Deck : MonoBehaviour
         HandToGraveyard();
         yield return DrawCardCoroutine(NombrePiocheDebutTour);
     }
+    IEnumerator TransfoCoroutine()
+    {
+        foreach (CardObject card in Hand.ToList())
+        {
+            float TempsTransition = TempsTrans;
+            float timeElapsed = 0;
+            GameObject CardGO = card.gameObject;
+            while (timeElapsed < TempsTransition)
+            {
+                CardGO.transform.position = Vector3.Lerp(CardGO.transform.position, Camera.main.ScreenToWorldPoint(graveyardCount.transform.position), Time.deltaTime * VitesseTranspo);
+                CardGO.transform.localScale = Vector3.Lerp(CardGO.transform.localScale, new Vector3(0, 0, 0), Time.deltaTime * VitesseTranspo);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+            yield return new WaitForSeconds(0.1f);
+            card.gameObject.SetActive(false);
+            CardGO.transform.position = Camera.main.ScreenToWorldPoint(graveyardCount.transform.position);
+            CardGO.transform.localScale = new Vector3(1, 1, 1);
+        }
+        yield return new WaitForSeconds(0.5f);
+    }
 }
