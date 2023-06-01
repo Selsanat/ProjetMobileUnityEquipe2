@@ -502,7 +502,7 @@ public class Deck : MonoBehaviour
         for(int i = 0; i < nombreAPiocher; i++)
         {
             yield return DrawCardCoroutine();
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
         }
     }
     IEnumerator DiscardCoroutine()
