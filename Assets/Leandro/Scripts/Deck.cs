@@ -38,7 +38,7 @@ public class Deck : MonoBehaviour
 
 
     private List<CardObject> GraveYard = new List<CardObject>();
-    [SerializeField] List<CardObject> Hand = new List<CardObject>();
+    [SerializeField] public List<CardObject> Hand = new List<CardObject>();
     public List<CardObject> deck;
 
     private List<CardObject> playedCards;
@@ -175,7 +175,7 @@ public class Deck : MonoBehaviour
 
     }
 
-    void RestoreCardPosition(bool hard)
+    public void RestoreCardPosition(bool hard)
     {
         for(int i = 0; i < Hand.Count; i++)
         {
@@ -256,6 +256,10 @@ public class Deck : MonoBehaviour
         CancelChosenCard(true);
         gameManager.isHoverButton = false;
     }
+    public Transform GetTransformSlotFromCard(CardObject card)
+    {
+        return (cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + card.indexHand]);
+    }
     /*    public void DecaleCartes(int Decalage)
         {
             for(int i = 0; i < Hand.Count;i++)
@@ -268,7 +272,7 @@ public class Deck : MonoBehaviour
         }*/
     public CardObject DrawCard()
     {
-        if (deck.Count >= 1)
+        if (deck.Count >= 1 && availableCardSlots.Contains(true))
         {
             CardObject randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
 
@@ -307,7 +311,7 @@ public class Deck : MonoBehaviour
             }
             else
             {
-                print("Graveyard vide idiot");
+                print("Graveyard vide idiot ou plus de place dans la main idiot");
             }
 
         }
@@ -429,7 +433,7 @@ public class Deck : MonoBehaviour
         //PlayCard(CarteAJouer);
     }
 
-    IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
+    public IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
     {
         float TempsTransition = TempsTrans;
         float timeElapsed = 0;
@@ -467,7 +471,7 @@ public class Deck : MonoBehaviour
         }
         objetABouger.transform.localScale = position;
     }
-    IEnumerator TransposeTransparency(GameObject objetABouger)
+    public IEnumerator  TransposeTransparency(GameObject objetABouger)
     {
         float TempsTransition = TempsTrans;
         float timeElapsed = 0;

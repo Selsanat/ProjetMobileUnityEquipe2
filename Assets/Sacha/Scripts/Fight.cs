@@ -198,11 +198,12 @@ public class Fight : MonoBehaviour
         play.gameObject.SetActive(false);
         cancel.gameObject.SetActive(false);
         DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
-        
+        Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
         dissolveController.isDissolving = true;
         yield return new WaitUntil(() => dissolveController.dissolveAmount < 0);
         dissolveController.isDissolving = false;
         dissolveController.dissolveAmount = 1;
+        Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
         isCardSend = true;
     }
     #endregion
