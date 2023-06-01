@@ -23,12 +23,12 @@ MonoBehaviour:
   AOEAllies: 1
   AOEEnnemies: 0
   m_isDeleteOnTurn: 0
-  m_isUpsideDown: 0
+  m_isUpsideDown: 1
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
-  m_cardFrontSprite: {fileID: 0}
-  m_cardBackSprite: {fileID: 0}
+  m_cardFrontSprite: {fileID: 21300000, guid: 9f4161ff0fad843419924eb8815c5afb, type: 3}
+  m_cardBackSprite: {fileID: 21300000, guid: 41b708636d107954fbc5448c8d9bb13f, type: 3}
   Description: "Un sort de zone sur les alli\xE9s, qui les tues vu qu'on est nul
     en gp"
   Name: "Sort alli\xE9 en zone"
