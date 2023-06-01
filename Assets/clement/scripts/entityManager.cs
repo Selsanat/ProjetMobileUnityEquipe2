@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class entityManager : MonoBehaviour
 {
@@ -44,6 +45,8 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected bool isProvocation = false;
     [SerializeField] protected int m_damageMultiplier = 1;
     [SerializeField] protected int m_mana;
+    [SerializeField] public Sprite m_sprite;
+    [SerializeField] public Slider m_slider;
     [SerializeField] protected Deck m_deck;
     [SerializeField] public List<hero> heroList;
     [SerializeField] protected bool multipleTarget;
@@ -73,7 +76,7 @@ public class entityManager : MonoBehaviour
             damage = 0;
         
         m_Pv -= damage * m_damageMultiplier;
-
+        m_slider.value = m_Pv;
         Debug.Log("Pv apres: hero" + m_Pv + m_role);
         if (m_Pv <= 0)
         {
@@ -89,6 +92,7 @@ public class entityManager : MonoBehaviour
             gameManager.LifePretre = m_Pv;
         }
     }
+
 
 
 }

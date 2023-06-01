@@ -31,11 +31,14 @@ public class Fight : MonoBehaviour
     bool test = false;
     private bool prout;
     [SerializeField] public Button play;
+    [SerializeField] public Button cancel;
     [SerializeField] Button arboristeButton;
     [SerializeField] Button pretreButton;
     [SerializeField] Button ennemisButton1;
     [SerializeField] Button ennemisButton2;
+    [SerializeField] Button ennemisButton3;
     [SerializeField] Button selectedButton;
+
     private int mana;
     [SerializeField] List<hero> heroes;
     [SerializeField] List<hero> enemies;
@@ -58,7 +61,7 @@ public class Fight : MonoBehaviour
     {
         if (test == false)
         {
-            if (SceneManager.GetActiveScene().buildIndex == 0)
+            if (SceneManager.GetActiveScene().buildIndex == 1)
             {
                 test = true;
                 StartFight();
@@ -98,12 +101,19 @@ public class Fight : MonoBehaviour
         perso.transform.parent = ComponentBouton.transform;
         Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
         lumiere.enabled = false;
-        if (sideTrueIsAllies)
+        
+        if (ComponentBouton == ennemisButton1 || ComponentBouton == ennemisButton2)
         {
-            lightsAllies.Add(lumiere);
+            lightsEnnemies.Add(lumiere);
+            lumiere.color = Color.red;
             return;
         }
-        lightsEnnemies.Add(lumiere);
+        else
+        {
+            lumiere.color = Color.green;
+        }
+        lightsAllies.Add(lumiere);
+        
     }
 
     public void CancelCard()
@@ -112,6 +122,7 @@ public class Fight : MonoBehaviour
         ClearSide(false);
         ennemisButton1?.onClick.RemoveAllListeners();
         ennemisButton2?.onClick.RemoveAllListeners();
+        ennemisButton3?.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
         pretreButton?.onClick.RemoveAllListeners();
         Deselection(true);
@@ -178,43 +189,33 @@ public class Fight : MonoBehaviour
     }
     void switchLightSelection(Button Boutton)
     {
-        Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(0).gameObject.GetComponent<Light2D>();
+        Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(1).gameObject.GetComponent<Light2D>();
         lightDuBoutton.enabled = true;
+    }
+
+    public IEnumerator CardAnimDisolve()
+    {
+        play.gameObject.SetActive(false);
+        cancel.gameObject.SetActive(false);
+        DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
+        
+        dissolveController.isDissolving = true;
+        yield return new WaitUntil(() => dissolveController.dissolveAmount < 0);
+        dissolveController.isDissolving = false;
+        dissolveController.dissolveAmount = 1;
+        isCardSend = true;
     }
     #endregion
     public void StartFight()
     {
-        GameObject temp = GameObject.Find("enemy1");
-        temp.GetComponent<Image>().sprite = ennemy1Sprite;
-        ennemisButton1 = temp.GetComponent<Button>();
-        ChangerBouttonEnGameObject(ennemisButton1, ennemy1Sprite, false);
 
-
-        temp = GameObject.Find("enemy2");
-        temp.GetComponent<Image>().sprite = ennemy2Sprite;
-        ennemisButton2 = temp.GetComponent<Button>();
-        ChangerBouttonEnGameObject(ennemisButton2, ennemy2Sprite, false);
-
+        #region Set Up des personnages
+        GameObject temp;
 
         hero H1;
         hero H2;
         if (perso1 && perso2)
         {
-
-            temp = GameObject.Find("champ");
-            temp.GetComponent<Image>().sprite = heroSprite;
-            arboristeButton = temp.GetComponent<Button>();
-            ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
-
-
-
-
-            temp = GameObject.Find("champ2");
-            temp.GetComponent<Image>().sprite = heroSprite2;
-            pretreButton = temp.GetComponent<Button>();
-            GameObject.Find("champSolo").SetActive(false);
-            ChangerBouttonEnGameObject(pretreButton, heroSprite2, true);
-
 
             if (Gm.IsPretrePlayed == false)
             {
@@ -234,7 +235,22 @@ public class Fight : MonoBehaviour
             else
                 H2 = new hero(entityManager.Role.Pretre, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
 
+            temp = GameObject.Find("champ");
+            temp.GetComponent<Image>().sprite = heroSprite;
+            arboristeButton = temp.GetComponent<Button>();
+            ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
+            H2.m_slider = temp.GetComponentInChildren<Slider>();
+            H2.m_slider.maxValue = H2.getMaxPv();
+            H2.m_slider.value = H2.getPv();
 
+            temp = GameObject.Find("champ2");
+            temp.GetComponent<Image>().sprite = heroSprite2;
+            pretreButton = temp.GetComponent<Button>();
+            GameObject.Find("champSolo").SetActive(false);
+            ChangerBouttonEnGameObject(pretreButton, heroSprite2, true);
+            H1.m_slider = temp.GetComponentInChildren<Slider>();
+            H1.m_slider.maxValue = H1.getMaxPv();
+            H1.m_slider.value = H1.getPv();
         }
         else if(perso1)
         {
@@ -242,6 +258,7 @@ public class Fight : MonoBehaviour
             GameObject.Find("champ").SetActive(false);
             temp = GameObject.Find("champSolo");
             temp.GetComponent<Image>().sprite = heroSprite;
+            
             arboristeButton = temp.GetComponent<Button>();
             ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
             if (Gm.IsArboristePlayed == false)
@@ -255,7 +272,9 @@ public class Fight : MonoBehaviour
                 H2 = new hero(entityManager.Role.Pretre, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
 
 
-
+            H2.m_slider = temp.GetComponentInChildren<Slider>();
+            H2.m_slider.maxValue = H2.getMaxPv();
+            H2.m_slider.value = H2.getPv();
 
 
         }
@@ -276,18 +295,99 @@ public class Fight : MonoBehaviour
             else
                 H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
 
+            H1.m_slider = temp.GetComponentInChildren<Slider>();
+            H1.m_slider.maxValue = H1.getMaxPv();
+            H1.m_slider.value = H1.getPv();
+        }
+        #endregion
+
+        #region choix de la wave
+        int waveType = UnityEngine.Random.Range(0, Gm.allWave[Gm.waveCounter].Count -1);
+        Debug.Log("waveType : " + waveType);
+        hero en1;
+        hero En2;
+        hero En3;
+
+        
+
+        if(Gm.allWave[Gm.waveCounter][waveType].Count == 1)
+        {
+            en1 = Gm.allWave[Gm.waveCounter][waveType][0];
+            Gm.entityManager.heroList.Add(en1);
+            temp = GameObject.Find("enemy1");
+            temp.GetComponent<Image>().sprite = ennemy1Sprite;
+            ennemisButton1 = temp.GetComponent<Button>();
+            en1.m_slider = temp.GetComponentInChildren<Slider>();
+            en1.m_slider.maxValue = en1.getMaxPv();
+            en1.m_slider.value = en1.getPv();
+            Debug.Log(en1.getPv());
+            ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
+            GameObject.Find("enemy2").SetActive(false);
+            GameObject.Find("enemy3").SetActive(false);
+        }
+        else if (Gm.allWave[Gm.waveCounter][waveType].Count == 2)
+        {
+            en1 = Gm.allWave[Gm.waveCounter][waveType][0];
+            Gm.entityManager.heroList.Add(en1);
+            temp = GameObject.Find("enemy1");
+            temp.GetComponent<Image>().sprite = ennemy1Sprite;
+            ennemisButton1 = temp.GetComponent<Button>();
+            en1.m_slider = temp.GetComponentInChildren<Slider>();
+            en1.m_slider.maxValue = en1.getMaxPv();
+            en1.m_slider.value = en1.getPv();
+            ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
+            Debug.Log(en1.getPv());
+            En2 = Gm.allWave[Gm.waveCounter][waveType][1];
+            Gm.entityManager.heroList.Add(En2);
+            temp = GameObject.Find("enemy2");
+            temp.GetComponent<Image>().sprite = ennemy2Sprite;
+            ennemisButton2 = temp.GetComponent<Button>();
+            En2.m_slider = temp.GetComponentInChildren<Slider>();
+            En2.m_slider.maxValue = En2.getMaxPv();
+            En2.m_slider.value = En2.getPv();
+            ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
+            GameObject.Find("enemy3").SetActive(false);
 
         }
+        else if (Gm.allWave[Gm.waveCounter][waveType].Count == 3)
+        {
+            en1 = Gm.allWave[Gm.waveCounter][waveType][0];
+            Gm.entityManager.heroList.Add(en1);
+            temp = GameObject.Find("enemy1");
+            temp.GetComponent<Image>().sprite = ennemy1Sprite;
+            ennemisButton1 = temp.GetComponent<Button>();
+            en1.m_slider = temp.GetComponentInChildren<Slider>();
+            en1.m_slider.maxValue = en1.getMaxPv();
+            en1.m_slider.value = en1.getPv();
+            ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
+            Debug.Log(en1.getPv());
+            En2 = Gm.allWave[Gm.waveCounter][waveType][1];
+            Gm.entityManager.heroList.Add(En2);
+            temp = GameObject.Find("enemy2");
+            temp.GetComponent<Image>().sprite = ennemy2Sprite;
+            ennemisButton2 = temp.GetComponent<Button>();
+            En2.m_slider = temp.GetComponentInChildren<Slider>();
+            En2.m_slider.maxValue = En2.getMaxPv();
+            En2.m_slider.value = En2.getPv();
+            ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
 
-        //goEn1.AddComponent<>();
+            En3 = Gm.allWave[Gm.waveCounter][waveType][2];
+            Gm.entityManager.heroList.Add(En3);
+            temp = GameObject.Find("enemy3");
+            temp.GetComponent<Image>().sprite = ennemy2Sprite;
+            ennemisButton3 = temp.GetComponent<Button>();
+            En3.m_slider = temp.GetComponentInChildren<Slider>();
+            En3.m_slider.maxValue = En3.getMaxPv();
+            En3.m_slider.value = En3.getPv();
+            ChangerBouttonEnGameObject(ennemisButton3, En3.m_sprite, false);
+        }
 
 
 
-        hero en1 = new hero(entityManager.Role.Squellettes, 50, 50, 0, 0, null, 0);
-        
-        hero En2 = new hero(entityManager.Role.Squellettes, 50, 50, 0, 0, null, 0);
 
-        
+        #endregion
+
+
         StartTurn();
 
     }
@@ -316,26 +416,31 @@ public class Fight : MonoBehaviour
 
     public void Cardsend(CardObject card, int index)
     {
-        Debug.Log("card send");
         card.DataCard.m_index = card.indexHand;
         selectedcard = card.DataCard;
-        if(play == null)
+/*        if(play == null)
         {
             play = GameObject.Find("Play").GetComponent<Button>();
         }
+        if (cancel == null)
+        {
+            print("testAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            cancel = GameObject.Find("Cancel").GetComponent<Button>();
+        }*/
+
         //condition a voir en fonction des besoins
         //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alliée qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null || selectedhero != null || ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
-        play.onClick.AddListener(() => { if(conditionjouer) isCardSend = true; });
+        play.onClick.AddListener(() => { if(conditionjouer) StartCoroutine(CardAnimDisolve());});
         //[WIP]je dois le changer[WIP]
 
         if (!selectedcard.AOEEnnemies && selectedcard.TargetEnnemies)
         {
-            ennemisButton1.onClick.AddListener(() => 
-            { 
-                ClearSide(false); 
-                if(Gm.IsAnyProv) 
+            ennemisButton1?.onClick.AddListener(() => 
+            {
+                Deselection(false);
+                if (Gm.IsAnyProv) 
                 { 
                     if(enemies[0].getIsProvocation()) 
                     { 
@@ -354,7 +459,7 @@ public class Fight : MonoBehaviour
             //ennemisButton1.OnDeselect(clearCardSelected());
 
 
-            ennemisButton2.onClick.AddListener(() => 
+            ennemisButton2?.onClick.AddListener(() => 
             { 
                 ClearSide(false);
                 if (Gm.IsAnyProv) 
@@ -369,6 +474,23 @@ public class Fight : MonoBehaviour
                 { 
                     selectedhero.Add(enemies[1]); 
                     switchLightSelection(ennemisButton2); 
+                }
+            });
+            ennemisButton3?.onClick.AddListener(() =>
+            {
+                Deselection(false);
+                if (Gm.IsAnyProv)
+                {
+                    if (enemies[2].getIsProvocation())
+                    {
+                        selectedhero.Add(enemies[2]);
+                        switchLightSelection(ennemisButton3);
+                    }
+                }
+                else
+                {
+                    selectedhero.Add(enemies[2]);
+                    switchLightSelection(ennemisButton3);
                 }
             });
 
@@ -445,7 +567,7 @@ public class Fight : MonoBehaviour
 
     void PlayPlayerEffects() 
     {
-        foreach (hero h in selectedhero)
+        foreach (hero h in heroes)
         {
             for (int i = 0; i < h.MyEffects.Count; i++)
             {
@@ -467,9 +589,6 @@ public class Fight : MonoBehaviour
                                 break;
                             case dataCard.CardType.Poison:
                                 dataCard.DamageEffect(h, e.values[howFar]);
-                                break;
-                            case dataCard.CardType.Armor:
-                                ;
                                 break;
                         }
                         howFar++;
@@ -508,7 +627,36 @@ public class Fight : MonoBehaviour
     }
     private void PlayEnemyEffects()
     {
-        throw new NotImplementedException();
+        foreach (hero h in enemies)
+        {
+            for (int i = 0; i < h.MyEffects.Count; i++)
+            {
+                dataCard.CardEffect e = h.MyEffects[i];
+                if (e.nbTour != 0)
+                {
+                    e.nbTour--;
+                    if (e.nbTour == 0)
+                    {
+                        h.MyEffects.Remove(e);
+                    }
+                    int howFar = 0;
+                    foreach(dataCard.CardType c in e.effects)
+                    {
+                        switch (c)
+                        {
+                            case dataCard.CardType.Damage:
+                                dataCard.DamageEffect(h, e.values[howFar]);
+                                break;
+                            case dataCard.CardType.Poison:
+                                dataCard.DamageEffect(h, e.values[howFar]);
+                                break;
+                        }
+                        howFar++;
+                    }
+                }
+            }
+        }
+
     }
 
     [Button]
@@ -551,13 +699,14 @@ public class Fight : MonoBehaviour
         {
             hero.gainExperience(20);
         }
-        SceneManager.LoadScene(1);
-
+        SceneManager.LoadScene(0);
+        Gm.waveCounter++;
         Gm.Hand.Clear();
         Gm.deck = null;
         Gm.entityManager.getListHero().Clear();
-        ennemisButton1.onClick.RemoveAllListeners();
-        ennemisButton2.onClick.RemoveAllListeners();
+        ennemisButton1?.onClick.RemoveAllListeners();
+        ennemisButton2?.onClick.RemoveAllListeners();
+        ennemisButton3?.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
         pretreButton?.onClick.RemoveAllListeners();
         ennemisButton1 = null;
@@ -606,8 +755,6 @@ public class Fight : MonoBehaviour
     }
     void playCard(dataCard card, List<hero> selected)
     {
-        print("Play Card");
-        print(selected.Count);
         foreach (dataCard.CardType cardT in card.CardTypes)
         {
             Debug.Log("card type" + cardT);
@@ -629,7 +776,7 @@ public class Fight : MonoBehaviour
                             card.heal(hero);
                         }
                         break;
-                    case dataCard.CardType.Armor:
+                    case dataCard.CardType.AddArmor:
                         foreach (hero hero in selected)
                         {
                             hero.setArmor(2); // mettre la valeur de l'armure
@@ -638,16 +785,16 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.AddMana:
                         foreach (hero hero in selected)
                         {
-                            card.BuffDamage(hero);
+                            card.AddMana(hero);
                         }
                         break;
-
                     case dataCard.CardType.AddCard: //pioche une carte
                         Gm.deck.DrawCard(1);
                         break;
                     case dataCard.CardType.UpgradeCard://la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
                         foreach (hero hero in selected)
                         {
+                            
                         }
                         break;
                     case dataCard.CardType.ChangeCardMana://change le mana d'une carte
@@ -656,7 +803,7 @@ public class Fight : MonoBehaviour
 
                         }
                         break;
-                    case dataCard.CardType.ChangeDamage://change le damage d'une carte
+                    case dataCard.CardType.ChangeCardDamage://change le damage d'une carte
                         foreach (hero hero in selected)
                         {
 
@@ -674,25 +821,13 @@ public class Fight : MonoBehaviour
 
                         }
                         break;
-                    case dataCard.CardType.Transcend://un personnage avec assez de points de veneration peut se transcender
-                        foreach (hero hero in selected)
-                        {
-
-                        }
-                        break;
                     case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
                         foreach (hero hero in selected)
                         {
-
+                            //DONTDO
                         }
                         break;
                     case dataCard.CardType.Steal://inflige X degat et soigne X à un autre personnage
-                        foreach (hero hero in selected)
-                        {
-
-                        }
-                        break;
-                    case dataCard.CardType.GainMana:
                         foreach (hero hero in selected)
                         {
 

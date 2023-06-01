@@ -38,16 +38,14 @@ public class dataCard : ScriptableObject
     [SerializeField] bool m_isUpsideDown;
     [SerializeField] bool m_isBonusCard;
 
-
-    [Header("TEXT")]
-    [InfoBox("/!/ ATTENTION /!/ NE PAS DONNER DEUX FOIS LE MÊME NOM A DEUX CARTE SOUS PEINE DE LAG")]
-    [SerializeField] string m_cardName;
     [SerializeField] string m_onCardExplain;
     [SerializeField] string m_FullCardExplain;
 
     [Header("looking")]
     [SerializeField] Sprite m_cardFrontSprite;
     [SerializeField] Sprite m_cardBackSprite;
+    [SerializeField] public String Description;
+    [SerializeField] public String Name;
 
     private GameManager GM;
 
