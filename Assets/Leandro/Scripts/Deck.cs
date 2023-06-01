@@ -205,7 +205,7 @@ public class Deck : MonoBehaviour
         gameManager = GameManager.Instance;
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
-        PiocheButton.onClick.AddListener(DrawCard);
+        PiocheButton.onClick.AddListener(delegate { StartCoroutine(DrawCardCoroutine()); });
         EndTurnButton.onClick.AddListener(EndTurn);
         CancelButton.onClick.AddListener(CancelChosenCard);
         gameManager.deck = this;
@@ -269,17 +269,17 @@ public class Deck : MonoBehaviour
         gameManager.Hand = Hand;
         CancelChosenCard(true);
     }
-/*    public void DecaleCartes(int Decalage)
-    {
-        for(int i = 0; i < Hand.Count;i++)
+    /*    public void DecaleCartes(int Decalage)
         {
-            Hand[i].transform.position = cardSlots[i+Decalage].transform.position;
-            Hand[i].transform.rotation = cardSlots[i+Decalage].transform.rotation;
-            availableCardSlots[i] = false;
-            (Hand[i],Hand[i+Decalage]) = (Hand[i + Decalage],Hand[i]);
-        }
-    }*/
-    public void DrawCard()
+            for(int i = 0; i < Hand.Count;i++)
+            {
+                Hand[i].transform.position = cardSlots[i+Decalage].transform.position;
+                Hand[i].transform.rotation = cardSlots[i+Decalage].transform.rotation;
+                availableCardSlots[i] = false;
+                (Hand[i],Hand[i+Decalage]) = (Hand[i + Decalage],Hand[i]);
+            }
+        }*/
+    public CardObject DrawCard()
     {
         if (deck.Count >= 1)
         {
@@ -307,7 +307,7 @@ public class Deck : MonoBehaviour
                     rearangecardslots();
                     RestoreCardPosition(false);
                     ReorderZCards();
-                    return;
+                    return randCard;
                 }
             }
         }
@@ -324,13 +324,15 @@ public class Deck : MonoBehaviour
 
         }
         gameManager.Hand = Hand;
+        return (Hand[0]);
     }
-    public void DrawCard(int number)
+    public CardObject DrawCard(int number)
     {
         for (int i = 0; i < number; i++)
         {
             DrawCard();
         }
+        return Hand[0];
     }
     public List<CardObject> Shuffle(List<CardObject> liste)
     {
@@ -392,14 +394,12 @@ public class Deck : MonoBehaviour
     }
     public void EndTurn()
     {
-        CacheHand();
-        LibereEspacesHand();
-        HandToGraveyard();
+        StartCoroutine(DiscardCoroutine());
     }
 
     public void StartTurn()
     {
-        DrawCard(NombrePiocheDebutTour);
+        StartCoroutine(DrawCardCoroutine(NombrePiocheDebutTour));
     }
 
     public void CancelChosenCard(bool TrueIfPlay)
@@ -491,5 +491,57 @@ public class Deck : MonoBehaviour
             yield return null;
         }
         objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1);
+    }
+    IEnumerator DrawCardCoroutine()
+    {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        CardObject card = DrawCard();
+        GameObject CardGO = card.gameObject;
+        CardGO.transform.localScale = new Vector3(0,0,0);
+        CardGO.transform.position = Camera.main.ScreenToWorldPoint(DeckCount.transform.position);
+        while (timeElapsed < TempsTransition)
+        {
+            CardGO.transform.rotation = Quaternion.Lerp(CardGO.transform.rotation, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + card.indexHand].rotation, Time.deltaTime * VitesseTranspo);
+            CardGO.transform.position = Vector3.Lerp(CardGO.transform.position, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + card.indexHand].position, Time.deltaTime * VitesseTranspo);
+            CardGO.transform.localScale = Vector3.Lerp(CardGO.transform.localScale, new Vector3(1,1,1), Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        CardGO.transform.position = cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + card.indexHand].position;
+        CardGO.transform.localScale = new Vector3(1, 1, 1);
+    }
+    IEnumerator DrawCardCoroutine(int nombreAPiocher)
+    {
+        for(int i = 0; i < nombreAPiocher; i++)
+        {
+            yield return DrawCardCoroutine();
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+    IEnumerator DiscardCoroutine()
+    {
+        foreach(CardObject card in Hand)
+        {
+            float TempsTransition = TempsTrans;
+            float timeElapsed = 0;
+            GameObject CardGO = card.gameObject;
+            while (timeElapsed < TempsTransition)
+            {
+                CardGO.transform.position = Vector3.Lerp(CardGO.transform.position, Camera.main.ScreenToWorldPoint(graveyardCount.transform.position), Time.deltaTime * VitesseTranspo);
+                CardGO.transform.localScale = Vector3.Lerp(CardGO.transform.localScale, new Vector3(0, 0, 0), Time.deltaTime * VitesseTranspo);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+            card.gameObject.SetActive(false);
+            CardGO.transform.position = Camera.main.ScreenToWorldPoint(graveyardCount.transform.position);
+            CardGO.transform.localScale = new Vector3(1, 1, 1);
+            yield return new WaitForSeconds(0.05f);
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        LibereEspacesHand();
+        HandToGraveyard();
+        yield return DrawCardCoroutine(NombrePiocheDebutTour);
     }
 }
