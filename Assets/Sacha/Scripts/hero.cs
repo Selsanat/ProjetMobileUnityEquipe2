@@ -232,25 +232,7 @@ public class hero : entityManager
                 return;
         }
 
-        if (multipleTarget)
-        {
-            foreach (hero hero in heroesToAttack)
-            {
-                hero.takeDamage(3);
-            }
-        }
-        else
-        {
-            hero old = new hero(entityManager.Role.Arboriste, 99999, 99999, 0, 0, new Deck(), 10);
-            foreach (hero heroooo in heroesToAttack)
-            {
-                if (heroooo.getPv() < old.getPv())
-                {
-                    old = heroooo;
-                }
-            }
-            old.takeDamage(3);
-        }
+        
 
     }
 

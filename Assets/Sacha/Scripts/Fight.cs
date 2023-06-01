@@ -38,6 +38,7 @@ public class Fight : MonoBehaviour
     [SerializeField] Button ennemisButton2;
     [SerializeField] Button ennemisButton3;
     [SerializeField] Button selectedButton;
+    [SerializeField] Button endTurnButton;
 
     private int mana;
     [SerializeField] List<hero> heroes;
@@ -208,7 +209,8 @@ public class Fight : MonoBehaviour
     #endregion
     public void StartFight()
     {
-
+        endTurnButton = GameObject.Find("EndTurnButton").GetComponent<Button>();
+        endTurnButton.onClick.AddListener(() => { PlayEnemyTurn(); });
         #region Set Up des personnages
         GameObject temp;
 
@@ -387,7 +389,7 @@ public class Fight : MonoBehaviour
 
         #endregion
 
-
+        Debug.Log("start turn");
         StartTurn();
 
     }
@@ -541,13 +543,21 @@ public class Fight : MonoBehaviour
                 {
                     if(i == 0)
                     {
+                        Debug.Log("ennemi 1 mort");
                         ennemisButton1?.onClick.RemoveAllListeners();
-                        ennemisButton1.gameObject.SetActive(false);
+                        ennemisButton1?.gameObject.SetActive(false);
                     }
-                    else
+                    else if (i == 1)
                     {
+                        Debug.Log("ennemi 2 mort");
                         ennemisButton2?.onClick.RemoveAllListeners();
-                        ennemisButton2.gameObject.SetActive(false);
+                        ennemisButton2?.gameObject.SetActive(false);
+                    }
+                    else if (i == 2)
+                    {
+                        Debug.Log("ennemi 3 mort");
+                        ennemisButton3?.onClick.RemoveAllListeners();
+                        ennemisButton3?.gameObject.SetActive(false);
                     }
                 }
                 enemies[i].resetArmor();
@@ -668,7 +678,8 @@ public class Fight : MonoBehaviour
     private void PlayEnemyTurn()
     {
         Debug.Log("Ennemyturn");
-        StopCoroutine(coroutine);
+        if(coroutine != null)
+            StopCoroutine(coroutine);
         foreach (hero En in enemies)
         {
             En.EnemyAttack(heroes);
