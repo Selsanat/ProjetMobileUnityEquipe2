@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: AOEEnnemies single allies
   m_EditorClassIdentifier: 
   m_manaCost: 0
-  m_value: 10
-  m_index: 0
+  m_value: 50
+  m_index: 2
   nombreDexecutiion: 1
-  m_cardTypes: 0000000001000000
+  m_cardTypes: 00000000
   m_cardEffects: []
   TargetAllies: 1
   TargetEnnemies: 1

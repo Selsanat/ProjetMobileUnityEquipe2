@@ -103,7 +103,7 @@ public class Fight : MonoBehaviour
         Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
         lumiere.enabled = false;
         
-        if (ComponentBouton == ennemisButton1 || ComponentBouton == ennemisButton2)
+        if (ComponentBouton == ennemisButton1 || ComponentBouton == ennemisButton2 || ComponentBouton == ennemisButton3)
         {
             lightsEnnemies.Add(lumiere);
             lumiere.color = Color.red;
