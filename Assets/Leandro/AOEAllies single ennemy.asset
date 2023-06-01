@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: AOEAllies single ennemy
   m_EditorClassIdentifier: 
   m_manaCost: 0
-  m_attack: 10
-  m_heal: 0
-  m_index: 0
-  m_cardTypes: 0100000000000000
+  m_value: 50
+  m_index: 2
+  nombreDexecutiion: 1
+  m_cardTypes: 00000000
   m_cardEffects: []
   TargetAllies: 1
   TargetEnnemies: 1
@@ -25,7 +25,10 @@ MonoBehaviour:
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0
-  m_cardSprite: {fileID: 0}
+  m_onCardExplain: 
+  m_FullCardExplain: 
+  m_cardFrontSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 0}
   Description: "Cr\xE9e une AOE sur les Alli\xE9s, en m\xEAme temps que faire des
     d\xE9g\xE2ts a un ennemi"
   Name: AOE Allies et sort single

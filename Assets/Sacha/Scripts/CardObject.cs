@@ -6,6 +6,7 @@ using NaughtyAttributes;
 //using Unity.VisualScripting.Dependencies.Sqlite;
 using DG.Tweening.Core.Easing;
 using Unity.VisualScripting;
+using TMPro;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -23,6 +24,9 @@ public class CardObject : MonoBehaviour
     public float TempsClick;
     public Renderer rendeureur;
     public int indexHand;
+    public Canvas canvas;
+    public TMP_Text Description;
+    public TMP_Text Name;
 
 
     public List<hero> heroToAttack; //always Start Null
@@ -41,6 +45,11 @@ public class CardObject : MonoBehaviour
         }
         BaseColliderDimensions = this.GetComponent<BoxCollider2D>().size;
         rendeureur = GetComponent<Renderer>();
+        canvas = transform.GetChild(0).GetComponent<Canvas>();
+        Description = canvas.transform.GetChild(0).GetComponent<TMP_Text>();
+        Description.text = DataCard.Description;
+        Name = canvas.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>();
+        Name.text = DataCard.Name;
     }
     void OnMouseDown()
     {
@@ -114,6 +123,7 @@ public class CardObject : MonoBehaviour
         }
         transform.localScale = new Vector3(2,2, 2);
         rendeureur.sortingOrder = 10;
+        canvas.sortingOrder = 10;
         HideHandExceptThis();
     }
 

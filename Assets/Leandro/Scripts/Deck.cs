@@ -221,6 +221,7 @@ public class Deck : MonoBehaviour
         for(int i = 0; i < Hand.Count; i++)
         {
                 Hand[i].GetComponent<Renderer>().sortingOrder =i;
+            Hand[i].GetComponent<CardObject>().canvas.sortingOrder = i;
         }
         
     }
