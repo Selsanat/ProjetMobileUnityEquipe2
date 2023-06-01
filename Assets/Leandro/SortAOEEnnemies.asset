@@ -26,3 +26,5 @@ MonoBehaviour:
   m_isUpsideDown: 0
   m_isBonusCard: 0
   m_cardSprite: {fileID: 0}
+  Description: 'Petite AOE sur les ennemis en full chilling, full dehka '
+  Name: Sort de zone sur ennemis

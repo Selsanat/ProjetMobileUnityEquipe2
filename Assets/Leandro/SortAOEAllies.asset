@@ -26,3 +26,6 @@ MonoBehaviour:
   m_isUpsideDown: 0
   m_isBonusCard: 0
   m_cardSprite: {fileID: 0}
+  Description: "Un sort de zone sur les alli\xE9s, qui les tues vu qu'on est nul
+    en gp"
+  Name: "Sort alli\xE9 en zone"

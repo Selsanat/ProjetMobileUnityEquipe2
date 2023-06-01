@@ -26,3 +26,6 @@ MonoBehaviour:
   m_isUpsideDown: 0
   m_isBonusCard: 0
   m_cardSprite: {fileID: 0}
+  Description: "Fais une AOE sur les ennemis, en m\xEAme temps que cibler un alli\xE9
+    unique"
+  Name: AOE Ennemies et ally single

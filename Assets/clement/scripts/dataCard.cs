@@ -37,6 +37,8 @@ public class dataCard : ScriptableObject
 
     [Header("looking")]
     [SerializeField] Sprite m_cardSprite;
+    [SerializeField] public String Description;
+    [SerializeField] public String Name;
 
     public Sprite CardSprite { get => m_cardSprite; private set => m_cardSprite = value; }
     public List<CardType> CardTypes { get => m_cardTypes; set => m_cardTypes = value; }

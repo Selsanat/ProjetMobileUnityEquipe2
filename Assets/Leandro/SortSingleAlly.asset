@@ -26,3 +26,5 @@ MonoBehaviour:
   m_isUpsideDown: 0
   m_isBonusCard: 0
   m_cardSprite: {fileID: 0}
+  Description: Pew pew ally single
+  Name: "Sort unique alli\xE9"

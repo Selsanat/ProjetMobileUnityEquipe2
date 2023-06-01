@@ -26,3 +26,6 @@ MonoBehaviour:
   m_isUpsideDown: 0
   m_isBonusCard: 0
   m_cardSprite: {fileID: 0}
+  Description: "Cr\xE9e une AOE sur les Alli\xE9s, en m\xEAme temps que faire des
+    d\xE9g\xE2ts a un ennemi"
+  Name: AOE Allies et sort single

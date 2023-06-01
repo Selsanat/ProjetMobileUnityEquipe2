@@ -2295,6 +2295,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UI: {fileID: 624287129}
   Image: {fileID: 1285790930}
+  Name: {fileID: 1844025805}
+  description: {fileID: 1093721195}
 --- !u!61 &991748912
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4997,6 +4999,8 @@ MonoBehaviour:
   Rotation: 5
   NombrePiocheDebutTour: 4
   MilieuPlaceCard: {fileID: 1648950808}
+  VitesseTranspo: 10
+  TempsTrans: 0.5
   Hand: []
   deck:
   - {fileID: 1510563780}
