@@ -201,16 +201,20 @@ public class Fight : MonoBehaviour
 
     public IEnumerator CardAnimDisolve()
     {
-        play.gameObject.SetActive(false);
-        cancel.gameObject.SetActive(false);
-        DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
-        Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
-        dissolveController.isDissolving = true;
-        yield return new WaitUntil(() => dissolveController.dissolveAmount < 0);
-        dissolveController.isDissolving = false;
-        dissolveController.dissolveAmount = 1;
-        Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
-        isCardSend = true;
+        print("animdisolve");
+        if (selectedhero.Count != 0)
+        {
+            play.gameObject.SetActive(false);
+            cancel.gameObject.SetActive(false);
+            DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
+            Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
+            dissolveController.isDissolving = true;
+            yield return new WaitUntil(() => dissolveController.dissolveAmount < 0);
+            dissolveController.isDissolving = false;
+            dissolveController.dissolveAmount = 1;
+            Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
+            isCardSend = true;
+        }
     }
     #endregion
     public void StartFight()
@@ -397,7 +401,7 @@ public class Fight : MonoBehaviour
         mana = 4;
         manaText.text = mana.ToString();
         endturnbool = false;
-        Gm.deck.StartTurn();
+        Gm.deck.EndTurn();
         heroes.Clear();
         enemies.Clear();
 
@@ -421,20 +425,20 @@ public class Fight : MonoBehaviour
     {
         card.DataCard.m_index = card.indexHand;
         selectedcard = card.DataCard;
-/*        if(play == null)
-        {
-            play = GameObject.Find("Play").GetComponent<Button>();
-        }
-        if (cancel == null)
-        {
-            print("testAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            cancel = GameObject.Find("Cancel").GetComponent<Button>();
-        }*/
+        /*        if(play == null)
+                {
+                    play = GameObject.Find("Play").GetComponent<Button>();
+                }
+                if (cancel == null)
+                {
+                    print("testAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    cancel = GameObject.Find("Cancel").GetComponent<Button>();
+                }*/
 
         //condition a voir en fonction des besoins
         //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alliée qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
-        bool conditionjouer = Gm.CarteUtilisee != null || selectedhero != null || ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
+        bool conditionjouer = Gm.CarteUtilisee != null;//&& selectedhero != null&& ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
         play.onClick.AddListener(() => { if(conditionjouer) StartCoroutine(CardAnimDisolve());});
         //[WIP]je dois le changer[WIP]
 
@@ -768,7 +772,7 @@ public class Fight : MonoBehaviour
     }
 
 
-    bool CheckifEnemyAreAlive()//TRUE = min ONE ALIVE
+    public bool CheckifEnemyAreAlive()//TRUE = min ONE ALIVE
     {
         foreach (hero En in enemies)
         {
