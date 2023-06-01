@@ -182,8 +182,9 @@ public class hero : entityManager
 
     public void EnemyAttack(List<hero> heroesToAttack)
     {
+        UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
 
-        switch(this.m_role)
+        switch (this.m_role)
         {
             case Role.ChienEnemy:
                 chienIA(heroesToAttack);
@@ -228,16 +229,20 @@ public class hero : entityManager
         if(fourthAttack >= diceRoll)
         {
             heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].m_isDebufArmor = true;
+            Debug.Log("debuff armor");
 
         }
         else if (thridAttack >= diceRoll) //booste la force
         {
+            Debug.Log("boostStat");
+
             dmg++;
             AOEDmg++;
             
         }
         else if(secondAttack >= diceRoll) //attaque tout les allier
         {
+            Debug.Log("aoe");
 
             foreach (hero hero in heroesToAttack)
             {
@@ -246,6 +251,8 @@ public class hero : entityManager
         }
         else if (firtAttack >= diceRoll) //attauqe le plus faible
         {
+            Debug.Log("attaque le plus faible");
+
             hero temp = heroesToAttack[0];
 
             foreach (hero champ in heroesToAttack)
@@ -270,10 +277,13 @@ public class hero : entityManager
 
         if (secondAttack >= diceRoll)
         {
+            Debug.Log("armor");
             this.setArmor(armor);
         }
         else if (firtAttack >= diceRoll)
         {
+            Debug.Log("dmg");
+
             hero temp = heroesToAttack[0];
 
             foreach (hero champ in heroesToAttack)
