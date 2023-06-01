@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using static OneLine.Example.SlicesTest;
 using Unity.VisualScripting;
 using UnityEngine.Rendering.Universal;
+using System.Linq;
 
 public class Fight : MonoBehaviour
 {
@@ -38,8 +39,10 @@ public class Fight : MonoBehaviour
     [SerializeField] Button ennemisButton2;
     [SerializeField] Button ennemisButton3;
     [SerializeField] Button selectedButton;
+    [SerializeField] Button endTurnButton;
 
     private int mana;
+    private int transfo = 0;
     [SerializeField] List<hero> heroes;
     [SerializeField] List<hero> enemies;
     [SerializeField] List<hero> selectedhero;
@@ -209,7 +212,8 @@ public class Fight : MonoBehaviour
     #endregion
     public void StartFight()
     {
-
+        endTurnButton = GameObject.Find("EndTurnButton").GetComponent<Button>();
+        endTurnButton.onClick.AddListener(() => { PlayEnemyTurn(); });
         #region Set Up des personnages
         GameObject temp;
 
@@ -313,8 +317,7 @@ public class Fight : MonoBehaviour
 
         if(Gm.allWave[Gm.waveCounter][waveType].Count == 1)
         {
-            en1 = Gm.allWave[Gm.waveCounter][waveType][0];
-            Gm.entityManager.heroList.Add(en1);
+            en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
             ennemisButton1 = temp.GetComponent<Button>();
@@ -328,8 +331,7 @@ public class Fight : MonoBehaviour
         }
         else if (Gm.allWave[Gm.waveCounter][waveType].Count == 2)
         {
-            en1 = Gm.allWave[Gm.waveCounter][waveType][0];
-            Gm.entityManager.heroList.Add(en1);
+            en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
             ennemisButton1 = temp.GetComponent<Button>();
@@ -338,8 +340,7 @@ public class Fight : MonoBehaviour
             en1.m_slider.value = en1.getPv();
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             Debug.Log(en1.getPv());
-            En2 = Gm.allWave[Gm.waveCounter][waveType][1];
-            Gm.entityManager.heroList.Add(En2);
+            En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
             ennemisButton2 = temp.GetComponent<Button>();
@@ -347,13 +348,13 @@ public class Fight : MonoBehaviour
             En2.m_slider.maxValue = En2.getMaxPv();
             En2.m_slider.value = En2.getPv();
             ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
+            Debug.Log(En2.getPv());
             GameObject.Find("enemy3").SetActive(false);
 
         }
         else if (Gm.allWave[Gm.waveCounter][waveType].Count == 3)
         {
-            en1 = Gm.allWave[Gm.waveCounter][waveType][0];
-            Gm.entityManager.heroList.Add(en1);
+            en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
             ennemisButton1 = temp.GetComponent<Button>();
@@ -362,8 +363,7 @@ public class Fight : MonoBehaviour
             en1.m_slider.value = en1.getPv();
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             Debug.Log(en1.getPv());
-            En2 = Gm.allWave[Gm.waveCounter][waveType][1];
-            Gm.entityManager.heroList.Add(En2);
+            En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
             ennemisButton2 = temp.GetComponent<Button>();
@@ -372,8 +372,7 @@ public class Fight : MonoBehaviour
             En2.m_slider.value = En2.getPv();
             ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
 
-            En3 = Gm.allWave[Gm.waveCounter][waveType][2];
-            Gm.entityManager.heroList.Add(En3);
+            En3 = Gm.allWave[Gm.waveCounter][waveType][2].SetEnemy();
             temp = GameObject.Find("enemy3");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
             ennemisButton3 = temp.GetComponent<Button>();
@@ -388,7 +387,7 @@ public class Fight : MonoBehaviour
 
         #endregion
 
-
+        Debug.Log("start turn");
         StartTurn();
 
     }
@@ -542,13 +541,21 @@ public class Fight : MonoBehaviour
                 {
                     if(i == 0)
                     {
+                        Debug.Log("ennemi 1 mort");
                         ennemisButton1?.onClick.RemoveAllListeners();
-                        ennemisButton1.gameObject.SetActive(false);
+                        ennemisButton1?.gameObject.SetActive(false);
                     }
-                    else
+                    else if (i == 1)
                     {
+                        Debug.Log("ennemi 2 mort");
                         ennemisButton2?.onClick.RemoveAllListeners();
-                        ennemisButton2.gameObject.SetActive(false);
+                        ennemisButton2?.gameObject.SetActive(false);
+                    }
+                    else if (i == 2)
+                    {
+                        Debug.Log("ennemi 3 mort");
+                        ennemisButton3?.onClick.RemoveAllListeners();
+                        ennemisButton3?.gameObject.SetActive(false);
                     }
                 }
                 enemies[i].resetArmor();
@@ -628,7 +635,7 @@ public class Fight : MonoBehaviour
     }
     private void PlayEnemyEffects()
     {
-        foreach (hero h in enemies)
+        foreach (hero h in enemies.ToList())
         {
             for (int i = 0; i < h.MyEffects.Count; i++)
             {
@@ -668,9 +675,14 @@ public class Fight : MonoBehaviour
 
     private void PlayEnemyTurn()
     {
+
+        transfo += mana;
+        mana = 0;
+
         Debug.Log("Ennemyturn");
-        StopCoroutine(coroutine);
-        foreach (hero En in enemies)
+        if(coroutine != null)
+            StopCoroutine(coroutine);
+        foreach (hero En in enemies.ToList())
         {
             En.EnemyAttack(heroes);
             if (!CheckifHeroAreAlive())
@@ -712,9 +724,10 @@ public class Fight : MonoBehaviour
         pretreButton?.onClick.RemoveAllListeners();
         ennemisButton1 = null;
         ennemisButton2 = null;
+        ennemisButton3 = null;
         arboristeButton = null;
         pretreButton = null;
-
+        transfo = 0;
         heroes.Clear();
         enemies.Clear();
         selectedhero.Clear();

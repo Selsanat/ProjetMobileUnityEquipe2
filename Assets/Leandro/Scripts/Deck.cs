@@ -514,7 +514,7 @@ public class Deck : MonoBehaviour
     }
     IEnumerator DiscardCoroutine()
     {
-        foreach(CardObject card in Hand)
+        foreach(CardObject card in Hand.ToList())
         {
             float TempsTransition = TempsTrans;
             float timeElapsed = 0;

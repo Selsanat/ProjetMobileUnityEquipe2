@@ -32,25 +32,6 @@ public class hero : entityManager
 
 
     }
-    public hero(hero copy)
-    {
-        m_role = copy.m_role;
-        m_maxPv = copy.m_maxPv;
-        m_Pv = copy.m_Pv;
-        m_attack = copy.m_attack;
-        m_buff = copy.m_buff;
-        m_nerf = copy.m_nerf;
-        isAlive = copy.isAlive;
-        m_deck = copy.m_deck;
-        m_mana = copy.m_mana;
-        m_armor = copy.m_armor;
-        m_level = copy.m_level;
-        m_experience = copy.m_experience;
-        multipleTarget = copy.multipleTarget;
-        gameManager = copy.gameManager;
-        gameManager.entityManager.heroList.Add(this);
-
-    }
     public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int level, int experience)
     {
         m_role = role;
@@ -75,6 +56,26 @@ public class hero : entityManager
         gameManager.entityManager.heroList.Add(this);
 
 
+    }
+
+
+    public hero(Role role, int maxPv, int Pv, Sprite sprite)
+    {
+        m_role = role;
+        m_maxPv = maxPv;
+        m_Pv = Pv;
+        m_sprite = sprite;
+        m_buff = 0;
+        m_nerf = 0;
+        isAlive = true;
+        m_armor = 0;
+        m_level = 0;
+        m_experience = 0;
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();
+        }
+        gameManager.entityManager.heroList.Add(this);
     }
     #region GET & SET
     public int getMaxPv() { return m_maxPv; }
@@ -209,25 +210,7 @@ public class hero : entityManager
                 return;
         }
 
-        if (multipleTarget)
-        {
-            foreach (hero hero in heroesToAttack)
-            {
-                hero.takeDamage(3);
-            }
-        }
-        else
-        {
-            hero old = new hero(entityManager.Role.Arboriste, 99999, 99999, 0, 0, new Deck(), 10);
-            foreach (hero heroooo in heroesToAttack)
-            {
-                if (heroooo.getPv() < old.getPv())
-                {
-                    old = heroooo;
-                }
-            }
-            old.takeDamage(3);
-        }
+        
 
     }
 
