@@ -593,7 +593,7 @@ public class Deck : MonoBehaviour
 
         //yield return DrawCardCoroutine(NombrePiocheDebutTour);
     }
-    IEnumerator TransfoCoroutine()
+    public IEnumerator TransfoCoroutine()
     {
         yield return TransposeTransparencyNegative(Background.gameObject);
         for (int i = 0; i < Hand.Count; i++)
@@ -607,7 +607,7 @@ public class Deck : MonoBehaviour
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
     }
-    IEnumerator DetransfoCoroutine()
+    public IEnumerator DetransfoCoroutine()
     {
         yield return TransposeTransparency(Background.gameObject);
         for (int i = 0; i < Hand.Count;i++)
@@ -620,5 +620,6 @@ public class Deck : MonoBehaviour
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
+        StartCoroutine(DiscardCoroutine(true));
     }
 }
