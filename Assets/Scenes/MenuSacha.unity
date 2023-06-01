@@ -1871,7 +1871,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_dataCard: {fileID: 0}
-  RatioGrowHoverCard: 0
+  RatioGrowHoverCard: 1.2
   PosBeforeDrag: {x: 0, y: 0, z: 0}
   Slot: {fileID: 0}
   BaseColliderDimensions: {x: 2.55, y: 3.61}
