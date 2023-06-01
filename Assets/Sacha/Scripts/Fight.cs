@@ -348,7 +348,7 @@ public class Fight : MonoBehaviour
         }*/
 
         //condition a voir en fonction des besoins
-        //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alliée qui cible pas d'ennemies, ou inversement.
+        //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alliï¿½e qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null || selectedhero != null || ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
         play.onClick.AddListener(() => { if(conditionjouer) StartCoroutine(CardAnimDisolve());});
@@ -495,7 +495,7 @@ public class Fight : MonoBehaviour
         StopCoroutine(coroutine);
         foreach (hero En in enemies)
         {
-            En.EnemyAttack(heroes, enemies);
+            En.EnemyAttack(heroes);
             if (!CheckifHeroAreAlive())
             {
                 LooseFight();
