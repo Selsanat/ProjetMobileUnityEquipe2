@@ -23,12 +23,12 @@ MonoBehaviour:
   AOEAllies: 0
   AOEEnnemies: 1
   m_isDeleteOnTurn: 0
-  m_isUpsideDown: 0
+  m_isUpsideDown: 1
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
-  m_cardFrontSprite: {fileID: 0}
-  m_cardBackSprite: {fileID: 0}
+  m_cardFrontSprite: {fileID: 21300000, guid: 15ee1a845627a6449a09930644ee6223, type: 3}
+  m_cardBackSprite: {fileID: 21300000, guid: 765e27e333eaa12428397c7ea49ea2cb, type: 3}
   Description: "Fais une AOE sur les ennemis, en m\xEAme temps que cibler un alli\xE9
     unique"
   Name: AOE Ennemies et ally single

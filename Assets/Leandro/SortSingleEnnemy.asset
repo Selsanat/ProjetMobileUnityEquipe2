@@ -23,12 +23,12 @@ MonoBehaviour:
   AOEAllies: 0
   AOEEnnemies: 0
   m_isDeleteOnTurn: 0
-  m_isUpsideDown: 0
+  m_isUpsideDown: 1
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
-  m_cardFrontSprite: {fileID: 0}
-  m_cardBackSprite: {fileID: 0}
+  m_cardFrontSprite: {fileID: 21300000, guid: 2b700880db84b9e498e1963d96764a47, type: 3}
+  m_cardBackSprite: {fileID: 21300000, guid: 90d20c11753721f4ba7606658913733c, type: 3}
   Description: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait
     des trucs avec ta soeur
   Name: Sort ennemy single

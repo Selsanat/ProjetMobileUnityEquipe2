@@ -32,7 +32,9 @@ public class Deck : MonoBehaviour
     [SerializeField] Transform MilieuPlaceCard;
     [SerializeField] float VitesseTranspo = 10f;
     [SerializeField] float TempsTrans = 0.5f;
-    
+    [SerializeField] SpriteRenderer Background;
+    [SerializeField] SpriteRenderer BackgroundAlt;
+
 
 
 
@@ -437,8 +439,18 @@ public class Deck : MonoBehaviour
     {
         //PlayCard(CarteAJouer);
     }
+    [Button]
+    private void BTransfo()
+    {
+        StartCoroutine(TransfoCoroutine());
+    }
+    [Button]
+    private void PDetransfo()
+    {
+        StartCoroutine(DetransfoCoroutine());
+    }
 
-    public IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
+        public IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
     {
         float TempsTransition = TempsTrans;
         float timeElapsed = 0;
@@ -476,6 +488,7 @@ public class Deck : MonoBehaviour
         }
         objetABouger.transform.localScale = position;
     }
+
     public IEnumerator  TransposeTransparency(GameObject objetABouger)
     {
         float TempsTransition = TempsTrans;
@@ -489,6 +502,20 @@ public class Deck : MonoBehaviour
             yield return null;
         }
         objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1);
+    }
+    public IEnumerator TransposeTransparencyNegative(GameObject objetABouger)
+    {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        SpriteRenderer mesh = objetABouger.GetComponent<SpriteRenderer>();
+        mesh.color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1);
+        while (timeElapsed < TempsTransition)
+        {
+            mesh.color = Color.Lerp(mesh.color, new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0), Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0);
     }
     IEnumerator DrawCardCoroutine()
     {
@@ -541,7 +568,7 @@ public class Deck : MonoBehaviour
         HandToGraveyard();
         yield return DrawCardCoroutine(NombrePiocheDebutTour);
     }
-    IEnumerator TransfoCoroutine()
+    public IEnumerator DiscardCoroutine(bool justeCache)
     {
         foreach (CardObject card in Hand.ToList())
         {
@@ -560,6 +587,38 @@ public class Deck : MonoBehaviour
             CardGO.transform.position = Camera.main.ScreenToWorldPoint(graveyardCount.transform.position);
             CardGO.transform.localScale = new Vector3(1, 1, 1);
         }
+        yield return new WaitForSeconds(0.5f);
+        LibereEspacesHand();
+        HandToGraveyard();
+
+        //yield return DrawCardCoroutine(NombrePiocheDebutTour);
+    }
+    IEnumerator TransfoCoroutine()
+    {
+        yield return TransposeTransparencyNegative(Background.gameObject);
+        for (int i = 0; i < Hand.Count; i++)
+        {
+            CardObject card = Hand[i];
+            yield return TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90, 0));
+            card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
+            StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0, 0)));
+            card.DataCard.m_isUpsideDown = true;
+        }
+        RestoreCardPosition(false);
+        yield return new WaitForSeconds(0.5f);
+    }
+    IEnumerator DetransfoCoroutine()
+    {
+        yield return TransposeTransparency(Background.gameObject);
+        for (int i = 0; i < Hand.Count;i++)
+        {
+            CardObject card = Hand[i];
+            yield return TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90,0));
+            card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
+            StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0,0)));
+            card.DataCard.m_isUpsideDown = true;
+        }
+        RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
     }
 }

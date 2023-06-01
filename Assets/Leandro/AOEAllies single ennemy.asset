@@ -27,8 +27,8 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
-  m_cardFrontSprite: {fileID: 0}
-  m_cardBackSprite: {fileID: 0}
+  m_cardFrontSprite: {fileID: 21300000, guid: abb343a55794ae540befe3dbf64da389, type: 3}
+  m_cardBackSprite: {fileID: 21300000, guid: 9245174300ec4cc489a9c641b93170a1, type: 3}
   Description: "Cr\xE9e une AOE sur les Alli\xE9s, en m\xEAme temps que faire des
     d\xE9g\xE2ts a un ennemi"
   Name: AOE Allies et sort single

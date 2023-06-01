@@ -35,15 +35,15 @@ public class dataCard : ScriptableObject
 
     [Header("MISCELLANEAOUS")]
     [SerializeField] bool m_isDeleteOnTurn;
-    [SerializeField] bool m_isUpsideDown;
+    [SerializeField] public bool m_isUpsideDown;
     [SerializeField] bool m_isBonusCard;
 
     [SerializeField] string m_onCardExplain;
     [SerializeField] string m_FullCardExplain;
 
     [Header("looking")]
-    [SerializeField] Sprite m_cardFrontSprite;
-    [SerializeField] Sprite m_cardBackSprite;
+    [SerializeField] public Sprite m_cardFrontSprite;
+    [SerializeField] public Sprite m_cardBackSprite;
     [SerializeField] public String Description;
     [SerializeField] public String Name;
 
