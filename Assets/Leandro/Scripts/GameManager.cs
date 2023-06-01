@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public List<CardObject> Hand;
     public entityManager entityManager;
     public Fight FM;
-    public List<hero> ennemiesPrefabs = new List<hero>();
+    public List<hero> ennemiesPrefabs;
     public List<List<List<hero>>> allWave = new List<List<List<hero>>>(); 
     public CardObject CarteUtilisee = null;
     public bool CardsInteractable = true;
@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public hero pretre;
     public int debuffDraw = 0;
     public bool IsAnyProv = false;
+    public int waveCounter = 0;
     
     public bool isHoverButton = false;
 
