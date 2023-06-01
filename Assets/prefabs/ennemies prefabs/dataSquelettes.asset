@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c60385526f542e409151c68496c4330, type: 3}
   m_Name: dataSquelettes
   m_EditorClassIdentifier: 
-  m_maxPv: 0
-  m_Pv: 0
+  m_maxPv: 10
+  m_Pv: 10
   m_sprite: {fileID: 21300000, guid: 7cda305c99fb41347a9f00395af8d4a0, type: 3}
   m_slider: {fileID: 0}
-  m_role: 0
+  m_role: 6

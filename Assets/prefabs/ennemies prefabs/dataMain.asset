@@ -16,4 +16,4 @@ MonoBehaviour:
   m_Pv: 30
   m_sprite: {fileID: 21300000, guid: 6bc9bd32f9849474ca31d1bc8b2454c1, type: 3}
   m_slider: {fileID: 0}
-  m_role: 0
+  m_role: 7

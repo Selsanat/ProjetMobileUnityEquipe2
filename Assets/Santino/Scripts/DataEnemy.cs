@@ -21,6 +21,6 @@ public class DataEnemy : ScriptableObject
 
     public hero SetEnemy()
     {
-        return enemy = new hero(m_role, m_maxPv, m_Pv, 0,0,null,0);
+        return enemy = new hero(m_role, m_maxPv, m_Pv, m_sprite);
     }
 }

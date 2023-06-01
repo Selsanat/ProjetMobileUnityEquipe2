@@ -76,6 +76,29 @@ public class hero : entityManager
 
 
     }
+
+
+    public hero(Role role, int maxPv, int Pv, Sprite sprite)
+    {
+        m_role = role;
+        m_maxPv = maxPv;
+        m_Pv = Pv;
+        m_sprite = sprite;
+        m_buff = 0;
+        m_nerf = 0;
+        isAlive = true;
+        m_armor = 0;
+        m_level = 0;
+        m_experience = 0;
+        int a = Random.Range(0, 1);
+        if (a == 0) { multipleTarget = false; }
+        else { multipleTarget = true; }
+        if (gameManager == null)
+        {
+            gameManager = FindObjectOfType<GameManager>();
+        }
+        gameManager.entityManager.heroList.Add(this);
+    }
     #region GET & SET
     public int getMaxPv() { return m_maxPv; }
     public int getPv() { return m_Pv; }
