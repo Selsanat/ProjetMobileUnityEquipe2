@@ -25,8 +25,7 @@ MonoBehaviour:
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0
-  m_cardName: 
-  m_onCardExplain: 
-  m_FullCardExplain: 
-  m_cardFrontSprite: {fileID: 0}
-  m_cardBackSprite: {fileID: 0}
+  m_cardSprite: {fileID: 0}
+  Description: "Un sort de zone sur les alli\xE9s, qui les tues vu qu'on est nul
+    en gp"
+  Name: "Sort alli\xE9 en zone"
