@@ -261,7 +261,11 @@ public class Deck : MonoBehaviour
     {
         foreach (CardObject carte in Hand)
         {
+            if (!carte.stayInHand)
+            {
             GraveYard.Add(carte);
+            }
+            carte.stayInHand = false;
         }
         Hand.Clear();
     }

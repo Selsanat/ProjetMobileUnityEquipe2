@@ -112,9 +112,9 @@ public class dataCard : ScriptableObject
         GM.deck.DrawCard();
     }
 
-    public void UpgradeCard (hero hero, hero target)
+    public void KeepCardInHand (CardObject cardToKeep)
     {
-        throw new NotImplementedException();
+        cardToKeep.stayInHand = true;
     }
 
     public void ChangeCardMana (CardObject card)
@@ -186,7 +186,7 @@ public class dataCard : ScriptableObject
         AddArmor,
         AddMana,
         AddCard,//pioche une carte
-        UpgradeCard,//la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
+        KeepCardInHand,//permet a une autre carte de ne pas passer dans la defausse a la fin du tour
         ChangeCardMana,//change le cout de mana d'une carte
         ChangeCardDamage,//change le damage d'une carte
         FromNow,//les effets de cette carte dure jusqu'a la fin du combat
