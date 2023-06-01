@@ -1155,8 +1155,8 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 1, g: 0, b: 0, a: 0}
-  inColor: {r: 0.02203083, g: 0, b: 1, a: 0}
+  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
 --- !u!1 &350784955
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,8 +1678,8 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 1, g: 0, b: 0, a: 0}
-  inColor: {r: 0.02203083, g: 0, b: 1, a: 0}
+  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
 --- !u!1 &577837665
 GameObject:
   m_ObjectHideFlags: 0
@@ -1906,8 +1906,8 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 1, g: 0, b: 0, a: 0}
-  inColor: {r: 0.02203083, g: 0, b: 1, a: 0}
+  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
 --- !u!1 &624287129
 GameObject:
   m_ObjectHideFlags: 0
@@ -2760,8 +2760,8 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 1, g: 0, b: 0, a: 0}
-  inColor: {r: 0.02203083, g: 0, b: 1, a: 0}
+  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
 --- !u!1 &1155442599
 GameObject:
   m_ObjectHideFlags: 0
@@ -3576,8 +3576,8 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 1, g: 0, b: 0, a: 0}
-  inColor: {r: 0.02203083, g: 0, b: 1, a: 0}
+  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
 --- !u!1 &1510563776
 GameObject:
   m_ObjectHideFlags: 0
@@ -3783,8 +3783,8 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 1, g: 0, b: 0, a: 0}
-  inColor: {r: 0.02203083, g: 0, b: 1, a: 0}
+  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
 --- !u!1 &1541143287
 GameObject:
   m_ObjectHideFlags: 0
