@@ -312,7 +312,7 @@ public class Fight : MonoBehaviour
 
         if(Gm.allWave[Gm.waveCounter][waveType].Count == 1)
         {
-            en1 = Gm.allWave[Gm.waveCounter][waveType][0];
+            en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             Gm.entityManager.heroList.Add(en1);
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
@@ -327,7 +327,7 @@ public class Fight : MonoBehaviour
         }
         else if (Gm.allWave[Gm.waveCounter][waveType].Count == 2)
         {
-            en1 = Gm.allWave[Gm.waveCounter][waveType][0];
+            en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             Gm.entityManager.heroList.Add(en1);
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
@@ -337,7 +337,7 @@ public class Fight : MonoBehaviour
             en1.m_slider.value = en1.getPv();
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             Debug.Log(en1.getPv());
-            En2 = Gm.allWave[Gm.waveCounter][waveType][1];
+            En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             Gm.entityManager.heroList.Add(En2);
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
@@ -351,7 +351,7 @@ public class Fight : MonoBehaviour
         }
         else if (Gm.allWave[Gm.waveCounter][waveType].Count == 3)
         {
-            en1 = Gm.allWave[Gm.waveCounter][waveType][0];
+            en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             Gm.entityManager.heroList.Add(en1);
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
@@ -361,7 +361,7 @@ public class Fight : MonoBehaviour
             en1.m_slider.value = en1.getPv();
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             Debug.Log(en1.getPv());
-            En2 = Gm.allWave[Gm.waveCounter][waveType][1];
+            En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             Gm.entityManager.heroList.Add(En2);
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
@@ -371,7 +371,7 @@ public class Fight : MonoBehaviour
             En2.m_slider.value = En2.getPv();
             ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
 
-            En3 = Gm.allWave[Gm.waveCounter][waveType][2];
+            En3 = Gm.allWave[Gm.waveCounter][waveType][2].SetEnemy();
             Gm.entityManager.heroList.Add(En3);
             temp = GameObject.Find("enemy3");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;

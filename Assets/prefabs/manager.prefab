@@ -54,10 +54,13 @@ MonoBehaviour:
   perso1: 0
   perso2: 0
   play: {fileID: 0}
+  cancel: {fileID: 0}
   arboristeButton: {fileID: 0}
   pretreButton: {fileID: 0}
   ennemisButton1: {fileID: 0}
   ennemisButton2: {fileID: 0}
+  ennemisButton3: {fileID: 0}
+  selectedButton: {fileID: 0}
   heroes: []
   enemies: []
   selectedhero: []
@@ -76,6 +79,8 @@ MonoBehaviour:
   Hand: []
   entityManager: {fileID: 0}
   FM: {fileID: 0}
+  ennemiesPrefabs:
+  - {fileID: 0}
   CarteUtilisee: {fileID: 0}
   CardsInteractable: 1
   HasCardInHand: 0
@@ -83,6 +88,19 @@ MonoBehaviour:
   InspectUI: {fileID: 0}
   TempsPourClickCardInspect: 0.5
   deck: {fileID: 0}
+  pretre: {fileID: 0}
+  debuffDraw: 0
+  IsAnyProv: 0
+  waveCounter: 0
+  isHoverButton: 0
+  LifeArboriste: 50
+  IsArboristePlayed: 0
+  levelArboriste: 0
+  expArboriste: 0
+  LifePretre: 50
+  IsPretrePlayed: 0
+  levelPretre: 0
+  expPretre: 0
 --- !u!114 &6903154555705509230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,9 +120,20 @@ MonoBehaviour:
   m_speed: 0
   m_buff: 0
   m_nerf: 0
+  m_armor: 0
+  m_experience: 0
+  m_level: 0
+  m_experienceMax: 0
+  m_isDebufArmor: 0
   isAlive: 1
+  isAntiHeal: 0
+  isProvocation: 0
+  m_damageMultiplier: 1
   m_mana: 0
+  m_sprite: {fileID: 0}
+  m_slider: {fileID: 0}
   m_deck: {fileID: 0}
   heroList: []
   multipleTarget: 0
   gameManager: {fileID: 0}
+  MyEffects: []

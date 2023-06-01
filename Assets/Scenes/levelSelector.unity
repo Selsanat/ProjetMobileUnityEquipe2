@@ -555,12 +555,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
+      propertyPath: RangePourActiverCarte
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: ennemiesWave.Array.size
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: ennemiesPrefabs.Array.size
-      value: 7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: ennemiesWave.Array.data[0]
@@ -601,7 +605,7 @@ PrefabInstance:
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: ennemiesPrefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 6959486864449775094, guid: debe63118ae02b044b2f647f22327dfa, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: ennemiesPrefabs.Array.data[1]
       value: 

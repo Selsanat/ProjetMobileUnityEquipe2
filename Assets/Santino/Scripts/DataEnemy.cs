@@ -6,7 +6,6 @@ using UnityEngine.UI;
 [CreateAssetMenu]
 public class DataEnemy : ScriptableObject
 {
-    public int m_attack;
     public int m_maxPv;
     public int m_Pv;
 
@@ -20,8 +19,8 @@ public class DataEnemy : ScriptableObject
     hero enemy;
 
 
-    void SetEnemy()
+    public hero SetEnemy()
     {
-        enemy = new hero(m_role, m_maxPv, m_Pv, m_attack,0,null,0);
+        return enemy = new hero(m_role, m_maxPv, m_Pv, 0,0,null,0);
     }
 }

@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
     public List<CardObject> Hand;
     public entityManager entityManager;
     public Fight FM;
-    public List<hero> ennemiesPrefabs;
-    public List<List<List<hero>>> allWave = new List<List<List<hero>>>(); 
+    public List<DataEnemy> ennemiesPrefabs;
+    public List<List<List<DataEnemy>>> allWave = new List<List<List<DataEnemy>>>(); 
     public CardObject CarteUtilisee = null;
     public bool CardsInteractable = true;
     public bool HasCardInHand = false;
@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     
     public bool isHoverButton = false;
 
-    #region Heros
+    #region DataEnemys
     #region Arboriste
     public int LifeArboriste = 50;
     public bool IsArboristePlayed = false;
@@ -108,11 +108,11 @@ public class GameManager : MonoBehaviour
     #region Set Up Wave
     public void wave1()
     {
-        List<hero> wave = new List<hero>();
-        List<hero> wave2 = new List<hero>();
-        List<hero> wave3 = new List<hero>();
-        List<hero> wave4 = new List<hero>();
-        List<List<hero>> waveChose = new List<List<hero>>
+        List<DataEnemy> wave = new List<DataEnemy>();
+        List<DataEnemy> wave2 = new List<DataEnemy>();
+        List<DataEnemy> wave3 = new List<DataEnemy>();
+        List<DataEnemy> wave4 = new List<DataEnemy>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>
         {
             wave,
             wave2,
@@ -138,11 +138,11 @@ public class GameManager : MonoBehaviour
 
     public void wave2()
     {
-        List<hero> wave = new List<hero>();
-        List<hero> wave2 = new List<hero>();
-        List<hero> wave3 = new List<hero>();
-        List<hero> wave4 = new List<hero>();
-        List<List<hero>> waveChose = new List<List<hero>>
+        List<DataEnemy> wave = new List<DataEnemy>();
+        List<DataEnemy> wave2 = new List<DataEnemy>();
+        List<DataEnemy> wave3 = new List<DataEnemy>();
+        List<DataEnemy> wave4 = new List<DataEnemy>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>
         {
             wave,
             wave2,
@@ -165,11 +165,11 @@ public class GameManager : MonoBehaviour
 
     public void wave3()
     {
-        List<hero> wave = new List<hero>();
-        List<hero> wave2 = new List<hero>();
-        List<hero> wave3 = new List<hero>();
-        List<hero> wave4 = new List<hero>();
-        List<List<hero>> waveChose = new List<List<hero>>
+        List<DataEnemy> wave = new List<DataEnemy>();
+        List<DataEnemy> wave2 = new List<DataEnemy>();
+        List<DataEnemy> wave3 = new List<DataEnemy>();
+        List<DataEnemy> wave4 = new List<DataEnemy>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>
         {
             wave,
             wave2,
@@ -196,11 +196,11 @@ public class GameManager : MonoBehaviour
 
     public void wave4()
     {
-        List<hero> wave = new List<hero>();
-        List<hero> wave2 = new List<hero>();
-        List<hero> wave3 = new List<hero>();
-        List<hero> wave4 = new List<hero>();
-        List<List<hero>> waveChose = new List<List<hero>>
+        List<DataEnemy> wave = new List<DataEnemy>();
+        List<DataEnemy> wave2 = new List<DataEnemy>();
+        List<DataEnemy> wave3 = new List<DataEnemy>();
+        List<DataEnemy> wave4 = new List<DataEnemy>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>
         {
             wave,
             wave2,
@@ -226,11 +226,11 @@ public class GameManager : MonoBehaviour
 
     public void wave5()
     {
-        List<hero> wave = new List<hero>();
-        List<hero> wave2 = new List<hero>();
-        List<hero> wave3 = new List<hero>();
-        List<hero> wave4 = new List<hero>();
-        List<List<hero>> waveChose = new List<List<hero>>
+        List<DataEnemy> wave = new List<DataEnemy>();
+        List<DataEnemy> wave2 = new List<DataEnemy>();
+        List<DataEnemy> wave3 = new List<DataEnemy>();
+        List<DataEnemy> wave4 = new List<DataEnemy>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>
         {
             wave,
             wave2,
@@ -257,11 +257,11 @@ public class GameManager : MonoBehaviour
 
     public void wave6()
     {
-        List<hero> wave = new List<hero>();
-        List<hero> wave2 = new List<hero>();
-        List<hero> wave3 = new List<hero>();
-        List<hero> wave4 = new List<hero>();
-        List<List<hero>> waveChose = new List<List<hero>>
+        List<DataEnemy> wave = new List<DataEnemy>();
+        List<DataEnemy> wave2 = new List<DataEnemy>();
+        List<DataEnemy> wave3 = new List<DataEnemy>();
+        List<DataEnemy> wave4 = new List<DataEnemy>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>
         {
             wave,
             wave2,
@@ -289,11 +289,11 @@ public class GameManager : MonoBehaviour
 
     public void wave7()
     {
-        List<hero> wave = new List<hero>();
-        List<hero> wave2 = new List<hero>();
-        List<hero> wave3 = new List<hero>();
-        List<hero> wave4 = new List<hero>();
-        List<List<hero>> waveChose = new List<List<hero>>
+        List<DataEnemy> wave = new List<DataEnemy>();
+        List<DataEnemy> wave2 = new List<DataEnemy>();
+        List<DataEnemy> wave3 = new List<DataEnemy>();
+        List<DataEnemy> wave4 = new List<DataEnemy>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>
         {
             wave,
             wave2,
@@ -321,11 +321,11 @@ public class GameManager : MonoBehaviour
 
     public void wave8()
     {
-        List<hero> wave = new List<hero>();
-        List<hero> wave2 = new List<hero>();
-        List<hero> wave3 = new List<hero>();
-        List<hero> wave4 = new List<hero>();
-        List<List<hero>> waveChose = new List<List<hero>>
+        List<DataEnemy> wave = new List<DataEnemy>();
+        List<DataEnemy> wave2 = new List<DataEnemy>();
+        List<DataEnemy> wave3 = new List<DataEnemy>();
+        List<DataEnemy> wave4 = new List<DataEnemy>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>
         {
             wave,
             wave2,
@@ -351,10 +351,10 @@ public class GameManager : MonoBehaviour
     }
     public void wave9()
     {
-        List<hero> wave = new List<hero>();
-        List<hero> wave2 = new List<hero>();
-        List<hero> wave3 = new List<hero>();
-        List<List<hero>> waveChose = new List<List<hero>>
+        List<DataEnemy> wave = new List<DataEnemy>();
+        List<DataEnemy> wave2 = new List<DataEnemy>();
+        List<DataEnemy> wave3 = new List<DataEnemy>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>
         {
             wave,
             wave2,
@@ -375,10 +375,10 @@ public class GameManager : MonoBehaviour
     }
     public void wave10()
     {
-        List<hero> wave = new List<hero>();
-        List<hero> wave2 = new List<hero>();
-        List<hero> wave3 = new List<hero>();
-        List<List<hero>> waveChose = new List<List<hero>>
+        List<DataEnemy> wave = new List<DataEnemy>();
+        List<DataEnemy> wave2 = new List<DataEnemy>();
+        List<DataEnemy> wave3 = new List<DataEnemy>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>
         {
             wave,
             wave2,
@@ -400,9 +400,9 @@ public class GameManager : MonoBehaviour
     }
     public void wave11()
     {
-        List<hero> wave = new List<hero>();
+        List<DataEnemy> wave = new List<DataEnemy>();
 
-        List<List<hero>> waveChose = new List<List<hero>>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>();
         waveChose.Add(wave);
         
         waveChose[0].Add(ennemiesPrefabs[1]);
@@ -416,9 +416,9 @@ public class GameManager : MonoBehaviour
 
     public void wave12()
     {
-        List<hero> wave = new List<hero>();
+        List<DataEnemy> wave = new List<DataEnemy>();
 
-        List<List<hero>> waveChose = new List<List<hero>>();
+        List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>();
         waveChose.Add(wave);
 
         waveChose[0].Add(ennemiesPrefabs[2]);
