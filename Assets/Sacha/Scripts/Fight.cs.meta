@@ -3,7 +3,14 @@ guid: a4af0c5bf1d017b46857181bc042a9b1
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Gm: {instanceID: 0}
+  - heroSprite: {fileID: 21300000, guid: 667b8bf87b70e6a439a6b16c63a893c1, type: 3}
+  - ennemy1Sprite: {fileID: 21300000, guid: 9c4898b238b31f346ac8c5e8bd08724b, type: 3}
+  - ennemy2Sprite: {fileID: 21300000, guid: 9c4898b238b31f346ac8c5e8bd08724b, type: 3}
+  - targets: {instanceID: 0}
+  - targets2: {instanceID: 0}
+  - targets3: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

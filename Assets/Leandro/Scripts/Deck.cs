@@ -18,13 +18,14 @@ public class Deck : MonoBehaviour
     [SerializeField] Button UseButton;
     [SerializeField] Button EndTurnButton;
     [SerializeField] public Button CancelButton;
+    [SerializeField] public Button PlayButton;
     [SerializeField] int  NbCarteHandPossible;
     [SerializeField] float DecalageX;
     [SerializeField] float DecalageY;
     [SerializeField] float Rotation;
     [SerializeField] int NombrePiocheDebutTour;
     private List<CardObject> GraveYard = new List<CardObject>();
-    private List<CardObject> Hand = new List<CardObject>();
+    [SerializeField] List<CardObject> Hand = new List<CardObject>();
     public List<CardObject> deck;
 
     private List<CardObject> playedCards;
@@ -35,7 +36,7 @@ public class Deck : MonoBehaviour
     public TMP_Text DeckCount;
     public TMP_Text graveyardCount;
 
-    private GameManager gameManager;
+    [SerializeField] private GameManager gameManager;
 
     public List<CardObject> PlayedCards { get => playedCards; private set => playedCards = value; }
 
@@ -48,6 +49,7 @@ public class Deck : MonoBehaviour
         Gizmos.DrawCube(cardSlots[0].transform.position, new Vector3(1, 1, 1)) ;
         for (int i = 1; i < NbCarteHandPossible + 1; i++)
         {
+
             if (i % 2 == 0)
             {
                 Gizmos.DrawCube(new Vector3((-cardSlots[0].position.x - DecalageX * i) * -1, cardSlots[0].position.y - DecalageY * i, -i), new Vector3(1, 1, 1));
@@ -62,15 +64,17 @@ public class Deck : MonoBehaviour
     
     public void Start()
     {
-
         gameManager = GameManager.Instance;
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         PiocheButton.onClick.AddListener(DrawCard);
-        UseButton.onClick.AddListener(PlayCard);
         EndTurnButton.onClick.AddListener(EndTurn);
         CancelButton.onClick.AddListener(CancelChosenCard);
-        for (int i = 1; i < NbCarteHandPossible + 1; i++)
+        gameManager.deck = this;
+        gameManager.FM.play = this.PlayButton;
+        
+
+        for (int i = 1; i < NbCarteHandPossible; i++)
         {
             if (i % 2 == 0)
             {
@@ -84,19 +88,46 @@ public class Deck : MonoBehaviour
             }
         }
     }
+
+    public void ReorderZCards()
+    {
+        for(int i = 0; i < Hand.Count; i++)
+        {
+            if (i == 0)
+            {
+                Hand[i].GetComponent<Renderer>().sortingOrder = 0;
+                Hand[i].indexHand = i;
+            }
+            else if (i % 2 == 0)
+            {
+                Hand[i].GetComponent<Renderer>().sortingOrder = i;
+                Hand[i].indexHand = i;
+
+            }
+            else
+            {
+                Hand[i].GetComponent<Renderer>().sortingOrder = -i;
+                Hand[i].indexHand = i;
+
+            }
+        }
+        
+    }
     public void PlayCard(int Index)
     {
         if(Hand.Count > 0)
         {
+            Hand[Index].transform.localScale = new Vector3(1, 1, 1);
             Hand[Index].gameObject.SetActive(false);
             GraveYard.Add(Hand[Index]);
             Hand.RemoveAt(Index);
-            for (int i= Index; i < Hand.Count; i++)
+            for (int i= 0; i < Hand.Count; i++)
             {
                 Hand[i].transform.position = cardSlots[i].transform.position;
                 Hand[i].transform.rotation = cardSlots[i].transform.rotation;
+                Hand[i].Slot = cardSlots[i].transform;
                 availableCardSlots[i] = false;
-            }
+            } 
             availableCardSlots[Hand.Count] = true;
 
 
@@ -106,29 +137,8 @@ public class Deck : MonoBehaviour
             print("Pas De Cartes bouffon");
         }
         gameManager.Hand = Hand;
-    }
-    public void PlayCard()
-    {
-        if (Hand.Count > 0)
-        {
-            Hand[0].gameObject.SetActive(false);
-            GraveYard.Add(Hand[0]);
-            Hand.RemoveAt(0);
-            for (int i = 0; i < Hand.Count; i++)
-            {
-                Hand[i].transform.position = cardSlots[i].transform.position;
-                Hand[i].transform.rotation = cardSlots[i].transform.rotation;
-                availableCardSlots[i] = false;
-            }
-            availableCardSlots[Hand.Count] = true;
+        CancelChosenCard();
 
-
-        }
-        else
-        {
-            print("Pas De Cartes bouffon");
-        }
-        gameManager.Hand = Hand;
     }
 /*    public void DecaleCartes(int Decalage)
     {
@@ -147,7 +157,7 @@ public class Deck : MonoBehaviour
         {
             CardObject randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
 
-            for (int i = 0; i < availableCardSlots.Length; i++)
+            for (int i = 0; i < availableCardSlots.Length - gameManager.debuffDraw; i++)
             {
                 if (availableCardSlots[i] == true)
                 {
@@ -155,19 +165,9 @@ public class Deck : MonoBehaviour
                     randCard.gameObject.SetActive(true);
                     randCard.transform.position = cardSlots[i].position;
                     randCard.transform.rotation = cardSlots[i].rotation;
-                    if (i == 0)
-                    {
-                        randCard.GetComponent<Renderer>().sortingOrder = 0;
-                    }
-                    else if (i%2 == 0)
-                    {
-                        randCard.GetComponent<Renderer>().sortingOrder = i;
-                    }
-                    else
-                    {
-                        randCard.GetComponent<Renderer>().sortingOrder = -i;
-                    }
+
                     randCard.Slot = cardSlots[i];
+                    randCard.indexHand = i;
                     Hand.Add(randCard);
                     availableCardSlots[i] = false;
                     deck.Remove(randCard);
@@ -176,9 +176,11 @@ public class Deck : MonoBehaviour
                         ShuffleGraveyardToHand();
                     }
                     gameManager.Hand = Hand;
+                    ReorderZCards();
                     return;
                 }
             }
+
         }
         else
         {
@@ -193,11 +195,13 @@ public class Deck : MonoBehaviour
             }
 
         }
+        ReorderZCards();
         gameManager.Hand = Hand;
+        gameManager.debuffDraw = 0;
     }
     public void DrawCard(int number)
     {
-        for (int i = 0;i < number; i++)
+        for (int i = 0; i < number; i++)
         {
             DrawCard();
         }
@@ -249,6 +253,7 @@ public class Deck : MonoBehaviour
         {
             carte.transform.position = carte.Slot.position;
             carte.transform.rotation = carte.Slot.rotation;
+            
 
         }
     }
@@ -275,17 +280,24 @@ public class Deck : MonoBehaviour
 
     public void StartTurn()
     {
-        DrawCard(NombrePiocheDebutTour);
+        DrawCard();
+        DrawCard();
+        DrawCard();
+        DrawCard();
     }
 
     public void CancelChosenCard()
     {
         ShowHand();
         ReturnCardsToHand();
-        gameManager.CarteUtilisee.Interactible = true;
+        gameManager.CardsInteractable = true;
         gameManager.CarteUtilisee = null;
         CancelButton.gameObject.SetActive(false);
+        PlayButton.gameObject.SetActive(false);
+        ReorderZCards();
+        gameManager.FM.CancelCard();
     }
+
 
     [Button]
     private void BDrawCard() {
@@ -294,6 +306,6 @@ public class Deck : MonoBehaviour
     [Button]
     private void BPlayCard()
     {
-        PlayCard(CarteAJouer);
+        //PlayCard(CarteAJouer);
     }
 }
