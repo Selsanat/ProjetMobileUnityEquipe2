@@ -207,7 +207,6 @@ public class Deck : MonoBehaviour
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         PiocheButton.onClick.AddListener(delegate { StartCoroutine(DrawCardCoroutine()); });
-        EndTurnButton.onClick.AddListener(EndTurn);
         CancelButton.onClick.AddListener(CancelChosenCard);
         gameManager.deck = this;
         gameManager.FM.play = this.PlayButton;
@@ -231,6 +230,10 @@ public class Deck : MonoBehaviour
         {
             Hand[Index].transform.localScale = new Vector3(1, 1, 1);
             Hand[Index].gameObject.SetActive(false);
+            for (int i = Hand[Index].indexHand; i < Hand.Count; i++)
+            {
+                Hand[i].indexHand -= 1;
+            }
             GraveYard.Add(Hand[Index]);
             Hand.RemoveAt(Index);
             for (int i= 0; i < Hand.Count; i++)
@@ -241,7 +244,6 @@ public class Deck : MonoBehaviour
                 availableCardSlots[i] = false;
             } 
             availableCardSlots[Hand.Count] = true;
-
 
         }
         else
@@ -397,7 +399,10 @@ public class Deck : MonoBehaviour
 
     public void CancelChosenCard(bool TrueIfPlay)
     {
-        ShowHand();
+        if (gameManager.FM.CheckifEnemyAreAlive())
+        {
+           ShowHand();
+        }
         RestoreCardPosition(true);
         if (!TrueIfPlay)
         {
@@ -509,7 +514,7 @@ public class Deck : MonoBehaviour
         for(int i = 0; i < nombreAPiocher; i++)
         {
             yield return DrawCardCoroutine();
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
     IEnumerator DiscardCoroutine()
@@ -526,12 +531,11 @@ public class Deck : MonoBehaviour
                 timeElapsed += Time.deltaTime;
                 yield return null;
             }
+            yield return new WaitForSeconds(0.1f);
             card.gameObject.SetActive(false);
             CardGO.transform.position = Camera.main.ScreenToWorldPoint(graveyardCount.transform.position);
             CardGO.transform.localScale = new Vector3(1, 1, 1);
-            yield return new WaitForSeconds(0.05f);
         }
-
         yield return new WaitForSeconds(0.5f);
         LibereEspacesHand();
         HandToGraveyard();
