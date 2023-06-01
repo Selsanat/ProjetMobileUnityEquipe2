@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-    public List<GameObject> toSwitch;
+    public List<GameObject> go_credits;
 
     void toggle()
     {
-        foreach(GameObject go in toSwitch)
+        foreach(GameObject go in go_credits)
         {
             go.SetActive(!go.active);
         }

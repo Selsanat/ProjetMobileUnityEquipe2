@@ -26,10 +26,18 @@ public class CardObject : MonoBehaviour
 
     public List<hero> heroToAttack; //always Start Null
 
+
+    public bool MenuCarde = false;
+
+
+
     void Awake()
     {
         gameManager = GameManager.Instance;
-        TempsClick = gameManager.TempsPourClickCardInspect;
+        if (!MenuCarde)
+        {
+            TempsClick = gameManager.TempsPourClickCardInspect;
+        }
         BaseColliderDimensions = this.GetComponent<BoxCollider2D>().size;
         rendeureur = GetComponent<Renderer>();
     }
