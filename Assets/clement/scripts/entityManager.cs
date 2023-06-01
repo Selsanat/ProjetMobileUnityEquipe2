@@ -56,14 +56,13 @@ public class entityManager : MonoBehaviour
     public void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        Debug.Log("start");
     }
     public List<hero> getListHero() { return heroList; }
 
 
     public void takeDamage (int damage)
     {
-        Debug.Log("Pv avant : " + m_Pv + m_role);
+        Debug.Log("Pv avant : " + m_Pv + " " + m_role);
         if(m_isDebufArmor)
         {
             m_armor /= 2;
@@ -77,7 +76,7 @@ public class entityManager : MonoBehaviour
         
         m_Pv -= damage * m_damageMultiplier;
         m_slider.value = m_Pv;
-        Debug.Log("Pv apres: hero" + m_Pv + m_role);
+        Debug.Log("Pv apres: " + m_Pv +" " +m_role);
         if (m_Pv <= 0)
         {
             isAlive = false;

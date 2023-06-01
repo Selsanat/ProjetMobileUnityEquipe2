@@ -89,19 +89,7 @@ public class GameManager : MonoBehaviour
         wave9();
         wave10();
         wave11();
-        wave12();
-
-        foreach(var wave in allWave)
-        {
-            foreach(var wave2 in wave)
-            {
-                foreach(var wave3 in wave2)
-                {
-                    print(wave3);
-                }
-            }
-        }   
-
+        wave12();  
 
     }
 
