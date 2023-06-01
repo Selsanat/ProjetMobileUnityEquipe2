@@ -171,6 +171,7 @@ public class Deck : MonoBehaviour
         }
 
         cardSlots = newTempList;
+        ReorderZCards();
 
     }
 
@@ -219,23 +220,7 @@ public class Deck : MonoBehaviour
     {
         for(int i = 0; i < Hand.Count; i++)
         {
-            if (i == 0)
-            {
-                Hand[i].GetComponent<Renderer>().sortingOrder = 0;
-                Hand[i].indexHand = i;
-            }
-            else if (i % 2 == 0)
-            {
-                Hand[i].GetComponent<Renderer>().sortingOrder = i;
-                Hand[i].indexHand = i;
-
-            }
-            else
-            {
-                Hand[i].GetComponent<Renderer>().sortingOrder = -i;
-                Hand[i].indexHand = i;
-
-            }
+                Hand[i].GetComponent<Renderer>().sortingOrder =i;
         }
         
     }
