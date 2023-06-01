@@ -560,9 +560,8 @@ public class Fight : MonoBehaviour
                 WinFight();
             }
         }
-        PlayPlayerEffects();
+        PlayEnemyEffects();
         PlayEnemyTurn();
-
     }
 
     void PlayPlayerEffects() 
@@ -624,6 +623,7 @@ public class Fight : MonoBehaviour
                 heroes[i].resetArmor();
             }
         }
+
     }
     private void PlayEnemyEffects()
     {
@@ -681,7 +681,7 @@ public class Fight : MonoBehaviour
                 StartTurn();
             }
         }
-        PlayEnemyEffects();
+        PlayPlayerEffects();
     }
 
 

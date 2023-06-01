@@ -710,7 +710,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &804706657
 MonoBehaviour:
@@ -724,7 +724,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c16bf8d358489c4289ffb77cbe03439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  go_credits: []
+  go_credits:
+  - {fileID: 514657649}
+  - {fileID: 1015203148}
+  - {fileID: 2056860019}
+  - {fileID: 1992723867}
+  - {fileID: 868637461}
+  - {fileID: 218253884}
+  - {fileID: 817892530}
+  - {fileID: 1441624803}
 --- !u!4 &804706658
 Transform:
   m_ObjectHideFlags: 0
@@ -1857,7 +1865,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575176234}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 740606080c0383943933ee13e5526e90, type: 3}
   m_Name: 
@@ -1871,7 +1879,7 @@ MonoBehaviour:
   rendeureur: {fileID: 1575176236}
   indexHand: 0
   heroToAttack: []
-  MenuCarde: 0
+  MenuCarde: 1
 --- !u!1 &1626222136
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,10 +35,7 @@ public class CardObject : MonoBehaviour
     void Awake()
     {
         gameManager = GameManager.Instance;
-        if (!MenuCarde)
-        {
-            TempsClick = gameManager.TempsPourClickCardInspect;
-        }
+        TempsClick = gameManager.TempsPourClickCardInspect;
         BaseColliderDimensions = this.GetComponent<BoxCollider2D>().size;
         rendeureur = GetComponent<Renderer>();
     }
@@ -62,13 +59,19 @@ public class CardObject : MonoBehaviour
 
                 transform.localScale = new Vector3(RatioGrowHoverCard, RatioGrowHoverCard, RatioGrowHoverCard);
                 this.GetComponent<BoxCollider2D>().size = BaseColliderDimensions;
-                gameManager.deck.ReorderZCards();
+                if (!MenuCarde)
+                {
+                    gameManager.deck.ReorderZCards();
+                }
                rendeureur.sortingOrder = 10;
             }
             else
             {
-                transform.localScale = new Vector3(1, 1, 1);
-                gameManager.deck.ReorderZCards();
+                transform.localScale *= 1.2f;
+                if (!MenuCarde)
+                {
+                    gameManager.deck.ReorderZCards();
+                }
             }
         }
         
@@ -79,7 +82,9 @@ public class CardObject : MonoBehaviour
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
+            print(this.isActiveAndEnabled);
             gameManager.HasCardInHand = true;
+            
         }
     }
     void OnMouseExit()
@@ -87,7 +92,10 @@ public class CardObject : MonoBehaviour
         if (gameManager.CardsInteractable  && !gameManager.HasCardInHand)
         {
             transform.localScale = new Vector3(1, 1, 1);
-            gameManager.deck.ReorderZCards();
+            if (!MenuCarde)
+            {
+                gameManager.deck.ReorderZCards();
+            }
 
         }
     }
@@ -124,7 +132,10 @@ public class CardObject : MonoBehaviour
         {
             
             transform.localScale = new Vector3(1, 1, 1);
-            gameManager.deck.ReorderZCards();
+            if (!MenuCarde)
+            {
+                gameManager.deck.ReorderZCards();
+            }
             if (transform.position.y < gameManager.RangePourActiverCarte)
             {
                 transform.position = PosBeforeDrag;
@@ -133,20 +144,29 @@ public class CardObject : MonoBehaviour
                     gameManager.CardsInteractable = false;
                     //print(gameManager.InspectUI.Image.sprite);
                     print(this.GetComponent<SpriteRenderer>().sprite);
-                    gameManager.InspectUI.Image.sprite = this.GetComponent<SpriteRenderer>().sprite;
-                    gameManager.InspectUI.UI.SetActive(true);
-                    gameManager.InspectUI.Name.text = this.DataCard.Name;
-                    gameManager.InspectUI.description.text = this.DataCard.Description;
+                    if (!MenuCarde)
+                    {
+                        gameManager.InspectUI.Image.sprite = this.GetComponent<SpriteRenderer>().sprite;
+                        gameManager.InspectUI.UI.SetActive(true);
+                        gameManager.InspectUI.Name.text = this.DataCard.Name;
+                        gameManager.InspectUI.description.text = this.DataCard.Description;
+                    }
                 }
             }
             else
             {
-                gameManager.CarteUtilisee = this;
-                gameManager.FM.Cardsend(this, indexHand);
+                if (!MenuCarde)
+                {
+                    gameManager.CarteUtilisee = this;
+                    gameManager.FM.Cardsend(this, indexHand);
+                }
                 Slot = this.gameObject.transform;
-                FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
-                FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true) ;
-                SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies) ;
+                if (!MenuCarde)
+                {
+                    FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
+                    FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true) ;
+                    SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies) ;
+                }
             }
         }
         gameManager.HasCardInHand = false;
@@ -155,6 +175,7 @@ public class CardObject : MonoBehaviour
 
     void HideHandExceptThis()
     {
+        print("hey");
         foreach(CardObject Carte in gameManager.Hand)
         {
             Carte.gameObject.SetActive(false);
