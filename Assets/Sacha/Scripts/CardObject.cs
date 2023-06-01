@@ -12,7 +12,7 @@ public class CardObject : MonoBehaviour
 {
     [Header("DATACARD")]
     [SerializeField]private dataCard m_dataCard;
-    public dataCard DataCard { get => m_dataCard; set => m_dataCard = value; }
+    public dataCard DataCard { get => m_dataCard;}
 
     [Header("             Statistics")]
     [SerializeField] float RatioGrowHoverCard;
