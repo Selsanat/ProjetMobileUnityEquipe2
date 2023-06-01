@@ -14,8 +14,8 @@ public class manaRep : MonoBehaviour
 
     private void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        manaRepGm.SetActive(false);
+        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //manaRepGm.SetActive(false);
 
     }
 

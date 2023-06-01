@@ -22,6 +22,10 @@ public class hero : entityManager
         m_level = 0;
         m_experience = 0;
         int a = Random.Range(0, 1);
+        if (m_role == Role.Arboriste)
+            m_manaMax = 6;
+        else
+            m_manaMax = 4;
         if (a == 0) { multipleTarget = false; }
         else { multipleTarget = true; }
         if(gameManager == null)
@@ -46,6 +50,11 @@ public class hero : entityManager
         m_armor = 0;
         m_level = level;
         m_experience = experience;
+        if(m_role == Role.Arboriste)
+            m_manaMax = 6;
+        else
+            m_manaMax = 4;
+
         int a = Random.Range(0, 1);
         if (a == 0) { multipleTarget = false; }
         else { multipleTarget = true; }
@@ -71,6 +80,10 @@ public class hero : entityManager
         m_armor = 0;
         m_level = 0;
         m_experience = 0;
+        if (m_role == Role.Arboriste)
+            m_manaMax = 6;
+        else
+            m_manaMax = 4;
         if (gameManager == null)
         {
             gameManager = FindObjectOfType<GameManager>();

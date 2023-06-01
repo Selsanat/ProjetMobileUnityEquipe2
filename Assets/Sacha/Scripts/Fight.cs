@@ -258,6 +258,8 @@ public class Fight : MonoBehaviour
             H2.m_slider = temp.GetComponentInChildren<Slider>();
             H2.m_slider.maxValue = H2.getMaxPv();
             H2.m_slider.value = H2.getPv();
+            H2.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            H2.stockText.text = H2.getMana().ToString() + " / " + H2.m_manaMax;
 
             temp = GameObject.Find("champ2");
             temp.GetComponent<Image>().sprite = heroSprite2;
@@ -267,6 +269,8 @@ public class Fight : MonoBehaviour
             H1.m_slider = temp.GetComponentInChildren<Slider>();
             H1.m_slider.maxValue = H1.getMaxPv();
             H1.m_slider.value = H1.getPv();
+            H1.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            H1.stockText.text = H1.getMana().ToString() + " / " + H1.m_manaMax;
         }
         else if(perso1)
         {
@@ -290,6 +294,8 @@ public class Fight : MonoBehaviour
             H2.m_slider = temp.GetComponentInChildren<Slider>();
             H2.m_slider.maxValue = H2.getMaxPv();
             H2.m_slider.value = H2.getPv();
+            H2.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            H2.stockText.text = H2.getMana().ToString() + " / " + H2.m_manaMax;
 
 
         }
@@ -313,6 +319,8 @@ public class Fight : MonoBehaviour
             H1.m_slider = temp.GetComponentInChildren<Slider>();
             H1.m_slider.maxValue = H1.getMaxPv();
             H1.m_slider.value = H1.getPv();
+            H1.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            H1.stockText.text = H1.getMana().ToString() + " / " + H1.m_manaMax;
         }
         #endregion
 
@@ -668,20 +676,110 @@ public class Fight : MonoBehaviour
 
     public void repMana()
     {
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+
+        //StartCoroutine(Gm.deck.DiscardCoroutine(true));
         stock += mana;
         mana = 0;
         stockText.text = stock.ToString();
-        manaText.text = stockText.ToString();
+        manaText.text = mana.ToString();
+
         
-        PlayEnemyTurn();
+        arboristeButton?.onClick.RemoveAllListeners();
+        arboristeButton?.onClick.AddListener(() => { chargeMana(0); });
+        pretreButton?.onClick.RemoveAllListeners();
+        pretreButton?.onClick.AddListener(() => { chargeMana(1); });
+        
+        foreach (hero h in heroes)
+        {
+            h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+        }
+        
+        
     }
+
+    public void chargeMana(int x)
+    {
+        if (x == 0)
+        {
+            foreach (hero h in heroes)
+            {
+                if(h.m_role == hero.Role.Arboriste)
+                {
+                    while(stock >= 1)
+                    {
+                        h.setMana(h.getMana() + 1);
+                        stock--;
+                        if (h.getMana() == h.m_manaMax)
+                        {
+                            h.isFull = true;
+                            break;
+
+                        }
+                    }
+                    h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+                    
+                }
+            }
+            
+        }
+        else if (x == 1)
+        {
+            foreach (hero h in heroes)
+            {
+                if (h.m_role == hero.Role.Pretre)
+                {
+                    while (stock >= 1)
+                    {
+                        h.setMana(h.getMana() + 1);
+                        stock--;
+                        if (h.getMana() == h.m_manaMax)
+                        {
+                            h.isFull = true;
+
+                        }
+                        break;
+                    }
+                    h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+
+                }
+            }
+        }
+        else if (x == 2)
+        {
+            foreach (hero h in heroes)
+            {
+                while (stock >= 1)
+                {
+                    h.setMana(h.getMana() + 1);
+                    stock--;
+                    if (h.getMana() == h.m_manaMax)
+                    {
+                        h.isFull = true;
+                        break;
+
+
+                    }
+                }
+                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+            }
+
+        }
+        else
+            return ;
+
+        stockText.text = stock.ToString();
+        PlayEnemyTurn();
+
+    }
+
+
+
     private void PlayEnemyTurn()
     {
 
         
-
-        if(coroutine != null)
-            StopCoroutine(coroutine);
         foreach (hero En in enemies.ToList())
         {
             En.EnemyAttack(heroes);

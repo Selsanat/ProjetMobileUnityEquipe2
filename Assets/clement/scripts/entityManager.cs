@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class entityManager : MonoBehaviour
 {
@@ -45,8 +46,11 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected bool isProvocation = false;
     [SerializeField] protected int m_damageMultiplier = 1;
     [SerializeField] protected int m_mana;
+    [SerializeField] public int m_manaMax;
+    [SerializeField] public bool isFull;
     [SerializeField] public Sprite m_sprite;
     [SerializeField] public Slider m_slider;
+    [SerializeField] public TextMeshProUGUI stockText;
     [SerializeField] protected Deck m_deck;
     [SerializeField] public List<hero> heroList;
     [SerializeField] protected bool multipleTarget;
