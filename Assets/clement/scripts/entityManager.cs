@@ -48,7 +48,13 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected int m_mana;
     [SerializeField] public int m_manaMax;
     [SerializeField] public bool isFull;
+    [SerializeField] public int randomAttack;
+    [SerializeField] public hero randomHero;
     [SerializeField] public Sprite m_sprite;
+    [SerializeField] public Image m_spriteTypeAttack;
+    [SerializeField] public Image m_spriteFocus;
+    [SerializeField] public List<Sprite> m_spriteList;
+    [SerializeField] public TextMeshProUGUI m_valueText;
     [SerializeField] public Slider m_slider;
     [SerializeField] public TextMeshProUGUI stockText;
     [SerializeField] protected Deck m_deck;

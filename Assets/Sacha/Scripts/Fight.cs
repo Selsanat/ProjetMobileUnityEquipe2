@@ -332,9 +332,9 @@ public class Fight : MonoBehaviour
         hero En2;
         hero En3;
 
-        
 
-        if(Gm.allWave[Gm.waveCounter][waveType].Count == 1)
+
+        if (Gm.allWave[Gm.waveCounter][waveType].Count == 1)
         {
             en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             temp = GameObject.Find("enemy1");
@@ -343,6 +343,9 @@ public class Fight : MonoBehaviour
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
             en1.m_slider.value = en1.getPv();
+            en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
+            en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             GameObject.Find("enemy2").SetActive(false);
             GameObject.Find("enemy3").SetActive(false);
@@ -356,6 +359,9 @@ public class Fight : MonoBehaviour
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
             en1.m_slider.value = en1.getPv();
+            en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
+            en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
@@ -364,6 +370,9 @@ public class Fight : MonoBehaviour
             En2.m_slider = temp.GetComponentInChildren<Slider>();
             En2.m_slider.maxValue = En2.getMaxPv();
             En2.m_slider.value = En2.getPv();
+            En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
+            En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
             GameObject.Find("enemy3").SetActive(false);
 
@@ -377,6 +386,9 @@ public class Fight : MonoBehaviour
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
             en1.m_slider.value = en1.getPv();
+            en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
+            en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
@@ -385,6 +397,9 @@ public class Fight : MonoBehaviour
             En2.m_slider = temp.GetComponentInChildren<Slider>();
             En2.m_slider.maxValue = En2.getMaxPv();
             En2.m_slider.value = En2.getPv();
+            En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
+            En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
 
             En3 = Gm.allWave[Gm.waveCounter][waveType][2].SetEnemy();
@@ -394,6 +409,9 @@ public class Fight : MonoBehaviour
             En3.m_slider = temp.GetComponentInChildren<Slider>();
             En3.m_slider.maxValue = En3.getMaxPv();
             En3.m_slider.value = En3.getPv();
+            En3.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En3.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
+            En3.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             ChangerBouttonEnGameObject(ennemisButton3, En3.m_sprite, false);
         }
 
@@ -440,6 +458,11 @@ public class Fight : MonoBehaviour
                 pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine()); E.setMana(0); E.stockText.text = E.getMana().ToString(); isPretreTransform = true; });
             }
         }
+        foreach (hero En in enemies.ToList())
+        {
+            En.EnemyAttack(heroes, true);
+        }
+
     }
 
 
@@ -808,19 +831,15 @@ public class Fight : MonoBehaviour
         
         foreach (hero En in enemies.ToList())
         {
-            En.EnemyAttack(heroes);
-            
-        }
-        if (!CheckifHeroAreAlive())
-        {
-
-            LooseFight();
-        }
-        else
-        {
+            En.EnemyAttack(heroes, false);
+            if (!CheckifHeroAreAlive())
+            {
+                LooseFight();
+                return;
+            }
             foreach (hero h in heroes.ToList())
             {
-                if(h.getIsAlive() == false)
+                if (h.getIsAlive() == false)
                 {
                     if (h.m_role == entityManager.Role.Arboriste)
                     {
@@ -836,9 +855,17 @@ public class Fight : MonoBehaviour
 
                     }
                 }
-                
+
             }
-            
+
+        }
+        if (!CheckifHeroAreAlive())
+        {
+
+            LooseFight();
+        }
+        else
+        {
             StartTurn();
         }
         PlayEnemyEffects();
