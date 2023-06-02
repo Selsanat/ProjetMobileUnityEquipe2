@@ -16,25 +16,31 @@ public class Menu : MonoBehaviour
     private void Start()
     {
         float caca = 0; // le retour
-        foreach(GameObject go in Startcards)
+/*        foreach (GameObject go in Startcards)
         {
             print(caca);
-            go.transform.position = new Vector3(Mathf.Lerp(pos1.position.x, pos2.position.x, caca / (Startcards.Count-1)), go.transform.position.y, 0); ;
-            caca++; 
-        }
+            go.transform.position = new Vector3(Mathf.Lerp(pos1.position.x, pos2.position.x, caca / (Startcards.Count - 1)), go.transform.position.y, 0);
+            //go.transform.eulerAngles = new Vector3();
+            caca++;
+        }*/
     }
-    void toggle()
+    public void reloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameManager.Instance.gameObject.GetComponent<Menu>().Start();
+    }
+    private void Awake()
+    {
+        Start();
+    }
+    public void Credits()
     {
         foreach(GameObject go in go_credits)
         {
-            go.SetActive(!go.active);
+            go.SetActive(!go.activeInHierarchy);
         }
     }
     
-    public void Credits()
-    {
-        toggle();
-    }
     public void Collection()
     {
 

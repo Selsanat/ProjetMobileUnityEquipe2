@@ -139,12 +139,40 @@ public class CardObject : MonoBehaviour
         if (gameManager.CardsInteractable )
         {
             
-            transform.localScale = new Vector3(1, 1, 1);
             if (!MenuCarde)
             {
+                transform.localScale = new Vector3(1, 1, 1);
                 gameManager.deck.ReorderZCards();
             }
             if (transform.position.y < gameManager.RangePourActiverCarte)
+            {
+
+                if (!MenuCarde)
+                {
+                    transform.position = PosBeforeDrag;
+                }
+                
+                if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect)
+                {
+
+                    if (!MenuCarde)
+                    {
+                        gameManager.CardsInteractable = false;
+                    //print(gameManager.InspectUI.Image.sprite);
+                        print(this.GetComponent<SpriteRenderer>().sprite);
+                        gameManager.InspectUI.Image.sprite = this.GetComponent<SpriteRenderer>().sprite;
+                        gameManager.InspectUI.UI.SetActive(true);
+                        gameManager.InspectUI.Name.text = this.DataCard.Name;
+                        gameManager.InspectUI.description.text = this.DataCard.Description;
+                    }
+                }
+                if (MenuCarde)
+                {
+                    transform.position = M_t.position;
+                    transform.localScale = new Vector3(1.5f,1.5f,1.5f);
+                }
+            }
+            else
             {
                 if (MenuCarde)
                 {
@@ -152,21 +180,6 @@ public class CardObject : MonoBehaviour
                     OnPlay.Invoke();
                     return;
                 }
-                transform.position = PosBeforeDrag;
-                if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect)
-                {
-                    gameManager.CardsInteractable = false;
-                    //print(gameManager.InspectUI.Image.sprite);
-                    print(this.GetComponent<SpriteRenderer>().sprite);
-
-                    gameManager.InspectUI.Image.sprite = this.GetComponent<SpriteRenderer>().sprite;
-                    gameManager.InspectUI.UI.SetActive(true);
-                    gameManager.InspectUI.Name.text = this.DataCard.Name;
-                    gameManager.InspectUI.description.text = this.DataCard.Description;
-                }
-            }
-            else
-            {
                 if (!MenuCarde)
                 {
                     gameManager.CarteUtilisee = this;
@@ -179,11 +192,7 @@ public class CardObject : MonoBehaviour
                     FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true) ;
                     SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies) ;
                 }
-                if (MenuCarde)
-                {
-                    transform.position = M_t.position;
-                    transform.localScale = M_t.localScale;
-                }
+
             }
         }
         gameManager.HasCardInHand = false;
