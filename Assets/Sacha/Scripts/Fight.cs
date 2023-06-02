@@ -197,7 +197,7 @@ public class Fight : MonoBehaviour
     }
     void switchLightSelection(Button Boutton)
     {
-        Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(2).gameObject.GetComponent<Light2D>();
+        Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(4).gameObject.GetComponent<Light2D>();
         lightDuBoutton.enabled = true;
     }
 
