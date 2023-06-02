@@ -7,6 +7,9 @@ using TMPro;
 using NaughtyAttributes;
 using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
+using Slider = UnityEngine.UI.Slider;
+using Image = UnityEngine.UI.Image;
+
 using Color = UnityEngine.Color;
 using Unity.VisualScripting;
 using System.Linq;
@@ -14,6 +17,7 @@ using System.Diagnostics.Tracing;
 using UnityEngine.UIElements;
 using DG.Tweening.Core.Easing;
 using System.Drawing;
+using static entityManager;
 
 public class Deck : MonoBehaviour
 {
@@ -32,8 +36,13 @@ public class Deck : MonoBehaviour
     [SerializeField] Transform MilieuPlaceCard;
     [SerializeField] float VitesseTranspo = 10f;
     [SerializeField] float TempsTrans = 0.5f;
-    [SerializeField] SpriteRenderer Background;
-    [SerializeField] SpriteRenderer BackgroundAlt;
+
+    [SerializeField] public GameObject UiXpSolo;
+    [SerializeField] public GameObject UiXpDuo;
+    [SerializeField] public SpriteRenderer Background;
+    [SerializeField] public SpriteRenderer BackgroundAlt;
+    [SerializeField] public List<Slider> SlidersXp;
+    [SerializeField] public List<Image>  SpriteRenderers;
 
 
 
@@ -55,6 +64,47 @@ public class Deck : MonoBehaviour
 
     public List<CardObject> PlayedCards { get => playedCards; private set => playedCards = value; }
 
+    public void AfficheSideUiXP(bool TrueIfDuo)
+    {
+        SpriteRenderers[3].gameObject.SetActive(true);
+        if (TrueIfDuo)
+        {
+            UiXpDuo.SetActive(true);
+        }
+        else
+        {
+            UiXpSolo.SetActive(true);
+            if (gameManager.FM.perso2)
+            {
+                SpriteRenderers[2].sprite = SpriteRenderers[1].sprite;
+            }
+            else
+            {
+                SpriteRenderers[2].sprite = SpriteRenderers[0].sprite;
+            }
+        }
+    }
+
+    public void SetBonneBarreXp(List<hero> herolist)
+    {
+        if (herolist.Count == 1)
+        {
+            if (herolist[0].m_role == Role.Arboriste)
+            {
+                SlidersXp[2].value = gameManager.expArboriste;
+            }
+            else
+            {
+                SlidersXp[2].value = gameManager.expPretre;
+            }
+            
+        }
+        else
+        {
+            SlidersXp[0].value = gameManager.expArboriste;
+            SlidersXp[1].value = gameManager.expPretre;
+        }
+    }
     void OnDrawGizmosSelected()
     {
         // Draw a semitransparent red cube at the transforms position

@@ -12,6 +12,10 @@ using Unity.VisualScripting;
 using UnityEngine.Rendering.Universal;
 using System.Linq;
 using TMPro;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
+using Slider = UnityEngine.UI.Slider;
 
 public class Fight : MonoBehaviour
 {
@@ -878,15 +882,57 @@ public class Fight : MonoBehaviour
         StopCoroutine(coroutine);
         throw new NotImplementedException();
     }
-    private void WinFight()
+
+    IEnumerator XpLerp()
     {
-        StopCoroutine(coroutine);
-        
-        foreach(hero hero in heroes)
+        foreach (hero hero in heroes)
         {
             hero.gainExperience(20);
         }
-        SceneManager.LoadScene(0);
+        yield return new WaitUntil(() => Input.GetMouseButton(0));
+        float TempsTransition = 5;
+        float timeElapsed = 0;
+        while (timeElapsed < TempsTransition)
+        {
+            if (heroes.Count == 1)
+            {
+                if (heroes[0].m_role == entityManager.Role.Arboriste)
+                {
+                    Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.expArboriste, Time.deltaTime * 0.5f);
+                }
+                else
+                {
+                    Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.expPretre, Time.deltaTime * 0.5f);
+                }
+            }
+            else
+            {
+                print(heroes[0].getexperience());
+                Gm.deck.SlidersXp[0].value = Mathf.Lerp(Gm.deck.SlidersXp[0].value, Gm.expArboriste, Time.deltaTime * 0.5f);
+                Gm.deck.SlidersXp[1].value = Mathf.Lerp(Gm.deck.SlidersXp[1].value, Gm.expPretre, Time.deltaTime * 0.5f);
+            }
+            
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        if (heroes.Count == 1)
+        {
+            if (heroes[0].m_role == entityManager.Role.Arboriste)
+            {
+                    Gm.deck.SlidersXp[2].value = Gm.expPretre;
+            }
+            else
+            {
+                Gm.deck.SlidersXp[2].value = Gm.expArboriste;
+            }
+           
+        }
+        else
+        {
+            Gm.deck.SlidersXp[0].value = Gm.expArboriste;
+            Gm.deck.SlidersXp[1].value = Gm.expPretre;
+        }
+        yield return new WaitUntil(() => Input.GetMouseButton(0));
         Gm.waveCounter++;
         Gm.Hand.Clear();
         Gm.deck = null;
@@ -908,6 +954,17 @@ public class Fight : MonoBehaviour
         selectedcard = null;
         test = false;
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
+        yield return new WaitUntil(() => Input.GetMouseButton(0));
+        SceneManager.LoadScene(0);
+    }
+    private void WinFight()
+    {
+        StopCoroutine(coroutine);
+        Gm.deck.AfficheSideUiXP(perso1 && perso2);
+        Gm.deck.SetBonneBarreXp(heroes);
+        StartCoroutine(XpLerp());
+
+
     }
 
     bool CheckifHeroAreAlive()//TRUE = min ONE ALIVE

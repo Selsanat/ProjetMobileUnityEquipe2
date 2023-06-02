@@ -92,6 +92,7 @@ public class hero : entityManager
     }
     #region GET & SET
     public int getMaxPv() { return m_maxPv; }
+    public int getexperience() { return m_experience; }
     public int getPv() { return m_Pv; }
     public void setPv(int pv) { m_Pv = pv; }
     public int getBuff() { return m_buff; }
@@ -118,6 +119,7 @@ public class hero : entityManager
     {
         m_level++;
         m_experience = 0;
+        m_experienceMax += 2;
         if (this.m_role == Role.Arboriste)
         {
             gameManager.expArboriste = m_experience;

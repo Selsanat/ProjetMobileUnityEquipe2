@@ -6086,18 +6086,18 @@ MonoBehaviour:
   - position: {x: 5.112357, y: 3.8606203, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.6894531, y: 0.6817618}
-  - position: {x: 5.3363523, y: 4.229553, z: 0}
+  - position: {x: 5.3231764, y: 4.2163773, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0.6977539, y: 0.6991315}
+    uv: {x: 0.6972656, y: 0.6985112}
   - position: {x: 5.296824, y: 4.0055585, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.69628906, y: 0.6885856}
   - position: {x: 5.3363523, y: 4.1109676, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.6977539, y: 0.6935484}
-  - position: {x: 5.244119, y: 4.282258, z: 0}
+  - position: {x: 5.2836475, y: 4.2559056, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
-    uv: {x: 0.69433594, y: 0.7016129}
+    uv: {x: 0.6958008, y: 0.7003722}
   - position: {x: 5.1387095, y: 4.269082, z: 0}
     color: {r: 0, g: 0, b: 0, a: 1}
     uv: {x: 0.6904297, y: 0.7009926}
@@ -19411,7 +19411,7 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 1
+  m_FalloffIntensity: 0.784
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.61
   m_LightVolumeIntensity: 1
@@ -24820,7 +24820,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1027998294}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -620.42004, y: -253.38, z: 0}
+  m_LocalPosition: {x: -620.42004, y: -253.38, z: 1}
   m_LocalScale: {x: 1.43, y: 1.43, z: 1.43}
   m_ConstrainProportionsScale: 1
   m_Children: []
