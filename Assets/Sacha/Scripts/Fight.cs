@@ -30,6 +30,8 @@ public class Fight : MonoBehaviour
     public Sprite ennemy2Sprite;
     public bool perso1 = false;
     public bool perso2 = false;
+    public bool isPretreTransform = false;
+    public bool isArboTransform = false;
     bool test = false;
     private bool prout;
     [SerializeField] public Button play;
@@ -195,7 +197,7 @@ public class Fight : MonoBehaviour
     }
     void switchLightSelection(Button Boutton)
     {
-        Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(1).gameObject.GetComponent<Light2D>();
+        Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(2).gameObject.GetComponent<Light2D>();
         lightDuBoutton.enabled = true;
     }
 
@@ -405,12 +407,17 @@ public class Fight : MonoBehaviour
     }
     void StartTurn()
     {
-        mana = 4;
+        endTurnButton.GetComponentInChildren<TextMeshProUGUI>().text = "End Turn";
+        endTurnButton.onClick.AddListener(() => { repMana(); });
+        mana = 3;
         manaText.text = mana.ToString();
         endturnbool = false;
-        Gm.deck.EndTurn();
+        Gm.deck.StartTurn();
         heroes.Clear();
         enemies.Clear();
+        
+        pretreButton?.onClick.RemoveAllListeners();
+        arboristeButton?.onClick.RemoveAllListeners();
 
         foreach (hero E in Gm.entityManager.getListHero())
         {
@@ -422,6 +429,16 @@ public class Fight : MonoBehaviour
             {
                 enemies.Add(E);
             }
+            if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
+            {
+                arboristeButton.interactable = true;
+                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine()); E.setMana(0); E.stockText.text = E.getMana().ToString(); isArboTransform = true; });
+            }
+            else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
+            {
+                pretreButton.interactable = true;
+                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine()); E.setMana(0); E.stockText.text = E.getMana().ToString(); isPretreTransform = true; });
+            }
         }
     }
 
@@ -430,6 +447,8 @@ public class Fight : MonoBehaviour
 
     public void Cardsend(CardObject card, int index)
     {
+        pretreButton?.onClick.RemoveAllListeners();
+        arboristeButton?.onClick.RemoveAllListeners();
         card.DataCard.m_index = card.indexHand;
         selectedcard = card.DataCard;
         /*        if(play == null)
@@ -678,21 +697,41 @@ public class Fight : MonoBehaviour
         if (coroutine != null)
             StopCoroutine(coroutine);
 
-        //StartCoroutine(Gm.deck.DiscardCoroutine(true));
+        if (isArboTransform || isPretreTransform)
+        {
+            isArboTransform = false;
+            isPretreTransform = false;
+            StartCoroutine(Gm.deck.DetransfoCoroutine());
+        }
+        else 
+            StartCoroutine(Gm.deck.DiscardCoroutine(true));
+        
         stock += mana;
         mana = 0;
         stockText.text = stock.ToString();
         manaText.text = mana.ToString();
 
+        endTurnButton?.onClick.RemoveAllListeners();
+        endTurnButton.GetComponentInChildren<TextMeshProUGUI>().text = "SKIP";
+        endTurnButton?.onClick.AddListener(() => { chargeMana(3); });
         
-        arboristeButton?.onClick.RemoveAllListeners();
-        arboristeButton?.onClick.AddListener(() => { chargeMana(0); });
-        pretreButton?.onClick.RemoveAllListeners();
-        pretreButton?.onClick.AddListener(() => { chargeMana(1); });
         
         foreach (hero h in heroes)
         {
-            h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+            if(h.m_role == hero.Role.Arboriste && h.getMana() != h.m_manaMax)
+            {
+                arboristeButton?.onClick.RemoveAllListeners();
+                arboristeButton?.onClick.AddListener(() => { chargeMana(0); });
+                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+            }
+            else if (h.m_role == hero.Role.Pretre && h.getMana() != h.m_manaMax)
+            {
+
+                pretreButton?.onClick.RemoveAllListeners();
+                pretreButton?.onClick.AddListener(() => { chargeMana(1); });
+                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+            }   
+            
         }
         
         
@@ -704,7 +743,9 @@ public class Fight : MonoBehaviour
         {
             foreach (hero h in heroes)
             {
-                if(h.m_role == hero.Role.Arboriste)
+                if (h.getMana() == h.m_manaMax)
+                    break;
+                if (h.m_role == hero.Role.Arboriste)
                 {
                     while(stock >= 1)
                     {
@@ -729,6 +770,9 @@ public class Fight : MonoBehaviour
             {
                 if (h.m_role == hero.Role.Pretre)
                 {
+                    if(h.getMana() == h.m_manaMax)
+                        break;
+
                     while (stock >= 1)
                     {
                         h.setMana(h.getMana() + 1);
@@ -736,39 +780,22 @@ public class Fight : MonoBehaviour
                         if (h.getMana() == h.m_manaMax)
                         {
                             h.isFull = true;
+                            break;
 
                         }
-                        break;
                     }
                     h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
 
                 }
             }
         }
-        else if (x == 2)
-        {
-            foreach (hero h in heroes)
-            {
-                while (stock >= 1)
-                {
-                    h.setMana(h.getMana() + 1);
-                    stock--;
-                    if (h.getMana() == h.m_manaMax)
-                    {
-                        h.isFull = true;
-                        break;
-
-
-                    }
-                }
-                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
-            }
-
-        }
-        else
-            return ;
+        
 
         stockText.text = stock.ToString();
+        pretreButton?.onClick.RemoveAllListeners();
+        arboristeButton?.onClick.RemoveAllListeners();
+        endTurnButton?.onClick.RemoveAllListeners();
+
         PlayEnemyTurn();
 
     }
