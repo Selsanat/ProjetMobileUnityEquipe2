@@ -201,7 +201,6 @@ public class Fight : MonoBehaviour
 
     public IEnumerator CardAnimDisolve()
     {
-        print("animdisolve");
         if (selectedhero.Count != 0)
         {
             play.gameObject.SetActive(false);

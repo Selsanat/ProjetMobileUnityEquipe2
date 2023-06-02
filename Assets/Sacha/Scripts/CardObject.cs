@@ -115,23 +115,8 @@ public class CardObject : MonoBehaviour
     void SelectedCard(bool Side1, bool Side2)
     {
         gameManager.CardsInteractable  = false;
-        Transform AllyCardTransform = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform;
-        Transform EnnemyCardTransform = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform;
-        if (Side1 && Side2)
-        {
-            transform.position = Vector3.Lerp(AllyCardTransform.position, EnnemyCardTransform.transform.position, 0.5f);
-            transform.rotation = Quaternion.Lerp(AllyCardTransform.rotation, EnnemyCardTransform.transform.rotation, 0.5f);
-        }
-        else if (Side1)
-        {
-            transform.position = AllyCardTransform.position; 
-            transform.rotation = AllyCardTransform.rotation;
-        }
-        else
-        {
-            transform.position = EnnemyCardTransform.transform.position;
-            transform.rotation = EnnemyCardTransform.transform.rotation;
-        }
+
+        gameManager.deck.DeplaceCardUtiliseToPlace();
         transform.localScale = new Vector3(2,2, 2);
         rendeureur.sortingOrder = 10;
         canvas.sortingOrder = 10;
@@ -209,5 +194,13 @@ public class CardObject : MonoBehaviour
         //print(gameManager.HasCardInHand);
     }
 
-
+    IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
+    {
+        for (int i =0; i <100; i++)
+        {
+            gameManager.deck.TransposeAtoB(objetABouger, position);
+            yield return null;
+        }
+        
+    }
 }
