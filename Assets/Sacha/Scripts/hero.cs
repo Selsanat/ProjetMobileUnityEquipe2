@@ -36,7 +36,7 @@ public class hero : entityManager
 
 
     }
-    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int level, int experience)
+    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int level, int experience, int experienceMax=4)
     {
         m_role = role;
         m_maxPv = maxPV;
@@ -50,6 +50,7 @@ public class hero : entityManager
         m_armor = 0;
         m_level = level;
         m_experience = experience;
+        m_experienceMax = experienceMax;
         if(m_role == Role.Arboriste)
             m_manaMax = 6;
         else
@@ -93,6 +94,7 @@ public class hero : entityManager
     #region GET & SET
     public int getMaxPv() { return m_maxPv; }
     public int getexperience() { return m_experience; }
+    public int getexperienceMAX() { return m_experienceMax; }
     public int getPv() { return m_Pv; }
     public void setPv(int pv) { m_Pv = pv; }
     public int getBuff() { return m_buff; }
@@ -118,7 +120,7 @@ public class hero : entityManager
     public void levelUp()
     {
         m_level++;
-        m_experience = 0;
+        m_experience -= m_experienceMax;
         m_experienceMax += 2;
         if (this.m_role == Role.Arboriste)
         {
@@ -177,7 +179,7 @@ public class hero : entityManager
         {
             gameManager.expPretre = m_experience;
         }
-        if (m_experience >= m_experienceMax)
+        while (m_experience >= m_experienceMax)
         {
             levelUp();
         }

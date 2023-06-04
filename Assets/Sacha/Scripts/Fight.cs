@@ -38,6 +38,7 @@ public class Fight : MonoBehaviour
     public bool isArboTransform = false;
     bool test = false;
     private bool prout;
+    private int ennemisTues = 0;
     [SerializeField] public Button play;
     [SerializeField] public Button cancel;
     [SerializeField] Button arboristeButton;
@@ -55,6 +56,8 @@ public class Fight : MonoBehaviour
     [SerializeField] List<hero> heroes;
     [SerializeField] List<hero> enemies;
     [SerializeField] List<hero> selectedhero;
+    
+    public List<hero> enemiesAtStartOfCombat;
     dataCard selectedcard;
 
     Coroutine coroutine;
@@ -99,6 +102,7 @@ public class Fight : MonoBehaviour
         Gm = GameManager.Instance;
         heroes = new List<hero>();
         enemies = new List<hero>();
+        enemiesAtStartOfCombat = new List<hero>();
         //StartFight();
         //StartTurn();
     }
@@ -467,6 +471,12 @@ public class Fight : MonoBehaviour
             En.EnemyAttack(heroes, true);
         }
 
+        if (enemiesAtStartOfCombat.Count== 0)
+        {
+            print("g reussi");
+            enemiesAtStartOfCombat = enemies.ToList();
+        }
+
     }
 
 
@@ -526,13 +536,13 @@ public class Fight : MonoBehaviour
                 { 
                     if (enemies[1].getIsProvocation()) 
                     { 
-                        selectedhero.Add(enemies[1]); 
+                        selectedhero.Add(enemiesAtStartOfCombat[1]); 
                         switchLightSelection(ennemisButton2); 
                     } 
                 } 
                 else 
                 { 
-                    selectedhero.Add(enemies[1]); 
+                    selectedhero.Add(enemiesAtStartOfCombat[1]); 
                     switchLightSelection(ennemisButton2); 
                 }
             });
@@ -543,13 +553,13 @@ public class Fight : MonoBehaviour
                 {
                     if (enemies[2].getIsProvocation())
                     {
-                        selectedhero.Add(enemies[2]);
+                        selectedhero.Add(enemiesAtStartOfCombat[2]);
                         switchLightSelection(ennemisButton3);
                     }
                 }
                 else
                 {
-                    selectedhero.Add(enemies[2]);
+                    selectedhero.Add(enemiesAtStartOfCombat[2]);
                     switchLightSelection(ennemisButton3);
                 }
             });
@@ -885,45 +895,192 @@ public class Fight : MonoBehaviour
 
     IEnumerator XpLerp()
     {
+        int lvldruid =0;
+        int lvlpriest=0;
+        bool lvlUpDruid = false;
+        bool lvlUpPriest = false;
         foreach (hero hero in heroes)
         {
-            hero.gainExperience(20);
+            if (hero.m_role == entityManager.Role.Arboriste)
+            {
+                lvldruid = Gm.levelArboriste;
+            }
+            else
+            {
+                lvlpriest = Gm.levelPretre;
+            }
+            hero.gainExperience((int)((2*enemiesAtStartOfCombat.Count)/heroes.Count));
+            if (hero.m_role == entityManager.Role.Arboriste)
+            {
+                lvlUpDruid = Gm.levelArboriste > lvldruid;
+            }
+            else
+            {
+                lvlUpPriest = Gm.levelArboriste > lvlpriest;
+            }
         }
+
+        #region AnimationBarreXP
         yield return new WaitUntil(() => Input.GetMouseButton(0));
         float TempsTransition = 5;
         float timeElapsed = 0;
+
+        if (heroes.Count == 1)
+        {
+
+            if (heroes[0].m_role == entityManager.Role.Arboriste)
+            {
+                lvlUpDruid = Gm.deck.SlidersXp[2].value > Gm.expArboriste||lvlUpDruid;
+            }
+            else
+            {
+                lvlUpPriest = Gm.deck.SlidersXp[2].value > Gm.expPretre||lvlUpPriest;
+            }
+        }
+        else
+        {
+            lvlUpDruid = Gm.deck.SlidersXp[0].value > Gm.expArboriste || lvlUpDruid;
+            lvlUpPriest = Gm.deck.SlidersXp[1].value > Gm.expPretre|| lvlUpPriest;
+
+        }
         while (timeElapsed < TempsTransition)
         {
             if (heroes.Count == 1)
             {
+                
                 if (heroes[0].m_role == entityManager.Role.Arboriste)
                 {
-                    Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.expArboriste, Time.deltaTime * 0.5f);
+                    if (lvlUpDruid)
+                    {
+                        Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.deck.SlidersXp[2].maxValue, Time.deltaTime * 1.5f);
+                    }
+                    else
+                    {
+                        Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.expArboriste, Time.deltaTime * 1.5f);
+                    }
                 }
                 else
                 {
-                    Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.expPretre, Time.deltaTime * 0.5f);
+                    if (lvlUpPriest)
+                    {
+                        Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.deck.SlidersXp[2].maxValue, Time.deltaTime * 1.5f);
+                    }
+                    else
+                    {
+                        Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.expPretre, Time.deltaTime * 1.5f);
+                    }
+
                 }
             }
             else
             {
-                print(heroes[0].getexperience());
-                Gm.deck.SlidersXp[0].value = Mathf.Lerp(Gm.deck.SlidersXp[0].value, Gm.expArboriste, Time.deltaTime * 0.5f);
-                Gm.deck.SlidersXp[1].value = Mathf.Lerp(Gm.deck.SlidersXp[1].value, Gm.expPretre, Time.deltaTime * 0.5f);
+                if (lvlUpDruid)
+                {
+                    Gm.deck.SlidersXp[0].value = Mathf.Lerp(Gm.deck.SlidersXp[0].value, Gm.deck.SlidersXp[0].maxValue, Time.deltaTime * 1.5f);
+
+                }
+                else
+                {
+                    Gm.deck.SlidersXp[0].value = Mathf.Lerp(Gm.deck.SlidersXp[0].value, Gm.expArboriste, Time.deltaTime * 1.5f);
+                }
+                if (lvlUpPriest)
+                {
+                    Gm.deck.SlidersXp[1].value = Mathf.Lerp(Gm.deck.SlidersXp[1].value, Gm.deck.SlidersXp[1].maxValue, Time.deltaTime * 1.5f);
+                }
+                else
+                {
+                    Gm.deck.SlidersXp[1].value = Mathf.Lerp(Gm.deck.SlidersXp[1].value, Gm.expPretre, Time.deltaTime * 1.5f);
+                }
+                
             }
             
-            timeElapsed += Time.deltaTime;
+            timeElapsed += Time.deltaTime * 1.5f;
             yield return null;
+        }
+        TempsTransition = 5;
+        timeElapsed = 0;
+        if (lvlUpDruid||lvlUpPriest)
+        {
+            if (heroes.Count == 1)
+            {
+
+                if (heroes[0].m_role == entityManager.Role.Arboriste)
+                {
+                    if (lvlUpDruid)
+                    {
+                        Gm.deck.SlidersXp[2].value = 0;
+                    }
+                }
+                else
+                {
+                    if (lvlUpPriest)
+                    {
+                        Gm.deck.SlidersXp[2].value = 0;
+                    }
+
+                }
+            }
+            else
+            {
+                if (lvlUpDruid)
+                {
+                    Gm.deck.SlidersXp[0].value = 0;
+
+                }
+                if (lvlUpPriest)
+                {
+                    Gm.deck.SlidersXp[1].value = 0;
+                }
+
+            }
+            while (timeElapsed < TempsTransition)
+            {
+                if (heroes.Count == 1)
+                {
+
+                    if (heroes[0].m_role == entityManager.Role.Arboriste)
+                    {
+                        if (lvlUpDruid)
+                        {
+                            Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.expArboriste, Time.deltaTime * 1.5f);
+                        }
+                    }
+                    else
+                    {
+                        if (lvlUpPriest)
+                        {
+                            Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.expPretre, Time.deltaTime * 1.5f);
+                        }
+
+                    }
+                }
+                else
+                {
+                    if (lvlUpDruid)
+                    {
+                        Gm.deck.SlidersXp[0].value = Mathf.Lerp(Gm.deck.SlidersXp[0].value, Gm.expArboriste, Time.deltaTime * 1.5f);
+
+                    }
+                    if (lvlUpPriest)
+                    {
+                        Gm.deck.SlidersXp[1].value = Mathf.Lerp(Gm.deck.SlidersXp[1].value, Gm.expPretre, Time.deltaTime * 1.5f);
+                    }
+
+                }
+
+                timeElapsed += Time.deltaTime * 1.5f;
+                yield return null;
+            }
         }
         if (heroes.Count == 1)
         {
             if (heroes[0].m_role == entityManager.Role.Arboriste)
             {
-                    Gm.deck.SlidersXp[2].value = Gm.expPretre;
+                    Gm.deck.SlidersXp[2].value = Gm.expArboriste;
             }
             else
             {
-                Gm.deck.SlidersXp[2].value = Gm.expArboriste;
+                Gm.deck.SlidersXp[2].value = Gm.expPretre;
             }
            
         }
@@ -932,6 +1089,7 @@ public class Fight : MonoBehaviour
             Gm.deck.SlidersXp[0].value = Gm.expArboriste;
             Gm.deck.SlidersXp[1].value = Gm.expPretre;
         }
+        #endregion
         yield return new WaitUntil(() => Input.GetMouseButton(0));
         Gm.waveCounter++;
         Gm.Hand.Clear();

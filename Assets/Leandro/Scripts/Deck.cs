@@ -91,17 +91,21 @@ public class Deck : MonoBehaviour
         {
             if (herolist[0].m_role == Role.Arboriste)
             {
+                SlidersXp[2].maxValue = herolist[0].getexperienceMAX();
                 SlidersXp[2].value = gameManager.expArboriste;
             }
             else
             {
+                SlidersXp[2].maxValue = herolist[1].getexperienceMAX();
                 SlidersXp[2].value = gameManager.expPretre;
             }
             
         }
         else
         {
+            SlidersXp[0].maxValue = herolist[0].getexperienceMAX();
             SlidersXp[0].value = gameManager.expArboriste;
+            SlidersXp[1].maxValue = herolist[1].getexperienceMAX();
             SlidersXp[1].value = gameManager.expPretre;
         }
     }
@@ -611,8 +615,8 @@ public class Deck : MonoBehaviour
     {
         for(int i = 0; i < nombreAPiocher; i++)
         {
-            yield return DrawCardCoroutine();
-            yield return new WaitForSeconds(0.1f);
+            StartCoroutine( DrawCardCoroutine());
+            yield return new WaitForSeconds(0.25f);
         }
     }
     IEnumerator DiscardCoroutine()
@@ -643,51 +647,58 @@ public class Deck : MonoBehaviour
     {
         foreach (CardObject card in Hand.ToList())
         {
-            float TempsTransition = TempsTrans;
-            float timeElapsed = 0;
-            GameObject CardGO = card.gameObject;
-            while (timeElapsed < TempsTransition)
-            {
-                CardGO.transform.position = Vector3.Lerp(CardGO.transform.position, Camera.main.ScreenToWorldPoint(graveyardCount.transform.position), Time.deltaTime * VitesseTranspo);
-                CardGO.transform.localScale = Vector3.Lerp(CardGO.transform.localScale, new Vector3(0, 0, 0), Time.deltaTime * VitesseTranspo);
-                timeElapsed += Time.deltaTime;
-                yield return null;
-            }
-            yield return new WaitForSeconds(0.1f);
-            card.gameObject.SetActive(false);
-            CardGO.transform.position = Camera.main.ScreenToWorldPoint(graveyardCount.transform.position);
-            CardGO.transform.localScale = new Vector3(1, 1, 1);
+            StartCoroutine(DiscardOneCoroutine(card));
+            yield return new WaitForSeconds(0.25f);
         }
-        yield return new WaitForSeconds(0.5f);
         LibereEspacesHand();
         HandToGraveyard();
 
         //yield return DrawCardCoroutine(NombrePiocheDebutTour);
     }
+
+    IEnumerator DiscardOneCoroutine(CardObject card)
+    {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        GameObject CardGO = card.gameObject;
+        while (timeElapsed < TempsTransition)
+        {
+            CardGO.transform.position = Vector3.Lerp(CardGO.transform.position, Camera.main.ScreenToWorldPoint(graveyardCount.transform.position), Time.deltaTime * VitesseTranspo);
+            CardGO.transform.localScale = Vector3.Lerp(CardGO.transform.localScale, new Vector3(0, 0, 0), Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.1f);
+        card.gameObject.SetActive(false);
+        CardGO.transform.position = Camera.main.ScreenToWorldPoint(graveyardCount.transform.position);
+        CardGO.transform.localScale = new Vector3(1, 1, 1);
+    }
     public IEnumerator TransfoCoroutine()
     {
-        yield return TransposeTransparencyNegative(Background.gameObject);
+        StartCoroutine( TransposeTransparencyNegative(Background.gameObject));
         for (int i = 0; i < Hand.Count; i++)
         {
             CardObject card = Hand[i];
-            yield return TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90, 0));
+            StartCoroutine( TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90, 0)));
             card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
             StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0, 0)));
             card.DataCard.m_isUpsideDown = true;
+            yield return new WaitForSeconds(0.25f);
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
     }
     public IEnumerator DetransfoCoroutine()
     {
-        yield return TransposeTransparency(Background.gameObject);
+        StartCoroutine(TransposeTransparency(Background.gameObject));
         for (int i = 0; i < Hand.Count;i++)
         {
             CardObject card = Hand[i];
-            yield return TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90,0));
+            StartCoroutine( TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90,0)));
             card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
             StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0,0)));
             card.DataCard.m_isUpsideDown = true;
+            yield return new WaitForSeconds(0.25f);
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
