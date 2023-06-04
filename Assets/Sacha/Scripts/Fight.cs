@@ -39,7 +39,7 @@ public class Fight : MonoBehaviour
     [SerializeField] Button ennemisButton3;
     [SerializeField] Button selectedButton;
 
-    private int mana;
+    public int mana;
     [SerializeField] List<hero> heroes;
     [SerializeField] List<hero> enemies;
     [SerializeField] List<hero> selectedhero;
@@ -56,6 +56,8 @@ public class Fight : MonoBehaviour
     }
 
     public bool IsCardSend { get => isCardSend; set => isCardSend = value; }
+    public List<hero> Enemies { get => enemies; private set => enemies = value; }
+    public List<hero> Heroes { get => heroes; private set => heroes = value; }
 
     private void Update()
     {
@@ -85,8 +87,8 @@ public class Fight : MonoBehaviour
     private void Start()
     {
         Gm = GameManager.Instance;
-        heroes = new List<hero>();
-        enemies = new List<hero>();
+        Heroes = new List<hero>();
+        Enemies = new List<hero>();
         //StartFight();
         //StartTurn();
     }
@@ -219,7 +221,7 @@ public class Fight : MonoBehaviour
 
             if (Gm.IsPretrePlayed == false)
             {
-                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0);
+                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0, 0);
                 Gm.LifePretre = H1.getPv();
                 Gm.IsPretrePlayed = true;
             }
@@ -228,7 +230,7 @@ public class Fight : MonoBehaviour
                 
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
             }
@@ -263,7 +265,7 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
                 Debug.Log("creer arboriste");
@@ -288,7 +290,7 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(pretreButton, heroSprite2, true);
             if (Gm.IsPretrePlayed == false)
             {
-                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0);
+                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0, 0);
                 Gm.LifePretre = H1.getPv();
                 Gm.IsPretrePlayed = true;
             }
@@ -395,18 +397,18 @@ public class Fight : MonoBehaviour
     {
         endturnbool = false;
         Gm.deck.StartTurn();
-        heroes.Clear();
-        enemies.Clear();
+        Heroes.Clear();
+        Enemies.Clear();
 
         foreach (hero E in Gm.entityManager.getListHero())
         {
             if (E.m_role == entityManager.Role.Pretre || E.m_role == entityManager.Role.Arboriste)
             {
-                heroes.Add(E);
+                Heroes.Add(E);
             }
             else
             {
-                enemies.Add(E);
+                Enemies.Add(E);
             }
         }
     }
@@ -442,15 +444,15 @@ public class Fight : MonoBehaviour
                 Deselection(false);
                 if (Gm.IsAnyProv) 
                 { 
-                    if(enemies[0].getIsProvocation()) 
+                    if(Enemies[0].getIsProvocation()) 
                     { 
-                        selectedhero.Add(enemies[0]); 
+                        selectedhero.Add(Enemies[0]); 
                         switchLightSelection(ennemisButton1); 
                     } 
                 } 
                 else 
                 { 
-                    selectedhero.Add(enemies[0]); 
+                    selectedhero.Add(Enemies[0]); 
                     switchLightSelection(ennemisButton1);
                 }
             });
@@ -464,15 +466,15 @@ public class Fight : MonoBehaviour
                 ClearSide(false);
                 if (Gm.IsAnyProv) 
                 { 
-                    if (enemies[1].getIsProvocation()) 
+                    if (Enemies[1].getIsProvocation()) 
                     { 
-                        selectedhero.Add(enemies[1]); 
+                        selectedhero.Add(Enemies[1]); 
                         switchLightSelection(ennemisButton2); 
                     } 
                 } 
                 else 
                 { 
-                    selectedhero.Add(enemies[1]); 
+                    selectedhero.Add(Enemies[1]); 
                     switchLightSelection(ennemisButton2); 
                 }
             });
@@ -481,15 +483,15 @@ public class Fight : MonoBehaviour
                 Deselection(false);
                 if (Gm.IsAnyProv)
                 {
-                    if (enemies[2].getIsProvocation())
+                    if (Enemies[2].getIsProvocation())
                     {
-                        selectedhero.Add(enemies[2]);
+                        selectedhero.Add(Enemies[2]);
                         switchLightSelection(ennemisButton3);
                     }
                 }
                 else
                 {
-                    selectedhero.Add(enemies[2]);
+                    selectedhero.Add(Enemies[2]);
                     switchLightSelection(ennemisButton3);
                 }
             });
@@ -499,7 +501,7 @@ public class Fight : MonoBehaviour
         {
             if (selectedcard.AOEEnnemies)
             {
-                foreach (hero ennemy in enemies)
+                foreach (hero ennemy in Enemies)
                 {
                     selectedhero.Add(ennemy);
                     ActivateSideLights(false);
@@ -508,14 +510,14 @@ public class Fight : MonoBehaviour
         }
         if (!selectedcard.AOEAllies && selectedcard.TargetAllies)
         {
-            arboristeButton?.onClick.AddListener(() => { ClearSide(true); selectedhero.Add(heroes[0]); switchLightSelection(arboristeButton); });
-            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton); ClearSide(true); ; if (perso1 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); });
+            arboristeButton?.onClick.AddListener(() => { ClearSide(true); selectedhero.Add(Heroes[0]); switchLightSelection(arboristeButton); });
+            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton); ClearSide(true); ; if (perso1 == true) selectedhero.Add(Heroes[1]); else selectedhero.Add(Heroes[0]); });
         }
         else
         {
             if (selectedcard.AOEAllies)
             {
-                foreach (hero hero in heroes)
+                foreach (hero hero in Heroes)
                 {
                     selectedhero.Add(hero);
                     ActivateSideLights(true);
@@ -535,9 +537,9 @@ public class Fight : MonoBehaviour
             Deselection(false);
             Gm.deck.PlayCard(selectedcard.m_index);
             isCardSend = false;
-            for (int i = 0; i < enemies.Count; i++)
+            for (int i = 0; i < Enemies.Count; i++)
             {
-                if(enemies[i].getPv() <= 0)
+                if(Enemies[i].getPv() <= 0)
                 {
                     if(i == 0)
                     {
@@ -550,7 +552,7 @@ public class Fight : MonoBehaviour
                         ennemisButton2.gameObject.SetActive(false);
                     }
                 }
-                enemies[i].resetArmor();
+                Enemies[i].resetArmor();
             }   
 
             if (!CheckifEnemyAreAlive())
@@ -567,7 +569,7 @@ public class Fight : MonoBehaviour
 
     void PlayPlayerEffects() 
     {
-        foreach (hero h in heroes)
+        foreach (hero h in Heroes)
         {
             for (int i = 0; i < h.MyEffects.Count; i++)
             {
@@ -621,13 +623,13 @@ public class Fight : MonoBehaviour
                 {
                     LooseFight();
                 }
-                heroes[i].resetArmor();
+                Heroes[i].resetArmor();
             }
         }
     }
     private void PlayEnemyEffects()
     {
-        foreach (hero h in enemies)
+        foreach (hero h in Enemies)
         {
             for (int i = 0; i < h.MyEffects.Count; i++)
             {
@@ -669,9 +671,9 @@ public class Fight : MonoBehaviour
     {
         Debug.Log("Ennemyturn");
         StopCoroutine(coroutine);
-        foreach (hero En in enemies)
+        foreach (hero En in Enemies)
         {
-            En.EnemyAttack(heroes);
+            En.EnemyAttack(Heroes);
             if (!CheckifHeroAreAlive())
             {
                 LooseFight();
@@ -695,7 +697,7 @@ public class Fight : MonoBehaviour
     {
         StopCoroutine(coroutine);
         
-        foreach(hero hero in heroes)
+        foreach(hero hero in Heroes)
         {
             hero.gainExperience(20);
         }
@@ -714,8 +716,8 @@ public class Fight : MonoBehaviour
         arboristeButton = null;
         pretreButton = null;
 
-        heroes.Clear();
-        enemies.Clear();
+        Heroes.Clear();
+        Enemies.Clear();
         selectedhero.Clear();
         selectedcard = null;
         test = false;
@@ -724,7 +726,7 @@ public class Fight : MonoBehaviour
 
     bool CheckifHeroAreAlive()//TRUE = min ONE ALIVE
     {
-        foreach (hero En in heroes)
+        foreach (hero En in Heroes)
         {
             if (En.getIsAlive())
             {
@@ -737,7 +739,7 @@ public class Fight : MonoBehaviour
 
     bool CheckifEnemyAreAlive()//TRUE = min ONE ALIVE
     {
-        foreach (hero En in enemies)
+        foreach (hero En in Enemies)
         {
             if (En.getIsAlive())
             {
@@ -791,43 +793,193 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.AddCard: //pioche une carte
                         Gm.deck.DrawCard(1);
                         break;
-                    case dataCard.CardType.UpgradeCard://la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
+                    case dataCard.CardType.HabemusDominum://change le mana d'une carte
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.DiabolusEst://change le damage d'une carte
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.CultiverAme://les effets de cette carte dure jusqu'a la fin du combat
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.CultiverFlamme://augmente la barre de veneration d'un allie
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Conversion://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
                         foreach (hero hero in selected)
                         {
                             
                         }
                         break;
-                    case dataCard.CardType.ChangeCardMana://change le mana d'une carte
+                    case dataCard.CardType.Absolution://inflige X degat et soigne X à un autre personnage
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.ChangeCardDamage://change le damage d'une carte
+                    case dataCard.CardType.Benediction://inflige X degat et soigne X à un autre personnage
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.FromNow://les effets de cette carte dure jusqu'a la fin du combat
+                    case dataCard.CardType.Apotasie://inflige X degat et soigne X à un autre personnage
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Venerate://augmente la barre de veneration d'un allie
+                    case dataCard.CardType.Tabernacle://inflige X degat et soigne X à un autre personnage
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
+                    case dataCard.CardType.Belial://inflige X degat et soigne X à un autre personnage
                         foreach (hero hero in selected)
                         {
-                            //DONTDO
+
                         }
                         break;
-                    case dataCard.CardType.Steal://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.VenererIdole://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Blaspheme://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.AllumerCierges://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.IncendierCloatre://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.AccueillirNecessiteux://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.MassacrerInfideles://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.MoxLion://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.MoxAraignee://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.MurDeRonces://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.LaissePourMort://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Cataplasme://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Belladone://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.SurgissementVitalique://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.RepandreMort://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.ArmureEcorse://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.MaleusHerbeticae://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.CommunionNature://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Canibalisme://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.SuivreEtoiles://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.ProfanerCiel://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.DormirPresDeLautre://inflige X degat et soigne X à un autre personnage
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.ReveillerPourManger://inflige X degat et soigne X à un autre personnage
                         foreach (hero hero in selected)
                         {
 
@@ -856,24 +1008,24 @@ public class Fight : MonoBehaviour
         {
             selectedButton = ennemisButton1;
             selectedhero.Clear();
-            selectedhero.Add(enemies[0]);
+            selectedhero.Add(Enemies[0]);
         }
         else if (eventData.selectedObject == ennemisButton2)
         {
             selectedhero.Clear();
-            selectedhero.Add(enemies[1]);
+            selectedhero.Add(Enemies[1]);
             selectedButton = ennemisButton2;
         }
         else if(eventData.selectedObject == arboristeButton)
         {
             selectedhero.Clear();
-            selectedhero.Add(heroes[0]);
+            selectedhero.Add(Heroes[0]);
             selectedButton = arboristeButton;
         }
         else if(eventData.selectedObject == pretreButton)
         {
             selectedhero.Clear();
-            selectedhero.Add(heroes[1]);
+            selectedhero.Add(Heroes[1]);
             selectedButton = pretreButton;
         }
         else

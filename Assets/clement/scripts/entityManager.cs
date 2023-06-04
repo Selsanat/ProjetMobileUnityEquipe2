@@ -45,6 +45,7 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected bool isProvocation = false;
     [SerializeField] protected int m_damageMultiplier = 1;
     [SerializeField] protected int m_mana;
+    [SerializeField] protected int m_venerate;
     [SerializeField] public Sprite m_sprite;
     [SerializeField] public Slider m_slider;
     [SerializeField] protected Deck m_deck;

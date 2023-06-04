@@ -3,9 +3,11 @@ using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security;
 using UnityEditor;
 using UnityEngine;
 using static entityManager;
+using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.Rendering.DebugUI;
 
 [System.Serializable]
@@ -78,6 +80,13 @@ public class dataCard : ScriptableObject
 
     }
 
+    public void heal(hero hero, int value)
+    {
+        hero.setPv(hero.getPv() + value);
+        if (hero.getPv() < hero.getMaxPv())
+            hero.setPv(hero.getMaxPv());
+    }
+
     public void takeDamage(hero hero) 
     {
         Debug.Log("Pv avant : " + hero.getPv());
@@ -93,16 +102,31 @@ public class dataCard : ScriptableObject
         hero.setVarHero();
     }
 
+    public void takeDamage(hero hero, int value)
+    {
+        Debug.Log("Pv avant : " + hero.getPv());
+        hero.setPv(hero.getPv()+value);
+        Debug.Log("Pv apres : " + hero.getPv());
+
+        if (hero.getPv() <= 0)
+        {
+            hero.setIsAlive(false);
+        }
+        hero.setVarHero();
+    }
+
     public void AddArmor(hero hero)
     {
         hero.setArmor(m_value);
     }
-
-    public void AddMana(hero hero)
+    public void AddArmor(hero hero, int value)
     {
-        int currentMana = hero.getMana();
-        currentMana+= m_value;
-        hero.setMana(currentMana);
+        hero.setArmor(value);
+    }
+
+    public void AddMana(int value)
+    {
+        GM.FM.mana += value;
     }
 
     public void AddCard ()
@@ -125,19 +149,9 @@ public class dataCard : ScriptableObject
         card.DataCard.m_value += m_value;
     }
 
-    public void FromNow()
+    public void Venerate(hero hero, int value)
     {
-        throw new NotImplementedException();
-    }
-
-    public void Venerate()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Transcend()
-    {
-        throw new NotImplementedException();
+        hero.setVenerate(hero.getVenerate() + value);
     }
 
     public void Steal(hero enemy, hero ally)
@@ -147,6 +161,196 @@ public class dataCard : ScriptableObject
 
         int currentAllyLife = ally.getPv();
         ally.setPv(currentAllyLife += m_value);
+    }
+
+    public void Conversion(hero hero)
+    {
+        hero.setArmor(hero.getArmor()-1);
+        hero.setPv(hero.getPv() + 1);
+    }
+
+    public void Absolution(hero hero)
+    {
+/*        foreach (hero enemy in GM.FM.Enemies)
+        {
+
+        }*/
+        throw new NotImplementedException();
+    }
+
+    public void Benediction(hero ally, hero enemy)
+    {
+        enemy.takeDamage(ally.getVenerate());
+    }
+    public void Tabernacle(hero ally) //appeler cette fonction à chaque fois que le joueur prend des degats
+    {
+        //int damageReceive = ...;
+        //AddArmor(ally, damageReceive);
+    }
+
+    public void Belial()
+    {
+        throw new NotImplementedException();
+
+    }
+    public void VenererIdole()
+    {
+        throw new NotImplementedException();
+
+    }
+    public void Blaspheme()
+    {
+        throw new NotImplementedException();
+
+    }
+    public void AllumerCierges()
+    {
+        throw new NotImplementedException();
+
+    }
+    public void IncendierCloatre()
+    {
+        throw new NotImplementedException();
+
+    }
+    public void AccueillirNecessiteux()
+    {
+        throw new NotImplementedException();
+
+    }
+    public void MassacrerInfideles()
+    {
+        throw new NotImplementedException();
+
+    }
+    public void MoxLion(hero arboriste)
+    {
+        if (GM.FM.mana > 0)
+        {
+            AddArmor(arboriste, GM.FM.mana * 2);
+            GM.FM.mana = 0;
+            //prochain tour donne GM.FM.mana * 2
+        }
+
+    }
+
+    public void MoxAraignee(hero arboriste, hero enemy)
+    {
+        if (GM.FM.mana > 0)
+        {
+            AddArmor(arboriste, GM.FM.mana * 2);
+            takeDamage(enemy, GM.FM.mana * 2);
+            GM.FM.mana = 0;
+            //prochain tour donne GM.FM.mana * 2
+        }
+    }
+
+    public void MurDeRonces()
+    {
+        throw new NotImplementedException();
+
+    }
+
+    public void LaissePourMort()
+    {
+        throw new NotImplementedException();
+
+    }
+
+    public void Cataplasme(hero hero)
+    {
+        heal(hero);
+        //enlever les malus
+    }
+
+    public void Belladone(hero enemy)
+    {
+        if (enemy.getArmor() > 0)
+        {
+            enemy.setArmor(0);
+            takeDamage(enemy, 8);
+        }
+
+    }
+
+    public void SurgissementVitalique(hero arboriste)
+    {
+        if  (arboriste.getVenerate() > 0)
+        {
+            AddMana(arboriste.getVenerate());
+            arboriste.setVenerate(0);
+            AddCard();
+        }
+    }
+
+    public void RepandreMort()
+    {
+        throw new NotImplementedException();
+
+    }
+
+    public void ArmureEcorse()
+    {
+        throw new NotImplementedException();
+
+    }
+
+    public void MaleusHerbeticae(hero arboriste)
+    {
+        foreach (hero enemy in GM.FM.Enemies)
+        {
+            //poison
+        }
+        AddArmor(arboriste, 7);
+    }
+
+    public void CommunionNature()
+    {
+        throw new NotImplementedException();
+
+    }
+
+    public void Canibalisme()
+    {
+        throw new NotImplementedException();
+
+    }
+    public void SuivreEtoiles(hero arboriste)
+    {
+        Venerate(arboriste, 2);
+        bool drawCard = false;
+        foreach (hero ally in GM.FM.Heroes)
+        {
+/*            if (ally.canTranscend)
+            {
+                drawCard = true;
+                break;
+            }*/
+        }
+        if (drawCard)
+        {
+            AddCard();
+        }
+
+
+    }
+    public void ProfanerCiel()
+    {
+        throw new NotImplementedException();
+
+    }
+    public void DormirPresDeLautre(hero ally, hero arboriste)
+    {
+        Venerate(arboriste, 4);
+        heal(ally,4);
+        AddArmor(ally,4);
+
+    }
+    public void ReveillerPourManger(hero enemy, hero ally)
+    {
+        takeDamage(enemy, 6);
+        heal(ally,6);
+        Venerate(ally,6);
     }
 
     public static void DamageEffect(hero h, int value)
@@ -183,14 +387,40 @@ public class dataCard : ScriptableObject
         Heal,
         AddArmor,
         AddMana,
-        AddCard,//pioche une carte
-        KeepCardInHand,//permet a une autre carte de ne pas passer dans la defausse a la fin du tour
-        ChangeCardMana,//change le cout de mana d'une carte
-        ChangeCardDamage,//change le damage d'une carte
-        FromNow,//les effets de cette carte dure jusqu'a la fin du combat
-        Venerate,//augmente la barre de veneration d'un allie
-        Poison,//le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
-        Steal,//inflige X degat et soigne X à un autre personnage
+        AddCard,
+        Poison,
+        HabemusDominum,//?? inflique 6 blessure a chaque enemy qui va attaquer 
+        DiabolusEst,//?? inflique 12 blessure a chaque enemy qui ne va pas attaquer 
+        CultiverAme,//sauve une carte de la defausse pour un tour et lui double ses stats de soin ou de bloquage si elle en a
+        CultiverFlamme,//sauve une carte de la defausse pour un tour et lui double ses stats de soin, de bloquage ou de degat si elle en a
+        Conversion, //transforme un point d'armure en point de vie
+        Absolution, //effet actif sur tout le combat, quand des soins ou du bloquage est utilise la meme valeur est egalement renvoye en degats a tout les ennemis
+        Benediction, //inflige des degats correspondant au nombre de point de veneration puis pioche une carte
+        Apotasie,//?? inflige 4 blessures a tout les monstres
+        Tabernacle,//lorsque le hero est blesse de X degats il recoit X armure
+        Belial,//inflige 6 a tout les monstres lorsque joue et ajoute 3 de soin et 4 de veneration au pretre lorsqu'un monstre est tue
+        VenererIdole,//soigne de 3 le hero cible et ajoute 2 point de veneration
+        Blaspheme,//??
+        AllumerCierges,//pioche l'equivalent de point de veneration du pretre
+        IncendierCloatre,//inflige 15 degats au monstre avec le plus de vie (si plusieurs -> random sur les monstres)
+        AccueillirNecessiteux,//bloque d'autant qu'il y a de monstres qui attaque
+        MassacrerInfideles,//??
+        MoxLion,//bloque du double de mana possede puis vide le mana pour donner le double au prochain tour
+        MoxAraignee,//bloque puis inflige a un enemy le double du mana possede puis redonne autant de mana que le joueur avait avant l'utilisation de la carte
+        MurDeRonces,//bloque de 6 et empoisonne de 2 chaque monstre qui attaque
+        LaissePourMort,//pour chaque monstre qui va attaquer empoisonne de 6
+        Cataplasme,//heal de 2 et supprime les effets negatifs (poison, debuff)
+        Belladone,//retire l'armure de la cible et lui inflige 8 de blessure
+        SurgissementVitalique,//transforme les points de veneration de l'arboriste en mana et pioche une carte
+        RepandreMort,//?? pour chaque ally transcend inflige 5 de poison a tout les monstres 
+        ArmureEcorse,//bloque de 7 et ajoute 7 d'amure au prochain tour
+        MaleusHerbeticae,//empoisonne de 4 tout les monstres et bloque de 7
+        CommunionNature,//au prochain tour gagne 3 mana et 3 points de veneration
+        Canibalisme,//effet actif sur tout le combat, quand un monstre meurt donne 3 veneration et soigne de 3
+        SuivreEtoiles,//ajoute 2 veneration et si un ally peut transcender alors pioche 2 cartes
+        ProfanerCiel,//effet actif sur tout le combat, si ally a au moins un point de veneration il peut transcender
+        DormirPresDeLautre,// ajoute 4 de veneration, soigne et bloque de 4 sur une cible
+        ReveillerPourManger,// inflige 6 et si la cible meurt soigne et venere de 6
     }
 
 }
