@@ -154,13 +154,42 @@ public class dataCard : ScriptableObject
         hero.setVenerate(hero.getVenerate() + value);
     }
 
-    public void Steal(hero enemy, hero ally)
+    public int Steal(hero enemy, hero ally, int value)
     {
-        int currentEnemyLife = enemy.getPv();
-        enemy.setPv(currentEnemyLife -= m_value);
+        int surplusToReturn = 0;
+        enemy.setPv(enemy.getPv() - value);
+        if (enemy.getPv() <= 0)
+        {
+            enemy.setIsAlive(false);
+        }
 
-        int currentAllyLife = ally.getPv();
-        ally.setPv(currentAllyLife += m_value);
+        ally.setPv(ally.getPv() + value);
+        if (ally.getPv() > ally.getMaxPv())
+        {
+            surplusToReturn = ally.getPv() - ally.getMaxPv();
+            ally.setPv(ally.getMaxPv());
+        }
+        return surplusToReturn;
+    }
+
+    public void HabemusDominum()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DiabolusEst()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void CultiverAme()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void CultiverFlamme()
+    {
+        throw new NotImplementedException();
     }
 
     public void Conversion(hero hero)
@@ -211,16 +240,16 @@ public class dataCard : ScriptableObject
     public void IncendierCloatre()
     {
         throw new NotImplementedException();
-
     }
     public void AccueillirNecessiteux()
     {
         throw new NotImplementedException();
 
     }
-    public void MassacrerInfideles()
+    public void MassacrerInfideles(hero ally, hero enemy)
     {
-        throw new NotImplementedException();
+        int surplus = Steal(enemy, ally,7);
+        takeDamage(enemy, surplus * 3);
 
     }
     public void MoxLion(hero arboriste)
@@ -389,22 +418,22 @@ public class dataCard : ScriptableObject
         AddMana,
         AddCard,
         Poison,
-        HabemusDominum,//?? inflique 6 blessure a chaque enemy qui va attaquer 
-        DiabolusEst,//?? inflique 12 blessure a chaque enemy qui ne va pas attaquer 
+        HabemusDominum,//inflique 6 blessure a un enemy qui va attaquer 
+        DiabolusEst,//inflique 12 blessure a un enemy qui ne va pas attaquer 
         CultiverAme,//sauve une carte de la defausse pour un tour et lui double ses stats de soin ou de bloquage si elle en a
         CultiverFlamme,//sauve une carte de la defausse pour un tour et lui double ses stats de soin, de bloquage ou de degat si elle en a
         Conversion, //transforme un point d'armure en point de vie
         Absolution, //effet actif sur tout le combat, quand des soins ou du bloquage est utilise la meme valeur est egalement renvoye en degats a tout les ennemis
         Benediction, //inflige des degats correspondant au nombre de point de veneration puis pioche une carte
-        Apotasie,//?? inflige 4 blessures a tout les monstres
+        Apotasie,//inflige 4 blessures a tout les monstres, lorsqu'un hero se transforme ça dure pour tout le combat
         Tabernacle,//lorsque le hero est blesse de X degats il recoit X armure
         Belial,//inflige 6 a tout les monstres lorsque joue et ajoute 3 de soin et 4 de veneration au pretre lorsqu'un monstre est tue
         VenererIdole,//soigne de 3 le hero cible et ajoute 2 point de veneration
-        Blaspheme,//??
+        Blaspheme,//vole 5 points de vie à tout les monstres, s'il a moins de 5 pv ou si tu es full pv ça marche aussi
         AllumerCierges,//pioche l'equivalent de point de veneration du pretre
         IncendierCloatre,//inflige 15 degats au monstre avec le plus de vie (si plusieurs -> random sur les monstres)
         AccueillirNecessiteux,//bloque d'autant qu'il y a de monstres qui attaque
-        MassacrerInfideles,//??
+        MassacrerInfideles,//vole 7 points de vie à un monstre, et le surplus lui est renvoyé en dmg *3
         MoxLion,//bloque du double de mana possede puis vide le mana pour donner le double au prochain tour
         MoxAraignee,//bloque puis inflige a un enemy le double du mana possede puis redonne autant de mana que le joueur avait avant l'utilisation de la carte
         MurDeRonces,//bloque de 6 et empoisonne de 2 chaque monstre qui attaque
@@ -412,7 +441,7 @@ public class dataCard : ScriptableObject
         Cataplasme,//heal de 2 et supprime les effets negatifs (poison, debuff)
         Belladone,//retire l'armure de la cible et lui inflige 8 de blessure
         SurgissementVitalique,//transforme les points de veneration de l'arboriste en mana et pioche une carte
-        RepandreMort,//?? pour chaque ally transcend inflige 5 de poison a tout les monstres 
+        RepandreMort,//chaque transformation depuis le début de la partie inflige 3 de poison à chaque monstres
         ArmureEcorse,//bloque de 7 et ajoute 7 d'amure au prochain tour
         MaleusHerbeticae,//empoisonne de 4 tout les monstres et bloque de 7
         CommunionNature,//au prochain tour gagne 3 mana et 3 points de veneration
