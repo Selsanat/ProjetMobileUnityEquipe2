@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour
         waveChose[2].Add(enemiesData[6]);
         waveChose[2].Add(enemiesData[6]);
 
-        waveChose[3].Add(enemiesData[0]);
+        waveChose[3].Add(enemiesData[5]);
 
         allWave.Add(waveChose);
 
@@ -138,14 +138,14 @@ public class GameManager : MonoBehaviour
             wave4
         };
         waveChose[0].Add(enemiesData[6]);
-        waveChose[0].Add(enemiesData[0]);
+        waveChose[0].Add(enemiesData[5]);
 
         waveChose[1].Add(enemiesData[6]);
         waveChose[1].Add(enemiesData[6]);
-        waveChose[1].Add(enemiesData[0]);
+        waveChose[1].Add(enemiesData[5]);
 
-        waveChose[2].Add(enemiesData[0]);
-        waveChose[2].Add(enemiesData[0]);
+        waveChose[2].Add(enemiesData[5]);
+        waveChose[2].Add(enemiesData[5]);
 
         allWave.Add(waveChose);
 
@@ -165,19 +165,19 @@ public class GameManager : MonoBehaviour
             wave4
         };
         waveChose[0].Add(enemiesData[6]);
-        waveChose[0].Add(enemiesData[0]);
-        waveChose[0].Add(enemiesData[0]);
+        waveChose[0].Add(enemiesData[5]);
+        waveChose[0].Add(enemiesData[5]);
 
-        waveChose[1].Add(enemiesData[0]);
-        waveChose[1].Add(enemiesData[0]);
-        waveChose[1].Add(enemiesData[0]);
+        waveChose[1].Add(enemiesData[5]);
+        waveChose[1].Add(enemiesData[5]);
+        waveChose[1].Add(enemiesData[5]);
 
-        waveChose[2].Add(enemiesData[0]);
         waveChose[2].Add(enemiesData[5]);
+        waveChose[2].Add(enemiesData[0]);
 
         waveChose[3].Add(enemiesData[6]);
         waveChose[3].Add(enemiesData[6]);
-        waveChose[3].Add(enemiesData[5]);
+        waveChose[3].Add(enemiesData[0]);
 
         allWave.Add(waveChose);
     }
@@ -195,19 +195,17 @@ public class GameManager : MonoBehaviour
             wave3,
             wave4
         };
-        waveChose[0].Add(enemiesData[0]);
         waveChose[0].Add(enemiesData[5]);
+        waveChose[0].Add(enemiesData[0]);
 
-        waveChose[1].Add(enemiesData[0]);
-        waveChose[1].Add(enemiesData[0]);
         waveChose[1].Add(enemiesData[5]);
+        waveChose[1].Add(enemiesData[5]);
+        waveChose[1].Add(enemiesData[0]);
 
-        waveChose[2].Add(enemiesData[0]);
         waveChose[2].Add(enemiesData[5]);
+        waveChose[2].Add(enemiesData[0]);
+        waveChose[2].Add(enemiesData[0]);
 
-        waveChose[3].Add(enemiesData[0]);
-        waveChose[3].Add(enemiesData[5]);
-        waveChose[3].Add(enemiesData[5]);
 
         allWave.Add(waveChose);
     }
@@ -225,20 +223,20 @@ public class GameManager : MonoBehaviour
             wave3,
             wave4
         };
-        waveChose[0].Add(enemiesData[5]);
-        waveChose[0].Add(enemiesData[5]);
-        waveChose[0].Add(enemiesData[5]);
+        waveChose[0].Add(enemiesData[0]);
+        waveChose[0].Add(enemiesData[0]);
+        waveChose[0].Add(enemiesData[0]);
 
-        waveChose[1].Add(enemiesData[0]);
         waveChose[1].Add(enemiesData[5]);
-        waveChose[1].Add(enemiesData[3]);
+        waveChose[1].Add(enemiesData[0]);
+        waveChose[1].Add(enemiesData[2]);
 
-        waveChose[2].Add(enemiesData[5]);
-        waveChose[2].Add(enemiesData[5]);
-        waveChose[2].Add(enemiesData[3]);
+        waveChose[2].Add(enemiesData[0]);
+        waveChose[2].Add(enemiesData[0]);
+        waveChose[2].Add(enemiesData[2]);
 
-        waveChose[3].Add(enemiesData[3]);
-        waveChose[3].Add(enemiesData[3]);
+        waveChose[3].Add(enemiesData[2]);
+        waveChose[3].Add(enemiesData[2]);
 
         allWave.Add(waveChose);
     }
@@ -256,21 +254,21 @@ public class GameManager : MonoBehaviour
             wave3,
             wave4
         };
-        waveChose[0].Add(enemiesData[5]);
-        waveChose[0].Add(enemiesData[5]);
         waveChose[0].Add(enemiesData[0]);
+        waveChose[0].Add(enemiesData[0]);
+        waveChose[0].Add(enemiesData[5]);
 
-        waveChose[1].Add(enemiesData[3]);
-        waveChose[1].Add(enemiesData[3]);
-        waveChose[1].Add(enemiesData[5]);
+        waveChose[1].Add(enemiesData[2]);
+        waveChose[1].Add(enemiesData[2]);
+        waveChose[1].Add(enemiesData[0]);
 
+        waveChose[2].Add(enemiesData[0]);
         waveChose[2].Add(enemiesData[5]);
-        waveChose[2].Add(enemiesData[5]);
-        waveChose[2].Add(enemiesData[3]);
+        waveChose[2].Add(enemiesData[2]);
 
-        waveChose[3].Add(enemiesData[3]);
         waveChose[3].Add(enemiesData[0]);
-        waveChose[3].Add(enemiesData[5]);
+        waveChose[3].Add(enemiesData[0]);
+        waveChose[3].Add(enemiesData[2]);
 
         allWave.Add(waveChose);
     }
@@ -288,21 +286,21 @@ public class GameManager : MonoBehaviour
             wave3,
             wave4
         };
-        waveChose[0].Add(enemiesData[5]);
-        waveChose[0].Add(enemiesData[3]);
-        waveChose[0].Add(enemiesData[3]);
+        waveChose[0].Add(enemiesData[0]);
+        waveChose[0].Add(enemiesData[2]);
+        waveChose[0].Add(enemiesData[2]);
 
-        waveChose[1].Add(enemiesData[5]);
-        waveChose[1].Add(enemiesData[5]);
-        waveChose[1].Add(enemiesData[4]);
+        waveChose[1].Add(enemiesData[0]);
+        waveChose[1].Add(enemiesData[0]);
+        waveChose[1].Add(enemiesData[1]);
 
-        waveChose[2].Add(enemiesData[5]);
-        waveChose[2].Add(enemiesData[3]);
-        waveChose[2].Add(enemiesData[4]);
+        waveChose[2].Add(enemiesData[0]);
+        waveChose[2].Add(enemiesData[2]);
+        waveChose[2].Add(enemiesData[1]);
 
-        waveChose[3].Add(enemiesData[3]);
-        waveChose[3].Add(enemiesData[3]);
-        waveChose[3].Add(enemiesData[3]);
+        waveChose[3].Add(enemiesData[2]);
+        waveChose[3].Add(enemiesData[2]);
+        waveChose[3].Add(enemiesData[2]);
 
         allWave.Add(waveChose);
     }
@@ -320,20 +318,20 @@ public class GameManager : MonoBehaviour
             wave3,
             wave4
         };
-        waveChose[0].Add(enemiesData[3]);
-        waveChose[0].Add(enemiesData[3]);
-        waveChose[0].Add(enemiesData[4]);
+        waveChose[0].Add(enemiesData[2]);
+        waveChose[0].Add(enemiesData[2]);
+        waveChose[0].Add(enemiesData[1]);
 
-        waveChose[1].Add(enemiesData[4]);
-        waveChose[1].Add(enemiesData[4]);
+        waveChose[1].Add(enemiesData[1]);
+        waveChose[1].Add(enemiesData[1]);
 
-        waveChose[2].Add(enemiesData[3]);
-        waveChose[2].Add(enemiesData[4]);
-        waveChose[2].Add(enemiesData[4]);
+        waveChose[2].Add(enemiesData[2]);
+        waveChose[2].Add(enemiesData[1]);
+        waveChose[2].Add(enemiesData[1]);
 
-        waveChose[3].Add(enemiesData[4]);
-        waveChose[3].Add(enemiesData[4]);
-        waveChose[3].Add(enemiesData[4]);
+        waveChose[3].Add(enemiesData[1]);
+        waveChose[3].Add(enemiesData[1]);
+        waveChose[3].Add(enemiesData[1]);
 
         allWave.Add(waveChose);
     }
@@ -348,15 +346,15 @@ public class GameManager : MonoBehaviour
             wave2,
             wave3
         };
-        waveChose[0].Add(enemiesData[3]);
-        waveChose[0].Add(enemiesData[1]);
+        waveChose[0].Add(enemiesData[2]);
+        waveChose[0].Add(enemiesData[4]);
 
-        waveChose[1].Add(enemiesData[3]);
-        waveChose[1].Add(enemiesData[3]);
-        waveChose[1].Add(enemiesData[1]);
+        waveChose[1].Add(enemiesData[2]);
+        waveChose[1].Add(enemiesData[2]);
+        waveChose[1].Add(enemiesData[4]);
 
-        waveChose[2].Add(enemiesData[4]);
         waveChose[2].Add(enemiesData[1]);
+        waveChose[2].Add(enemiesData[4]);
 
 
         allWave.Add(waveChose);
@@ -372,16 +370,16 @@ public class GameManager : MonoBehaviour
             wave2,
             wave3
         };
-        waveChose[0].Add(enemiesData[3]);
-        waveChose[0].Add(enemiesData[4]);
+        waveChose[0].Add(enemiesData[2]);
         waveChose[0].Add(enemiesData[1]);
+        waveChose[0].Add(enemiesData[4]);
 
-        waveChose[1].Add(enemiesData[4]);
-        waveChose[1].Add(enemiesData[4]);
         waveChose[1].Add(enemiesData[1]);
+        waveChose[1].Add(enemiesData[1]);
+        waveChose[1].Add(enemiesData[4]);
 
-        waveChose[2].Add(enemiesData[1]);
-        waveChose[2].Add(enemiesData[1]);
+        waveChose[2].Add(enemiesData[4]);
+        waveChose[2].Add(enemiesData[4]);
 
 
         allWave.Add(waveChose);
@@ -393,9 +391,9 @@ public class GameManager : MonoBehaviour
         List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>();
         waveChose.Add(wave);
         
-        waveChose[0].Add(enemiesData[1]);
-        waveChose[0].Add(enemiesData[1]);
-        waveChose[0].Add(enemiesData[1]);
+        waveChose[0].Add(enemiesData[4]);
+        waveChose[0].Add(enemiesData[4]);
+        waveChose[0].Add(enemiesData[4]);
 
         
 
@@ -409,7 +407,7 @@ public class GameManager : MonoBehaviour
         List<List<DataEnemy>> waveChose = new List<List<DataEnemy>>();
         waveChose.Add(wave);
 
-        waveChose[0].Add(enemiesData[2]);
+        waveChose[0].Add(enemiesData[3]);
         
 
 
