@@ -13,6 +13,35 @@ public class Menu : MonoBehaviour
     public List<GameObject> go_credits;
 
 
+    public float speed = 1;
+    //public SpriteRenderer space;
+    bool acsend = false;
+
+    /*void Update()
+    {
+        if (!acsend)
+        {
+            if(space.color.a >= 0) 
+            {
+                space.color = new Color(space.color.r, space.color.g, space.color.b, space.color.a - 0.02f * speed);
+            }else
+            {
+                acsend = !acsend;
+            }
+        }
+        else
+        {
+            if (space.color.a <= 1)
+            {
+                space.color = new Color(space.color.r, space.color.g, space.color.b, space.color.a + 0.02f * speed);
+            }
+            else
+            {
+                acsend = !acsend;
+            }
+        }
+    }*/
+
     private void Start()
     {
         float caca = 0; // le retour
@@ -48,5 +77,6 @@ public class Menu : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene("levelSelector");
+        gameObject.SetActive(false);
     }
 }
