@@ -6,6 +6,7 @@ using NaughtyAttributes;
 //using Unity.VisualScripting.Dependencies.Sqlite;
 using DG.Tweening.Core.Easing;
 using Unity.VisualScripting;
+using TMPro;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -23,16 +24,37 @@ public class CardObject : MonoBehaviour
     public float TempsClick;
     public Renderer rendeureur;
     public int indexHand;
+    public Canvas canvas;
+    public TMP_Text Description;
+    public TMP_Text Name;
 
 
     public List<hero> heroToAttack; //always Start Null
 
+
+    public bool MenuCarde = false;
+
+    public void RemettreCardSlot()
+    {
+        Transform trans = gameManager.deck.GetTransformSlotFromCard(this);
+        transform.position = trans.position;
+        transform.rotation = trans.rotation;
+    }
+
     void Awake()
     {
         gameManager = GameManager.Instance;
-        TempsClick = gameManager.TempsPourClickCardInspect;
+        if (!MenuCarde)
+        {
+            TempsClick = gameManager.TempsPourClickCardInspect;
+        }
         BaseColliderDimensions = this.GetComponent<BoxCollider2D>().size;
         rendeureur = GetComponent<Renderer>();
+        canvas = transform.GetChild(0).GetComponent<Canvas>();
+        Description = canvas.transform.GetChild(0).GetComponent<TMP_Text>();
+        Description.text = DataCard.Description;
+        Name = canvas.transform.GetChild(1).GetComponent<TMP_Text>();
+        Name.text = DataCard.Name;
     }
     void OnMouseDown()
     {
@@ -53,13 +75,18 @@ public class CardObject : MonoBehaviour
             {
 
                 transform.localScale = new Vector3(RatioGrowHoverCard, RatioGrowHoverCard, RatioGrowHoverCard);
+                transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, 0,0);
+                Transform trans = gameManager.deck.GetTransformSlotFromCard(this);
+                transform.position = new Vector3(trans.position.x, trans.position.y + 1, trans.position.z);
                 this.GetComponent<BoxCollider2D>().size = BaseColliderDimensions;
                 gameManager.deck.ReorderZCards();
                rendeureur.sortingOrder = 10;
+                canvas.sortingOrder = 10;
             }
             else
             {
                 transform.localScale = new Vector3(1, 1, 1);
+                RemettreCardSlot();
                 gameManager.deck.ReorderZCards();
             }
         }
@@ -79,6 +106,7 @@ public class CardObject : MonoBehaviour
         if (gameManager.CardsInteractable  && !gameManager.HasCardInHand)
         {
             transform.localScale = new Vector3(1, 1, 1);
+            RemettreCardSlot();
             gameManager.deck.ReorderZCards();
 
         }
@@ -87,25 +115,11 @@ public class CardObject : MonoBehaviour
     void SelectedCard(bool Side1, bool Side2)
     {
         gameManager.CardsInteractable  = false;
-        Transform AllyCardTransform = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform;
-        Transform EnnemyCardTransform = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform;
-        if (Side1 && Side2)
-        {
-            transform.position = Vector3.Lerp(AllyCardTransform.position, EnnemyCardTransform.transform.position, 0.5f);
-            transform.rotation = Quaternion.Lerp(AllyCardTransform.rotation, EnnemyCardTransform.transform.rotation, 0.5f);
-        }
-        else if (Side1)
-        {
-            transform.position = AllyCardTransform.position; 
-            transform.rotation = AllyCardTransform.rotation;
-        }
-        else
-        {
-            transform.position = EnnemyCardTransform.transform.position;
-            transform.rotation = EnnemyCardTransform.transform.rotation;
-        }
+
+        gameManager.deck.DeplaceCardUtiliseToPlace();
         transform.localScale = new Vector3(2,2, 2);
         rendeureur.sortingOrder = 10;
+        canvas.sortingOrder = 10;
         HideHandExceptThis();
     }
 
@@ -129,6 +143,8 @@ public class CardObject : MonoBehaviour
                     gameManager.InspectUI.UI.SetActive(true);
                     gameManager.InspectUI.Name.text = this.DataCard.Name;
                     gameManager.InspectUI.description.text = this.DataCard.Description;
+                    RemettreCardSlot();
+
                 }
             }
             else
@@ -178,5 +194,13 @@ public class CardObject : MonoBehaviour
         //print(gameManager.HasCardInHand);
     }
 
-
+    IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
+    {
+        for (int i =0; i <100; i++)
+        {
+            gameManager.deck.TransposeAtoB(objetABouger, position);
+            yield return null;
+        }
+        
+    }
 }

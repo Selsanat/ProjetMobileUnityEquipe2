@@ -1,21 +1,24 @@
 using DG.Tweening.Core.Easing;
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using static entityManager;
+using static UnityEngine.Rendering.DebugUI;
 
 [System.Serializable]
-
+[ExecuteInEditMode]
 [CreateAssetMenu]
 public class dataCard : ScriptableObject
 {
     #region STATISTIC
     [Header("Basic Stats")]
     [SerializeField] int m_manaCost; //mana
-    [SerializeField] int m_attack; //les nb dmgs
-    [SerializeField] int m_heal; //les nb heal
+    [SerializeField] int m_value;
     [SerializeField] public int m_index; //index de la carte dans la liste
+    [SerializeField] public int nombreDexecutiion = 1; //nb de fois que la cartee s'execute
     [SerializeField] List<CardType> m_cardTypes;
 
     [SerializeField] List<CardEffect> m_cardEffects;
@@ -32,16 +35,28 @@ public class dataCard : ScriptableObject
 
     [Header("MISCELLANEAOUS")]
     [SerializeField] bool m_isDeleteOnTurn;
-    [SerializeField] bool m_isUpsideDown;
+    [SerializeField] public bool m_isUpsideDown;
     [SerializeField] bool m_isBonusCard;
 
+    [SerializeField] string m_onCardExplain;
+    [SerializeField] string m_FullCardExplain;
+
     [Header("looking")]
-    [SerializeField] Sprite m_cardSprite;
+    [SerializeField] public Sprite m_cardFrontSprite;
+    [SerializeField] public Sprite m_cardBackSprite;
     [SerializeField] public String Description;
     [SerializeField] public String Name;
 
-    public Sprite CardSprite { get => m_cardSprite; private set => m_cardSprite = value; }
+    private GameManager GM;
+
+    public Sprite CardSprite { get => m_cardFrontSprite; private set => m_cardFrontSprite = value; }
     public List<CardType> CardTypes { get => m_cardTypes; set => m_cardTypes = value; }
+    public List<CardEffect> CardEffects { get => m_cardEffects; set => m_cardEffects = value; }
+
+    void Start ()
+    {
+        GM = GameManager.Instance;
+    }
 
     public bool getIsDeleteOnTurn()
     {
@@ -55,7 +70,7 @@ public class dataCard : ScriptableObject
     #region CARD EFFECTS
     public void heal(hero hero)
     {
-        int currentPv = hero.getPv() + m_heal;
+        int currentPv = hero.getPv() + m_value;
         int currentMaxPv = hero.getMaxPv();
         hero.setPv(currentPv);
         if (currentPv < currentMaxPv)
@@ -67,7 +82,7 @@ public class dataCard : ScriptableObject
     {
         Debug.Log("Pv avant : " + hero.getPv());
         int currentPv = hero.getPv();
-        currentPv -= m_attack;
+        currentPv -= m_value;
         hero.setPv(currentPv);
         Debug.Log("Pv apres : " + hero.getPv());
 
@@ -77,11 +92,72 @@ public class dataCard : ScriptableObject
         }
         hero.setVarHero();
     }
-    internal void BuffDamage(hero hero)
+
+    public void AddArmor(hero hero)
+    {
+        hero.setArmor(m_value);
+    }
+
+    public void AddMana(hero hero)
+    {
+        int currentMana = hero.getMana();
+        currentMana+= m_value;
+        hero.setMana(currentMana);
+    }
+
+    public void AddCard ()
+    {
+        GM.deck.DrawCard();
+    }
+
+    public void UpgradeCard (hero hero, hero target)
     {
         throw new NotImplementedException();
     }
 
+    public void ChangeCardMana (CardObject card)
+    {
+        card.DataCard.m_manaCost += m_value;
+    }
+
+    public void ChangeCardDamage (CardObject card)
+    {
+        card.DataCard.m_value += m_value;
+    }
+
+    public void FromNow()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Venerate()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Transcend()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Steal(hero enemy, hero ally)
+    {
+        int currentEnemyLife = enemy.getPv();
+        enemy.setPv(currentEnemyLife -= m_value);
+
+        int currentAllyLife = ally.getPv();
+        ally.setPv(currentAllyLife += m_value);
+    }
+
+    public static void DamageEffect(hero h, int value)
+    {
+        h.setPv(h.getPv() - value);
+    }
+
+    public static void HealEffect(hero h, int value)
+    {
+        h.setPv(h.getPv() + value);
+    }
 
     #endregion
 
@@ -103,25 +179,18 @@ public class dataCard : ScriptableObject
     }
     public enum CardType
     {
-        Heal,
         Damage,
-        Injury, //degat sur plusieurs tours
-        Block,
-        EmptyMana,
-        DoubleShieldMana, //donne autant de shield que le joueur a de mana
-        DoubleHeal, //double le heal du joueur
-        DoubleInjury, //double les blessures infliges
-        InjuryOnAttack, //si ennemie attaque il prend des blessures
-        ArmureAsDamage, //armure devient des degats qu'on inflige a tout les ennemies
-        AttackAsArmure, // les degats inflige aux ennemis donne de armure
-        DamageAsArmur, // les degats subis aux ennemis donne de armure
-        DeleteNerf, // supprime tout les effets negatifs
-        DeleteArmor, // retire l'armure des ennemies
-        GainMana,
-        GainCard,
-        BlockAsHeal, //chaque degat bloque devient un heal
-        AllWoundAsInjury, //Inflige autant de blessures que de points de vie manquants � tout les ennemis
-        MonsterDead, //quand un monstre meurt      
+        Heal,
+        AddArmor,
+        AddMana,
+        AddCard,//pioche une carte
+        UpgradeCard,//la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
+        ChangeCardMana,//change le cout de mana d'une carte
+        ChangeCardDamage,//change le damage d'une carte
+        FromNow,//les effets de cette carte dure jusqu'a la fin du combat
+        Venerate,//augmente la barre de veneration d'un allie
+        Poison,//le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
+        Steal,//inflige X degat et soigne X à un autre personnage
     }
 
 }

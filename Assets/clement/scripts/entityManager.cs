@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class entityManager : MonoBehaviour
 {
@@ -37,13 +39,24 @@ public class entityManager : MonoBehaviour
     [SerializeField] protected int m_armor;
     [SerializeField] protected int m_experience;
     [SerializeField] protected int m_level;
-    [SerializeField] protected int m_experienceMax;
+    [SerializeField] protected int m_experienceMax = 4;
     [SerializeField] protected bool m_isDebufArmor = false;
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected bool isAntiHeal = false;
     [SerializeField] protected bool isProvocation = false;
     [SerializeField] protected int m_damageMultiplier = 1;
     [SerializeField] protected int m_mana;
+    [SerializeField] public int m_manaMax;
+    [SerializeField] public bool isFull;
+    [SerializeField] public int randomAttack;
+    [SerializeField] public hero randomHero;
+    [SerializeField] public Sprite m_sprite;
+    [SerializeField] public Image m_spriteTypeAttack;
+    [SerializeField] public Image m_spriteFocus;
+    [SerializeField] public List<Sprite> m_spriteList;
+    [SerializeField] public TextMeshProUGUI m_valueText;
+    [SerializeField] public Slider m_slider;
+    [SerializeField] public TextMeshProUGUI stockText;
     [SerializeField] protected Deck m_deck;
     [SerializeField] public List<hero> heroList;
     [SerializeField] protected bool multipleTarget;
@@ -53,14 +66,13 @@ public class entityManager : MonoBehaviour
     public void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        Debug.Log("start");
     }
     public List<hero> getListHero() { return heroList; }
 
 
     public void takeDamage (int damage)
     {
-        Debug.Log("Pv avant : " + m_Pv + m_role);
+        Debug.Log("Pv avant : " + m_Pv + " " + m_role);
         if(m_isDebufArmor)
         {
             m_armor /= 2;
@@ -73,8 +85,8 @@ public class entityManager : MonoBehaviour
             damage = 0;
         
         m_Pv -= damage * m_damageMultiplier;
-
-        Debug.Log("Pv apres: hero" + m_Pv + m_role);
+        m_slider.value = m_Pv;
+        Debug.Log("Pv apres: " + m_Pv +" " +m_role);
         if (m_Pv <= 0)
         {
             isAlive = false;
@@ -89,6 +101,7 @@ public class entityManager : MonoBehaviour
             gameManager.LifePretre = m_Pv;
         }
     }
+
 
 
 }
