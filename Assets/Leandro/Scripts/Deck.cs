@@ -96,7 +96,7 @@ public class Deck : MonoBehaviour
             }
             else
             {
-                SlidersXp[2].maxValue = herolist[1].getexperienceMAX();
+                SlidersXp[2].maxValue = herolist[0].getexperienceMAX();
                 SlidersXp[2].value = gameManager.expPretre;
             }
             

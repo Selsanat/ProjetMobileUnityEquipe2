@@ -16,7 +16,7 @@ public class dataCard : ScriptableObject
     #region STATISTIC
     [Header("Basic Stats")]
     [SerializeField] int m_manaCost; //mana
-    [SerializeField] int m_value;
+    [SerializeField] public int m_value;
     [SerializeField] public int m_index; //index de la carte dans la liste
     [SerializeField] public int nombreDexecutiion = 1; //nb de fois que la cartee s'execute
     [SerializeField] List<CardType> m_cardTypes;

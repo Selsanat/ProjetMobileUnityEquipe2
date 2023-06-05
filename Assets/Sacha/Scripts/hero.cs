@@ -21,6 +21,7 @@ public class hero : entityManager
         m_armor = 0;
         m_level = 0;
         m_experience = 0;
+        this.isAlive = true;
         int a = Random.Range(0, 1);
         if (m_role == Role.Arboriste)
             m_manaMax = 6;
@@ -235,6 +236,8 @@ public class hero : entityManager
     #region IA
     public void chienIA(List<hero> heroesToAttack, bool fight)
     {
+        if (this.isAlive == false)
+            return;
         int firtAttack = 100;
         int secondAttack = 45;
         int thridAttack = 20;
@@ -367,6 +370,8 @@ public class hero : entityManager
 
     public void squelettes(List<hero> heroesToAttack, bool fight)
     {
+        if (this.isAlive == false)
+            return;
 
         int firtAttack = 100;
         int secondAttack = 40;
@@ -464,6 +469,8 @@ public class hero : entityManager
 
     public void main(List<hero> heroesToAttack, bool fight)
     {
+        if (this.isAlive == false)
+            return;
         int dmg = 5;
         int armor = 8;
         int firtAttack = 100;
@@ -592,6 +599,8 @@ public class hero : entityManager
 
     public void gargouilleAttack(List<hero> heroesToAttack, bool fight)
     {
+        if (this.isAlive == false)
+            return;
         int firtAttack = 100;
         int secondAttack = 60;
         int thridAttack = 25;
@@ -740,6 +749,8 @@ public class hero : entityManager
 
     public void hommeVers(List<hero> heroesToAttack, bool fight)
     {
+        if (this.isAlive == false)
+            return;
         int firtAttack = 100;
         int secondAttack = 65;
         int thridAttack = 30;
@@ -845,6 +856,9 @@ public class hero : entityManager
 
     public void demonAttack(List<hero> heroesToAttack, bool fight)
     {
+
+        if (this.isAlive == false)
+            return;
         int firtAttack = 100;
         int secondAttack = 45;
         int thridAttack = 12;
@@ -950,6 +964,8 @@ public class hero : entityManager
 
     public void dragonAttack(List<hero> heroesToAttack, bool fight)
     {
+        if (this.isAlive == false)
+            return;
         int firtAttack = 100;
         int secondAttack = 75;
         int thridAttack = 55;
