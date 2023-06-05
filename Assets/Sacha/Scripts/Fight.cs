@@ -1041,17 +1041,20 @@ public class Fight : MonoBehaviour
                     }
 
                 }
+                Gm.deck.SlidersXp[2].maxValue = heroes[0].getexperienceMAX();
             }
             else
             {
                 if (lvlUpDruid)
                 {
                     Gm.deck.SlidersXp[0].value = 0;
+                    Gm.deck.SlidersXp[0].maxValue = heroes[0].getexperienceMAX();
 
                 }
                 if (lvlUpPriest)
                 {
                     Gm.deck.SlidersXp[1].value = 0;
+                    Gm.deck.SlidersXp[1].maxValue = heroes[1].getexperienceMAX();
                 }
 
             }
