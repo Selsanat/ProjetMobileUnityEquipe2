@@ -417,9 +417,5 @@ public class GameManager : MonoBehaviour
 
 
     #endregion
-    /*    public void CardSended(CardObject card)
-        {
-            CarteUtilisee = card;
-            FM.Cardsend(card);
-        }*/
+
 }

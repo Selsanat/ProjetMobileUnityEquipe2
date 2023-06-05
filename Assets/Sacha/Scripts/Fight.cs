@@ -16,6 +16,7 @@ using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
+using Map;
 
 public class Fight : MonoBehaviour
 {
@@ -679,7 +680,12 @@ public class Fight : MonoBehaviour
             {
                 lightsAllies.Clear();
                 lightsEnnemies.Clear();
-                WinFight();
+                if(Gm.waveCounter == 12)
+                {
+                    WinFinalFight();
+                }
+                else
+                    WinFight();
             }
         }
         PlayPlayerEffects();
@@ -925,12 +931,59 @@ public class Fight : MonoBehaviour
         PlayEnemyEffects();
     }
 
-
+    public void ResetAll()
+    {
+        Gm.Hand.Clear();
+        Gm.deck = null;
+        Gm.entityManager.getListHero().Clear();
+        ennemisButton1?.onClick.RemoveAllListeners();
+        ennemisButton2?.onClick.RemoveAllListeners();
+        ennemisButton3?.onClick.RemoveAllListeners();
+        arboristeButton?.onClick.RemoveAllListeners();
+        pretreButton?.onClick.RemoveAllListeners();
+        ennemisButton1 = null;
+        ennemisButton2 = null;
+        ennemisButton3 = null;
+        arboristeButton = null;
+        pretreButton = null;
+        stock = 0;
+        heroes.Clear();
+        enemies.Clear();
+        selectedhero.Clear();
+        enemiesAtStartOfCombat.Clear();
+        Gm.levelArboriste = 0;
+        Gm.levelPretre = 0;
+        Gm.expPretre = 0;
+        Gm.expArboriste = 0;
+        Gm.LifeArboriste = 50;
+        Gm.LifePretre = 50;
+        Gm.IsArboristePlayed = false;
+        Gm.IsPretrePlayed = false;
+        Gm.waveCounter = 0;
+        Gm.IsAnyProv = false;
+        Gm.CarteUtilisee = null;
+        Gm.CardsInteractable = true;
+        Gm.HasCardInHand = false;
+        Gm.debuffDraw = 0;
+        Gm.isHoverButton = false;
+    }
     private void LooseFight()
     {
         Debug.Log("Loosedfight");
         StopCoroutine(coroutine);
-        throw new NotImplementedException();
+        ResetAll();
+        SceneManager.LoadScene(0);
+        FindObjectOfType<MapManager>().GenerateNewMap();
+
+    }
+
+    public void WinFinalFight()
+    {
+        Debug.Log("WinFinalFight");
+        StopCoroutine(coroutine);
+        ResetAll();
+        SceneManager.LoadScene(0);
+        FindObjectOfType<MapManager>().GenerateNewMap();
     }
 
     IEnumerator XpLerp()
