@@ -79,7 +79,8 @@ MonoBehaviour:
   Hand: []
   entityManager: {fileID: 0}
   FM: {fileID: 0}
-  ennemiesPrefabs: []
+  ennemiesPrefabs:
+  - {fileID: 0}
   CarteUtilisee: {fileID: 0}
   CardsInteractable: 1
   HasCardInHand: 0

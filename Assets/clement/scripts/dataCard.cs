@@ -16,7 +16,7 @@ public class dataCard : ScriptableObject
     #region STATISTIC
     [Header("Basic Stats")]
     [SerializeField] int m_manaCost; //mana
-    [SerializeField] int m_value;
+    [SerializeField] public int m_value;
     [SerializeField] public int m_index; //index de la carte dans la liste
     [SerializeField] public int nombreDexecutiion = 1; //nb de fois que la cartee s'execute
     [SerializeField] List<CardType> m_cardTypes;
@@ -35,15 +35,15 @@ public class dataCard : ScriptableObject
 
     [Header("MISCELLANEAOUS")]
     [SerializeField] bool m_isDeleteOnTurn;
-    [SerializeField] bool m_isUpsideDown;
+    [SerializeField] public bool m_isUpsideDown;
     [SerializeField] bool m_isBonusCard;
 
     [SerializeField] string m_onCardExplain;
     [SerializeField] string m_FullCardExplain;
 
     [Header("looking")]
-    [SerializeField] Sprite m_cardFrontSprite;
-    [SerializeField] Sprite m_cardBackSprite;
+    [SerializeField] public Sprite m_cardFrontSprite;
+    [SerializeField] public Sprite m_cardBackSprite;
     [SerializeField] public String Description;
     [SerializeField] public String Name;
 

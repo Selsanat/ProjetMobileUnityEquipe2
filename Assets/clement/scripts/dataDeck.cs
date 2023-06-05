@@ -11,7 +11,7 @@ public class dataDeck : ScriptableObject
     [SerializeField] string m_name;
     [SerializeField] DeckRole m_role;
 
-    public List<dataCard> dataCards;
+    [SerializeField] dataCard[] dataCards;
 
     public string Name { get => m_name;}
     public DeckRole Role { get => m_role; set => m_role = value; }

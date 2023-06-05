@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Ennemy
   m_EditorClassIdentifier: 
   m_manaCost: 0
-  m_attack: 10
-  m_heal: 0
+  m_value: 50
   m_index: 0
-  m_cardTypes: 01000000
+  nombreDexecutiion: 1
+  m_cardTypes: 00000000
   m_cardEffects: []
   TargetAllies: 0
   TargetEnnemies: 0
@@ -25,6 +25,9 @@ MonoBehaviour:
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0
-  m_cardSprite: {fileID: 0}
+  m_onCardExplain: 
+  m_FullCardExplain: 
+  m_cardFrontSprite: {fileID: 21300000, guid: 9f4161ff0fad843419924eb8815c5afb, type: 3}
+  m_cardBackSprite: {fileID: 21300000, guid: 41b708636d107954fbc5448c8d9bb13f, type: 3}
   Description: 
   Name: 
