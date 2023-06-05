@@ -21,7 +21,6 @@ public class hero : entityManager
         m_armor = 0;
         m_level = 0;
         m_experience = 0;
-        this.isAlive = true;
         int a = Random.Range(0, 1);
         if (m_role == Role.Arboriste)
             m_manaMax = 6;

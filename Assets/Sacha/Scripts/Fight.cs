@@ -203,10 +203,19 @@ public class Fight : MonoBehaviour
         }
 
     }
-    void switchLightSelection(Button Boutton)
+    void switchLightSelection(Button Boutton, bool isChamp)
     {
-        Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(4).gameObject.GetComponent<Light2D>();
-        lightDuBoutton.enabled = true;
+        if(isChamp == false)
+        {
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(4).gameObject.GetComponent<Light2D>();
+            lightDuBoutton.enabled = true;
+        }
+        else
+        {
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(2).gameObject.GetComponent<Light2D>();
+            lightDuBoutton.enabled = true;
+        }
+        
     }
 
     public IEnumerator CardAnimDisolve()
@@ -460,11 +469,12 @@ public class Fight : MonoBehaviour
         {
             if (E.m_role == entityManager.Role.Pretre || E.m_role == entityManager.Role.Arboriste )
             {
-                heroes.Add(E);
+                if(E.getIsAlive())
+                    heroes.Add(E);
             }
             else
             {
-                enemies.Add(E);
+                    enemies.Add(E);
             }
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
@@ -483,6 +493,17 @@ public class Fight : MonoBehaviour
         {
             print("g reussi");
             enemiesAtStartOfCombat = enemies.ToList();
+        }
+        else
+        {
+            enemies.Clear();
+            foreach (hero En in enemiesAtStartOfCombat.ToList())
+            {
+                if (En.getIsAlive())
+                {
+                    enemies.Add(En);
+                }
+            }
         }
         foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
@@ -527,7 +548,7 @@ public class Fight : MonoBehaviour
                     if(enemiesAtStartOfCombat[0].getIsProvocation()) 
                     { 
                         selectedhero.Add(enemiesAtStartOfCombat[0]); 
-                        switchLightSelection(ennemisButton1); 
+                        switchLightSelection(ennemisButton1, false); 
                     } 
                     
 
@@ -535,7 +556,7 @@ public class Fight : MonoBehaviour
                 else
                 { 
                     selectedhero.Add(enemiesAtStartOfCombat[0]); 
-                    switchLightSelection(ennemisButton1);
+                    switchLightSelection(ennemisButton1, false);
                 }
             });
 
@@ -547,13 +568,13 @@ public class Fight : MonoBehaviour
                     if (enemiesAtStartOfCombat[1].getIsProvocation())
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[1]);
-                        switchLightSelection(ennemisButton2);
+                        switchLightSelection(ennemisButton2, false);
                     }
                 }
                 else
                 {
                     selectedhero.Add(enemiesAtStartOfCombat[1]);
-                    switchLightSelection(ennemisButton2);
+                    switchLightSelection(ennemisButton2, false);
                 }
             });
             ennemisButton3?.onClick.AddListener(() =>
@@ -564,13 +585,13 @@ public class Fight : MonoBehaviour
                     if (enemiesAtStartOfCombat[2].getIsProvocation())
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[2]);
-                        switchLightSelection(ennemisButton3);
+                        switchLightSelection(ennemisButton3, false);
                     }
                 }
                 else
                 {
                     selectedhero.Add(enemiesAtStartOfCombat[2]);
-                    switchLightSelection(ennemisButton3);
+                    switchLightSelection(ennemisButton3, false);
                 }
             });
 
@@ -594,8 +615,8 @@ public class Fight : MonoBehaviour
         }
         if (!selectedcard.AOEAllies && selectedcard.TargetAllies)
         {
-            arboristeButton?.onClick.AddListener(() => { ClearSide(true); selectedhero.Add(heroes[0]); switchLightSelection(arboristeButton); });
-            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton); ClearSide(true); ; if (perso1 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); });
+            arboristeButton?.onClick.AddListener(() => { ClearSide(true); selectedhero.Add(heroes[0]); switchLightSelection(arboristeButton, true); });
+            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton, true); ClearSide(true); ; if (perso1 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); });
         }
         else
         {
@@ -621,34 +642,31 @@ public class Fight : MonoBehaviour
             Deselection(false);
             Gm.deck.PlayCard(selectedcard.m_index);
             isCardSend = false;
-            for (int i = 0; i < enemiesAtStartOfCombat.Count - 1; i++)
+            for (int i = 0; i < enemiesAtStartOfCombat.Count; i++)
             {
                 if(enemiesAtStartOfCombat[i].getPv() <= 0)
                 {
-                    if(i == 0)
+                    if(i == 0 && ennemisButton1?.IsActive() == true)
                     {
                         Debug.Log("ennemi 1 mort");
                         ennemisButton1?.onClick.RemoveAllListeners();
                         ennemisButton1?.gameObject.SetActive(false);
-                        enemiesAtStartOfCombat[i].setIsAlive(false);
                         enemies.Remove(enemiesAtStartOfCombat[i]);
                     }
-                    else if (i == 1)
+                    else if (i == 1 && ennemisButton2?.IsActive() == true)
                     {
                         Debug.Log("ennemi 2 mort");
                         ennemisButton2?.onClick.RemoveAllListeners();
                         ennemisButton2?.gameObject.SetActive(false);
-                        enemiesAtStartOfCombat[i].setIsAlive(false);
                         enemies.Remove(enemiesAtStartOfCombat[i]);
 
 
                     }
-                    else if (i == 2)
+                    else if (i == 2 && ennemisButton3?.IsActive() == true)
                     {
                         Debug.Log("ennemi 3 mort");
                         ennemisButton3?.onClick.RemoveAllListeners();
                         ennemisButton3?.gameObject.SetActive(false);
-                        enemiesAtStartOfCombat[i].setIsAlive(false);
                         enemies.Remove(enemiesAtStartOfCombat[i]);
 
 
@@ -864,7 +882,7 @@ public class Fight : MonoBehaviour
     {
 
         
-        foreach (hero En in enemies.ToList())
+        foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
             En.EnemyAttack(heroes, false);
             if (!CheckifHeroAreAlive())
@@ -1176,7 +1194,7 @@ public class Fight : MonoBehaviour
             }
             else
             {
-                Gm.entityManager.heroList.Remove(En);
+                
                 selectedhero.Remove(En);
                 
             }
@@ -1279,38 +1297,6 @@ public class Fight : MonoBehaviour
     public void clearCardSelected()
     {
         selectedhero.Clear();
-    }
-
-    public void OnSelect(BaseEventData eventData)
-    {
-        if (eventData.selectedObject == ennemisButton1)
-        {
-            selectedButton = ennemisButton1;
-            selectedhero.Clear();
-            selectedhero.Add(enemies[0]);
-        }
-        else if (eventData.selectedObject == ennemisButton2)
-        {
-            selectedhero.Clear();
-            selectedhero.Add(enemies[1]);
-            selectedButton = ennemisButton2;
-        }
-        else if(eventData.selectedObject == arboristeButton)
-        {
-            selectedhero.Clear();
-            selectedhero.Add(heroes[0]);
-            selectedButton = arboristeButton;
-        }
-        else if(eventData.selectedObject == pretreButton)
-        {
-            selectedhero.Clear();
-            selectedhero.Add(heroes[1]);
-            selectedButton = pretreButton;
-        }
-        else
-        {
-            selectedButton = null;
-        }
     }
 
 }
