@@ -1131,6 +1131,7 @@ public class Fight : MonoBehaviour
         heroes.Clear();
         enemies.Clear();
         selectedhero.Clear();
+        enemiesAtStartOfCombat.Clear();
         
         selectedcard = null;
         yield return new WaitUntil(() => Input.GetMouseButton(0));
