@@ -33,9 +33,9 @@ public class CardObject : MonoBehaviour
 
     public List<hero> heroToAttack; //always Start Null
 
-    [SerializeField] UnityEvent OnPlay;
     Transform M_t;
-    public bool MenuCarde = false;
+
+    //public bool MenuCarde = false;
 
     public void RemettreCardSlot()
     {
@@ -80,10 +80,8 @@ public class CardObject : MonoBehaviour
                 Transform trans = gameManager.deck.GetTransformSlotFromCard(this);
                 transform.position = new Vector3(trans.position.x, trans.position.y + 1, trans.position.z);
                 this.GetComponent<BoxCollider2D>().size = BaseColliderDimensions;
-                if (!MenuCarde)
-                {
-                    gameManager.deck.ReorderZCards();
-                }
+                gameManager.deck.ReorderZCards();
+                
                rendeureur.sortingOrder = 10;
                 canvas.sortingOrder = 10;
             }
@@ -135,26 +133,16 @@ public class CardObject : MonoBehaviour
     {
         if (gameManager.CardsInteractable )
         {
+            transform.localScale = new Vector3(1, 1, 1);
+            gameManager.deck.ReorderZCards();
             
-            if (!MenuCarde)
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-                gameManager.deck.ReorderZCards();
-            }
             if (transform.position.y < gameManager.RangePourActiverCarte)
             {
-
-                if (!MenuCarde)
-                {
-                    transform.position = PosBeforeDrag;
-                }
+                transform.position = PosBeforeDrag;
                 
                 if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect)
                 {
-
-                    if (!MenuCarde)
-                    {
-                        gameManager.CardsInteractable = false;
+                    gameManager.CardsInteractable = false;
                     //print(gameManager.InspectUI.Image.sprite);
                     print(this.GetComponent<SpriteRenderer>().sprite);
                     gameManager.InspectUI.Image.sprite = this.GetComponent<SpriteRenderer>().sprite;
@@ -162,35 +150,20 @@ public class CardObject : MonoBehaviour
                     gameManager.InspectUI.Name.text = this.DataCard.Name;
                     gameManager.InspectUI.description.text = this.DataCard.Description;
                     RemettreCardSlot();
-
-                    }
+                    
                 }
-                if (MenuCarde)
-                {
-                    transform.position = M_t.position;
-                    transform.localScale = new Vector3(1.5f,1.5f,1.5f);
-                }
+                transform.position = M_t.position;
+                transform.localScale = new Vector3(1.5f,1.5f,1.5f);
             }
             else
             {
-                if (MenuCarde)
-                {
-                    //print("camarchepasputain");
-                    OnPlay.Invoke();
-                    return;
-                }
-                if (!MenuCarde)
-                {
-                    gameManager.CarteUtilisee = this;
-                    gameManager.FM.Cardsend(this, indexHand);
-                }
+                gameManager.CarteUtilisee = this;
+                gameManager.FM.Cardsend(this, indexHand);
+
                 Slot = this.gameObject.transform;
-                if (!MenuCarde)
-                {
-                    FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
-                    FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true) ;
-                    SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies) ;
-                }
+                FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
+                FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true) ;
+                SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies) ;
 
             }
         }
