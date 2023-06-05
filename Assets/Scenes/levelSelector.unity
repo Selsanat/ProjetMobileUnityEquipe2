@@ -24775,7 +24775,7 @@ PrefabInstance:
       objectReference: {fileID: 6985355160774243153, guid: 0d65228b4cb46f84ca9165d4f0412d5d, type: 3}
     - target: {fileID: 6903154555705509230, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: m_spriteList.Array.size
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509230, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: m_spriteList.Array.data[0]
@@ -24792,7 +24792,31 @@ PrefabInstance:
     - target: {fileID: 6903154555705509230, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: m_spriteList.Array.data[3]
       value: 
-      objectReference: {fileID: 21300000, guid: f4e8f48cb713e844aa3c9e3e9e39149a, type: 3}
+      objectReference: {fileID: 21300000, guid: 831a5c35bd5e06f4ab2e66ee7e55a4af, type: 3}
+    - target: {fileID: 6903154555705509230, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
+      propertyPath: m_spriteList.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8d4a16e912e659949a631d1eb838237a, type: 3}
+    - target: {fileID: 6903154555705509230, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
+      propertyPath: m_spriteList.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300000, guid: df38adb2a34012444ac2164ad5be4f5a, type: 3}
+    - target: {fileID: 6903154555705509230, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
+      propertyPath: m_spriteList.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300000, guid: 0a504889412cb004d8ca7196bf14ab15, type: 3}
+    - target: {fileID: 6903154555705509230, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
+      propertyPath: m_spriteList.Array.data[7]
+      value: 
+      objectReference: {fileID: 21300000, guid: 5fe25f18980221a4da7e256aa4d2fa6f, type: 3}
+    - target: {fileID: 6903154555705509230, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
+      propertyPath: m_spriteList.Array.data[8]
+      value: 
+      objectReference: {fileID: 21300000, guid: a0d9c556f5449ac4da4fcf27a2474d57, type: 3}
+    - target: {fileID: 6903154555705509230, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
+      propertyPath: m_spriteList.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300000, guid: 339badb642799aa4db10c9f57860d61e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
 --- !u!1 &1027998294

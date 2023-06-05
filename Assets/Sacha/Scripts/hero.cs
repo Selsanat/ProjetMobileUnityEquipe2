@@ -251,26 +251,42 @@ public class hero : entityManager
             this.randomAttack = (int)Random.Range(0f, 100);
             if (fourthAttack >= randomAttack)
             {
-                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].m_isDebufArmor = true;
+                m_valueText.text = "";
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
+                this.randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
                 Debug.Log("debuff armor");
 
             }
             else if (thridAttack >= randomAttack) //booste la force
             {
                 Debug.Log("boostStat");
+                m_valueText.text = "1";
+                this.m_spriteFocus.sprite = null;
+                tempColor.a = 0f;
+                m_spriteFocus.color = tempColor;
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[3];
 
-                dmg++;
-                AOEDmg++;
 
             }
             else if (secondAttack >= randomAttack) //attaque tout les allier
             {
                 Debug.Log("aoe");
+                m_valueText.text = AOEDmg.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
+                this.m_spriteFocus.sprite = null;
+                tempColor.a = 0f;
+                m_spriteFocus.color = tempColor;
 
-                foreach (hero hero in heroesToAttack)
-                {
-                    hero.takeDamage(AOEDmg);
-                }
             }
             else if (firtAttack >= randomAttack) //attauqe le plus faible
             {
@@ -283,14 +299,26 @@ public class hero : entityManager
                     if (champ.getPv() < temp.getPv())
                         temp = champ;
                 }
-                temp.takeDamage(dmg);
+                randomHero = temp;
+                m_valueText.text = dmg.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
             }
         }
         else
         {
             if (fourthAttack >= randomAttack)
             {
-                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].m_isDebufArmor = true;
+                randomHero.m_isDebufArmor = true;
                 Debug.Log("debuff armor");
 
             }
@@ -313,19 +341,24 @@ public class hero : entityManager
             }
             else if (firtAttack >= randomAttack) //attauqe le plus faible
             {
-                Debug.Log("attaque le plus faible");
-
                 hero temp = heroesToAttack[0];
 
-                foreach (hero champ in heroesToAttack)
+                
+                if (randomHero.getIsAlive() == true)
+                    randomHero.takeDamage(dmg);
+                else
                 {
-                    if (champ.getPv() < temp.getPv())
-                        temp = champ;
+                    foreach (hero champ in heroesToAttack)
+                    {
+                        if (champ.getPv() - dmg <= 0)
+                        {
+                            temp.takeDamage(dmg);
+                            return;
+                        }
+                    }
                 }
-                temp.takeDamage(dmg);
             }
         }
-        float diceRoll = Random.Range(0f, 100);
 
         
 
@@ -382,6 +415,8 @@ public class hero : entityManager
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = dmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
@@ -435,34 +470,124 @@ public class hero : entityManager
         int secondAttack = 55;
         int thridAttack = 35;
         int fourthAttack = 10;
-        float diceRoll = Random.Range(0f, 100);
-        
-        if(fourthAttack >= diceRoll)
+        int nbCardDebuf = 5;
+        var tempColor = m_spriteTypeAttack.color;
+        tempColor.a = 1f;
+        m_spriteTypeAttack.color = tempColor;
+        m_spriteFocus.color = tempColor;
+        if (fight)
         {
-            throw new System.NotImplementedException("attaque pas encore implémenté (ajoute des cartes injouables dans la pioche)");
-            // nerf : ajoute des cartes injouables dans la pioche
-        }
-        else if (thridAttack >= diceRoll)
-        {
-            gameManager.debuffDraw++;
-
-        }
-        else if (secondAttack >= diceRoll)
-        {
-            this.setArmor(armor);
-
-        }
-        else if (firtAttack >= diceRoll)
-        {
-            hero temp = heroesToAttack[0];
-
-            foreach (hero champ in heroesToAttack)
+            this.randomAttack = (int)Random.Range(0f, 100);
+            if (fourthAttack >= randomAttack)
             {
-                if (champ.getPv() < temp.getPv())
-                    temp = champ;
+                m_valueText.text = nbCardDebuf.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
+                this.m_spriteFocus.sprite = null;
+                tempColor.a = 0f;
+                m_spriteFocus.color = tempColor;
+                // nerf : ajoute des cartes injouables dans la pioche
             }
-            temp.takeDamage(dmg);
+            else if (thridAttack >= randomAttack)
+            {
+                this.m_spriteFocus.sprite = null;
+                tempColor.a = 0f;
+                m_spriteFocus.color = tempColor;
+                m_valueText.text = "1";
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[6];
+
+            }
+            else if (secondAttack >= randomAttack)
+            {
+                m_valueText.text = armor.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
+                this.m_spriteFocus.sprite = null;
+                tempColor.a = 0f;
+                m_spriteFocus.color = tempColor;
+
+            }
+            else if (firtAttack >= randomAttack)
+            {
+
+                hero temp = heroesToAttack[0];
+
+                foreach (hero champ in heroesToAttack)
+                {
+                    if (champ.getPv() - dmg <= 0)
+                    {
+                        randomHero = temp;
+                        m_valueText.text = dmg.ToString();
+                        this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                        if (randomHero.m_role == Role.Arboriste)
+                        {
+                            this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                        }
+                        else
+                        {
+                            this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                        }
+
+                        return;
+                    }
+                }
+                randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
+                m_valueText.text = dmg.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
+            }
+                
+
+            
         }
+        else
+        {
+            if (fourthAttack >= randomAttack)
+            {
+                throw new System.NotImplementedException("attaque pas encore implémenté (ajoute des cartes injouables dans la pioche)");
+                // nerf : ajoute des cartes injouables dans la pioche
+            }
+            else if (thridAttack >= randomAttack)
+            {
+                gameManager.debuffDraw++;
+
+            }
+            else if (secondAttack >= randomAttack)
+            {
+                this.setArmor(armor);
+
+            }
+            else if (firtAttack >= randomAttack)
+            {
+                Debug.Log("dmg");
+
+                hero temp = heroesToAttack[0];
+
+                foreach (hero champ in heroesToAttack)
+                {
+                    if (champ.getPv() - dmg <= 0)
+                    {
+                        temp.takeDamage(dmg);
+                        return;
+                    }
+                }
+                if (randomHero.getIsAlive() == true)
+                    randomHero.takeDamage(dmg);
+                else
+                {
+                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
+                }
+            }
+
+        }
+        
     }
 
     public void gargouilleAttack(List<hero> heroesToAttack, bool fight)
@@ -473,42 +598,144 @@ public class hero : entityManager
         int fourthAttack = 10;
         int dmgAOE = 6;
         int dmg = 8;
-        float diceRoll = Random.Range(0f, 100);
 
-        if (fourthAttack >= diceRoll) //debuff next round
+        var tempColor = m_spriteTypeAttack.color;
+        tempColor.a = 1f;
+        m_spriteTypeAttack.color = tempColor;
+        m_spriteFocus.color = tempColor;
+        if (fight)
         {
-
-            hero temp = heroesToAttack[0];
-
-            foreach (hero champ in heroesToAttack)
+            randomAttack = (int)Random.Range(0f, 100);
+            if (fourthAttack >= randomAttack) //debuff next round
             {
-                if (champ.getPv() < temp.getPv())
-                    temp = champ;
+
+                hero temp = heroesToAttack[0];
+
+                foreach (hero champ in heroesToAttack)
+                {
+                    if (champ.getPv() < temp.getPv())
+                        temp = champ;
+                }
+                randomHero = temp;
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
+                m_valueText.text = "2";
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[6];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+            }
+            else if (thridAttack >= randomAttack)
+            {
+                m_valueText.text = "";
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[7];
+                this.m_spriteFocus.sprite = null;
+                tempColor.a = 0f;
+                m_spriteFocus.color = tempColor;
+            }
+            else if (secondAttack >= randomAttack)
+            {
+                Debug.Log("aoe");
+                m_valueText.text = dmgAOE.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
+                this.m_spriteFocus.sprite = null;
+                tempColor.a = 0f;
+                m_spriteFocus.color = tempColor;
+            }
+            else if (firtAttack >= randomAttack)
+            {
+                hero temp = heroesToAttack[0];
+
+                foreach (hero champ in heroesToAttack)
+                {
+                    if (champ.getPv() - dmg <= 0)
+                    {
+                        randomHero = temp;
+                        m_valueText.text = dmg.ToString();
+                        this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                        if (randomHero.m_role == Role.Arboriste)
+                        {
+                            this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                        }
+                        else
+                        {
+                            this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                        }
+
+                        return;
+                    }
+                }
+                randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
+                m_valueText.text = dmg.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
             }
 
-            temp.m_damageMultiplier = 2;
         }
-        else if (thridAttack >= diceRoll)
+        else
         {
-            this.isProvocation = true;
-            gameManager.IsAnyProv = true;
-        }
-        else if (secondAttack >= diceRoll)
-        {
-            foreach(hero champ in heroesToAttack)
-                champ.takeDamage(dmgAOE);
-        }
-        else if (firtAttack >= diceRoll)
-        {
-            hero temp = heroesToAttack[0];
-
-            foreach (hero champ in heroesToAttack)
+            if (fourthAttack >= randomAttack) //debuff next round
             {
-                if (champ.getPv() < temp.getPv())
-                    temp = champ;
+
+                hero temp = heroesToAttack[0];
+
+                foreach (hero champ in heroesToAttack)
+                {
+                    if (champ.getPv() < temp.getPv())
+                        temp = champ;
+                }
+
+                temp.m_damageMultiplier = 2;
             }
-            temp.takeDamage(dmg);
+            else if (thridAttack >= randomAttack)
+            {
+                this.isProvocation = true;
+                gameManager.IsAnyProv = true;
+            }
+            else if (secondAttack >= randomAttack)
+            {
+                foreach (hero champ in heroesToAttack)
+                    champ.takeDamage(dmgAOE);
+            }
+            else if (firtAttack >= randomAttack)
+            {
+                Debug.Log("dmg");
+
+                hero temp = heroesToAttack[0];
+
+                foreach (hero champ in heroesToAttack)
+                {
+                    if (champ.getPv() - dmg <= 0)
+                    {
+                        temp.takeDamage(dmg);
+                        return;
+                    }
+                }
+                if (randomHero.getIsAlive() == true)
+                    randomHero.takeDamage(dmg);
+                else
+                {
+                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
+                }
+            }
         }
+
+
+        
     }
 
     public void hommeVers(List<hero> heroesToAttack, bool fight)
@@ -517,29 +744,103 @@ public class hero : entityManager
         int secondAttack = 65;
         int thridAttack = 30;
         int fourthAttack = 10;
-        float diceRoll = Random.Range(0f, 100);
+        
         int dmgLourd = 10;
         int dmg = 7;
         int heal = 3;
+        var tempColor = m_spriteTypeAttack.color;
+        tempColor.a = 1f;
+        m_spriteTypeAttack.color = tempColor;
+        m_spriteFocus.color = tempColor;
 
-        if (fourthAttack >= diceRoll)
+        if (fight)
         {
-            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
-            this.m_Pv += heal;
+            randomAttack = (int)Random.Range(0f, 100);
+            if (fourthAttack >= randomAttack)
+            {
+
+                randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
+                m_valueText.text = dmg.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
+            }
+            else if (thridAttack >= randomAttack)
+            {
+                randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
+                m_valueText.text = dmgLourd.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
+            }
+            else if (secondAttack >= randomAttack)
+            {
+                //nerf et on ne vois plus la description des cartes
+                throw new System.NotImplementedException("attaque pas encore implémenté (ne plus voir la description des cartes)");
+            }
+            else if (firtAttack >= randomAttack)
+            {
+                
+                randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
+               
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
+                this.m_valueText.text = "";
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[5];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+            }
         }
-        else if (thridAttack >= diceRoll)
+        else
         {
-            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmgLourd);
+            if (fourthAttack >= randomAttack)
+            {
+                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
+                this.m_Pv += heal;
+            }
+            else if (thridAttack >= randomAttack)
+            {
+                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmgLourd);
+            }
+            else if (secondAttack >= randomAttack)
+            {
+                //nerf et on ne vois plus la description des cartes
+                throw new System.NotImplementedException("attaque pas encore implémenté (ne plus voir la description des cartes)");
+            }
+            else if (firtAttack >= randomAttack)
+            {
+                if(randomHero.getIsAlive() == true)
+                    randomHero.m_isDebufArmor = true;
+                else
+                {
+                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].m_isDebufArmor = true;
+                }
+            }
         }
-        else if (secondAttack >= diceRoll)
-        {
-            //nerf et on ne vois plus la description des cartes
-            throw new System.NotImplementedException("attaque pas encore implémenté (ne plus voir la description des cartes)");
-        }
-        else if (firtAttack >= diceRoll)
-        {
-            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].m_isDebufArmor = true;
-        }
+
+        
     }
 
     public void demonAttack(List<hero> heroesToAttack, bool fight)
@@ -547,35 +848,103 @@ public class hero : entityManager
         int firtAttack = 100;
         int secondAttack = 45;
         int thridAttack = 12;
-        float diceRoll = Random.Range(0f, 100);
         int dmg = 12;
+        var tempColor = m_spriteTypeAttack.color;
+        tempColor.a = 1f;
+        m_spriteTypeAttack.color = tempColor;
+        m_spriteFocus.color = tempColor;
 
-        if (thridAttack >= diceRoll)
+        if (fight)
         {
-            this.m_Pv = this.m_Pv * 15 / 100;
-        }
-        else if (secondAttack >= diceRoll)
-        {
-            hero temp = heroesToAttack[0];
-
-            foreach (hero champ in heroesToAttack)
+            randomAttack = (int)Random.Range(0f, 100);
+            if (thridAttack >= randomAttack)
             {
-                if (champ.getPv() > temp.getPv())
-                    temp = champ;
+                int healing = this.m_Pv * 15 / 100;
+                this.m_valueText.text = healing.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[8];
             }
-            temp.takeDamage(dmg);
-        }
-        else if (firtAttack >= diceRoll)
-        {
-            hero temp = heroesToAttack[0];
-
-            foreach (hero champ in heroesToAttack)
+            else if (secondAttack >= randomAttack)
             {
-                if (champ.getPv() < temp.getPv())
-                    temp = champ;
+                hero temp = heroesToAttack[0];
+
+                foreach (hero champ in heroesToAttack)
+                {
+                    if (champ.getPv() > temp.getPv())
+                    {
+                        temp = champ;
+
+                    }
+                }
+                randomHero = temp;
+                m_valueText.text = dmg.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
+                
             }
-            temp.takeDamage(dmg);
+            else if (firtAttack >= randomAttack)
+            {
+                hero temp = heroesToAttack[0];
+
+                foreach (hero champ in heroesToAttack)
+                {
+                    if (champ.getPv() > temp.getPv())
+                    {
+                        temp = champ;
+
+                    }
+                }
+                randomHero = temp;
+                m_valueText.text = dmg.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
+            }
+
         }
+        else
+        {
+            if (thridAttack >= randomAttack)
+            {
+                this.m_Pv = this.m_Pv * 15 / 100;
+            }
+            else if (secondAttack >= randomAttack)
+            {
+                hero temp = heroesToAttack[0];
+
+                foreach (hero champ in heroesToAttack)
+                {
+                    if (champ.getPv() > temp.getPv())
+                        temp = champ;
+                }
+                temp.takeDamage(dmg);
+            }
+            else if (firtAttack >= randomAttack)
+            {
+                hero temp = heroesToAttack[0];
+
+                foreach (hero champ in heroesToAttack)
+                {
+                    if (champ.getPv() < temp.getPv())
+                        temp = champ;
+                }
+                temp.takeDamage(dmg);
+            }
+        }
+
+        
     }
 
 
@@ -587,41 +956,134 @@ public class hero : entityManager
         int fourthAttack = 25;
         int fithAttack = 10;
         int sixth = 5;
-        float diceRoll = Random.Range(0f, 100);
         int dmg = 16;
         int dmgAOE = 10;
         int dmgLourd = 20;
         int armor = 12;
+        var tempColor = m_spriteTypeAttack.color;
+        tempColor.a = 1f;
+        m_spriteTypeAttack.color = tempColor;
+        m_spriteFocus.color = tempColor;
 
-        if (sixth >= diceRoll)
+        if (fight)
         {
-            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].isAntiHeal = true;
-        }
-        else if (fithAttack >= diceRoll)
-        {
-            dmg += 2;
-            dmgAOE += 2;
-            dmgLourd += 2;
-        }
-        else if (fourthAttack >= diceRoll)
-        {
-            this.setArmor(armor);
-        }
-        else if (thridAttack >= diceRoll)
-        {
-            foreach (hero hero in heroesToAttack)
+            randomAttack = (int)Random.Range(0f, 100);
+            if (sixth >= randomAttack) //antiheal
             {
-                hero.takeDamage(dmgAOE);
+                randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
+                m_valueText.text = "1";
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[9];
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
+            }
+            else if (fithAttack >= randomAttack) //boost
+            {
+                Debug.Log("boostStat");
+                m_valueText.text = "2";
+                this.m_spriteFocus.sprite = null;
+                tempColor.a = 0f;
+                m_spriteFocus.color = tempColor;
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[3];
+            }
+            else if (fourthAttack >= randomAttack) //armor
+            {
+                m_valueText.text = armor.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
+                this.m_spriteFocus.sprite = null;
+                tempColor.a = 0f;
+                m_spriteFocus.color = tempColor;
+            }
+            else if (thridAttack >= randomAttack) //aoe
+            {
+                Debug.Log("aoe");
+                m_valueText.text = dmgAOE.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
+                this.m_spriteFocus.sprite = null;
+                tempColor.a = 0f;
+                m_spriteFocus.color = tempColor;
+            }
+            else if (secondAttack >= randomAttack) //lourd
+            {
+                randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
+                m_valueText.text = dmgLourd.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
+            }
+            else if (firtAttack >= randomAttack) //normal
+            {
+                randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
+                m_valueText.text = dmg.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+                if (randomHero.m_role == Role.Arboriste)
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
+                }
+                else
+                {
+                    this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
+                }
+            }
+
+        }
+        else
+        {
+            if (sixth >= randomAttack) //antiheal
+            {
+                if(randomHero.isAlive) 
+                    randomHero.isAntiHeal = true;
+                else
+                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].isAntiHeal = true;
+            }
+            else if (fithAttack >= randomAttack) //boost
+            {
+                dmg += 2;
+                dmgAOE += 2;
+                dmgLourd += 2;
+            }
+            else if (fourthAttack >= randomAttack) //armor
+            {
+                this.setArmor(armor);
+            }
+            else if (thridAttack >= randomAttack) //aoe
+            {
+                foreach (hero hero in heroesToAttack)
+                {
+                    hero.takeDamage(dmgAOE);
+                }
+            }
+            else if (secondAttack >= randomAttack) //lourd
+            {
+                if (randomHero.isAlive)
+                    randomHero.takeDamage(dmgLourd);
+                else
+                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmgLourd);
+            }
+            else if (firtAttack >= randomAttack) //normal
+            {
+                if (randomHero.isAlive)
+                    randomHero.takeDamage(dmg);
+                else
+                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
             }
         }
-        else if (secondAttack >= diceRoll)
-        {
-            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmgLourd);
-        }
-        else if (firtAttack >= diceRoll)
-        {
-            heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
-        }
+        
   
     }
 
