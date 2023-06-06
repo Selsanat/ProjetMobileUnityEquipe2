@@ -787,199 +787,199 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.AddMana:
                         foreach (hero hero in selected)
                         {
-                            card.AddMana(hero);
+                            card.AddMana(1);
                         }
                         break;
-                    case dataCard.CardType.AddCard: //pioche une carte
+                    case dataCard.CardType.AddCard:
                         Gm.deck.DrawCard(1);
                         break;
-                    case dataCard.CardType.HabemusDominum://change le mana d'une carte
+                    case dataCard.CardType.HabemusDominum:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.DiabolusEst://change le damage d'une carte
+                    case dataCard.CardType.DiabolusEst:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.CultiverAme://les effets de cette carte dure jusqu'a la fin du combat
+                    case dataCard.CardType.CultiverAme:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.CultiverFlamme://augmente la barre de veneration d'un allie
+                    case dataCard.CardType.CultiverFlamme:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Conversion://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
+                    case dataCard.CardType.Conversion:
                         foreach (hero hero in selected)
                         {
                             
                         }
                         break;
-                    case dataCard.CardType.Absolution://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Absolution:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Benediction://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Benediction:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Apotasie://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Apotasie:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Tabernacle://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Tabernacle:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Belial://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Belial:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.VenererIdole://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.VenererIdole:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Blaspheme://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Blaspheme:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.AllumerCierges://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.AllumerCierges:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.IncendierCloatre://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.IncendierCloatre:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.AccueillirNecessiteux://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.AccueillirNecessiteux:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.MassacrerInfideles://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.MassacrerInfideles:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.MoxLion://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.MoxLion:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.MoxAraignee://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.MoxAraignee:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.MurDeRonces://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.MurDeRonces:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.LaissePourMort://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.LaissePourMort:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Cataplasme://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Cataplasme:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Belladone://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Belladone:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.SurgissementVitalique://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.SurgissementVitalique:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.RepandreMort://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.RepandreMort:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.ArmureEcorse://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.ArmureEcorse:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.MaleusHerbeticae://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.MaleusHerbeticae:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.CommunionNature://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.CommunionNature:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Canibalisme://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Canibalisme:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.SuivreEtoiles://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.SuivreEtoiles:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.ProfanerCiel://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.ProfanerCiel:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.DormirPresDeLautre://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.DormirPresDeLautre:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.ReveillerPourManger://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.ReveillerPourManger:
                         foreach (hero hero in selected)
                         {
 
