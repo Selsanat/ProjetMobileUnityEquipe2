@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class hero : entityManager
 {
 
- 
-    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana)
+
+    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int venerate)
     {
         m_role = role;
         m_maxPv = maxPV;
@@ -21,6 +21,7 @@ public class hero : entityManager
         m_armor = 0;
         m_level = 0;
         m_experience = 0;
+        m_venerate = venerate;
         int a = Random.Range(0, 1);
         if (m_role == Role.Arboriste)
             m_manaMax = 6;
@@ -28,10 +29,10 @@ public class hero : entityManager
             m_manaMax = 4;
         if (a == 0) { multipleTarget = false; }
         else { multipleTarget = true; }
-        if(gameManager == null)
+        if (gameManager == null)
         {
             gameManager = FindObjectOfType<GameManager>();
-        }   
+        }
         gameManager.entityManager.heroList.Add(this);
 
 
@@ -113,6 +114,8 @@ public class hero : entityManager
     public void setArmor(int armor) { m_armor += armor; }
     public void resetArmor() { m_armor = 0; }
     public bool getIsProvocation() { return isProvocation; }
+    public int getVenerate() { return m_venerate; }
+    public void setVenerate(int venerate) {m_venerate = venerate; }
 
     #endregion
 

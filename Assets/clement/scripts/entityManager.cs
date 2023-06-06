@@ -50,6 +50,7 @@ public class entityManager : MonoBehaviour
     [SerializeField] public bool isFull;
     [SerializeField] public int randomAttack;
     [SerializeField] public hero randomHero;
+    [SerializeField] protected int m_venerate;
     [SerializeField] public Sprite m_sprite;
     [SerializeField] public Image m_spriteTypeAttack;
     [SerializeField] public Image m_spriteFocus;

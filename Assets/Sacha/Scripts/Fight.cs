@@ -53,7 +53,7 @@ public class Fight : MonoBehaviour
     [SerializeField] TextMeshProUGUI stockText;
     [SerializeField] TextMeshProUGUI manaText;
 
-    private int mana;
+    public int mana;
     private int stock = 0;
     [SerializeField] List<hero> heroes;
     [SerializeField] List<hero> enemies;
@@ -73,6 +73,8 @@ public class Fight : MonoBehaviour
     }
 
     public bool IsCardSend { get => isCardSend; set => isCardSend = value; }
+    public List<hero> Enemies { get => enemies; private set => enemies = value; }
+    public List<hero> Heroes { get => heroes; private set => heroes = value; }
 
     private void Update()
     {
@@ -105,6 +107,8 @@ public class Fight : MonoBehaviour
         heroes = new List<hero>();
         enemies = new List<hero>();
         enemiesAtStartOfCombat = new List<hero>();
+        Heroes = new List<hero>();
+        Enemies = new List<hero>();
         //StartFight();
         //StartTurn();
     }
@@ -255,7 +259,7 @@ public class Fight : MonoBehaviour
 
             if (Gm.IsPretrePlayed == false)
             {
-                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0);
+                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0, 0);
                 Gm.LifePretre = H1.getPv();
                 Gm.IsPretrePlayed = true;
             }
@@ -264,7 +268,7 @@ public class Fight : MonoBehaviour
                 
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
             }
@@ -303,7 +307,7 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
             }
@@ -329,7 +333,7 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(pretreButton, heroSprite2, true);
             if (Gm.IsPretrePlayed == false)
             {
-                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0);
+                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0, 0);
                 Gm.LifePretre = H1.getPv();
                 Gm.IsPretrePlayed = true;
             }
@@ -608,7 +612,7 @@ public class Fight : MonoBehaviour
         {
             if (selectedcard.AOEEnnemies)
             {
-                foreach (hero ennemy in enemies)
+                foreach (hero ennemy in Enemies)
                 {
                     selectedhero.Add(ennemy);
                     ActivateSideLights(false);
@@ -624,7 +628,7 @@ public class Fight : MonoBehaviour
         {
             if (selectedcard.AOEAllies)
             {
-                foreach (hero hero in heroes)
+                foreach (hero hero in Heroes)
                 {
                     selectedhero.Add(hero);
                     ActivateSideLights(true);
@@ -695,7 +699,7 @@ public class Fight : MonoBehaviour
 
     void PlayPlayerEffects() 
     {
-        foreach (hero h in heroes)
+        foreach (hero h in Heroes)
         {
             for (int i = 0; i < h.MyEffects.Count; i++)
             {
@@ -731,6 +735,7 @@ public class Fight : MonoBehaviour
                 {
                     LooseFight();
                 }
+                heroes[i].resetArmor();
             }
         }
 
@@ -1233,7 +1238,7 @@ public class Fight : MonoBehaviour
 
     bool CheckifHeroAreAlive()//TRUE = min ONE ALIVE
     {
-        foreach (hero En in heroes)
+        foreach (hero En in Heroes)
         {
             if (En.getIsAlive())
             {
@@ -1294,49 +1299,199 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.AddMana:
                         foreach (hero hero in selected)
                         {
-                            card.AddMana(hero);
+                            card.AddMana(1);
                         }
                         break;
-                    case dataCard.CardType.AddCard: //pioche une carte
+                    case dataCard.CardType.AddCard:
                         Gm.deck.DrawCard(1);
                         break;
-                    case dataCard.CardType.UpgradeCard://la carte ne va pas dans la defausse elle reste sur la table et s'ameliore au fur et a mesure de la partie, Leur prix peut baisser, leurs stats augmenter...
+                    case dataCard.CardType.HabemusDominum:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.DiabolusEst:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.CultiverAme:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.CultiverFlamme:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Conversion:
                         foreach (hero hero in selected)
                         {
                             
                         }
                         break;
-                    case dataCard.CardType.ChangeCardMana://change le mana d'une carte
+                    case dataCard.CardType.Absolution:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.ChangeCardDamage://change le damage d'une carte
+                    case dataCard.CardType.Benediction:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.FromNow://les effets de cette carte dure jusqu'a la fin du combat
+                    case dataCard.CardType.Apotasie:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Venerate://augmente la barre de veneration d'un allie
+                    case dataCard.CardType.Tabernacle:
                         foreach (hero hero in selected)
                         {
 
                         }
                         break;
-                    case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis � chaque tour il subit un point de moins
+                    case dataCard.CardType.Belial:
                         foreach (hero hero in selected)
                         {
-                            //DONTDO
+
                         }
                         break;
-                    case dataCard.CardType.Steal://inflige X degat et soigne X � un autre personnage
+                    case dataCard.CardType.VenererIdole:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Blaspheme:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.AllumerCierges:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.IncendierCloatre:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.AccueillirNecessiteux:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.MassacrerInfideles:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.MoxLion:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.MoxAraignee:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.MurDeRonces:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.LaissePourMort:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Cataplasme:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Belladone:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.SurgissementVitalique:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.RepandreMort:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.ArmureEcorse:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.MaleusHerbeticae:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.CommunionNature:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Canibalisme:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.SuivreEtoiles:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.ProfanerCiel:
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
+                        foreach (hero hero in selected)
+                        {
+
+                        }
+                        break;
+                    case dataCard.CardType.Steal://inflige X degat et soigne X à un autre personnage
                         foreach (hero hero in selected)
                         {
 
@@ -1357,6 +1512,38 @@ public class Fight : MonoBehaviour
     public void clearCardSelected()
     {
         selectedhero.Clear();
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        if (eventData.selectedObject == ennemisButton1)
+        {
+            selectedButton = ennemisButton1;
+            selectedhero.Clear();
+            selectedhero.Add(enemies[0]);
+        }
+        else if (eventData.selectedObject == ennemisButton2)
+        {
+            selectedhero.Clear();
+            selectedhero.Add(enemies[1]);
+            selectedButton = ennemisButton2;
+        }
+        else if(eventData.selectedObject == arboristeButton)
+        {
+            selectedhero.Clear();
+            selectedhero.Add(heroes[0]);
+            selectedButton = arboristeButton;
+        }
+        else if(eventData.selectedObject == pretreButton)
+        {
+            selectedhero.Clear();
+            selectedhero.Add(heroes[1]);
+            selectedButton = pretreButton;
+        }
+        else
+        {
+            selectedButton = null;
+        }
     }
 
 }
