@@ -21,6 +21,7 @@ public class dataCard : ScriptableObject
     [SerializeField] public int m_value;
     [SerializeField] public int m_index; //index de la carte dans la liste
     [SerializeField] public int nombreDexecutiion = 1; //nb de fois que la cartee s'execute
+    [SerializeField] public int unlockLevel;
     [SerializeField] CardType m_cardTypes;
 
     [SerializeField] List<CardEffect> m_cardEffects;
