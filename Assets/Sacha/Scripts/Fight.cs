@@ -689,9 +689,8 @@ public class Fight : MonoBehaviour
                     WinFight();
             }
         }
-        PlayPlayerEffects();
+        PlayEnemyEffects();
         PlayEnemyTurn();
-
     }
 
     void PlayPlayerEffects() 
@@ -734,6 +733,7 @@ public class Fight : MonoBehaviour
                 }
             }
         }
+
     }
     private void PlayEnemyEffects()
     {
@@ -929,7 +929,7 @@ public class Fight : MonoBehaviour
         {
             StartTurn();
         }
-        PlayEnemyEffects();
+        PlayPlayerEffects();
     }
 
     public void ResetAll()
