@@ -481,19 +481,18 @@ public class Fight : MonoBehaviour
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
                 arboristeButton.interactable = true;
-                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine()); E.setMana(0); E.stockText.text = E.getMana().ToString(); isArboTransform = true; });
+                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.interactable = false; });
             }
             else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
             {
                 pretreButton.interactable = true;
-                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine()); E.setMana(0); E.stockText.text = E.getMana().ToString(); isPretreTransform = true; });
+                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isPretreTransform = true; pretreButton.interactable = false; });
             }
         }
         
 
         if (enemiesAtStartOfCombat.Count== 0)
         {
-            print("g reussi");
             enemiesAtStartOfCombat = enemies.ToList();
         }
         else
@@ -681,7 +680,8 @@ public class Fight : MonoBehaviour
             {
                 lightsAllies.Clear();
                 lightsEnnemies.Clear();
-                if(Gm.waveCounter == 12)
+                //Gm.waveCounter == 12
+                if (true)
                 {
                     WinFinalFight();
                 }
@@ -697,7 +697,7 @@ public class Fight : MonoBehaviour
     {
         foreach (hero h in heroes)
         {
-            for (int i = 0; i < h.MyEffects.Count; i++)
+            for (int i = 0; i < h?.MyEffects?.Count; i++)
             {
                 dataCard.CardEffect e = h.MyEffects[i];
                 if (e.nbTour != 0)
@@ -780,11 +780,15 @@ public class Fight : MonoBehaviour
         if (coroutine != null)
             StopCoroutine(coroutine);
 
-        if (isArboTransform || isPretreTransform)
+        if (isArboTransform)
         {
             isArboTransform = false;
+            StartCoroutine(Gm.deck.DetransfoCoroutine(true));
+        }
+        if (isPretreTransform)
+        {
             isPretreTransform = false;
-            StartCoroutine(Gm.deck.DetransfoCoroutine());
+            StartCoroutine(Gm.deck.DetransfoCoroutine(false));
         }
         else 
             StartCoroutine(Gm.deck.DiscardCoroutine(true));
@@ -980,10 +984,18 @@ public class Fight : MonoBehaviour
 
     public void WinFinalFight()
     {
+        StartCoroutine(realwin());
+    }
+    IEnumerator realwin()
+    {
         Debug.Log("WinFinalFight");
         StopCoroutine(coroutine);
         ResetAll();
-        SceneManager.LoadScene(0);
+        Gm.transi.Play("Transi");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(2);
+        Gm.transi.Play("Detransi");
+        
         FindObjectOfType<MapManager>().GenerateNewMap();
     }
 

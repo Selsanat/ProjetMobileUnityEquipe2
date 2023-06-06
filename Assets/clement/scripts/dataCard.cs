@@ -37,6 +37,8 @@ public class dataCard : ScriptableObject
     [SerializeField] bool m_isDeleteOnTurn;
     [SerializeField] public bool m_isUpsideDown;
     [SerializeField] bool m_isBonusCard;
+    [SerializeField] public bool m_isDruidCard;
+    [SerializeField] public bool m_isPriestCard;
 
     [SerializeField] string m_onCardExplain;
     [SerializeField] string m_FullCardExplain;

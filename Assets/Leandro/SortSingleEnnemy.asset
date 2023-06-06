@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_manaCost: 0
   m_value: 50
-  m_index: 4
+  m_index: 2
   nombreDexecutiion: 1
   m_cardTypes: 00000000
   m_cardEffects: []
@@ -23,8 +23,10 @@ MonoBehaviour:
   AOEAllies: 0
   AOEEnnemies: 0
   m_isDeleteOnTurn: 0
-  m_isUpsideDown: 1
+  m_isUpsideDown: 0
   m_isBonusCard: 0
+  m_isDruidCard: 0
+  m_isPriestCard: 1
   m_onCardExplain: 
   m_FullCardExplain: 
   m_cardFrontSprite: {fileID: 21300000, guid: 2b700880db84b9e498e1963d96764a47, type: 3}

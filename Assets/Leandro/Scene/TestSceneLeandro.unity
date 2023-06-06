@@ -469,7 +469,6 @@ MonoBehaviour:
   Description: {fileID: 94701495}
   Name: {fileID: 322324770}
   heroToAttack: []
-  MenuCarde: 0
 --- !u!61 &73723430
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2583,7 +2582,6 @@ MonoBehaviour:
   Description: {fileID: 222663810}
   Name: {fileID: 1821315647}
   heroToAttack: []
-  MenuCarde: 0
 --- !u!61 &304877188
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3545,7 +3543,6 @@ MonoBehaviour:
   Description: {fileID: 243538765}
   Name: {fileID: 629314499}
   heroToAttack: []
-  MenuCarde: 0
 --- !u!61 &542583533
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3817,7 +3814,6 @@ MonoBehaviour:
   Description: {fileID: 2046239931}
   Name: {fileID: 260918628}
   heroToAttack: []
-  MenuCarde: 0
 --- !u!61 &602804150
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4912,7 +4908,6 @@ MonoBehaviour:
   Description: {fileID: 36602976}
   Name: {fileID: 1639529686}
   heroToAttack: []
-  MenuCarde: 0
 --- !u!61 &662342345
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7712,7 +7707,6 @@ MonoBehaviour:
   Description: {fileID: 1096963642}
   Name: {fileID: 610396557}
   heroToAttack: []
-  MenuCarde: 0
 --- !u!61 &1110868717
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9302,7 +9296,6 @@ MonoBehaviour:
   Description: {fileID: 1851376154}
   Name: {fileID: 1609846462}
   heroToAttack: []
-  MenuCarde: 0
 --- !u!61 &1392341098
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10111,7 +10104,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510563776}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 740606080c0383943933ee13e5526e90, type: 3}
   m_Name: 
@@ -10128,7 +10121,6 @@ MonoBehaviour:
   Description: {fileID: 1113061613}
   Name: {fileID: 1059835934}
   heroToAttack: []
-  MenuCarde: 0
 --- !u!114 &1510563781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11775,7 +11767,6 @@ MonoBehaviour:
   Description: {fileID: 2125703423}
   Name: {fileID: 160450192}
   heroToAttack: []
-  MenuCarde: 0
 --- !u!61 &1788261186
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13931,7 +13922,6 @@ MonoBehaviour:
   Description: {fileID: 143649660}
   Name: {fileID: 624609481}
   heroToAttack: []
-  MenuCarde: 0
 --- !u!61 &2057291246
 BoxCollider2D:
   m_ObjectHideFlags: 0

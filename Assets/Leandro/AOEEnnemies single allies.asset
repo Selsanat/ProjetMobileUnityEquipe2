@@ -25,6 +25,8 @@ MonoBehaviour:
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 1
   m_isBonusCard: 0
+  m_isDruidCard: 1
+  m_isPriestCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
   m_cardFrontSprite: {fileID: 21300000, guid: 15ee1a845627a6449a09930644ee6223, type: 3}

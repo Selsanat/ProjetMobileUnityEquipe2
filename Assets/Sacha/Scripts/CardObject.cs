@@ -173,7 +173,6 @@ public class CardObject : MonoBehaviour
 
     void HideHandExceptThis()
     {
-        print("hey");
         foreach(CardObject Carte in gameManager.Hand)
         {
             Carte.gameObject.SetActive(false);

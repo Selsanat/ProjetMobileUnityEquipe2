@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 public class DissolveController : MonoBehaviour
 {
@@ -18,7 +20,15 @@ public class DissolveController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+        FindObjectOfType<DissolveControllerController>()?.dissolveControllers.Add(this);
+        FindObjectOfType<DissolveControllerController>()?.SpriteRenderers.Add(sprite);
         mat = GetComponent<SpriteRenderer>().material;
+        
+        if (FindObjectOfType<DissolveControllerController>()!=null)
+        {
+            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0);
+        }
     }
 
     // Update is called once per frame
