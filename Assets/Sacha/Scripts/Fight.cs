@@ -53,11 +53,11 @@ public class Fight : MonoBehaviour
     [SerializeField] Button ennemisButton3;
     [SerializeField] Button selectedButton;
     [SerializeField] Button endTurnButton;
-    [SerializeField] TextMeshProUGUI stockText;
+    [SerializeField] public TextMeshProUGUI stockText;
     [SerializeField] TextMeshProUGUI manaText;
 
     public int mana;
-    private int stock = 0;
+    public int stock = 0;
     public int nbTransfo = 0;
     [SerializeField] public List<hero> heroes;
     [SerializeField] public List<hero> enemies;
