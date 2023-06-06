@@ -134,6 +134,11 @@ public class dataCard : ScriptableObject
         GM.deck.DrawCard();
     }
 
+    public void AddCard(int value)
+    {
+        GM.deck.DrawCard(value);
+    }
+
     public void KeepCardInHand (CardObject cardToKeep)
     {
         cardToKeep.stayInHand = true;
@@ -174,11 +179,15 @@ public class dataCard : ScriptableObject
 
     public void HabemusDominum()
     {
+        //detecter l'attaque d'un enemy
+        //takeDamage(enemy, 6);
         throw new NotImplementedException();
     }
 
     public void DiabolusEst()
     {
+        //detecter l'attaque d'un enemy
+        //takeDamage(enemy, 12);
         throw new NotImplementedException();
     }
 
@@ -194,52 +203,85 @@ public class dataCard : ScriptableObject
 
     public void Conversion(hero hero)
     {
-        hero.setArmor(hero.getArmor()-1);
-        hero.setPv(hero.getPv() + 1);
+        while(hero.getArmor()>0)
+        {
+            if (hero.getPv() == hero.getMaxPv())
+                break;
+            hero.setArmor(hero.getArmor() - 1);
+            hero.setPv(hero.getPv() + 1);
+        }
     }
 
     public void Absolution(hero hero)
     {
-/*        foreach (hero enemy in GM.FM.Enemies)
-        {
-
-        }*/
         throw new NotImplementedException();
     }
 
     public void Benediction(hero ally, hero enemy)
     {
-        enemy.takeDamage(ally.getVenerate());
+        if (ally.getVenerate()>0)
+        {
+            enemy.takeDamage(ally.getVenerate());
+            AddCard();
+        }
     }
+
+    public void Apotasie()
+    {
+        throw new NotImplementedException();
+    }
+
     public void Tabernacle(hero ally) //appeler cette fonction à chaque fois que le joueur prend des degats
     {
         //int damageReceive = ...;
         //AddArmor(ally, damageReceive);
     }
 
-    public void Belial()
+    public void Belial(hero pretre)
     {
-        throw new NotImplementedException();
+        foreach (hero enemy in GM.FM.Enemies)
+        {
+            enemy.setPv(enemy.getPv() - 6);
+            if (enemy.getPv() <= 0)
+            {
+                enemy.setIsAlive(false);
+                heal(pretre, 3);
+                Venerate(pretre, 4);
+            }
+        }
+    }
+    public void VenererIdole(hero ally)
+    {
+        heal(ally, 3);
+        Venerate(ally, 2);
+    }
+    public void Blaspheme(hero ally)
+    {
+        foreach (hero enemy in GM.FM.Enemies)
+        {
+            Steal(enemy, ally, 5);
+        }
 
     }
-    public void VenererIdole()
+    public void AllumerCierges(hero pretre)
     {
-        throw new NotImplementedException();
-
-    }
-    public void Blaspheme()
-    {
-        throw new NotImplementedException();
-
-    }
-    public void AllumerCierges()
-    {
-        throw new NotImplementedException();
+        if (pretre.getVenerate() > 0)
+        {
+            AddCard(pretre.getVenerate());
+        }
 
     }
     public void IncendierCloatre()
     {
-        throw new NotImplementedException();
+        hero enemyWithMostPV = null;
+        foreach (hero enemy in GM.FM.Enemies)
+        {
+            if ((enemyWithMostPV == null) || (enemy.getPv() > enemyWithMostPV.getPv()))
+            {
+                enemyWithMostPV= enemy;
+            }
+        }
+        takeDamage(enemyWithMostPV, 15);
     }
     public void AccueillirNecessiteux()
     {
@@ -252,22 +294,22 @@ public class dataCard : ScriptableObject
         takeDamage(enemy, surplus * 3);
 
     }
-    public void MoxLion(hero arboriste)
+    public void MoxLion(hero ally)
     {
         if (GM.FM.mana > 0)
         {
-            AddArmor(arboriste, GM.FM.mana * 2);
+            AddArmor(ally, GM.FM.mana * 2);
             GM.FM.mana = 0;
             //prochain tour donne GM.FM.mana * 2
         }
 
     }
 
-    public void MoxAraignee(hero arboriste, hero enemy)
+    public void MoxAraignee(hero ally, hero enemy)
     {
         if (GM.FM.mana > 0)
         {
-            AddArmor(arboriste, GM.FM.mana * 2);
+            AddArmor(ally, GM.FM.mana * 2);
             takeDamage(enemy, GM.FM.mana * 2);
             GM.FM.mana = 0;
             //prochain tour donne GM.FM.mana * 2
@@ -288,7 +330,7 @@ public class dataCard : ScriptableObject
 
     public void Cataplasme(hero hero)
     {
-        heal(hero);
+        heal(hero,2);
         //enlever les malus
     }
 
@@ -297,8 +339,8 @@ public class dataCard : ScriptableObject
         if (enemy.getArmor() > 0)
         {
             enemy.setArmor(0);
-            takeDamage(enemy, 8);
         }
+        takeDamage(enemy, 8);
 
     }
 
@@ -318,19 +360,19 @@ public class dataCard : ScriptableObject
 
     }
 
-    public void ArmureEcorse()
+    public void ArmureEcorse(hero ally)
     {
-        throw new NotImplementedException();
-
+        AddArmor(ally, 7);
+        //ajouter 7 d'armure au prochain tour
     }
 
-    public void MaleusHerbeticae(hero arboriste)
+    public void MaleusHerbeticae(hero ally)
     {
         foreach (hero enemy in GM.FM.Enemies)
         {
             //poison
         }
-        AddArmor(arboriste, 7);
+        AddArmor(ally, 7);
     }
 
     public void CommunionNature()
@@ -344,13 +386,13 @@ public class dataCard : ScriptableObject
         throw new NotImplementedException();
 
     }
-    public void SuivreEtoiles(hero arboriste)
+    public void SuivreEtoiles(hero ally)
     {
-        Venerate(arboriste, 2);
+        Venerate(ally, 2);
         bool drawCard = false;
-        foreach (hero ally in GM.FM.Heroes)
+        foreach (hero hero in GM.FM.Heroes)
         {
-/*            if (ally.canTranscend)
+/*            if (hero.canTranscend)
             {
                 drawCard = true;
                 break;
@@ -377,9 +419,13 @@ public class dataCard : ScriptableObject
     }
     public void ReveillerPourManger(hero enemy, hero ally)
     {
-        takeDamage(enemy, 6);
-        heal(ally,6);
-        Venerate(ally,6);
+        enemy.setPv(enemy.getPv() - 6);
+        if (enemy.getPv() <= 0)
+        {
+            enemy.setIsAlive(false);
+            heal(ally,6);
+            Venerate(ally,6);
+        }
     }
 
     public static void DamageEffect(hero h, int value)
