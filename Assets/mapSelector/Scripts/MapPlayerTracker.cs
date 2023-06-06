@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86.Avx;
 
 namespace Map
 {
@@ -14,6 +16,7 @@ namespace Map
         public MapManager mapManager;
         public MapView view;
         public Campsite Camp;
+        public Tower Tower;
 
         public static MapPlayerTracker Instance;
 
@@ -25,6 +28,9 @@ namespace Map
             if (Camp == null)
                 Camp = GameObject.Find("Campsite").GetComponent<Campsite>();
             Camp.gameObject.SetActive(false);
+            if (Tower == null)
+                Tower = GameObject.Find("Tour").GetComponent<Tower>();
+            Tower.gameObject.SetActive(false);
         }
 
         public void SelectNode(MapNode mapNode)
@@ -66,10 +72,10 @@ namespace Map
             if (champSelection == null)
                 champSelection = GameObject.Find("buttonManagerHero").GetComponent<champSelector>();
 
-            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode, gameManager, champSelection, Camp));
+            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode, gameManager, champSelection, Camp,Tower));
         }
 
-        private static void EnterNode(MapNode mapNode, GameManager manager, champSelector champi, Campsite camp)
+        private static void EnterNode(MapNode mapNode, GameManager manager, champSelector champi, Campsite camp, Tower Tower)
         {
             // we have access to blueprint name here as well
             Debug.Log("Entering node: " + mapNode.Node.blueprintName + " of type: " + mapNode.Node.nodeType);
@@ -79,15 +85,13 @@ namespace Map
             switch (mapNode.Node.nodeType)
             {
                 case NodeType.MinorEnemy:
-                    GameObject.Find("OuterMapParent").SetActive(false);
-                    champi.setctive();
+                    Instance.transichamp();
                     break;
 
                 case NodeType.EliteEnemy:
                     break;
                 case NodeType.RestSite:
-                    GameObject.Find("OuterMapParent").SetActive(false);
-                    camp.gameObject.SetActive(true);
+                    Instance.transicampfire();
                     break;
                 case NodeType.Treasure:
                     break;
@@ -96,10 +100,51 @@ namespace Map
                 case NodeType.Boss:
                     break;
                 case NodeType.Mystery:
+                    Instance.transitower();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public IEnumerator  TransiChoixChamp()
+        {
+            GameManager gm = GameObject.FindObjectOfType<GameManager>();
+            gm.transi.Play("Transi");
+            yield return new WaitForSeconds(1.5f);
+           gm.transi.Play("Detransi");
+            GameObject.Find("OuterMapParent").SetActive(false);
+            champSelection.setctive();
+        }
+        public IEnumerator TransiTower()
+        {
+            GameManager gm = GameObject.FindObjectOfType<GameManager>();
+            gm.transi.Play("Transi");
+            yield return new WaitForSeconds(1.5f);
+            gm.transi.Play("Detransi");
+            GameObject.Find("OuterMapParent").SetActive(false);
+            Tower.gameObject.SetActive(true);
+        }
+        public IEnumerator TransiCampfire()
+        {
+            GameManager gm = GameObject.FindObjectOfType<GameManager>();
+            gm.transi.Play("Transi");
+            yield return new WaitForSeconds(1.5f);
+            gm.transi.Play("Detransi");
+            GameObject.Find("OuterMapParent").SetActive(false);
+            Camp.gameObject.SetActive(true);
+        }
+        public void transicampfire()
+        {
+            StartCoroutine(TransiCampfire());
+        }
+        public void transichamp()
+        {
+            StartCoroutine(TransiChoixChamp());
+        }
+        public void transitower()
+        {
+            StartCoroutine(TransiTower());
         }
 
         private void PlayWarningThatNodeCannotBeAccessed()

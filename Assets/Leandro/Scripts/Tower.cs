@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class Campsite : MonoBehaviour
+public class Tower : MonoBehaviour
 {
     [SerializeField] Light2D pretre;
     [SerializeField] Light2D druide;
@@ -22,27 +22,23 @@ public class Campsite : MonoBehaviour
         gameManager = GameObject.FindObjectOfType<GameManager>();
         druide.gameObject.SetActive(false);
         pretre.gameObject.SetActive(false);
-        inst = StartCoroutine(Ecrit("Choisissez un personnage a soigner"));
+        inst = StartCoroutine(Ecrit("Choisissez un personnage a Améliorer"));
     }
     public IEnumerator Soigne(bool isDruid)
     {
-        string str = "Le personnage a été soigné !(";
+        string str = "Le personnage a été amélioré !(LVL ";
         if (isDruid)
         {
-            gameManager.LifeArboriste += 25;
-            if (gameManager.LifeArboriste > 50)
-                gameManager.LifeArboriste = 50;
+            gameManager.levelArboriste++;
 
-            str += "" + gameManager.LifeArboriste;
+            str += "" + gameManager.levelArboriste;
         }
         else 
         {
-            gameManager.LifePretre += 25;
-            if (gameManager.LifePretre > 50)
-                gameManager.LifePretre = 50;
-            str += "" + gameManager.LifePretre;
+            gameManager.levelPretre++;
+            str += "" + gameManager.levelPretre;
         }
-        str += "PV) Cliquer pour continuer";
+        str += ") Cliquer pour continuer";
         if (inst != null)
         {
             StopCoroutine(inst);
@@ -117,7 +113,7 @@ public class Campsite : MonoBehaviour
             while (timeElapsed < TempsTransition)
             {
                 pretre.intensity = Mathf.Lerp(pretre.intensity, 0, Time.deltaTime * VitesseTranspo);
-                druide.intensity = Mathf.Lerp(druide.intensity, 25, Time.deltaTime * VitesseTranspo);
+                druide.intensity = Mathf.Lerp(druide.intensity, 5, Time.deltaTime * VitesseTranspo);
                 timeElapsed += Time.deltaTime;
                 yield return null;
             }
@@ -126,7 +122,7 @@ public class Campsite : MonoBehaviour
         {
             while (timeElapsed < TempsTransition)
             {
-                pretre.intensity = Mathf.Lerp(pretre.intensity, 25, Time.deltaTime * VitesseTranspo);
+                pretre.intensity = Mathf.Lerp(pretre.intensity, 5, Time.deltaTime * VitesseTranspo);
                 druide.intensity = Mathf.Lerp(druide.intensity, 0, Time.deltaTime * VitesseTranspo);
                 timeElapsed += Time.deltaTime;
                 yield return null;
@@ -135,11 +131,11 @@ public class Campsite : MonoBehaviour
         if (isDruid)
         {
             pretre.intensity = 0;
-            druide.intensity = 25;
+            druide.intensity = 5;
             pretre.gameObject.SetActive(false);
-            string str = "Soignez le druide ? (";
-            str += "" + gameManager.LifeArboriste;
-            str += "PV) Cliquer pour continuer. . .";
+            string str = "Eveiller le druide ? (LVL ";
+            str += "" + gameManager.levelArboriste;
+            str += ") Cliquer pour continuer. . .";
             if (inst != null)
             {
                 StopCoroutine(inst);
@@ -148,12 +144,12 @@ public class Campsite : MonoBehaviour
         }
         else
         {
-            pretre.intensity = 25;
+            pretre.intensity = 5;
             druide.intensity = 0;
             druide.gameObject.SetActive(false);
-            string str = "Soignez le pretre ? (";
-            str += "" + gameManager.LifePretre;
-            str += "PV) Cliquer pour continuer. . .";
+            string str = "Eveiller le pretre ? ( LVL";
+            str += "" + gameManager.levelPretre;
+            str += ") Cliquer pour continuer. . .";
             if (inst != null)
             {
                 StopCoroutine(inst);

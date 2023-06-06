@@ -50,7 +50,7 @@ public class hero : entityManager
         m_armor = 0;
         m_level = level;
         m_experience = experience;
-        m_experienceMax = experienceMax;
+        m_experienceMax = 4+(level*2);
         if(m_role == Role.Arboriste)
             m_manaMax = 6;
         else
@@ -121,7 +121,7 @@ public class hero : entityManager
     {
         m_level++;
         m_experience -= m_experienceMax;
-        m_experienceMax += 2;
+        //m_experienceMax += 2;
         if (this.m_role == Role.Arboriste)
         {
             gameManager.expArboriste = m_experience;

@@ -50,13 +50,8 @@ public class champSelector : MonoBehaviour
     {
         if(selectedArboriste || selectedPretre)
         {
-            Fight fight = FindObjectOfType<Fight>();
-            fight.perso1 = selectedArboriste;
-            fight.perso2 = selectedPretre;
-            buttonArboriste.gameObject.SetActive(false);
-            buttonPretre.gameObject.SetActive(false);
-            start.gameObject.SetActive(false);
-            SceneManager.LoadScene(1);
+            StartCoroutine(TransiLevel());
+
             
         }
         
@@ -69,5 +64,20 @@ public class champSelector : MonoBehaviour
         buttonPretre.gameObject.SetActive(true);
         start.gameObject.SetActive(true);
     }
+    IEnumerator TransiLevel()
+    {
+        gameManager.transi.Play("Transi");
+        yield return new WaitForSeconds(1.5f);
+        gameManager.transi.Play("Detransi");
+        Fight fight = FindObjectOfType<Fight>();
+        fight.perso1 = selectedArboriste;
+        fight.perso2 = selectedPretre;
+        buttonArboriste.gameObject.SetActive(false);
+        buttonPretre.gameObject.SetActive(false);
+        start.gameObject.SetActive(false);
+        SceneManager.LoadScene(1);
+    }
+
+
 
 }

@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public int waveCounter = 0;
     
     public bool isHoverButton = false;
+    public Animator transi;
 
     #region DataEnemys
     #region Arboriste
@@ -76,6 +77,7 @@ public class GameManager : MonoBehaviour
     #endregion
     private void Start()
     {
+        transi = transform.GetChild(0)?.gameObject.GetComponent<Animator>();
         FM = FindObjectOfType<Fight>();
         entityManager = FindObjectOfType<entityManager>();
         wave1();

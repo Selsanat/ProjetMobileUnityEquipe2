@@ -16,6 +16,7 @@ using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
+using DG.Tweening.Core.Easing;
 
 public class Fight : MonoBehaviour
 {
@@ -1156,9 +1157,15 @@ public class Fight : MonoBehaviour
         
         selectedcard = null;
         yield return new WaitUntil(() => Input.GetMouseButton(0));
-        SceneManager.LoadScene(0);
+        StartCoroutine(ChangeSceneAprèsCOmbat());
         test = false;
 
+    }
+    IEnumerator ChangeSceneAprèsCOmbat (){
+            Gm.transi.Play("Transi");
+            yield return new WaitForSeconds(1.5f);
+            Gm.transi.Play("Detransi");
+            SceneManager.LoadScene(0);
     }
     private void WinFight()
     {
