@@ -1210,11 +1210,11 @@ public class Fight : MonoBehaviour
         
         selectedcard = null;
         yield return new WaitUntil(() => Input.GetMouseButton(0));
-        StartCoroutine(ChangeSceneApr�sCOmbat());
+        StartCoroutine(ChangeSceneApresCOmbat());
         test = false;
 
     }
-    IEnumerator ChangeSceneApr�sCOmbat (){
+    IEnumerator ChangeSceneApresCOmbat (){
             Gm.transi.Play("Transi");
             yield return new WaitForSeconds(1.5f);
             Gm.transi.Play("Detransi");
