@@ -16,6 +16,8 @@ using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
+using Map;
+using DG.Tweening.Core.Easing;
 
 public class Fight : MonoBehaviour
 {
@@ -203,10 +205,19 @@ public class Fight : MonoBehaviour
         }
 
     }
-    void switchLightSelection(Button Boutton)
+    void switchLightSelection(Button Boutton, bool isChamp)
     {
-        Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(4).gameObject.GetComponent<Light2D>();
-        lightDuBoutton.enabled = true;
+        if(isChamp == false)
+        {
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(4).gameObject.GetComponent<Light2D>();
+            lightDuBoutton.enabled = true;
+        }
+        else
+        {
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(2).gameObject.GetComponent<Light2D>();
+            lightDuBoutton.enabled = true;
+        }
+        
     }
 
     public IEnumerator CardAnimDisolve()
@@ -354,6 +365,7 @@ public class Fight : MonoBehaviour
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            en1.setIsAlive(true);
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             GameObject.Find("enemy2").SetActive(false);
             GameObject.Find("enemy3").SetActive(false);
@@ -370,6 +382,8 @@ public class Fight : MonoBehaviour
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            en1.setIsAlive(true);
+
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
@@ -381,6 +395,8 @@ public class Fight : MonoBehaviour
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            En2.setIsAlive(true);
+
             ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
             GameObject.Find("enemy3").SetActive(false);
 
@@ -397,6 +413,8 @@ public class Fight : MonoBehaviour
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            en1.setIsAlive(true);
+
             ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
@@ -408,6 +426,8 @@ public class Fight : MonoBehaviour
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            En2.setIsAlive(true);
+
             ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
 
             En3 = Gm.allWave[Gm.waveCounter][waveType][2].SetEnemy();
@@ -420,6 +440,8 @@ public class Fight : MonoBehaviour
             En3.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En3.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En3.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            En3.setIsAlive(true);
+
             ChangerBouttonEnGameObject(ennemisButton3, En3.m_sprite, false);
         }
 
@@ -447,13 +469,14 @@ public class Fight : MonoBehaviour
 
         foreach (hero E in Gm.entityManager.getListHero())
         {
-            if (E.m_role == entityManager.Role.Pretre && E.getIsAlive() || E.m_role == entityManager.Role.Arboriste && E.getIsAlive())
+            if (E.m_role == entityManager.Role.Pretre || E.m_role == entityManager.Role.Arboriste )
             {
-                heroes.Add(E);
+                if(E.getIsAlive())
+                    heroes.Add(E);
             }
             else
             {
-                enemies.Add(E);
+                    enemies.Add(E);
             }
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
@@ -466,15 +489,27 @@ public class Fight : MonoBehaviour
                 pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine()); E.setMana(0); E.stockText.text = E.getMana().ToString(); isPretreTransform = true; });
             }
         }
-        foreach (hero En in enemies.ToList())
-        {
-            En.EnemyAttack(heroes, true);
-        }
+        
 
         if (enemiesAtStartOfCombat.Count== 0)
         {
             print("g reussi");
             enemiesAtStartOfCombat = enemies.ToList();
+        }
+        else
+        {
+            enemies.Clear();
+            foreach (hero En in enemiesAtStartOfCombat.ToList())
+            {
+                if (En.getIsAlive())
+                {
+                    enemies.Add(En);
+                }
+            }
+        }
+        foreach (hero En in enemiesAtStartOfCombat.ToList())
+        {
+            En.EnemyAttack(heroes, true);
         }
 
     }
@@ -499,7 +534,7 @@ public class Fight : MonoBehaviour
                 }*/
 
         //condition a voir en fonction des besoins
-        //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alliée qui cible pas d'ennemies, ou inversement.
+        //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alliï¿½e qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null;//&& selectedhero != null&& ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
         play.onClick.AddListener(() => { if(conditionjouer) StartCoroutine(CardAnimDisolve());});
@@ -512,38 +547,36 @@ public class Fight : MonoBehaviour
                 Deselection(false);
                 if (Gm.IsAnyProv) 
                 { 
-                    if(enemies[0].getIsProvocation()) 
+                    if(enemiesAtStartOfCombat[0].getIsProvocation()) 
                     { 
-                        selectedhero.Add(enemies[0]); 
-                        switchLightSelection(ennemisButton1); 
+                        selectedhero.Add(enemiesAtStartOfCombat[0]); 
+                        switchLightSelection(ennemisButton1, false); 
                     } 
-                } 
-                else 
+                    
+
+                }
+                else
                 { 
-                    selectedhero.Add(enemies[0]); 
-                    switchLightSelection(ennemisButton1);
+                    selectedhero.Add(enemiesAtStartOfCombat[0]); 
+                    switchLightSelection(ennemisButton1, false);
                 }
             });
 
-
-            //ennemisButton1.OnDeselect(clearCardSelected());
-
-
-            ennemisButton2?.onClick.AddListener(() => 
-            { 
+            ennemisButton2?.onClick.AddListener(() =>
+            {
                 ClearSide(false);
-                if (Gm.IsAnyProv) 
-                { 
-                    if (enemies[1].getIsProvocation()) 
-                    { 
-                        selectedhero.Add(enemiesAtStartOfCombat[1]); 
-                        switchLightSelection(ennemisButton2); 
-                    } 
-                } 
-                else 
-                { 
-                    selectedhero.Add(enemiesAtStartOfCombat[1]); 
-                    switchLightSelection(ennemisButton2); 
+                if (Gm.IsAnyProv)
+                {
+                    if (enemiesAtStartOfCombat[1].getIsProvocation())
+                    {
+                        selectedhero.Add(enemiesAtStartOfCombat[1]);
+                        switchLightSelection(ennemisButton2, false);
+                    }
+                }
+                else
+                {
+                    selectedhero.Add(enemiesAtStartOfCombat[1]);
+                    switchLightSelection(ennemisButton2, false);
                 }
             });
             ennemisButton3?.onClick.AddListener(() =>
@@ -551,18 +584,24 @@ public class Fight : MonoBehaviour
                 Deselection(false);
                 if (Gm.IsAnyProv)
                 {
-                    if (enemies[2].getIsProvocation())
+                    if (enemiesAtStartOfCombat[2].getIsProvocation())
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[2]);
-                        switchLightSelection(ennemisButton3);
+                        switchLightSelection(ennemisButton3, false);
                     }
                 }
                 else
                 {
                     selectedhero.Add(enemiesAtStartOfCombat[2]);
-                    switchLightSelection(ennemisButton3);
+                    switchLightSelection(ennemisButton3, false);
                 }
             });
+
+
+            //ennemisButton1.OnDeselect(clearCardSelected());
+
+
+
 
         }
         else
@@ -578,8 +617,8 @@ public class Fight : MonoBehaviour
         }
         if (!selectedcard.AOEAllies && selectedcard.TargetAllies)
         {
-            arboristeButton?.onClick.AddListener(() => { ClearSide(true); selectedhero.Add(heroes[0]); switchLightSelection(arboristeButton); });
-            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton); ClearSide(true); ; if (perso1 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); });
+            arboristeButton?.onClick.AddListener(() => { ClearSide(true); selectedhero.Add(heroes[0]); switchLightSelection(arboristeButton, true); });
+            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton, true); ClearSide(true); ; if (perso1 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); });
         }
         else
         {
@@ -605,47 +644,53 @@ public class Fight : MonoBehaviour
             Deselection(false);
             Gm.deck.PlayCard(selectedcard.m_index);
             isCardSend = false;
-            for (int i = 0; i < enemies.Count - 1; i++)
+            for (int i = 0; i < enemiesAtStartOfCombat.Count; i++)
             {
-                if(enemies[i].getPv() <= 0)
+                if(enemiesAtStartOfCombat[i].getPv() <= 0)
                 {
-                    if(i == 0)
+                    if(i == 0 && ennemisButton1?.IsActive() == true)
                     {
                         Debug.Log("ennemi 1 mort");
                         ennemisButton1?.onClick.RemoveAllListeners();
                         ennemisButton1?.gameObject.SetActive(false);
-                        enemies.RemoveAt(i);
+                        enemies.Remove(enemiesAtStartOfCombat[i]);
                     }
-                    else if (i == 1)
+                    else if (i == 1 && ennemisButton2?.IsActive() == true)
                     {
                         Debug.Log("ennemi 2 mort");
                         ennemisButton2?.onClick.RemoveAllListeners();
                         ennemisButton2?.gameObject.SetActive(false);
-                        enemies.RemoveAt(i);
+                        enemies.Remove(enemiesAtStartOfCombat[i]);
+
 
                     }
-                    else if (i == 2)
+                    else if (i == 2 && ennemisButton3?.IsActive() == true)
                     {
                         Debug.Log("ennemi 3 mort");
                         ennemisButton3?.onClick.RemoveAllListeners();
                         ennemisButton3?.gameObject.SetActive(false);
-                        enemies.RemoveAt(i);
+                        enemies.Remove(enemiesAtStartOfCombat[i]);
+
 
                     }
                 }
-                enemies[i].resetArmor();
+                enemiesAtStartOfCombat[i].resetArmor();
             }   
 
             if (!CheckifEnemyAreAlive())
             {
                 lightsAllies.Clear();
                 lightsEnnemies.Clear();
-                WinFight();
+                if(Gm.waveCounter == 12)
+                {
+                    WinFinalFight();
+                }
+                else
+                    WinFight();
             }
         }
-        PlayPlayerEffects();
+        PlayEnemyEffects();
         PlayEnemyTurn();
-
     }
 
     void PlayPlayerEffects() 
@@ -688,6 +733,7 @@ public class Fight : MonoBehaviour
                 }
             }
         }
+
     }
     private void PlayEnemyEffects()
     {
@@ -843,7 +889,7 @@ public class Fight : MonoBehaviour
     {
 
         
-        foreach (hero En in enemies.ToList())
+        foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
             En.EnemyAttack(heroes, false);
             if (!CheckifHeroAreAlive())
@@ -859,13 +905,14 @@ public class Fight : MonoBehaviour
                     {
                         arboristeButton?.onClick.RemoveAllListeners();
                         arboristeButton?.gameObject.SetActive(false);
-                        heroes.Remove(h);
+                        h.gameObject.SetActive(false);
                     }
                     else
                     {
                         pretreButton?.onClick.RemoveAllListeners();
                         pretreButton.gameObject.SetActive(false);
-                        heroes.Remove(h);
+                        h.gameObject.SetActive(false);
+
 
                     }
                 }
@@ -882,15 +929,62 @@ public class Fight : MonoBehaviour
         {
             StartTurn();
         }
-        PlayEnemyEffects();
+        PlayPlayerEffects();
     }
 
-
+    public void ResetAll()
+    {
+        Gm.Hand.Clear();
+        Gm.deck = null;
+        Gm.entityManager.getListHero().Clear();
+        ennemisButton1?.onClick.RemoveAllListeners();
+        ennemisButton2?.onClick.RemoveAllListeners();
+        ennemisButton3?.onClick.RemoveAllListeners();
+        arboristeButton?.onClick.RemoveAllListeners();
+        pretreButton?.onClick.RemoveAllListeners();
+        ennemisButton1 = null;
+        ennemisButton2 = null;
+        ennemisButton3 = null;
+        arboristeButton = null;
+        pretreButton = null;
+        stock = 0;
+        heroes.Clear();
+        enemies.Clear();
+        selectedhero.Clear();
+        enemiesAtStartOfCombat.Clear();
+        Gm.levelArboriste = 0;
+        Gm.levelPretre = 0;
+        Gm.expPretre = 0;
+        Gm.expArboriste = 0;
+        Gm.LifeArboriste = 50;
+        Gm.LifePretre = 50;
+        Gm.IsArboristePlayed = false;
+        Gm.IsPretrePlayed = false;
+        Gm.waveCounter = 0;
+        Gm.IsAnyProv = false;
+        Gm.CarteUtilisee = null;
+        Gm.CardsInteractable = true;
+        Gm.HasCardInHand = false;
+        Gm.debuffDraw = 0;
+        Gm.isHoverButton = false;
+    }
     private void LooseFight()
     {
         Debug.Log("Loosedfight");
         StopCoroutine(coroutine);
-        throw new NotImplementedException();
+        ResetAll();
+        SceneManager.LoadScene(0);
+        FindObjectOfType<MapManager>().GenerateNewMap();
+
+    }
+
+    public void WinFinalFight()
+    {
+        Debug.Log("WinFinalFight");
+        StopCoroutine(coroutine);
+        ResetAll();
+        SceneManager.LoadScene(0);
+        FindObjectOfType<MapManager>().GenerateNewMap();
     }
 
     IEnumerator XpLerp()
@@ -1019,17 +1113,20 @@ public class Fight : MonoBehaviour
                     }
 
                 }
+                Gm.deck.SlidersXp[2].maxValue = heroes[0].getexperienceMAX();
             }
             else
             {
                 if (lvlUpDruid)
                 {
                     Gm.deck.SlidersXp[0].value = 0;
+                    Gm.deck.SlidersXp[0].maxValue = heroes[0].getexperienceMAX();
 
                 }
                 if (lvlUpPriest)
                 {
                     Gm.deck.SlidersXp[1].value = 0;
+                    Gm.deck.SlidersXp[1].maxValue = heroes[1].getexperienceMAX();
                 }
 
             }
@@ -1109,17 +1206,26 @@ public class Fight : MonoBehaviour
         heroes.Clear();
         enemies.Clear();
         selectedhero.Clear();
+        enemiesAtStartOfCombat.Clear();
+        
         selectedcard = null;
-        test = false;
-        Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
         yield return new WaitUntil(() => Input.GetMouseButton(0));
-        SceneManager.LoadScene(0);
+        StartCoroutine(ChangeSceneApresCOmbat());
+        test = false;
+
+    }
+    IEnumerator ChangeSceneApresCOmbat (){
+            Gm.transi.Play("Transi");
+            yield return new WaitForSeconds(1.5f);
+            Gm.transi.Play("Detransi");
+            SceneManager.LoadScene(0);
     }
     private void WinFight()
     {
         StopCoroutine(coroutine);
         Gm.deck.AfficheSideUiXP(perso1 && perso2);
         Gm.deck.SetBonneBarreXp(heroes);
+        Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
         StartCoroutine(XpLerp());
 
 
@@ -1140,7 +1246,7 @@ public class Fight : MonoBehaviour
 
     public bool CheckifEnemyAreAlive()//TRUE = min ONE ALIVE
     {
-        foreach (hero En in enemies)
+        foreach (hero En in enemiesAtStartOfCombat)
         {
             if (En.getIsAlive())
             {
@@ -1148,7 +1254,7 @@ public class Fight : MonoBehaviour
             }
             else
             {
-                Gm.entityManager.heroList.Remove(En);
+                
                 selectedhero.Remove(En);
                 
             }
@@ -1170,7 +1276,7 @@ public class Fight : MonoBehaviour
                         foreach (hero hero in selected)
                         {
                             Debug.Log("card damage");
-                            card.takeDamage(hero);
+                            hero.takeDamage(card.m_value);
                         }
                         break;
                     case dataCard.CardType.Heal:
@@ -1224,13 +1330,13 @@ public class Fight : MonoBehaviour
 
                         }
                         break;
-                    case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
+                    case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis ï¿½ chaque tour il subit un point de moins
                         foreach (hero hero in selected)
                         {
                             //DONTDO
                         }
                         break;
-                    case dataCard.CardType.Steal://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Steal://inflige X degat et soigne X ï¿½ un autre personnage
                         foreach (hero hero in selected)
                         {
 
@@ -1251,38 +1357,6 @@ public class Fight : MonoBehaviour
     public void clearCardSelected()
     {
         selectedhero.Clear();
-    }
-
-    public void OnSelect(BaseEventData eventData)
-    {
-        if (eventData.selectedObject == ennemisButton1)
-        {
-            selectedButton = ennemisButton1;
-            selectedhero.Clear();
-            selectedhero.Add(enemies[0]);
-        }
-        else if (eventData.selectedObject == ennemisButton2)
-        {
-            selectedhero.Clear();
-            selectedhero.Add(enemies[1]);
-            selectedButton = ennemisButton2;
-        }
-        else if(eventData.selectedObject == arboristeButton)
-        {
-            selectedhero.Clear();
-            selectedhero.Add(heroes[0]);
-            selectedButton = arboristeButton;
-        }
-        else if(eventData.selectedObject == pretreButton)
-        {
-            selectedhero.Clear();
-            selectedhero.Add(heroes[1]);
-            selectedButton = pretreButton;
-        }
-        else
-        {
-            selectedButton = null;
-        }
     }
 
 }

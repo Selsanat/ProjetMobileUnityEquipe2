@@ -19,11 +19,9 @@ public class Campsite : MonoBehaviour
 
     private void Awake()
     {
-        gameManager = FindObjectOfType<GameManager>();
-        if (inst != null)
-        {
-            StopCoroutine(inst);
-        }
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+        druide.gameObject.SetActive(false);
+        pretre.gameObject.SetActive(false);
         inst = StartCoroutine(Ecrit("Choisissez un personnage a soigner"));
     }
     public IEnumerator Soigne(bool isDruid)
@@ -87,6 +85,7 @@ public class Campsite : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(1);
+        gameManager.transi.Play("Detransi");
         SceneManager.LoadScene(0);
 
     }

@@ -53,6 +53,8 @@ public class Deck : MonoBehaviour
     public List<CardObject> deck;
 
     private List<CardObject> playedCards;
+    Coroutine RestoreCardPos;
+    Coroutine RestoreCardRot;
 
 
     public List<Transform> cardSlots;
@@ -96,7 +98,7 @@ public class Deck : MonoBehaviour
             }
             else
             {
-                SlidersXp[2].maxValue = herolist[1].getexperienceMAX();
+                SlidersXp[2].maxValue = herolist[0].getexperienceMAX();
                 SlidersXp[2].value = gameManager.expPretre;
             }
             
@@ -233,7 +235,15 @@ public class Deck : MonoBehaviour
 
     public void RestoreCardPosition(bool hard)
     {
-        for(int i = 0; i < Hand.Count; i++)
+        if (RestoreCardPos != null)
+        {
+            StopCoroutine(RestoreCardPos);
+        }
+        if (RestoreCardRot != null)
+        {
+            StopCoroutine(RestoreCardRot);
+        }
+        for (int i = 0; i < Hand.Count; i++)
         {
             if (Hand[i] != gameManager?.CarteUtilisee)
             {
@@ -246,11 +256,11 @@ public class Deck : MonoBehaviour
                 {
                     if (Hand[i].gameObject.transform.position != cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].position)
                     {
-                        StartCoroutine(TransposeAtoB(Hand[i].gameObject, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].position));
+                        RestoreCardPos = StartCoroutine(TransposeAtoB(Hand[i].gameObject, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].position,2f));
                     }
                     if (Hand[i].gameObject.transform.rotation != cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].rotation)
                     {
-                        StartCoroutine(TransposeAtoBRotation(Hand[i].gameObject, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].rotation));
+                        RestoreCardRot = StartCoroutine(TransposeAtoBRotation(Hand[i].gameObject, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + i].rotation,2f));
                     }
                 }
             }
@@ -308,7 +318,7 @@ public class Deck : MonoBehaviour
         }
         gameManager.CarteUtilisee = null;
         rearangecardslots();
-        RestoreCardPosition(true);
+        /*RestoreCardPosition(true);*/
         ReorderZCards();
         gameManager.Hand = Hand;
         CancelChosenCard(true);
@@ -353,6 +363,7 @@ public class Deck : MonoBehaviour
                         ShuffleGraveyardToHand();
                     }
                     gameManager.Hand = Hand;
+
                     rearangecardslots();
                     RestoreCardPosition(false);
                     ReorderZCards();
@@ -526,27 +537,27 @@ public class Deck : MonoBehaviour
 
     }
 
-    public IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
+    public IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position, float vitesse = 1f)
     {
         float TempsTransition = TempsTrans;
         float timeElapsed = 0;
         while (timeElapsed< TempsTransition)
         {
-            objetABouger.transform.position = Vector3.Lerp(objetABouger.transform.position, position, Time.deltaTime * VitesseTranspo);
-            timeElapsed += Time.deltaTime;
+            objetABouger.transform.position = Vector3.Lerp(objetABouger.transform.position, position, Time.deltaTime * VitesseTranspo*vitesse);
+            timeElapsed += Time.deltaTime*vitesse;
             yield return null;
         }
         objetABouger.transform.position = position;
 
     }
-    public IEnumerator TransposeAtoBRotation(GameObject objetABouger, Quaternion position)
+    public IEnumerator TransposeAtoBRotation(GameObject objetABouger, Quaternion position, float vitesse = 1f)
     {
         float TempsTransition = TempsTrans;
         float timeElapsed = 0;
         while (timeElapsed < TempsTransition)
         {
-            objetABouger.transform.rotation = Quaternion.Lerp(objetABouger.transform.rotation, position, Time.deltaTime * VitesseTranspo);
-            timeElapsed += Time.deltaTime;
+            objetABouger.transform.rotation = Quaternion.Lerp(objetABouger.transform.rotation, position, Time.deltaTime * VitesseTranspo*vitesse);
+            timeElapsed += Time.deltaTime*vitesse;
             yield return null;
         }
         objetABouger.transform.rotation = position;
