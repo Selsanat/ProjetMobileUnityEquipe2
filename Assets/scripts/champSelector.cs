@@ -23,7 +23,9 @@ public class champSelector : MonoBehaviour
     public TextMeshProUGUI ArboLife;
     public TextMeshProUGUI PretreLife;
 
-
+    public Sprite en1;
+    public Sprite en2;
+    public Sprite en3;
     public void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -66,6 +68,7 @@ public class champSelector : MonoBehaviour
 
     public void setctive()
     {
+        int enCount = 0;
         foreach (GameObject go in objects)
         {
             go.SetActive(true);
@@ -83,6 +86,11 @@ public class champSelector : MonoBehaviour
                 slider.value = gameManager.levelPretre;
                 PretreLife.text = "PV : " + gameManager.LifePretre.ToString() + "\nNiveau :" + gameManager.levelPretre;
             }
+            if (go.CompareTag("enemy"))
+            {
+                
+            }
+            
 
         }
 /*        buttonArboriste.gameObject.SetActive(true);
