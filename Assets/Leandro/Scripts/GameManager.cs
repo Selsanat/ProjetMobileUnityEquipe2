@@ -26,7 +26,9 @@ public class GameManager : MonoBehaviour
     public int debuffDraw = 0;
     public bool IsAnyProv = false;
     public int waveCounter = 0;
-    
+    public bool isManaMultiplier = false;
+    public int manaMultiplier = 2;
+    public bool isAbsolution = false;
     public bool isHoverButton = false;
     public Animator transi;
 

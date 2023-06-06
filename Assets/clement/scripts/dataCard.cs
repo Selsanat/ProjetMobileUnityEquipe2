@@ -21,7 +21,7 @@ public class dataCard : ScriptableObject
     [SerializeField] public int m_value;
     [SerializeField] public int m_index; //index de la carte dans la liste
     [SerializeField] public int nombreDexecutiion = 1; //nb de fois que la cartee s'execute
-    [SerializeField] List<CardType> m_cardTypes;
+    [SerializeField] CardType m_cardTypes;
 
     [SerializeField] List<CardEffect> m_cardEffects;
 
@@ -52,7 +52,7 @@ public class dataCard : ScriptableObject
     private GameManager GM;
 
     public Sprite CardSprite { get => m_cardFrontSprite; private set => m_cardFrontSprite = value; }
-    public List<CardType> CardTypes { get => m_cardTypes; set => m_cardTypes = value; }
+    public CardType CardTypes { get => m_cardTypes; set => m_cardTypes = value; }
     public List<CardEffect> CardEffects { get => m_cardEffects; set => m_cardEffects = value; }
 
     void Start ()
@@ -77,6 +77,17 @@ public class dataCard : ScriptableObject
         hero.setPv(currentPv);
         if (currentPv < currentMaxPv)
             hero.setPv(currentMaxPv);
+        if(GM.isAbsolution)
+        {
+            foreach (hero enemy in GM.FM.enemiesAtStartOfCombat)
+            {
+                if(enemy.getIsAlive())
+                {
+                    takeDamage(enemy, m_value);
+                }
+            }
+
+        }
 
     }
 
@@ -85,43 +96,113 @@ public class dataCard : ScriptableObject
         hero.setPv(hero.getPv() + value);
         if (hero.getPv() < hero.getMaxPv())
             hero.setPv(hero.getMaxPv());
+        if (GM.isAbsolution)
+        {
+            foreach (hero enemy in GM.FM.enemiesAtStartOfCombat)
+            {
+                if (enemy.getIsAlive())
+                {
+                    takeDamage(enemy, value);
+                }
+            }
+
+        }
     }
 
     public void takeDamage(hero hero) 
     {
-        Debug.Log("Pv avant : " + hero.getPv());
-        int currentPv = hero.getPv();
-        currentPv -= m_value;
-        hero.setPv(currentPv);
-        Debug.Log("Pv apres : " + hero.getPv());
-
-        if (currentPv <= 0)
+        if (hero.m_isDebufArmor)
         {
-            hero.setIsAlive(false);
+            hero.m_armor /= 2;
+            hero.m_isDebufArmor = false;
         }
+        m_value -= hero.m_armor;
+        if (m_value >= 0)
+            hero.m_armor = 0;
+        else
+            m_value = 0;
+
+        hero.m_Pv -= m_value * hero.m_damageMultiplier;
+        hero.m_slider.value = hero.m_Pv;
+        Debug.Log("Pv apres: " + hero.m_Pv + " " + hero.m_role);
+        if (hero.m_Pv <= 0)
+        {
+            hero.isAlive = false;
+        }
+
         hero.setVarHero();
     }
 
     public void takeDamage(hero hero, int value)
     {
-        Debug.Log("Pv avant : " + hero.getPv());
-        hero.setPv(hero.getPv()+value);
-        Debug.Log("Pv apres : " + hero.getPv());
-
-        if (hero.getPv() <= 0)
+        if (hero.m_isDebufArmor)
         {
-            hero.setIsAlive(false);
+            hero.m_armor /= 2;
+            hero.m_isDebufArmor = false;
         }
+        value -= hero.m_armor;
+        if (value >= 0)
+            hero.m_armor = 0;
+        else
+            value = 0;
+
+        hero.m_Pv -= value * hero.m_damageMultiplier;
+        hero.m_slider.value = hero.m_Pv;
+        Debug.Log("Pv apres: " + hero.m_Pv + " " + hero.m_role);
+        if (hero.m_Pv <= 0)
+        {
+            if(GM.FM.isCanibalisme)
+            {
+                Venerate(hero, 3);
+                heal(hero, 3);
+            }
+            if(GM.FM.isProf)
+            {
+                foreach(hero champ in GM.FM.heroes)
+                {
+                    champ.m_manaMax = 1;
+                    if(champ.m_mana > 1)
+                    {
+                        champ.m_mana = 1;
+                        champ.stockText.text = champ.m_mana.ToString() + " / " + champ.m_manaMax;
+                    }
+                }
+            }
+            hero.isAlive = false;
+        }
+
         hero.setVarHero();
     }
 
     public void AddArmor(hero hero)
     {
         hero.setArmor(m_value);
+        if (GM.isAbsolution)
+        {
+            foreach (hero enemy in GM.FM.enemiesAtStartOfCombat)
+            {
+                if (enemy.getIsAlive())
+                {
+                    takeDamage(enemy, m_value);
+                }
+            }
+
+        }
     }
     public void AddArmor(hero hero, int value)
     {
         hero.setArmor(value);
+        if (GM.isAbsolution)
+        {
+            foreach (hero enemy in GM.FM.enemiesAtStartOfCombat)
+            {
+                if (enemy.getIsAlive())
+                {
+                    takeDamage(enemy, value);
+                }
+            }
+
+        }
     }
 
     public void AddMana(int value)
@@ -177,21 +258,20 @@ public class dataCard : ScriptableObject
         return surplusToReturn;
     }
 
-    public void HabemusDominum()
+    public void HabemusDominum(hero enemy)
     {
         //detecter l'attaque d'un enemy
-        //takeDamage(enemy, 6);
-        throw new NotImplementedException();
+        takeDamage(enemy, 6);
     }
 
-    public void DiabolusEst()
+    public void DiabolusEst(hero enemy)
     {
         //detecter l'attaque d'un enemy
-        //takeDamage(enemy, 12);
-        throw new NotImplementedException();
+
+        takeDamage(enemy, 12);
     }
 
-    public void CultiverAme()
+    public void CultiverAme(dataCard data)
     {
         throw new NotImplementedException();
     }
@@ -212,9 +292,9 @@ public class dataCard : ScriptableObject
         }
     }
 
-    public void Absolution(hero hero)
+    public void Absolution()
     {
-        throw new NotImplementedException();
+        GM.isAbsolution = true;
     }
 
     public void Benediction(hero ally, hero enemy)
@@ -228,25 +308,35 @@ public class dataCard : ScriptableObject
 
     public void Apotasie()
     {
-        throw new NotImplementedException();
+        foreach (hero enemy in GM.FM.enemiesAtStartOfCombat)
+        {
+            if (enemy.getIsAlive())
+            {
+                takeDamage(enemy, 4);
+            }
+        }
+        GM.FM.isApo = true;
     }
 
     public void Tabernacle(hero ally) //appeler cette fonction à chaque fois que le joueur prend des degats
     {
-        //int damageReceive = ...;
-        //AddArmor(ally, damageReceive);
+        AddArmor(ally, ally.m_dmgTaken);
+        
     }
 
     public void Belial(hero pretre)
     {
-        foreach (hero enemy in GM.FM.Enemies)
+        foreach (hero enemy in GM.FM.enemiesAtStartOfCombat)
         {
-            enemy.setPv(enemy.getPv() - 6);
-            if (enemy.getPv() <= 0)
+            if (enemy.getIsAlive())
             {
-                enemy.setIsAlive(false);
-                heal(pretre, 3);
-                Venerate(pretre, 4);
+                enemy.setPv(enemy.getPv() - 6);
+                if (enemy.getPv() <= 0)
+                {
+                    enemy.setIsAlive(false);
+                    heal(pretre, 3);
+                    Venerate(pretre, 4);
+                }
             }
         }
     }
@@ -257,9 +347,12 @@ public class dataCard : ScriptableObject
     }
     public void Blaspheme(hero ally)
     {
-        foreach (hero enemy in GM.FM.Enemies)
+        foreach (hero enemy in GM.FM.enemiesAtStartOfCombat)
         {
-            Steal(enemy, ally, 5);
+            if (enemy.getIsAlive())
+            {
+                Steal(enemy, ally, 5);
+            }
         }
 
     }
@@ -274,19 +367,30 @@ public class dataCard : ScriptableObject
     public void IncendierCloatre()
     {
         hero enemyWithMostPV = null;
-        foreach (hero enemy in GM.FM.Enemies)
+        foreach (hero enemy in GM.FM.enemiesAtStartOfCombat)
         {
-            if ((enemyWithMostPV == null) || (enemy.getPv() > enemyWithMostPV.getPv()))
+            if (enemy.getIsAlive())
             {
-                enemyWithMostPV= enemy;
+                if ((enemyWithMostPV == null) || (enemy.getPv() > enemyWithMostPV.getPv()))
+                {
+                    enemyWithMostPV = enemy;
+                }
             }
+                
         }
         takeDamage(enemyWithMostPV, 15);
     }
-    public void AccueillirNecessiteux()
+    public void AccueillirNecessiteux(hero hero )
     {
-        throw new NotImplementedException();
-
+        int nb = 0;
+        foreach (hero enemies in GM.FM.enemiesAtStartOfCombat)
+        {
+            if (enemies.getIsAlive() && enemies.m_IsAttacking)
+            {
+                nb++;
+            }
+        }
+        AddArmor(hero, nb);
     }
     public void MassacrerInfideles(hero ally, hero enemy)
     {
@@ -300,7 +404,7 @@ public class dataCard : ScriptableObject
         {
             AddArmor(ally, GM.FM.mana * 2);
             GM.FM.mana = 0;
-            //prochain tour donne GM.FM.mana * 2
+            GM.isManaMultiplier = true;
         }
 
     }
@@ -312,26 +416,55 @@ public class dataCard : ScriptableObject
             AddArmor(ally, GM.FM.mana * 2);
             takeDamage(enemy, GM.FM.mana * 2);
             GM.FM.mana = 0;
-            //prochain tour donne GM.FM.mana * 2
+            GM.isManaMultiplier = true;
+
         }
     }
 
-    public void MurDeRonces()
+    public void MurDeRonces(hero hero)//ajouté le poison
     {
-        throw new NotImplementedException();
+        int nb = 0;
+        CardEffect card = new CardEffect();
+        card.nbTour = 2;
+        card.effects = CardType.Poison;
+        card.values = 2;
+        foreach (hero enemies in GM.FM.enemiesAtStartOfCombat)
+        {
+            if (enemies.getIsAlive() && enemies.m_IsAttacking)
+            {
+                nb++;
+                enemies.MyEffects.Add(card);
+            }
+        }
+        AddArmor(hero, nb * 6);
 
     }
 
-    public void LaissePourMort()
+    public void LaissePourMort()//ajouté le poison
     {
-        throw new NotImplementedException();
+        CardEffect card = new CardEffect();
+        card.nbTour = 2;
+        card.effects = CardType.Poison;
+        card.values = 6;
+        foreach (hero enemies in GM.FM.enemiesAtStartOfCombat)
+        {
+            if (enemies.getIsAlive() && enemies.m_IsAttacking)
+            {
+
+                enemies.MyEffects.Add(card);
+
+            }
+        }
 
     }
 
     public void Cataplasme(hero hero)
     {
         heal(hero,2);
-        //enlever les malus
+        GM.debuffDraw = 0;
+        hero.m_isDebufArmor = false;
+        hero.m_damageMultiplier = 1;
+        hero.isAntiHeal = false;
     }
 
     public void Belladone(hero enemy)
@@ -356,58 +489,77 @@ public class dataCard : ScriptableObject
 
     public void RepandreMort()
     {
-        throw new NotImplementedException();
+        CardEffect card = new CardEffect();
+        card.nbTour = 2;
+        card.effects = CardType.Poison;
+        card.values = 5;
+        for (int i = 0; i < GM.FM.nbTransfo; i++)
+        {
+            foreach (hero enemies in GM.FM.enemiesAtStartOfCombat)
+            {
+                if (enemies.getIsAlive())
+                {
+                    enemies.MyEffects.Add(card);
+                }
+            }
+        }
+        
+        
 
     }
 
     public void ArmureEcorse(hero ally)
     {
         AddArmor(ally, 7);
-        //ajouter 7 d'armure au prochain tour
+        ally.m_nextArmor = 7;
     }
 
-    public void MaleusHerbeticae(hero ally)
+    public void MaleusHerbeticae(hero ally)//poison
     {
-        foreach (hero enemy in GM.FM.Enemies)
+        CardEffect card = new CardEffect();
+        card.nbTour = 2;
+        card.effects = CardType.Poison;
+        card.values = 4;
+        foreach (hero enemy in GM.FM.enemiesAtStartOfCombat)
         {
-            //poison
+            if (enemy.getIsAlive())
+            {
+                enemy.MyEffects.Add(card);
+            }
         }
         AddArmor(ally, 7);
     }
 
-    public void CommunionNature()
+    public void CommunionNature(hero hero)
     {
-        throw new NotImplementedException();
+        Venerate(hero, 3);
 
     }
 
     public void Canibalisme()
     {
-        throw new NotImplementedException();
+        GM.FM.isCanibalisme = true;
 
     }
     public void SuivreEtoiles(hero ally)
     {
         Venerate(ally, 2);
-        bool drawCard = false;
-        foreach (hero hero in GM.FM.Heroes)
+        foreach (hero hero in GM.FM.heroes)
         {
-/*            if (hero.canTranscend)
-            {
-                drawCard = true;
-                break;
-            }*/
+           if (hero.getMana() == hero.m_manaMax)
+           {
+                AddCard(2);
+                return;
+
+           }
         }
-        if (drawCard)
-        {
-            AddCard();
-        }
+
 
 
     }
     public void ProfanerCiel()
     {
-        throw new NotImplementedException();
+        GM.FM.isProf = true;
 
     }
     public void DormirPresDeLautre(hero ally, hero arboriste)
@@ -449,8 +601,8 @@ public class dataCard : ScriptableObject
     public struct CardEffect
     {
 
-        [SerializeField] public List<CardType> effects;
-        [SerializeField] public List<int> values;
+        [SerializeField] public CardType effects;
+        [SerializeField] public int values;
         [SerializeField] public int nbTour;
         [SerializeField] public bool nextTour; //l'effet se fait sur le tour suivant
         [SerializeField] public bool KeepCard;

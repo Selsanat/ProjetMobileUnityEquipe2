@@ -30,23 +30,26 @@ public class entityManager : MonoBehaviour
     }
 
     [SerializeField] public Role m_role;
-    [SerializeField] protected int m_maxPv;
-    [SerializeField] protected int m_Pv;
-    [SerializeField] protected int m_attack;
-    [SerializeField] protected int m_speed;
-    [SerializeField] protected int m_buff;
-    [SerializeField] protected int m_nerf;
-    [SerializeField] protected int m_armor;
-    [SerializeField] protected int m_experience;
-    [SerializeField] protected int m_level;
-    [SerializeField] protected int m_experienceMax = 4;
-    [SerializeField] protected bool m_isDebufArmor = false;
-    [SerializeField] protected bool isAlive = true;
-    [SerializeField] protected bool isAntiHeal = false;
-    [SerializeField] protected bool isProvocation = false;
-    [SerializeField] protected int m_damageMultiplier = 1;
-    [SerializeField] protected int m_mana;
+    [SerializeField] public int m_maxPv;
+    [SerializeField] public int m_Pv;
+    [SerializeField] public int m_attack;
+    [SerializeField] public int m_speed;
+    [SerializeField] public int m_buff;
+    [SerializeField] public int m_nerf;
+    [SerializeField] public int m_armor;
+    [SerializeField] public int m_experience;
+    [SerializeField] public int m_level;
+    [SerializeField] public bool m_IsAttacking = false;
+    [SerializeField] public int m_experienceMax = 4;
+    [SerializeField] public bool m_isDebufArmor = false;
+    [SerializeField] public bool isAlive = true;
+    [SerializeField] public bool isAntiHeal = false;
+    [SerializeField] public bool isProvocation = false;
+    [SerializeField] public int m_damageMultiplier = 1;
+    [SerializeField] public int m_mana;
+    [SerializeField] public int m_nextArmor = 0;
     [SerializeField] public int m_manaMax;
+    [SerializeField] public int m_dmgTaken = 0;
     [SerializeField] public bool isFull;
     [SerializeField] public int randomAttack;
     [SerializeField] public hero randomHero;
@@ -87,15 +90,16 @@ public class entityManager : MonoBehaviour
         
         m_Pv -= damage * m_damageMultiplier;
         m_slider.value = m_Pv;
+        this.m_dmgTaken += damage * m_damageMultiplier;
         Debug.Log("Pv apres: " + m_Pv +" " +m_role);
         if (m_Pv <= 0)
         {
             isAlive = false;
         }
-
         if(m_role == Role.Arboriste)
         {
             gameManager.LifeArboriste = m_Pv;
+            
         }
         else if(m_role == Role.Pretre)
         {
