@@ -45,10 +45,13 @@ public class dataCard : ScriptableObject
     [SerializeField] string m_FullCardExplain;
 
     [Header("looking")]
-    [SerializeField] public Sprite m_cardFrontSprite;
-    [SerializeField] public Sprite m_cardBackSprite;
     [SerializeField] public String Description;
     [SerializeField] public String Name;
+    [SerializeField] public Sprite m_cardFrontSprite;
+    [SerializeField] public String BackDescription;
+    [SerializeField] public String BackName;
+    [SerializeField] public Sprite m_cardBackSprite;
+
 
     private GameManager GM;
 
