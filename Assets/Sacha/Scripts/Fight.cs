@@ -16,6 +16,7 @@ using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
+using Map;
 using DG.Tweening.Core.Easing;
 
 public class Fight : MonoBehaviour
@@ -533,7 +534,7 @@ public class Fight : MonoBehaviour
                 }*/
 
         //condition a voir en fonction des besoins
-        //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alliée qui cible pas d'ennemies, ou inversement.
+        //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alliï¿½e qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null;//&& selectedhero != null&& ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
         play.onClick.AddListener(() => { if(conditionjouer) StartCoroutine(CardAnimDisolve());});
@@ -680,7 +681,12 @@ public class Fight : MonoBehaviour
             {
                 lightsAllies.Clear();
                 lightsEnnemies.Clear();
-                WinFight();
+                if(Gm.waveCounter == 12)
+                {
+                    WinFinalFight();
+                }
+                else
+                    WinFight();
             }
         }
         PlayPlayerEffects();
@@ -926,12 +932,59 @@ public class Fight : MonoBehaviour
         PlayEnemyEffects();
     }
 
-
+    public void ResetAll()
+    {
+        Gm.Hand.Clear();
+        Gm.deck = null;
+        Gm.entityManager.getListHero().Clear();
+        ennemisButton1?.onClick.RemoveAllListeners();
+        ennemisButton2?.onClick.RemoveAllListeners();
+        ennemisButton3?.onClick.RemoveAllListeners();
+        arboristeButton?.onClick.RemoveAllListeners();
+        pretreButton?.onClick.RemoveAllListeners();
+        ennemisButton1 = null;
+        ennemisButton2 = null;
+        ennemisButton3 = null;
+        arboristeButton = null;
+        pretreButton = null;
+        stock = 0;
+        heroes.Clear();
+        enemies.Clear();
+        selectedhero.Clear();
+        enemiesAtStartOfCombat.Clear();
+        Gm.levelArboriste = 0;
+        Gm.levelPretre = 0;
+        Gm.expPretre = 0;
+        Gm.expArboriste = 0;
+        Gm.LifeArboriste = 50;
+        Gm.LifePretre = 50;
+        Gm.IsArboristePlayed = false;
+        Gm.IsPretrePlayed = false;
+        Gm.waveCounter = 0;
+        Gm.IsAnyProv = false;
+        Gm.CarteUtilisee = null;
+        Gm.CardsInteractable = true;
+        Gm.HasCardInHand = false;
+        Gm.debuffDraw = 0;
+        Gm.isHoverButton = false;
+    }
     private void LooseFight()
     {
         Debug.Log("Loosedfight");
         StopCoroutine(coroutine);
-        throw new NotImplementedException();
+        ResetAll();
+        SceneManager.LoadScene(0);
+        FindObjectOfType<MapManager>().GenerateNewMap();
+
+    }
+
+    public void WinFinalFight()
+    {
+        Debug.Log("WinFinalFight");
+        StopCoroutine(coroutine);
+        ResetAll();
+        SceneManager.LoadScene(0);
+        FindObjectOfType<MapManager>().GenerateNewMap();
     }
 
     IEnumerator XpLerp()
@@ -1157,11 +1210,11 @@ public class Fight : MonoBehaviour
         
         selectedcard = null;
         yield return new WaitUntil(() => Input.GetMouseButton(0));
-        StartCoroutine(ChangeSceneAprèsCOmbat());
+        StartCoroutine(ChangeSceneAprï¿½sCOmbat());
         test = false;
 
     }
-    IEnumerator ChangeSceneAprèsCOmbat (){
+    IEnumerator ChangeSceneAprï¿½sCOmbat (){
             Gm.transi.Play("Transi");
             yield return new WaitForSeconds(1.5f);
             Gm.transi.Play("Detransi");
@@ -1277,13 +1330,13 @@ public class Fight : MonoBehaviour
 
                         }
                         break;
-                    case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis à chaque tour il subit un point de moins
+                    case dataCard.CardType.Poison://le personnage recoit les degats du poison avant de jouer puis ï¿½ chaque tour il subit un point de moins
                         foreach (hero hero in selected)
                         {
                             //DONTDO
                         }
                         break;
-                    case dataCard.CardType.Steal://inflige X degat et soigne X à un autre personnage
+                    case dataCard.CardType.Steal://inflige X degat et soigne X ï¿½ un autre personnage
                         foreach (hero hero in selected)
                         {
 
