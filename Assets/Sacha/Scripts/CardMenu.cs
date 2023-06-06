@@ -24,8 +24,12 @@ public class CardMenu : MonoBehaviour
     public float speed = 0.02f;
 
     public float timeToStart = 0;
+
+    DissolveController dissolve;
+
     private void Start()
     {
+        dissolve = GetComponent<DissolveController>();
         StartPos = transform.position;
         hitBox2D = GetComponent<BoxCollider2D>();
     }
@@ -50,7 +54,8 @@ public class CardMenu : MonoBehaviour
 
     IEnumerator gocard()
     {
-        yield return new WaitForSeconds(timeToStart);
+        dissolve.isDissolving = true;
+        yield return new WaitUntil(() => dissolve.dissolveAmount < 0);
         MouseUpEvent.Invoke();
     }
 
