@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/levelSelector.unity
+    guid: 9a768f687b7bfa146bdcf433bedea731
+  - enabled: 1
+    path: Assets/Leandro/Scene/TestSceneLeandro.unity
+    guid: 74a185201a6e63e4e83e650c713c8025
   m_configObjects: {}
