@@ -32,5 +32,5 @@ MonoBehaviour:
     ce mana."
   Name: Le mox du lion
   m_cardFrontSprite: {fileID: 21300000, guid: ff25ae0c198e9af4ea8ff335ebf12a8a, type: 3}
-  m_cardBackSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 21300000, guid: e449d784bc9fa7c4da6d18bf5b198f79, type: 3}
   BackCard: {fileID: 11400000, guid: f91c3884f05fc034ea3c91c5a8102862, type: 2}

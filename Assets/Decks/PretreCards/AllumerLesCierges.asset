@@ -32,5 +32,5 @@ MonoBehaviour:
     par le pr\xEAtre"
   Name: Allumer les cierges
   m_cardFrontSprite: {fileID: 21300000, guid: 580c5cab68893c14ea7e795464caefa4, type: 3}
-  m_cardBackSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 21300000, guid: 9ab7f58fe3ce0df4abcd80aabbbcad56, type: 3}
   BackCard: {fileID: 11400000, guid: bc716c426d63bc34aa0fb20abb7fe921, type: 2}

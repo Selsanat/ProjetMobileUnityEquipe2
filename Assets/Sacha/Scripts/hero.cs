@@ -238,6 +238,11 @@ public class hero : entityManager
         }
     }
     #endregion
+
+    public void addEffect(dataCard.CardEffect card)
+    {
+        MyEffects.Add(card);
+    }
     public void setVarHero()
     {
         if (m_role == Role.Arboriste)

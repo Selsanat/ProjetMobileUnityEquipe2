@@ -32,5 +32,5 @@ MonoBehaviour:
     \xE0 tout les monstres"
   Name: Absolution
   m_cardFrontSprite: {fileID: 21300000, guid: 4955ad69ef499e6419bc3873cbca6c4b, type: 3}
-  m_cardBackSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 21300000, guid: 6194c8bd44e1eba449dfcf6136839778, type: 3}
   BackCard: {fileID: 0}
