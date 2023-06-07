@@ -396,7 +396,7 @@ public class Fight : MonoBehaviour
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.setIsAlive(true);
-            ChangerBouttonEnGameObject(ennemisButton1, EnPrefabs[0], false);
+            ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false);
             GameObject.Find("enemy2").SetActive(false);
             GameObject.Find("enemy3").SetActive(false);
         }
@@ -414,7 +414,7 @@ public class Fight : MonoBehaviour
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton1, EnPrefabs[0], false);
+            ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false);
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
@@ -427,7 +427,7 @@ public class Fight : MonoBehaviour
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En2.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton2, EnPrefabs[1], false);
+            ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false);
             GameObject.Find("enemy3").SetActive(false);
 
         }
@@ -445,7 +445,7 @@ public class Fight : MonoBehaviour
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton1, EnPrefabs[0], false);
+            ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false);
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
@@ -458,7 +458,7 @@ public class Fight : MonoBehaviour
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En2.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton2, EnPrefabs[1], false);
+            ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false);
 
             En3 = Gm.allWave[Gm.waveCounter][waveType][2].SetEnemy();
             temp = GameObject.Find("enemy3");
@@ -472,7 +472,7 @@ public class Fight : MonoBehaviour
             En3.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En3.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton3, EnPrefabs[2], false);
+            ChangerBouttonEnGameObject(ennemisButton3, Gm.allWave[Gm.waveCounter][waveType][2].prefab, false);
         }
 
 
