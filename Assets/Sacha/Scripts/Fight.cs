@@ -53,12 +53,12 @@ public class Fight : MonoBehaviour
     [SerializeField] Button ennemisButton3;
     [SerializeField] Button selectedButton;
     [SerializeField] Button endTurnButton;
-    [SerializeField] TextMeshProUGUI stockText;
+    [SerializeField] public TextMeshProUGUI stockText;
     [SerializeField] TextMeshProUGUI manaText;
     [SerializeField] List<GameObject> EnPrefabs;
 
     public int mana;
-    private int stock = 0;
+    public int stock = 0;
     public int nbTransfo = 0;
     [SerializeField] public List<hero> heroes;
     [SerializeField] public List<hero> enemies;
@@ -266,6 +266,7 @@ public class Fight : MonoBehaviour
         }
     }
     #endregion
+    public int waveType;
     public void StartFight()
     {
         manaText = GameObject.Find("ManaText").GetComponent<TextMeshProUGUI>();
@@ -375,7 +376,6 @@ public class Fight : MonoBehaviour
         #endregion
 
         #region choix de la wave
-        int waveType = UnityEngine.Random.Range(0, Gm.allWave[Gm.waveCounter].Count -1);
         Debug.Log("waveType : " + waveType);
         hero en1;
         hero En2;
@@ -1463,185 +1463,216 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.HabemusDominum:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.DiabolusEst:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.DiabolusEst(hero);
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.HabemusDominum(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.CultiverAme:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.CultiverFlamme:
-                        foreach (hero hero in selected)
-                        {
-
+                        if (card.m_isUpsideDown)
+                            {
+                                card.CultiverFlamme();
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.CultiverAme(selectedcard);
+                            }
                         }
                         break;
                     case dataCard.CardType.Conversion:
                         foreach (hero hero in selected)
                         {
-                            
-                        }
-                        break;
-                    case dataCard.CardType.Absolution:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.Absolution();
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.Conversion(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.Benediction:
-                        foreach (hero hero in selected)
-                        {
-
-                        }
-                        break;
-                    case dataCard.CardType.Apotasie:
-                        foreach (hero hero in selected)
-                        {
-
-                        }
+                            if (card.m_isUpsideDown)
+                            {
+                                card.Apotasie();
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                if (selectedhero[0].m_role == entityManager.Role.Pretre || selectedhero[0].m_role == entityManager.Role.Arboriste)
+                                {
+                                    card.Benediction(selectedhero[0], selectedhero[1]);
+                                }
+                                else
+                                {
+                                    card.Benediction(selectedhero[1], selectedhero[0]);
+                                }
+                            }
                         break;
                     case dataCard.CardType.Tabernacle:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.Belial:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.Belial(hero);
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.Tabernacle(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.VenererIdole:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.Blaspheme:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.Blaspheme(hero);
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.VenererIdole(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.AllumerCierges:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.IncendierCloatre:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.IncendierCloatre();
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.AllumerCierges(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.AccueillirNecessiteux:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.MassacrerInfideles:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                if (selectedhero[0].m_role == entityManager.Role.Pretre || selectedhero[0].m_role == entityManager.Role.Arboriste)
+                                {
+                                card.MassacrerInfideles(selectedhero[0], selectedhero[1]);
+                                }
+                                else
+                                {
+                                    card.MassacrerInfideles(selectedhero[1], selectedhero[0]);
+                                }
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.AccueillirNecessiteux(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.MoxLion:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.MoxAraignee:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                if (selectedhero[0].m_role == entityManager.Role.Pretre || selectedhero[0].m_role == entityManager.Role.Arboriste)
+                                {
+                                    card.MoxAraignee(selectedhero[0], selectedhero[1]);
+                                }
+                                else
+                                {
+                                    card.MoxAraignee(selectedhero[1], selectedhero[0]);
+                                }
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.MoxLion(hero);
+                            }   
                         }
                         break;
                     case dataCard.CardType.MurDeRonces:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.LaissePourMort:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.LaissePourMort();
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.MurDeRonces(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.Cataplasme:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.Belladone:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.Belladone(hero);
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.Cataplasme(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.SurgissementVitalique:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.RepandreMort:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.RepandreMort();
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.SurgissementVitalique(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.ArmureEcorse:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.MaleusHerbeticae:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.MaleusHerbeticae(hero);
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.MaleusHerbeticae(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.CommunionNature:
                         foreach (hero hero in selected)
                         {
-
-                        }
-                        break;
-                    case dataCard.CardType.Canibalisme:
-                        foreach (hero hero in selected)
-                        {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.Canibalisme();
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.CommunionNature(hero);
+                            }
                         }
                         break;
                     case dataCard.CardType.SuivreEtoiles:
                         foreach (hero hero in selected)
                         {
-
+                            if (card.m_isUpsideDown)
+                            {
+                                card.ProfanerCiel();
+                            }
+                            if (!card.m_isUpsideDown)
+                            {
+                                card.SuivreEtoiles(hero);
+                            }
                         }
-                        break;
-                    case dataCard.CardType.ProfanerCiel:
-                        foreach (hero hero in selected)
-                        {
-
-                        }
-                        break;
-                    
-                    
+                        break;  
                 }
             }
         foreach(dataCard.CardEffect effect in card.CardEffects)

@@ -241,7 +241,9 @@ public class dataCard : ScriptableObject
 
     public void Venerate(hero hero, int value)
     {
-        hero.setVenerate(hero.getVenerate() + value);
+        GM.FM.stock += value;
+
+        GM.FM.stockText.text = GM.FM.stock.ToString();
     }
 
     public int Steal(hero enemy, hero ally, int value)

@@ -53,7 +53,9 @@ public class GameManager : MonoBehaviour
     #endregion
     #endregion
 
-
+    public hero ennemy1;
+    public hero ennemy2;
+    public hero ennemy3;
 
     #region Singleton
     private static GameManager _instance;
