@@ -1129,7 +1129,12 @@ public class Fight : MonoBehaviour
 
     public void WinFinalFight()
     {
-        Debug.Log("WinFinalFight");
+        StartCoroutine(WinFinalCorou());
+
+    }
+
+    IEnumerator WinFinalCorou()
+    {
         StopCoroutine(coroutine);
         ResetAll();
         Gm.transi.Play("Transi");
@@ -1137,7 +1142,7 @@ public class Fight : MonoBehaviour
         Gm.winoulose = true;
         SceneManager.LoadScene(2);
         Gm.transi.Play("Detransi");
-        
+
         FindObjectOfType<MapManager>().GenerateNewMap();
     }
 

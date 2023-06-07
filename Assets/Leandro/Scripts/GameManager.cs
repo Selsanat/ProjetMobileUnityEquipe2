@@ -26,12 +26,9 @@ public class GameManager : MonoBehaviour
     public int debuffDraw = 0;
     public bool IsAnyProv = false;
     public int waveCounter = 0;
-<<<<<<< Updated upstream
     public bool isManaMultiplier = false;
     public int manaMultiplier = 2;
     public bool isAbsolution = false;
-=======
->>>>>>> Stashed changes
     public bool winoulose;
 
     public bool isHoverButton = false;

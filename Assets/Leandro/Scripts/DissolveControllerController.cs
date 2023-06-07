@@ -27,7 +27,7 @@ public class DissolveControllerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameManager.Instance.winoulose)
+        if ((GameManager.Instance.winoulose))
         {
             StartCoroutine(EcranFin());
         }
