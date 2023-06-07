@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class hero : entityManager
 {
 
- 
-    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana)
+
+    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int venerate)
     {
         m_role = role;
         m_maxPv = maxPV;
@@ -21,6 +21,7 @@ public class hero : entityManager
         m_armor = 0;
         m_level = 0;
         m_experience = 0;
+        m_venerate = venerate;
         int a = Random.Range(0, 1);
         if (m_role == Role.Arboriste)
             m_manaMax = 6;
@@ -28,10 +29,10 @@ public class hero : entityManager
             m_manaMax = 4;
         if (a == 0) { multipleTarget = false; }
         else { multipleTarget = true; }
-        if(gameManager == null)
+        if (gameManager == null)
         {
             gameManager = FindObjectOfType<GameManager>();
-        }   
+        }
         gameManager.entityManager.heroList.Add(this);
 
 
@@ -113,6 +114,8 @@ public class hero : entityManager
     public void setArmor(int armor) { m_armor += armor; }
     public void resetArmor() { m_armor = 0; }
     public bool getIsProvocation() { return isProvocation; }
+    public int getVenerate() { return m_venerate; }
+    public void setVenerate(int venerate) {m_venerate = venerate; }
 
     #endregion
 
@@ -288,6 +291,7 @@ public class hero : entityManager
                 this.m_spriteFocus.sprite = null;
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
+                m_IsAttacking = true;
 
             }
             else if (firtAttack >= randomAttack) //attauqe le plus faible
@@ -314,6 +318,7 @@ public class hero : entityManager
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
+                m_IsAttacking = true;
             }
         }
         else
@@ -340,12 +345,14 @@ public class hero : entityManager
                 {
                     hero.takeDamage(AOEDmg);
                 }
+                m_IsAttacking = false;
             }
             else if (firtAttack >= randomAttack) //attauqe le plus faible
             {
                 hero temp = heroesToAttack[0];
+                m_IsAttacking = false;
 
-                
+
                 if (randomHero.getIsAlive() == true)
                     randomHero.takeDamage(dmg);
                 else
@@ -429,6 +436,7 @@ public class hero : entityManager
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
+                m_IsAttacking = true;
             }
 
         }
@@ -441,6 +449,7 @@ public class hero : entityManager
             }
             else if (firtAttack >= randomAttack)
             {
+                m_IsAttacking = false;
                 Debug.Log("dmg");
 
                 hero temp = heroesToAttack[0];
@@ -513,7 +522,7 @@ public class hero : entityManager
             }
             else if (firtAttack >= randomAttack)
             {
-
+                m_IsAttacking = true;
                 hero temp = heroesToAttack[0];
 
                 foreach (hero champ in heroesToAttack)
@@ -573,7 +582,7 @@ public class hero : entityManager
             else if (firtAttack >= randomAttack)
             {
                 Debug.Log("dmg");
-
+                m_IsAttacking = false;
                 hero temp = heroesToAttack[0];
 
                 foreach (hero champ in heroesToAttack)
@@ -648,6 +657,7 @@ public class hero : entityManager
             }
             else if (secondAttack >= randomAttack)
             {
+                m_IsAttacking = true;
                 Debug.Log("aoe");
                 m_valueText.text = dmgAOE.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
@@ -658,7 +668,7 @@ public class hero : entityManager
             else if (firtAttack >= randomAttack)
             {
                 hero temp = heroesToAttack[0];
-
+                m_IsAttacking = true;
                 foreach (hero champ in heroesToAttack)
                 {
                     if (champ.getPv() - dmg <= 0)
@@ -716,13 +726,14 @@ public class hero : entityManager
             }
             else if (secondAttack >= randomAttack)
             {
+                this.isProvocation = false;
                 foreach (hero champ in heroesToAttack)
                     champ.takeDamage(dmgAOE);
             }
             else if (firtAttack >= randomAttack)
             {
                 Debug.Log("dmg");
-
+                m_IsAttacking = false;
                 hero temp = heroesToAttack[0];
 
                 foreach (hero champ in heroesToAttack)
@@ -768,6 +779,7 @@ public class hero : entityManager
             randomAttack = (int)Random.Range(0f, 100);
             if (fourthAttack >= randomAttack)
             {
+                m_IsAttacking = true;
 
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = dmg.ToString();
@@ -785,6 +797,7 @@ public class hero : entityManager
             }
             else if (thridAttack >= randomAttack)
             {
+                m_IsAttacking = true;
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = dmgLourd.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
@@ -879,7 +892,7 @@ public class hero : entityManager
             else if (secondAttack >= randomAttack)
             {
                 hero temp = heroesToAttack[0];
-
+                m_IsAttacking = true;
                 foreach (hero champ in heroesToAttack)
                 {
                     if (champ.getPv() > temp.getPv())
@@ -904,7 +917,7 @@ public class hero : entityManager
             else if (firtAttack >= randomAttack)
             {
                 hero temp = heroesToAttack[0];
-
+                m_IsAttacking = true;
                 foreach (hero champ in heroesToAttack)
                 {
                     if (champ.getPv() > temp.getPv())
@@ -943,6 +956,7 @@ public class hero : entityManager
                         temp = champ;
                 }
                 temp.takeDamage(dmg);
+                m_IsAttacking = false;
             }
             else if (firtAttack >= randomAttack)
             {
@@ -954,6 +968,7 @@ public class hero : entityManager
                         temp = champ;
                 }
                 temp.takeDamage(dmg);
+                m_IsAttacking = false;
             }
         }
 
@@ -1017,6 +1032,7 @@ public class hero : entityManager
             else if (thridAttack >= randomAttack) //aoe
             {
                 Debug.Log("aoe");
+                m_IsAttacking = true;
                 m_valueText.text = dmgAOE.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
                 this.m_spriteFocus.sprite = null;
@@ -1025,6 +1041,7 @@ public class hero : entityManager
             }
             else if (secondAttack >= randomAttack) //lourd
             {
+                m_IsAttacking = true;
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = dmgLourd.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
@@ -1041,6 +1058,7 @@ public class hero : entityManager
             }
             else if (firtAttack >= randomAttack) //normal
             {
+                m_IsAttacking = true;
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = dmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
@@ -1082,9 +1100,11 @@ public class hero : entityManager
                 {
                     hero.takeDamage(dmgAOE);
                 }
+                m_IsAttacking = false;
             }
             else if (secondAttack >= randomAttack) //lourd
             {
+                m_IsAttacking = false;
                 if (randomHero.isAlive)
                     randomHero.takeDamage(dmgLourd);
                 else
@@ -1092,6 +1112,7 @@ public class hero : entityManager
             }
             else if (firtAttack >= randomAttack) //normal
             {
+                m_IsAttacking = false;
                 if (randomHero.isAlive)
                     randomHero.takeDamage(dmg);
                 else

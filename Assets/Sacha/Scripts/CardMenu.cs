@@ -56,6 +56,9 @@ public class CardMenu : MonoBehaviour
     {
         dissolve.isDissolving = true;
         yield return new WaitUntil(() => dissolve.dissolveAmount < 0);
+        dissolve.isDissolving = false;
+        dissolve.dissolveAmount = 1;
+        yeah = true;
         MouseUpEvent.Invoke();
     }
 
