@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae1fa1b220ceaa4fae9d3d1a724796b, type: 3}
+  m_Name: AllumerLesCierges
+  m_EditorClassIdentifier: 
+  m_manaCost: 1
+  m_value: 0
+  m_index: 0
+  nombreDexecutiion: 1
+  unlockLevel: 5
+  m_cardTypes: 18
+  m_cardEffects: []
+  TargetAllies: 1
+  TargetEnnemies: 0
+  AOEAllies: 1
+  AOEEnnemies: 0
+  m_isDeleteOnTurn: 0
+  m_isUpsideDown: 0
+  m_isBonusCard: 0
+  m_onCardExplain: 
+  m_FullCardExplain: 
+  Description: "Piochez une carte pour chaque point de v\xE9n\xE9ration poss\xE9d\xE9
+    par le pr\xEAtre"
+  Name: Allumer les cierges
+  m_cardFrontSprite: {fileID: 21300000, guid: 580c5cab68893c14ea7e795464caefa4, type: 3}
+  m_cardBackSprite: {fileID: 0}
+  BackCard: {fileID: 11400000, guid: bc716c426d63bc34aa0fb20abb7fe921, type: 2}

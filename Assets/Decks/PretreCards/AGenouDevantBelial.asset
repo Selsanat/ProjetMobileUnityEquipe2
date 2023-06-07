@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ae1fa1b220ceaa4fae9d3d1a724796b, type: 3}
-  m_Name: HabemusDominum_DiabolusEst
+  m_Name: AGenouDevantBelial
   m_EditorClassIdentifier: 
-  m_manaCost: 1
-  m_value: 6
+  m_manaCost: 3
+  m_value: 0
   m_index: 0
   nombreDexecutiion: 1
-  unlockLevel: 0
-  m_cardTypes: 6
+  unlockLevel: 3
+  m_cardTypes: 15
   m_cardEffects: []
   TargetAllies: 0
   TargetEnnemies: 1
   AOEAllies: 0
-  AOEEnnemies: 0
+  AOEEnnemies: 1
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
-  Description: "Inflige 6 blessures \xE0 un ennemi qui projette d'attaquer"
-  Name: Habemus Dominus
-  m_cardFrontSprite: {fileID: 21300000, guid: 2b700880db84b9e498e1963d96764a47, type: 3}
-  BackDescription: "Inflige 12 blessures \xE0 un monstre qui n'attaque pas"
-  BackName: Diabolus Est
-  m_cardBackSprite: {fileID: 21300000, guid: 90d20c11753721f4ba7606658913733c, type: 3}
+  Description: "Inflige 6 blessures \xE0 chaque monstre, les monstres tu\xE9s de
+    cette mani\xE8re vous Soignent 3 v\xE9n\xE9rer 4"
+  Name: A genou devant Belial
+  m_cardFrontSprite: {fileID: 21300000, guid: 1b6e799ae7b17ba40bf3279ea7c2e3db, type: 3}
+  m_cardBackSprite: {fileID: 0}
+  BackCard: {fileID: 0}
