@@ -31,5 +31,5 @@ MonoBehaviour:
   Description: Retire l'armure, Inflige 8 blessures
   Name: Administration de la belladone
   m_cardFrontSprite: {fileID: 21300000, guid: b2209d46b561fd742b44b78ac01f63b6, type: 3}
-  m_cardBackSprite: {fileID: 0}
-  BackCard: {fileID: 0}
+  m_cardBackSprite: {fileID: 21300000, guid: 60d3d79171b07ef4495684f0dc36e734, type: 3}
+  BackCard: {fileID: 11400000, guid: 0759acbd84bfa844ca2fa16462de1362, type: 2}

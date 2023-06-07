@@ -83,6 +83,7 @@ public class GameManager : MonoBehaviour
     #endregion
     private void Start()
     {
+
         transi = transform.GetChild(0)?.gameObject.GetComponent<Animator>();
         FM = FindObjectOfType<Fight>();
         entityManager = FindObjectOfType<entityManager>();

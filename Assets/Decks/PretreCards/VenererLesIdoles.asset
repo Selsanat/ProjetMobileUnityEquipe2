@@ -31,5 +31,5 @@ MonoBehaviour:
   Description: "Soigne 3, la cible V\xE9n\xE8re 2"
   Name: "V\xE9n\xE9rer les id\xF4les"
   m_cardFrontSprite: {fileID: 21300000, guid: a7ac1782d809a8e4ea4b80bfe079815e, type: 3}
-  m_cardBackSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 21300000, guid: 080be867a7baf534ab3e50c06557c18c, type: 3}
   BackCard: {fileID: 11400000, guid: 66b5e31ace4b73742b4b0cb21ab2c802, type: 2}

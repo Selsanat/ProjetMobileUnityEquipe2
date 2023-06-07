@@ -36,17 +36,17 @@ public class main : MonoBehaviour
         }
     }
 
-    public void tour()
+/*    public void tour()
     {
         foreach(dataCard card in m_listCard)
         {
-            if (card.getIsDeleteOnTurn())
+            if (card.IsDeleteOnTurn)
                 m_listCard.Remove(card);
         }
 
-        /*for (int i = 0; i < m_cardToDraw; i++)
-            addCardToHand(Deck.DrawCard());*/
+        *//*for (int i = 0; i < m_cardToDraw; i++)
+            addCardToHand(Deck.DrawCard());*//*
     }
-
+*/
 
 }

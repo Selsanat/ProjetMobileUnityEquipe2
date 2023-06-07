@@ -65,7 +65,7 @@ public class entityManager : MonoBehaviour
     [SerializeField] public List<hero> heroList;
     [SerializeField] protected bool multipleTarget;
     [SerializeField] protected GameManager gameManager;
-    [SerializeField] public List<dataCard.CardEffect> MyEffects;
+    [SerializeField] public List<dataCard.CardEffect> MyEffects = new List<dataCard.CardEffect>();
 
     public void Start()
     {
