@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
 
 public class champSelector : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class champSelector : MonoBehaviour
     public Sprite en1;
     public Sprite en2;
     public Sprite en3;
+    int wavetype = 0;
     public void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -64,11 +66,12 @@ public class champSelector : MonoBehaviour
         }
         
     }
-
-
     public void setctive()
     {
-        int enCount = 0;
+        wavetype = UnityEngine.Random.Range(0, gameManager.allWave[gameManager.waveCounter].Count - 1);
+        gameManager.FM.waveType = wavetype;
+
+        int encount = 0;
         foreach (GameObject go in objects)
         {
             go.SetActive(true);
@@ -88,7 +91,14 @@ public class champSelector : MonoBehaviour
             }
             if (go.CompareTag("enemy"))
             {
-                
+                if(encount > gameManager.allWave[gameManager.waveCounter][wavetype].Count - 1)
+                {
+                    go.SetActive(false);
+                    break;
+                }
+                go.GetComponent<Image>().sprite = gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_sprite;
+                go.GetComponentInChildren<TextMeshProUGUI>().text = gameManager.enemiesData[encount].m_role.ToString() + " \nPV : "  + gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_Pv;
+                encount++;
             }
             
 

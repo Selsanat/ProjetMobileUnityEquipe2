@@ -242,6 +242,7 @@ public class Fight : MonoBehaviour
         }
     }
     #endregion
+    public int waveType;
     public void StartFight()
     {
         manaText = GameObject.Find("ManaText").GetComponent<TextMeshProUGUI>();
@@ -351,7 +352,6 @@ public class Fight : MonoBehaviour
         #endregion
 
         #region choix de la wave
-        int waveType = UnityEngine.Random.Range(0, Gm.allWave[Gm.waveCounter].Count -1);
         Debug.Log("waveType : " + waveType);
         hero en1;
         hero En2;
