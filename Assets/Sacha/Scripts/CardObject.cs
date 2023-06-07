@@ -32,6 +32,7 @@ public class CardObject : MonoBehaviour
 
 
     public List<hero> heroToAttack; //always Start Null
+    public bool stayInHand = false;
 
     Transform M_t;
 
@@ -173,6 +174,7 @@ public class CardObject : MonoBehaviour
 
     void HideHandExceptThis()
     {
+        print("hey");
         foreach(CardObject Carte in gameManager.Hand)
         {
             Carte.gameObject.SetActive(false);

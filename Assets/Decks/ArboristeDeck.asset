@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Global Volume Profile 1
+  m_Script: {fileID: 11500000, guid: 23dd0271997c14f4eb390c7be1c1d0a0, type: 3}
+  m_Name: ArboristeDeck
   m_EditorClassIdentifier: 
-  components: []
+  m_name: Arboriste
+  m_role: 4
+  dataCards: []

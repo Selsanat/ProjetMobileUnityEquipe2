@@ -444,7 +444,11 @@ public class Deck : MonoBehaviour
     {
         foreach (CardObject carte in Hand)
         {
+            if (!carte.stayInHand)
+            {
             GraveYard.Add(carte);
+            }
+            carte.stayInHand = false;
         }
         Hand.Clear();
     }
@@ -503,6 +507,16 @@ public class Deck : MonoBehaviour
     private void BPlayCard()
     {
         //PlayCard(CarteAJouer);
+    }
+    [Button]
+    private void BTransfo()
+    {
+        StartCoroutine(TransfoCoroutine());
+    }
+    [Button]
+    private void PDetransfo()
+    {
+        StartCoroutine(DetransfoCoroutine());
     }
 
     public void DeplaceCardUtiliseToPlace()
@@ -674,73 +688,32 @@ public class Deck : MonoBehaviour
         CardGO.transform.position = Camera.main.ScreenToWorldPoint(graveyardCount.transform.position);
         CardGO.transform.localScale = new Vector3(1, 1, 1);
     }
-    public IEnumerator TransfoCoroutine(bool TrueIfDruid)
+    public IEnumerator TransfoCoroutine()
     {
         StartCoroutine( TransposeTransparencyNegative(Background.gameObject));
         for (int i = 0; i < Hand.Count; i++)
         {
-            if (Hand[i].DataCard.m_isDruidCard == TrueIfDruid)
-            {
-                CardObject card = Hand[i];
-                StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90, 0)));
-                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
-                StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0, 0)));
-                card.DataCard.m_isUpsideDown = true;
-                yield return new WaitForSeconds(0.25f);
-            }
-
-        }
-        foreach(CardObject card in deck)
-            {
-            if (card.DataCard.m_isDruidCard == TrueIfDruid)
-            {
-                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
-                card.DataCard.m_isUpsideDown = true;
-            }
-            
-        }
-        foreach(CardObject card in GraveYard)
-        {
-            if (card.DataCard.m_isDruidCard == TrueIfDruid)
-            {
-                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
-                card.DataCard.m_isUpsideDown = true;
-            }
+            CardObject card = Hand[i];
+            StartCoroutine( TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90, 0)));
+            card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
+            StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0, 0)));
+            card.DataCard.m_isUpsideDown = true;
+            yield return new WaitForSeconds(0.25f);
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
     }
-    public IEnumerator DetransfoCoroutine(bool TrueIfDruid)
+    public IEnumerator DetransfoCoroutine()
     {
         StartCoroutine(TransposeTransparency(Background.gameObject));
         for (int i = 0; i < Hand.Count;i++)
         {
-            if (Hand[i].DataCard.m_isPriestCard == TrueIfDruid)
-            {
-                CardObject card = Hand[i];
-                StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90, 0)));
-                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
-                StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0, 0)));
-                card.DataCard.m_isUpsideDown = false;
-                yield return new WaitForSeconds(0.25f);
-            }
-        }
-        foreach (CardObject card in deck)
-        {
-            if (card.DataCard.m_isPriestCard == TrueIfDruid)
-            {
-                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
-                card.DataCard.m_isUpsideDown = false;
-            }
-
-        }
-        foreach (CardObject card in GraveYard)
-        {
-            if (card.DataCard.m_isPriestCard == TrueIfDruid)
-            {
-                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
-                card.DataCard.m_isUpsideDown = false;
-            }
+            CardObject card = Hand[i];
+            StartCoroutine( TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90,0)));
+            card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
+            StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0,0)));
+            card.DataCard.m_isUpsideDown = true;
+            yield return new WaitForSeconds(0.25f);
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);

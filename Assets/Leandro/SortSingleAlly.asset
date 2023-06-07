@@ -23,10 +23,8 @@ MonoBehaviour:
   AOEAllies: 0
   AOEEnnemies: 0
   m_isDeleteOnTurn: 0
-  m_isUpsideDown: 0
+  m_isUpsideDown: 1
   m_isBonusCard: 0
-  m_isDruidCard: 0
-  m_isPriestCard: 1
   m_onCardExplain: 
   m_FullCardExplain: 
   m_cardFrontSprite: {fileID: 21300000, guid: 756c3e1045ab01a4d8afcc155a8c0b34, type: 3}

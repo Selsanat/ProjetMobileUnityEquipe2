@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
     public Transform pos1;
-    public Transform pos2;
+    //public Transform pos2;
     public List<GameObject> Startcards;
 
     public List<GameObject> go_credits;
@@ -69,11 +69,7 @@ public class Menu : MonoBehaviour
             go.SetActive(!go.activeInHierarchy);
         }
     }
-    
-    public void Collection()
-    {
 
-    }
     public void StartGame()
     {
         SceneManager.LoadScene("levelSelector");

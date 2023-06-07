@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class champSelector : MonoBehaviour
 {
     bool selectedArboriste = false;
     bool selectedPretre = false;
+    public List<GameObject> objects = new List<GameObject>();
     public Button buttonArboriste;
     public Button buttonPretre;
 
@@ -17,7 +19,11 @@ public class champSelector : MonoBehaviour
     public Sprite SelectedArboriste;
     public Sprite SelectedPretre;
     [SerializeField] GameManager gameManager;
-    
+
+    public TextMeshProUGUI ArboLife;
+    public TextMeshProUGUI PretreLife;
+
+
     public void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
@@ -60,9 +66,29 @@ public class champSelector : MonoBehaviour
 
     public void setctive()
     {
-        buttonArboriste.gameObject.SetActive(true);
+        foreach (GameObject go in objects)
+        {
+            go.SetActive(true);
+            if (go.CompareTag("arbo"))
+            {
+                Slider slider;
+                slider = go.GetComponentInChildren<Slider>();
+                slider.value = gameManager.expArboriste;
+                ArboLife.text = "PV : " + gameManager.LifeArboriste.ToString() + " \nNiveau :" + gameManager.levelArboriste;
+            }
+            if (go.CompareTag("pretre"))
+            {
+                Slider slider;
+                slider = go.GetComponentInChildren<Slider>();
+                slider.value = gameManager.levelPretre;
+                PretreLife.text = "PV : " + gameManager.LifePretre.ToString() + "\nNiveau :" + gameManager.levelPretre;
+            }
+
+        }
+/*        buttonArboriste.gameObject.SetActive(true);
         buttonPretre.gameObject.SetActive(true);
-        start.gameObject.SetActive(true);
+        start.gameObject.SetActive(true);*/
+
     }
     IEnumerator TransiLevel()
     {
@@ -72,9 +98,13 @@ public class champSelector : MonoBehaviour
         Fight fight = FindObjectOfType<Fight>();
         fight.perso1 = selectedArboriste;
         fight.perso2 = selectedPretre;
-        buttonArboriste.gameObject.SetActive(false);
+        foreach (GameObject go in objects)
+        {
+            go.SetActive(false);
+        }
+/*        buttonArboriste.gameObject.SetActive(false);
         buttonPretre.gameObject.SetActive(false);
-        start.gameObject.SetActive(false);
+        start.gameObject.SetActive(false);*/
         SceneManager.LoadScene(1);
     }
 
