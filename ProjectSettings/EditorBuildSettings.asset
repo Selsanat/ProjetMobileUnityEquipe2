@@ -5,16 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/levelSelector.unity
     guid: 9a768f687b7bfa146bdcf433bedea731
   - enabled: 1
     path: Assets/Leandro/Scene/TestSceneLeandro.unity
     guid: 74a185201a6e63e4e83e650c713c8025
-  m_configObjects:
-    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 76da0085f93a7a44cba6d43137c43cd3, type: 2}
-    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 9b921a98ce607514785f74d7745d1548, type: 2}
-    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: ef8126afba5961744953b54db779178b, type: 2}
+  m_configObjects: {}

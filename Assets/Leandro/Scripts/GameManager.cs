@@ -26,7 +26,11 @@ public class GameManager : MonoBehaviour
     public int debuffDraw = 0;
     public bool IsAnyProv = false;
     public int waveCounter = 0;
-    
+    public bool isManaMultiplier = false;
+    public int manaMultiplier = 2;
+    public bool isAbsolution = false;
+    public bool winoulose;
+
     public bool isHoverButton = false;
     public Animator transi;
 
@@ -49,7 +53,9 @@ public class GameManager : MonoBehaviour
     #endregion
     #endregion
 
-
+    public hero ennemy1;
+    public hero ennemy2;
+    public hero ennemy3;
 
     #region Singleton
     private static GameManager _instance;

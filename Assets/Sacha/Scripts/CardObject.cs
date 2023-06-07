@@ -32,6 +32,7 @@ public class CardObject : MonoBehaviour
 
 
     public List<hero> heroToAttack; //always Start Null
+    public bool stayInHand = false;
 
     Transform M_t;
 

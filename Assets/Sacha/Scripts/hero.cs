@@ -2,12 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static Unity.Burst.Intrinsics.Arm;
 
 public class hero : entityManager
 {
+    public int ChienfirtAttack = 100;
+    public int ChiensecondAttack = 45;
+    public int ChienthridAttack = 20;
+    public int ChienfourthAttack = 10;
+    public int Chiendmg = 5;
+    public int ChienAOEDmg = 3;
 
- 
-    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana)
+    public int SquelettesfirtAttack = 100;
+    public int SquelettessecondAttack = 40;
+    public int Squelettesdmg = 3;
+    public int Squelettesarmor = 2;
+
+    public int Maindmg = 5;
+    public int Mainarmor = 8;
+    public int MainfirtAttack = 100;
+    public int MainsecondAttack = 55;
+    public int MainthridAttack = 35;
+    public int MainfourthAttack = 10;
+    public int MainnbCardDebuf = 5;
+
+    public int GargouillefirtAttack = 100;
+    public int GargouillesecondAttack = 60;
+    public int GargouillethridAttack = 25;
+    public int GargouillefourthAttack = 10;
+    public int GargouilledmgAOE = 6;
+    public int Gargouilledmg = 8;
+
+    public int HommeVersfirtAttack = 100;
+    public int HommeVerssecondAttack = 65;
+    public int HommeVersthridAttack = 30;
+    public int HommeVersfourthAttack = 10;
+    public int HommeVersdmgLourd = 10;
+    public int HommeVersdmg = 7;
+    public int HommeVersheal = 3;
+
+    public int DemonfirtAttack = 100;
+    public int DemonsecondAttack = 45;
+    public int DemonthridAttack = 12;
+    public int Demondmg = 12;
+
+    public int DragonfirtAttack = 100;
+    public int DragonsecondAttack = 75;
+    public int DragonthridAttack = 55;
+    public int DragonfourthAttack = 25;
+    public int DragonfithAttack = 10;
+    public int Dragonsixth = 5;
+    public int Dragondmg = 16;
+    public int DragondmgAOE = 10;
+    public int DragondmgLourd = 20;
+    public int Dragonarmor = 12;
+
+    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int venerate)
     {
         m_role = role;
         m_maxPv = maxPV;
@@ -21,6 +71,7 @@ public class hero : entityManager
         m_armor = 0;
         m_level = 0;
         m_experience = 0;
+        m_venerate = venerate;
         int a = Random.Range(0, 1);
         if (m_role == Role.Arboriste)
             m_manaMax = 6;
@@ -28,10 +79,10 @@ public class hero : entityManager
             m_manaMax = 4;
         if (a == 0) { multipleTarget = false; }
         else { multipleTarget = true; }
-        if(gameManager == null)
+        if (gameManager == null)
         {
             gameManager = FindObjectOfType<GameManager>();
-        }   
+        }
         gameManager.entityManager.heroList.Add(this);
 
 
@@ -113,6 +164,8 @@ public class hero : entityManager
     public void setArmor(int armor) { m_armor += armor; }
     public void resetArmor() { m_armor = 0; }
     public bool getIsProvocation() { return isProvocation; }
+    public int getVenerate() { return m_venerate; }
+    public void setVenerate(int venerate) {m_venerate = venerate; }
 
     #endregion
 
@@ -237,12 +290,7 @@ public class hero : entityManager
     {
         if (this.isAlive == false)
             return;
-        int firtAttack = 100;
-        int secondAttack = 45;
-        int thridAttack = 20;
-        int fourthAttack = 10;
-        int dmg = 5;
-        int AOEDmg = 3;
+        
         var tempColor = m_spriteTypeAttack.color;
         tempColor.a = 1f;
         m_spriteTypeAttack.color = tempColor;
@@ -251,7 +299,7 @@ public class hero : entityManager
         if (fight)
         {
             this.randomAttack = (int)Random.Range(0f, 100);
-            if (fourthAttack >= randomAttack)
+            if (ChienfourthAttack >= randomAttack)
             {
                 m_valueText.text = "";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
@@ -269,7 +317,7 @@ public class hero : entityManager
                 Debug.Log("debuff armor");
 
             }
-            else if (thridAttack >= randomAttack) //booste la force
+            else if (ChienthridAttack >= randomAttack) //booste la force
             {
                 Debug.Log("boostStat");
                 m_valueText.text = "1";
@@ -280,17 +328,18 @@ public class hero : entityManager
 
 
             }
-            else if (secondAttack >= randomAttack) //attaque tout les allier
+            else if (ChiensecondAttack >= randomAttack) //attaque tout les allier
             {
                 Debug.Log("aoe");
-                m_valueText.text = AOEDmg.ToString();
+                m_valueText.text = ChienAOEDmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
                 this.m_spriteFocus.sprite = null;
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
+                m_IsAttacking = true;
 
             }
-            else if (firtAttack >= randomAttack) //attauqe le plus faible
+            else if (ChienfirtAttack >= randomAttack) //attauqe le plus faible
             {
                 Debug.Log("attaque le plus faible");
 
@@ -302,7 +351,7 @@ public class hero : entityManager
                         temp = champ;
                 }
                 randomHero = temp;
-                m_valueText.text = dmg.ToString();
+                m_valueText.text = Chiendmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
@@ -314,47 +363,50 @@ public class hero : entityManager
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
+                m_IsAttacking = true;
             }
         }
         else
         {
-            if (fourthAttack >= randomAttack)
+            if (ChienfourthAttack >= randomAttack)
             {
                 randomHero.m_isDebufArmor = true;
                 Debug.Log("debuff armor");
 
             }
-            else if (thridAttack >= randomAttack) //booste la force
+            else if (ChienthridAttack >= randomAttack) //booste la force
             {
                 Debug.Log("boostStat");
 
-                dmg++;
-                AOEDmg++;
+                Chiendmg++;
+                ChienAOEDmg++;
 
             }
-            else if (secondAttack >= randomAttack) //attaque tout les allier
+            else if (ChiensecondAttack >= randomAttack) //attaque tout les allier
             {
                 Debug.Log("aoe");
 
                 foreach (hero hero in heroesToAttack)
                 {
-                    hero.takeDamage(AOEDmg);
+                    hero.takeDamage(ChienAOEDmg);
                 }
+                m_IsAttacking = false;
             }
-            else if (firtAttack >= randomAttack) //attauqe le plus faible
+            else if (ChienfirtAttack >= randomAttack) //attauqe le plus faible
             {
                 hero temp = heroesToAttack[0];
+                m_IsAttacking = false;
 
-                
+
                 if (randomHero.getIsAlive() == true)
-                    randomHero.takeDamage(dmg);
+                    randomHero.takeDamage(Chiendmg);
                 else
                 {
                     foreach (hero champ in heroesToAttack)
                     {
-                        if (champ.getPv() - dmg <= 0)
+                        if (champ.getPv() - Chiendmg <= 0)
                         {
-                            temp.takeDamage(dmg);
+                            temp.takeDamage(Chiendmg);
                             return;
                         }
                     }
@@ -372,10 +424,6 @@ public class hero : entityManager
         if (this.isAlive == false)
             return;
 
-        int firtAttack = 100;
-        int secondAttack = 40;
-        int dmg = 3;
-        int armor = 2;
         var tempColor = m_spriteTypeAttack.color;
         tempColor.a = 1f;
         m_spriteTypeAttack.color = tempColor;
@@ -383,26 +431,26 @@ public class hero : entityManager
         if (fight)
         {
             this.randomAttack = (int)Random.Range(0f, 100);
-            if (secondAttack >= randomAttack)
+            if (SquelettessecondAttack >= randomAttack)
             {
-                m_valueText.text = armor.ToString();
+                m_valueText.text = Squelettesarmor.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
                 this.m_spriteFocus.sprite = null;
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
 
             }
-            else if (firtAttack >= randomAttack)
+            else if (SquelettesfirtAttack >= randomAttack)
             {
 
                 hero temp = heroesToAttack[0];
 
                 foreach (hero champ in heroesToAttack)
                 {
-                    if (champ.getPv() - dmg <= 0)
+                    if (champ.getPv() - Squelettesdmg <= 0)
                     {
                         randomHero = temp;
-                        m_valueText.text = dmg.ToString();
+                        m_valueText.text = Squelettesdmg.ToString();
                         this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                         if (randomHero.m_role == Role.Arboriste)
                         {
@@ -417,7 +465,7 @@ public class hero : entityManager
                     }
                 }
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
-                m_valueText.text = dmg.ToString();
+                m_valueText.text = Squelettesdmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
@@ -429,35 +477,37 @@ public class hero : entityManager
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
+                m_IsAttacking = true;
             }
 
         }
         else
         {
-            if (secondAttack >= randomAttack)
+            if (SquelettessecondAttack >= randomAttack)
             {
                 Debug.Log("armor");
-                this.setArmor(armor);
+                this.setArmor(Squelettesarmor);
             }
-            else if (firtAttack >= randomAttack)
+            else if (SquelettesfirtAttack >= randomAttack)
             {
+                m_IsAttacking = false;
                 Debug.Log("dmg");
 
                 hero temp = heroesToAttack[0];
 
                 foreach (hero champ in heroesToAttack)
                 {
-                    if (champ.getPv() - dmg <= 0)
+                    if (champ.getPv() - Squelettesdmg <= 0)
                     {
-                        temp.takeDamage(dmg);
+                        temp.takeDamage(Squelettesdmg);
                         return;
                     }
                 }
                 if(randomHero.getIsAlive() == true)
-                    randomHero.takeDamage(dmg);
+                    randomHero.takeDamage(Squelettesdmg);
                 else
                 {
-                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
+                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(Squelettesdmg);
                 }
             }
         }
@@ -470,13 +520,7 @@ public class hero : entityManager
     {
         if (this.isAlive == false)
             return;
-        int dmg = 5;
-        int armor = 8;
-        int firtAttack = 100;
-        int secondAttack = 55;
-        int thridAttack = 35;
-        int fourthAttack = 10;
-        int nbCardDebuf = 5;
+
         var tempColor = m_spriteTypeAttack.color;
         tempColor.a = 1f;
         m_spriteTypeAttack.color = tempColor;
@@ -484,16 +528,16 @@ public class hero : entityManager
         if (fight)
         {
             this.randomAttack = (int)Random.Range(0f, 100);
-            if (fourthAttack >= randomAttack)
+            if (MainfourthAttack >= randomAttack)
             {
-                m_valueText.text = nbCardDebuf.ToString();
+                m_valueText.text = MainnbCardDebuf.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
                 this.m_spriteFocus.sprite = null;
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
                 // nerf : ajoute des cartes injouables dans la pioche
             }
-            else if (thridAttack >= randomAttack)
+            else if (MainthridAttack >= randomAttack)
             {
                 this.m_spriteFocus.sprite = null;
                 tempColor.a = 0f;
@@ -502,26 +546,26 @@ public class hero : entityManager
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[6];
 
             }
-            else if (secondAttack >= randomAttack)
+            else if (MainsecondAttack >= randomAttack)
             {
-                m_valueText.text = armor.ToString();
+                m_valueText.text = Mainarmor.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
                 this.m_spriteFocus.sprite = null;
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
 
             }
-            else if (firtAttack >= randomAttack)
+            else if (MainfirtAttack >= randomAttack)
             {
-
+                m_IsAttacking = true;
                 hero temp = heroesToAttack[0];
 
                 foreach (hero champ in heroesToAttack)
                 {
-                    if (champ.getPv() - dmg <= 0)
+                    if (champ.getPv() - Maindmg <= 0)
                     {
                         randomHero = temp;
-                        m_valueText.text = dmg.ToString();
+                        m_valueText.text = Maindmg.ToString();
                         this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                         if (randomHero.m_role == Role.Arboriste)
                         {
@@ -536,7 +580,7 @@ public class hero : entityManager
                     }
                 }
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
-                m_valueText.text = dmg.ToString();
+                m_valueText.text = Maindmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
@@ -555,40 +599,40 @@ public class hero : entityManager
         }
         else
         {
-            if (fourthAttack >= randomAttack)
+            if (MainfourthAttack >= randomAttack)
             {
                 throw new System.NotImplementedException("attaque pas encore implémenté (ajoute des cartes injouables dans la pioche)");
                 // nerf : ajoute des cartes injouables dans la pioche
             }
-            else if (thridAttack >= randomAttack)
+            else if (MainthridAttack >= randomAttack)
             {
                 gameManager.debuffDraw++;
 
             }
-            else if (secondAttack >= randomAttack)
+            else if (MainsecondAttack >= randomAttack)
             {
-                this.setArmor(armor);
+                this.setArmor(Mainarmor);
 
             }
-            else if (firtAttack >= randomAttack)
+            else if (MainfirtAttack >= randomAttack)
             {
                 Debug.Log("dmg");
-
+                m_IsAttacking = false;
                 hero temp = heroesToAttack[0];
 
                 foreach (hero champ in heroesToAttack)
                 {
-                    if (champ.getPv() - dmg <= 0)
+                    if (champ.getPv() - Maindmg <= 0)
                     {
-                        temp.takeDamage(dmg);
+                        temp.takeDamage(Maindmg);
                         return;
                     }
                 }
                 if (randomHero.getIsAlive() == true)
-                    randomHero.takeDamage(dmg);
+                    randomHero.takeDamage(Maindmg);
                 else
                 {
-                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
+                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(Maindmg);
                 }
             }
 
@@ -600,12 +644,7 @@ public class hero : entityManager
     {
         if (this.isAlive == false)
             return;
-        int firtAttack = 100;
-        int secondAttack = 60;
-        int thridAttack = 25;
-        int fourthAttack = 10;
-        int dmgAOE = 6;
-        int dmg = 8;
+        
 
         var tempColor = m_spriteTypeAttack.color;
         tempColor.a = 1f;
@@ -614,7 +653,7 @@ public class hero : entityManager
         if (fight)
         {
             randomAttack = (int)Random.Range(0f, 100);
-            if (fourthAttack >= randomAttack) //debuff next round
+            if (GargouillefourthAttack >= randomAttack) //debuff next round
             {
 
                 hero temp = heroesToAttack[0];
@@ -638,7 +677,7 @@ public class hero : entityManager
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
             }
-            else if (thridAttack >= randomAttack)
+            else if (GargouillethridAttack >= randomAttack)
             {
                 m_valueText.text = "";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[7];
@@ -646,25 +685,26 @@ public class hero : entityManager
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
             }
-            else if (secondAttack >= randomAttack)
+            else if (GargouillesecondAttack >= randomAttack)
             {
+                m_IsAttacking = true;
                 Debug.Log("aoe");
-                m_valueText.text = dmgAOE.ToString();
+                m_valueText.text = GargouilledmgAOE.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
                 this.m_spriteFocus.sprite = null;
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
             }
-            else if (firtAttack >= randomAttack)
+            else if (GargouillefirtAttack >= randomAttack)
             {
                 hero temp = heroesToAttack[0];
-
+                m_IsAttacking = true;
                 foreach (hero champ in heroesToAttack)
                 {
-                    if (champ.getPv() - dmg <= 0)
+                    if (champ.getPv() - Gargouilledmg <= 0)
                     {
                         randomHero = temp;
-                        m_valueText.text = dmg.ToString();
+                        m_valueText.text = Gargouilledmg.ToString();
                         this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                         if (randomHero.m_role == Role.Arboriste)
                         {
@@ -679,7 +719,7 @@ public class hero : entityManager
                     }
                 }
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
-                m_valueText.text = dmg.ToString();
+                m_valueText.text = Gargouilledmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
@@ -696,7 +736,7 @@ public class hero : entityManager
         }
         else
         {
-            if (fourthAttack >= randomAttack) //debuff next round
+            if (GargouillefourthAttack >= randomAttack) //debuff next round
             {
 
                 hero temp = heroesToAttack[0];
@@ -709,35 +749,36 @@ public class hero : entityManager
 
                 temp.m_damageMultiplier = 2;
             }
-            else if (thridAttack >= randomAttack)
+            else if (GargouillethridAttack >= randomAttack)
             {
                 this.isProvocation = true;
                 gameManager.IsAnyProv = true;
             }
-            else if (secondAttack >= randomAttack)
+            else if (GargouillesecondAttack >= randomAttack)
             {
+                this.isProvocation = false;
                 foreach (hero champ in heroesToAttack)
-                    champ.takeDamage(dmgAOE);
+                    champ.takeDamage(GargouilledmgAOE);
             }
-            else if (firtAttack >= randomAttack)
+            else if (GargouillefirtAttack >= randomAttack)
             {
                 Debug.Log("dmg");
-
+                m_IsAttacking = false;
                 hero temp = heroesToAttack[0];
 
                 foreach (hero champ in heroesToAttack)
                 {
-                    if (champ.getPv() - dmg <= 0)
+                    if (champ.getPv() - Gargouilledmg <= 0)
                     {
-                        temp.takeDamage(dmg);
+                        temp.takeDamage(Gargouilledmg);
                         return;
                     }
                 }
                 if (randomHero.getIsAlive() == true)
-                    randomHero.takeDamage(dmg);
+                    randomHero.takeDamage(Gargouilledmg);
                 else
                 {
-                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
+                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(Gargouilledmg);
                 }
             }
         }
@@ -750,14 +791,7 @@ public class hero : entityManager
     {
         if (this.isAlive == false)
             return;
-        int firtAttack = 100;
-        int secondAttack = 65;
-        int thridAttack = 30;
-        int fourthAttack = 10;
         
-        int dmgLourd = 10;
-        int dmg = 7;
-        int heal = 3;
         var tempColor = m_spriteTypeAttack.color;
         tempColor.a = 1f;
         m_spriteTypeAttack.color = tempColor;
@@ -766,11 +800,12 @@ public class hero : entityManager
         if (fight)
         {
             randomAttack = (int)Random.Range(0f, 100);
-            if (fourthAttack >= randomAttack)
+            if (HommeVersfourthAttack >= randomAttack)
             {
+                m_IsAttacking = true;
 
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
-                m_valueText.text = dmg.ToString();
+                m_valueText.text = HommeVersdmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
@@ -783,10 +818,11 @@ public class hero : entityManager
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
             }
-            else if (thridAttack >= randomAttack)
+            else if (HommeVersthridAttack >= randomAttack)
             {
+                m_IsAttacking = true;
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
-                m_valueText.text = dmgLourd.ToString();
+                m_valueText.text = HommeVersdmgLourd.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
@@ -799,12 +835,12 @@ public class hero : entityManager
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
             }
-            else if (secondAttack >= randomAttack)
+            else if (HommeVerssecondAttack >= randomAttack)
             {
                 //nerf et on ne vois plus la description des cartes
                 throw new System.NotImplementedException("attaque pas encore implémenté (ne plus voir la description des cartes)");
             }
-            else if (firtAttack >= randomAttack)
+            else if (HommeVersfirtAttack >= randomAttack)
             {
                 
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
@@ -825,21 +861,21 @@ public class hero : entityManager
         }
         else
         {
-            if (fourthAttack >= randomAttack)
+            if (HommeVersfourthAttack >= randomAttack)
             {
-                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
-                this.m_Pv += heal;
+                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(HommeVersdmg);
+                this.m_Pv += HommeVersheal;
             }
-            else if (thridAttack >= randomAttack)
+            else if (HommeVersthridAttack >= randomAttack)
             {
-                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmgLourd);
+                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(HommeVersdmgLourd);
             }
-            else if (secondAttack >= randomAttack)
+            else if (HommeVerssecondAttack >= randomAttack)
             {
                 //nerf et on ne vois plus la description des cartes
                 throw new System.NotImplementedException("attaque pas encore implémenté (ne plus voir la description des cartes)");
             }
-            else if (firtAttack >= randomAttack)
+            else if (HommeVersfirtAttack >= randomAttack)
             {
                 if(randomHero.getIsAlive() == true)
                     randomHero.m_isDebufArmor = true;
@@ -858,10 +894,7 @@ public class hero : entityManager
 
         if (this.isAlive == false)
             return;
-        int firtAttack = 100;
-        int secondAttack = 45;
-        int thridAttack = 12;
-        int dmg = 12;
+
         var tempColor = m_spriteTypeAttack.color;
         tempColor.a = 1f;
         m_spriteTypeAttack.color = tempColor;
@@ -870,16 +903,16 @@ public class hero : entityManager
         if (fight)
         {
             randomAttack = (int)Random.Range(0f, 100);
-            if (thridAttack >= randomAttack)
+            if (DemonthridAttack >= randomAttack)
             {
                 int healing = this.m_Pv * 15 / 100;
                 this.m_valueText.text = healing.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[8];
             }
-            else if (secondAttack >= randomAttack)
+            else if (DemonsecondAttack >= randomAttack)
             {
                 hero temp = heroesToAttack[0];
-
+                m_IsAttacking = true;
                 foreach (hero champ in heroesToAttack)
                 {
                     if (champ.getPv() > temp.getPv())
@@ -889,7 +922,7 @@ public class hero : entityManager
                     }
                 }
                 randomHero = temp;
-                m_valueText.text = dmg.ToString();
+                m_valueText.text = Demondmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 if (randomHero.m_role == Role.Arboriste)
                 {
@@ -901,10 +934,10 @@ public class hero : entityManager
                 }
                 
             }
-            else if (firtAttack >= randomAttack)
+            else if (DemonfirtAttack >= randomAttack)
             {
                 hero temp = heroesToAttack[0];
-
+                m_IsAttacking = true;
                 foreach (hero champ in heroesToAttack)
                 {
                     if (champ.getPv() > temp.getPv())
@@ -914,7 +947,7 @@ public class hero : entityManager
                     }
                 }
                 randomHero = temp;
-                m_valueText.text = dmg.ToString();
+                m_valueText.text = Demondmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 if (randomHero.m_role == Role.Arboriste)
                 {
@@ -929,11 +962,11 @@ public class hero : entityManager
         }
         else
         {
-            if (thridAttack >= randomAttack)
+            if (DemonthridAttack >= randomAttack)
             {
                 this.m_Pv = this.m_Pv * 15 / 100;
             }
-            else if (secondAttack >= randomAttack)
+            else if (DemonsecondAttack >= randomAttack)
             {
                 hero temp = heroesToAttack[0];
 
@@ -942,9 +975,10 @@ public class hero : entityManager
                     if (champ.getPv() > temp.getPv())
                         temp = champ;
                 }
-                temp.takeDamage(dmg);
+                temp.takeDamage(Demondmg);
+                m_IsAttacking = false;
             }
-            else if (firtAttack >= randomAttack)
+            else if (DemonfirtAttack >= randomAttack)
             {
                 hero temp = heroesToAttack[0];
 
@@ -953,7 +987,8 @@ public class hero : entityManager
                     if (champ.getPv() < temp.getPv())
                         temp = champ;
                 }
-                temp.takeDamage(dmg);
+                temp.takeDamage(Demondmg);
+                m_IsAttacking = false;
             }
         }
 
@@ -965,16 +1000,7 @@ public class hero : entityManager
     {
         if (this.isAlive == false)
             return;
-        int firtAttack = 100;
-        int secondAttack = 75;
-        int thridAttack = 55;
-        int fourthAttack = 25;
-        int fithAttack = 10;
-        int sixth = 5;
-        int dmg = 16;
-        int dmgAOE = 10;
-        int dmgLourd = 20;
-        int armor = 12;
+        
         var tempColor = m_spriteTypeAttack.color;
         tempColor.a = 1f;
         m_spriteTypeAttack.color = tempColor;
@@ -983,7 +1009,7 @@ public class hero : entityManager
         if (fight)
         {
             randomAttack = (int)Random.Range(0f, 100);
-            if (sixth >= randomAttack) //antiheal
+            if (Dragonsixth >= randomAttack) //antiheal
             {
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = "1";
@@ -997,7 +1023,7 @@ public class hero : entityManager
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
             }
-            else if (fithAttack >= randomAttack) //boost
+            else if (DragonfithAttack >= randomAttack) //boost
             {
                 Debug.Log("boostStat");
                 m_valueText.text = "2";
@@ -1006,27 +1032,29 @@ public class hero : entityManager
                 m_spriteFocus.color = tempColor;
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[3];
             }
-            else if (fourthAttack >= randomAttack) //armor
+            else if (DragonfourthAttack >= randomAttack) //armor
             {
-                m_valueText.text = armor.ToString();
+                m_valueText.text = Dragonarmor.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
                 this.m_spriteFocus.sprite = null;
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
             }
-            else if (thridAttack >= randomAttack) //aoe
+            else if (DragonthridAttack >= randomAttack) //aoe
             {
                 Debug.Log("aoe");
-                m_valueText.text = dmgAOE.ToString();
+                m_IsAttacking = true;
+                m_valueText.text = DragondmgAOE.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
                 this.m_spriteFocus.sprite = null;
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
             }
-            else if (secondAttack >= randomAttack) //lourd
+            else if (DragonsecondAttack >= randomAttack) //lourd
             {
+                m_IsAttacking = true;
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
-                m_valueText.text = dmgLourd.ToString();
+                m_valueText.text = DragondmgLourd.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
@@ -1039,10 +1067,11 @@ public class hero : entityManager
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
             }
-            else if (firtAttack >= randomAttack) //normal
+            else if (DragonfirtAttack >= randomAttack) //normal
             {
+                m_IsAttacking = true;
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
-                m_valueText.text = dmg.ToString();
+                m_valueText.text = Dragondmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
@@ -1059,43 +1088,46 @@ public class hero : entityManager
         }
         else
         {
-            if (sixth >= randomAttack) //antiheal
+            if (Dragonsixth >= randomAttack) //antiheal
             {
                 if(randomHero.isAlive) 
                     randomHero.isAntiHeal = true;
                 else
                     heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].isAntiHeal = true;
             }
-            else if (fithAttack >= randomAttack) //boost
+            else if (DragonfithAttack >= randomAttack) //boost
             {
-                dmg += 2;
-                dmgAOE += 2;
-                dmgLourd += 2;
+                Dragondmg += 2;
+                DragondmgAOE += 2;
+                DragondmgLourd += 2;
             }
-            else if (fourthAttack >= randomAttack) //armor
+            else if (DragonfourthAttack >= randomAttack) //armor
             {
-                this.setArmor(armor);
+                this.setArmor(Dragonarmor);
             }
-            else if (thridAttack >= randomAttack) //aoe
+            else if (DragonthridAttack >= randomAttack) //aoe
             {
                 foreach (hero hero in heroesToAttack)
                 {
-                    hero.takeDamage(dmgAOE);
+                    hero.takeDamage(DragondmgAOE);
                 }
+                m_IsAttacking = false;
             }
-            else if (secondAttack >= randomAttack) //lourd
+            else if (DragonsecondAttack >= randomAttack) //lourd
             {
+                m_IsAttacking = false;
                 if (randomHero.isAlive)
-                    randomHero.takeDamage(dmgLourd);
+                    randomHero.takeDamage(DragondmgLourd);
                 else
-                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmgLourd);
+                    heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(DragondmgLourd);
             }
-            else if (firtAttack >= randomAttack) //normal
+            else if (DragonfirtAttack >= randomAttack) //normal
             {
+                m_IsAttacking = false;
                 if (randomHero.isAlive)
-                    randomHero.takeDamage(dmg);
+                    randomHero.takeDamage(Dragondmg);
                 else
-                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(dmg);
+                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(Dragondmg);
             }
         }
         

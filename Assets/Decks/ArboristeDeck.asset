@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23dd0271997c14f4eb390c7be1c1d0a0, type: 3}
+  m_Name: ArboristeDeck
+  m_EditorClassIdentifier: 
+  m_name: Arboriste
+  m_role: 4
+  dataCards:
+  - {fileID: 11400000, guid: 63ddd429494ac9d469a2a77b57baa499, type: 2}
+  - {fileID: 11400000, guid: 0759acbd84bfa844ca2fa16462de1362, type: 2}
+  - {fileID: 11400000, guid: 3d24cdc3ffd23aa4da47f23c3177bdc3, type: 2}
+  - {fileID: 11400000, guid: c33c2177985ae08429c7ad6f03f9473b, type: 2}
+  - {fileID: 11400000, guid: f21b14927067d2a46b0c255488616f36, type: 2}
+  - {fileID: 11400000, guid: 13f85a743bc02e64b977a273ba9f397c, type: 2}
+  - {fileID: 11400000, guid: 696723add35e8824da7a827c0d65d40f, type: 2}
+  - {fileID: 11400000, guid: f91c3884f05fc034ea3c91c5a8102862, type: 2}
+  - {fileID: 11400000, guid: 659fea35bdc7c334ab292e12977393b4, type: 2}
+  - {fileID: 11400000, guid: f5c14aacb61ba754787232042d814180, type: 2}
+  - {fileID: 11400000, guid: 9415dee6b5db30a42839a07d47a2f21a, type: 2}
+  - {fileID: 11400000, guid: 234363390743f5641b5a4913e517a6af, type: 2}
+  - {fileID: 11400000, guid: c4bb7603d35501e41b19faa0ba6be1c4, type: 2}
+  - {fileID: 11400000, guid: faeed8539d8744f46bc75a2555d15321, type: 2}
+  - {fileID: 11400000, guid: 2c28cc5162c929d48a4a4c01287a62a6, type: 2}
+  - {fileID: 11400000, guid: c4b931975ac527849ad8f8e74f47a18c, type: 2}
