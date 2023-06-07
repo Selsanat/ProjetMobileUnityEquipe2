@@ -1121,6 +1121,7 @@ public class Fight : MonoBehaviour
         Debug.Log("Loosedfight");
         StopCoroutine(coroutine);
         ResetAll();
+        Gm.winoulose = false;
         SceneManager.LoadScene(0);
         FindObjectOfType<MapManager>().GenerateNewMap();
 
@@ -1131,7 +1132,12 @@ public class Fight : MonoBehaviour
         Debug.Log("WinFinalFight");
         StopCoroutine(coroutine);
         ResetAll();
-        SceneManager.LoadScene(0);
+        Gm.transi.Play("Transi");
+        yield return new WaitForSeconds(1.5f);
+        Gm.winoulose = true;
+        SceneManager.LoadScene(2);
+        Gm.transi.Play("Detransi");
+        
         FindObjectOfType<MapManager>().GenerateNewMap();
     }
 

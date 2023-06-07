@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     public bool isManaMultiplier = false;
     public int manaMultiplier = 2;
     public bool isAbsolution = false;
+    public bool winoulose;
+
     public bool isHoverButton = false;
     public Animator transi;
 
