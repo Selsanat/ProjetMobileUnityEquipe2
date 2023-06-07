@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae1fa1b220ceaa4fae9d3d1a724796b, type: 3}
   m_Name: ParMaMainSoitBeni
   m_EditorClassIdentifier: 
-  m_manaCost: 1
-  m_value: 6
+  m_manaCost: 0
+  m_value: 0
   m_index: 0
   nombreDexecutiion: 1
-  unlockLevel: 0
-  m_cardTypes: 6
+  unlockLevel: 2
+  m_cardTypes: 12
   m_cardEffects: []
   TargetAllies: 0
   TargetEnnemies: 1
@@ -28,9 +28,9 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
-  Description: "Inflige 6 blessures \xE0 un ennemi qui projette d'attaquer"
-  Name: Habemus Dominus
-  m_cardFrontSprite: {fileID: 21300000, guid: 2b700880db84b9e498e1963d96764a47, type: 3}
-  BackDescription: "Inflige 12 blessures \xE0 un monstre qui n'attaque pas"
-  BackName: Diabolus Est
-  m_cardBackSprite: {fileID: 21300000, guid: 90d20c11753721f4ba7606658913733c, type: 3}
+  Description: "Inflige autant de blessures que de points de v\xE9n\xE9ration poss\xE9d\xE9.
+    Piochez une carte"
+  Name: "Par ma main soit b\xE9ni"
+  m_cardFrontSprite: {fileID: 21300000, guid: 8a9bca81616108e409bacd821df9960f, type: 3}
+  m_cardBackSprite: {fileID: 0}
+  BackCard: {fileID: 11400000, guid: af4f2f3f43836bd4c803b4e3a9406b2f, type: 2}

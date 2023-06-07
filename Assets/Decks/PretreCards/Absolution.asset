@@ -28,7 +28,8 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
-  Description: "Inflige 6 blessures \xE0 un ennemi qui projette d'attaquer"
+  Description: "Ce tour, le bloquage et le soin inflige \xE9galement autant de blessure
+    \xE0 tout les monstres"
   Name: Absolution
   m_cardFrontSprite: {fileID: 21300000, guid: 4955ad69ef499e6419bc3873cbca6c4b, type: 3}
   m_cardBackSprite: {fileID: 0}
