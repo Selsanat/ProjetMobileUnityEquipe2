@@ -21,6 +21,7 @@ public class dataCard : ScriptableObject
     [SerializeField] public int m_value;
     [SerializeField] public int m_index; //index de la carte dans la liste
     [SerializeField] public int nombreDexecutiion = 1; //nb de fois que la cartee s'execute
+    [SerializeField] public int unlockLevel;
     [SerializeField] CardType m_cardTypes;
 
     [SerializeField] List<CardEffect> m_cardEffects;
@@ -44,10 +45,13 @@ public class dataCard : ScriptableObject
     [SerializeField] string m_FullCardExplain;
 
     [Header("looking")]
-    [SerializeField] public Sprite m_cardFrontSprite;
-    [SerializeField] public Sprite m_cardBackSprite;
     [SerializeField] public String Description;
     [SerializeField] public String Name;
+    [SerializeField] public Sprite m_cardFrontSprite;
+    [SerializeField] public Sprite m_cardBackSprite;
+
+    [SerializeField] dataCard BackCard;
+
 
     private GameManager GM;
 
