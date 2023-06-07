@@ -55,6 +55,7 @@ public class Fight : MonoBehaviour
     [SerializeField] Button endTurnButton;
     [SerializeField] TextMeshProUGUI stockText;
     [SerializeField] TextMeshProUGUI manaText;
+    [SerializeField] List<GameObject> EnPrefabs;
 
     public int mana;
     private int stock = 0;
@@ -137,6 +138,29 @@ public class Fight : MonoBehaviour
         }
         lightsAllies.Add(lumiere);
         
+    }
+    void ChangerBouttonEnGameObject(Button ComponentBouton, GameObject prefab, bool sideTrueIsAllies)
+    {
+        GameObject perso = GameObject.Instantiate(prefab);
+        perso.transform.position = Camera.main.ScreenToWorldPoint(ComponentBouton.transform.position);
+        SpriteRenderer SpritePerso = perso.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
+        perso.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        perso.transform.parent = ComponentBouton.transform;
+        Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
+        lumiere.enabled = false;
+
+        if (ComponentBouton == ennemisButton1 || ComponentBouton == ennemisButton2 || ComponentBouton == ennemisButton3)
+        {
+            lightsEnnemies.Add(lumiere);
+            lumiere.color = Color.red;
+            return;
+        }
+        else
+        {
+            lumiere.color = Color.green;
+        }
+        lightsAllies.Add(lumiere);
+
     }
 
     public void CancelCard()
@@ -372,7 +396,7 @@ public class Fight : MonoBehaviour
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.setIsAlive(true);
-            ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
+            ChangerBouttonEnGameObject(ennemisButton1, EnPrefabs[0], false);
             GameObject.Find("enemy2").SetActive(false);
             GameObject.Find("enemy3").SetActive(false);
         }
@@ -390,7 +414,7 @@ public class Fight : MonoBehaviour
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
+            ChangerBouttonEnGameObject(ennemisButton1, EnPrefabs[0], false);
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
@@ -403,7 +427,7 @@ public class Fight : MonoBehaviour
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En2.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
+            ChangerBouttonEnGameObject(ennemisButton2, EnPrefabs[1], false);
             GameObject.Find("enemy3").SetActive(false);
 
         }
@@ -421,7 +445,7 @@ public class Fight : MonoBehaviour
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton1, en1.m_sprite, false);
+            ChangerBouttonEnGameObject(ennemisButton1, EnPrefabs[0], false);
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
@@ -434,7 +458,7 @@ public class Fight : MonoBehaviour
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En2.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton2, En2.m_sprite, false);
+            ChangerBouttonEnGameObject(ennemisButton2, EnPrefabs[1], false);
 
             En3 = Gm.allWave[Gm.waveCounter][waveType][2].SetEnemy();
             temp = GameObject.Find("enemy3");
@@ -448,7 +472,7 @@ public class Fight : MonoBehaviour
             En3.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En3.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton3, En3.m_sprite, false);
+            ChangerBouttonEnGameObject(ennemisButton3, EnPrefabs[2], false);
         }
 
 
