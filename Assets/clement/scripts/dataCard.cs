@@ -27,6 +27,18 @@ public class dataCard : ScriptableObject
     [SerializeField] List<CardEffect> m_cardEffects;
 
     #endregion
+    #region STATISTICBACK
+    [Header("Basic Stats")]
+    [SerializeField] int m_manaCostB; //mana
+    [SerializeField] public int m_valueB;
+    [SerializeField] public int m_indexB; //index de la carte dans la liste
+    [SerializeField] public int nombreDexecutiionB = 1; //nb de fois que la cartee s'execute
+    [SerializeField] public int unlockLevelB;
+    [SerializeField] CardType m_cardTypesB;
+
+    [SerializeField] List<CardEffect> m_cardEffectsB;
+
+    #endregion
     #region TARGET
     [Header("Define Target")]
     [SerializeField] public bool TargetAllies;
