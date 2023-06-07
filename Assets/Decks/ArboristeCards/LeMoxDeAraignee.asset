@@ -17,10 +17,10 @@ MonoBehaviour:
   m_index: 0
   nombreDexecutiion: 1
   unlockLevel: 0
-  m_cardTypes: 0
+  m_cardTypes: 23
   m_cardEffects: []
   TargetAllies: 0
-  TargetEnnemies: 0
+  TargetEnnemies: 1
   AOEAllies: 0
   AOEEnnemies: 0
   m_isDeleteOnTurn: 0
@@ -28,8 +28,9 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
-  Description: 
-  Name: 
-  m_cardFrontSprite: {fileID: 0}
+  Description: "Inflige et Bloque le double de mana poss\xE9d\xE9s. Double vos Manas
+    de ce tour"
+  Name: "Le mox de l'araign\xE9e"
+  m_cardFrontSprite: {fileID: 21300000, guid: e449d784bc9fa7c4da6d18bf5b198f79, type: 3}
   m_cardBackSprite: {fileID: 0}
   BackCard: {fileID: 0}

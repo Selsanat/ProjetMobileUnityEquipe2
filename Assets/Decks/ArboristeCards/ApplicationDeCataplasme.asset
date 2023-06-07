@@ -10,27 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ae1fa1b220ceaa4fae9d3d1a724796b, type: 3}
-  m_Name: LeMoxDuLion
+  m_Name: ApplicationDeCataplasme
   m_EditorClassIdentifier: 
-  m_manaCost: 0
+  m_manaCost: 1
   m_value: 0
   m_index: 0
   nombreDexecutiion: 1
-  unlockLevel: 0
-  m_cardTypes: 22
+  unlockLevel: 6
+  m_cardTypes: 26
   m_cardEffects: []
   TargetAllies: 1
   TargetEnnemies: 0
-  AOEAllies: 1
+  AOEAllies: 0
   AOEEnnemies: 0
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
-  Description: "Vide le mana, Bloquez du double. Au prochain tour, r\xE9cup\xE9rez
-    ce mana."
-  Name: Le mox du lion
-  m_cardFrontSprite: {fileID: 21300000, guid: ff25ae0c198e9af4ea8ff335ebf12a8a, type: 3}
+  Description: "Soigne 2 PV et supprime les effets n\xE9gatifs"
+  Name: Application des cataplasmes
+  m_cardFrontSprite: {fileID: 21300000, guid: c5f39c4bda0b5574081094cb0057ba91, type: 3}
   m_cardBackSprite: {fileID: 0}
-  BackCard: {fileID: 11400000, guid: f91c3884f05fc034ea3c91c5a8102862, type: 2}
+  BackCard: {fileID: 11400000, guid: 63ddd429494ac9d469a2a77b57baa499, type: 2}
