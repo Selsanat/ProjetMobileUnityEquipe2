@@ -102,7 +102,7 @@ public class CardObject : MonoBehaviour
     }
     void OnMouseDrag()
     {
-        if (gameManager.CardsInteractable )
+        if (gameManager.CardsInteractable)
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
@@ -141,12 +141,26 @@ public class CardObject : MonoBehaviour
         {
             transform.localScale = new Vector3(1, 1, 1);
             gameManager.deck.ReorderZCards();
+
             
-            if (transform.position.y < gameManager.RangePourActiverCarte)
+            if (transform.position.y >= gameManager.RangePourActiverCarte && gameManager.FM.mana >= DataCard.m_manaCost)   
             {
-                transform.position = PosBeforeDrag;
+                print(DataCard.m_manaCost);
+                gameManager.CarteUtilisee = this;
+                gameManager.FM.Cardsend(this, indexHand);
+
+                Slot = this.gameObject.transform;
+                FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true);
+                FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true);
+                SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies);
+
                 
-                if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect)
+            }
+            else 
+            {
+
+
+                if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect && transform.position.y < gameManager.RangePourActiverCarte)
                 {
                     gameManager.CardsInteractable = false;
                     //print(gameManager.InspectUI.Image.sprite);
@@ -156,20 +170,11 @@ public class CardObject : MonoBehaviour
                     gameManager.InspectUI.Name.text = this.DataCard.Name;
                     gameManager.InspectUI.description.text = this.DataCard.Description;
                     RemettreCardSlot();
-                    
-                }
-                transform.position = M_t.position;
-                transform.localScale = new Vector3(1.5f,1.5f,1.5f);
-            }
-            else
-            {
-                gameManager.CarteUtilisee = this;
-                gameManager.FM.Cardsend(this, indexHand);
 
-                Slot = this.gameObject.transform;
-                FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
-                FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true) ;
-                SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies) ;
+                }
+                transform.position = PosBeforeDrag;
+                transform.position = M_t.position;
+                transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
             }
         }

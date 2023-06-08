@@ -54,7 +54,7 @@ public class Fight : MonoBehaviour
     [SerializeField] Button selectedButton;
     [SerializeField] Button endTurnButton;
     [SerializeField] public TextMeshProUGUI stockText;
-    [SerializeField] TextMeshProUGUI manaText;
+    [SerializeField] public TextMeshProUGUI manaText;
     [SerializeField] List<GameObject> EnPrefabs;
 
     public int mana;
@@ -253,6 +253,9 @@ public class Fight : MonoBehaviour
     {
         if (selectedhero.Count != 0)
         {
+            print(Gm.CarteUtilisee.DataCard.m_manaCost);
+            mana -= Gm.CarteUtilisee.DataCard.m_manaCost; 
+            manaText.text = mana.ToString();
             play.gameObject.SetActive(false);
             cancel.gameObject.SetActive(false);
             DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
@@ -565,6 +568,7 @@ public class Fight : MonoBehaviour
 
     public void Cardsend(CardObject card, int index)
     {
+        
         pretreButton?.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
         card.DataCard.m_index = card.indexHand;
@@ -583,9 +587,9 @@ public class Fight : MonoBehaviour
         //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alli�e qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null;//&& selectedhero != null&& ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
-        play.onClick.AddListener(() => { if(conditionjouer) StartCoroutine(CardAnimDisolve());});
+        play.onClick.AddListener(() => { if (conditionjouer) StartCoroutine(CardAnimDisolve()); });
         //[WIP]je dois le changer[WIP]
-
+        
         if (!selectedcard.AOEEnnemies && selectedcard.TargetEnnemies)
         {
             ennemisButton1?.onClick.AddListener(() => 
@@ -1176,6 +1180,7 @@ public class Fight : MonoBehaviour
         Gm.winoulose = false;
         SceneManager.LoadScene(0);
         FindObjectOfType<MapManager>().GenerateNewMap();
+        Gm.SaveData();
 
     }
 
@@ -1196,6 +1201,7 @@ public class Fight : MonoBehaviour
         Gm.transi.Play("Detransi");
 
         FindObjectOfType<MapManager>().GenerateNewMap();
+        Gm.SaveData();
     }
 
     IEnumerator XpLerp()
@@ -1421,6 +1427,7 @@ public class Fight : MonoBehaviour
         enemiesAtStartOfCombat.Clear();
         
         selectedcard = null;
+        Gm.SaveData();
         yield return new WaitUntil(() => Input.GetMouseButton(0));
         StartCoroutine(ChangeSceneApresCOmbat());
 
