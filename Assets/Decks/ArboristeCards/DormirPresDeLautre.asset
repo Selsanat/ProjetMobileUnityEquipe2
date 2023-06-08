@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_manaCost: 3
   m_value: 0
-  m_index: 0
+  m_index: 2
   nombreDexecutiion: 1
   unlockLevel: 3
   m_cardTypes: 36
@@ -28,8 +28,10 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
+  isDruidCard: 1
   Description: "Soignez 4, Bloquez 4, V\xE9n\xE9rez 4"
   Name: "Dormir pr\xE8s de l'autre"
   m_cardFrontSprite: {fileID: 21300000, guid: 1f05268f32846ab4d8dcafc60bcbfbb9, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 3a78207e2c3b08048929bf4431e03528, type: 3}
   BackCard: {fileID: 11400000, guid: faeed8539d8744f46bc75a2555d15321, type: 2}
+  GM: {fileID: 0}

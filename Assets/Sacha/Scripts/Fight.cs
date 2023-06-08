@@ -46,8 +46,8 @@ public class Fight : MonoBehaviour
     private int ennemisTues = 0;
     [SerializeField] public Button play;
     [SerializeField] public Button cancel;
-    [SerializeField] Button arboristeButton;
-    [SerializeField] Button pretreButton;
+    [SerializeField] public Button arboristeButton;
+    [SerializeField] public Button pretreButton;
     [SerializeField] Button ennemisButton1;
     [SerializeField] Button ennemisButton2;
     [SerializeField] Button ennemisButton3;
@@ -56,6 +56,7 @@ public class Fight : MonoBehaviour
     [SerializeField] public TextMeshProUGUI stockText;
     [SerializeField] TextMeshProUGUI manaText;
     [SerializeField] List<GameObject> EnPrefabs;
+    [SerializeField] GameObject PrefabDmgText;
 
     public int mana;
     public int stock = 0;
@@ -144,7 +145,7 @@ public class Fight : MonoBehaviour
         GameObject perso = GameObject.Instantiate(prefab);
         perso.transform.position = Camera.main.ScreenToWorldPoint(ComponentBouton.transform.position);
         SpriteRenderer SpritePerso = perso.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
-        perso.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        perso.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
         perso.transform.parent = ComponentBouton.transform;
         Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
         lumiere.enabled = false;
@@ -243,7 +244,7 @@ public class Fight : MonoBehaviour
         }
         else
         {
-            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(2).gameObject.GetComponent<Light2D>();
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(1).gameObject.GetComponent<Light2D>();
             lightDuBoutton.enabled = true;
         }
         
@@ -277,6 +278,7 @@ public class Fight : MonoBehaviour
         endTurnButton.onClick.AddListener(() => { repMana(); });
         #region Set Up des personnages
         GameObject temp;
+        GameObject temporary = new GameObject() ;
 
         hero H1;
         hero H2;
@@ -309,6 +311,9 @@ public class Fight : MonoBehaviour
             H2.m_slider.maxValue = H2.getMaxPv();
             H2.m_slider.value = H2.getPv();
             H2.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            H2.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
+            H2.Armor = H2.ArmorText.transform.parent.gameObject.GetComponent<Image>();
+            print(H2.ArmorText + "Champ");
             H2.stockText.text = H2.getMana().ToString() + " / " + H2.m_manaMax;
 
             temp = GameObject.Find("champ2");
@@ -319,6 +324,9 @@ public class Fight : MonoBehaviour
             H1.m_slider.maxValue = H1.getMaxPv();
             H1.m_slider.value = H1.getPv();
             H1.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            H1.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
+            H1.Armor = H1.ArmorText.transform.parent.gameObject.GetComponent<Image>();
+            print(H1.ArmorText + "Champ2");
             H1.stockText.text = H1.getMana().ToString() + " / " + H1.m_manaMax;
 
             GameObject.Find("champSolo").SetActive(false);
@@ -339,13 +347,15 @@ public class Fight : MonoBehaviour
                 Gm.IsArboristePlayed = true;
             }
             else
-                H2 = new hero(entityManager.Role.Pretre, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
+                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
 
 
             H2.m_slider = temp.GetComponentInChildren<Slider>();
             H2.m_slider.maxValue = H2.getMaxPv();
             H2.m_slider.value = H2.getPv();
+            H2.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H2.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            H2.Armor = H2.ArmorText.transform.parent.gameObject.GetComponent<Image>();
             H2.stockText.text = H2.getMana().ToString() + " / " + H2.m_manaMax;
 
 
@@ -371,6 +381,8 @@ public class Fight : MonoBehaviour
             H1.m_slider.maxValue = H1.getMaxPv();
             H1.m_slider.value = H1.getPv();
             H1.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            H1.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
+            H1.Armor = H1.ArmorText.transform.parent.gameObject.GetComponent<Image>();
             H1.stockText.text = H1.getMana().ToString() + " / " + H1.m_manaMax;
         }
         #endregion
@@ -518,13 +530,13 @@ public class Fight : MonoBehaviour
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
                 arboristeButton.interactable = true;
-                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine()); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.interactable = false; nbTransfo++; });
+                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.interactable = false; nbTransfo++; });
 
             }
             else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
             {
                 pretreButton.interactable = true;
-                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine()); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.interactable = false; nbTransfo++; });
+                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.interactable = false; nbTransfo++; });
                 
 
             }
@@ -791,8 +803,8 @@ public class Fight : MonoBehaviour
         }
         if (!selectedcard.AOEAllies && selectedcard.TargetAllies)
         {
-            arboristeButton?.onClick.AddListener(() => { ClearSide(true); selectedhero.Add(heroes[0]); switchLightSelection(arboristeButton, true); });
-            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton, true); ClearSide(true); ; if (perso1 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); });
+            arboristeButton?.onClick.AddListener(() => { ClearSide(true); switchLightSelection(arboristeButton, true); if (perso2 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]);});
+            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton, true); ClearSide(true); selectedhero.Add(heroes[0]); });
         }
         else
         {
@@ -875,6 +887,7 @@ public class Fight : MonoBehaviour
     {
         foreach (hero h in heroes)
         {
+
             for (int i = 0; i < h.MyEffects?.Count; i++)
             {
                 dataCard.CardEffect e = h.MyEffects[i];
@@ -887,13 +900,13 @@ public class Fight : MonoBehaviour
                         h.MyEffects.Remove(e);
                     }
                 }
-                h.resetArmor();
                 if (!CheckifHeroAreAlive())
                 {
                     LooseFight();
                 }
-                heroes[i].resetArmor();
             }
+            h.resetArmor();
+            UpdateArmorValue(h);
         }
 
     }
@@ -1693,7 +1706,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.MaleusHerbeticae(hero);
+                                card.ArmureEcorse(hero);
                             }
                         }
                         break;
@@ -1770,5 +1783,78 @@ public class Fight : MonoBehaviour
             selectedButton = null;
         }
     }
+    IEnumerator ArmorFade(bool QuelSens, hero hero)
+    {
+        float valBase;
+        float valFin;
+        if (QuelSens)
+        {
+            valBase = 1f;
+            valFin = 0;
+        }
+        else
+        {
+            valBase = 0;
+            valFin = 1f;
+        }
+        float TempsTransition = 5;
+        float timeElapsed = 0;
+        hero.Armor.color = new Color(hero.Armor.color.r, hero.Armor.color.g, hero.Armor.color.b, valBase);
+        hero.ArmorText.color = new Color(hero.ArmorText.color.r, hero.ArmorText.color.g, hero.ArmorText.color.b, valBase);
+        while (timeElapsed < TempsTransition)
+        {
+            hero.Armor.color = Color.Lerp(hero.Armor.color, new Color(hero.Armor.color.r, hero.Armor.color.g, hero.Armor.color.b, valFin), Time.deltaTime);
+            hero.ArmorText.color = Color.Lerp(hero.ArmorText.color, new Color(hero.ArmorText.color.r, hero.ArmorText.color.g, hero.ArmorText.color.b, valFin), Time.deltaTime);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        hero.Armor.color = new Color(hero.Armor.color.r, hero.Armor.color.g, hero.Armor.color.b, valFin);
+        hero.ArmorText.color = new Color(hero.Armor.color.r, hero.Armor.color.g, hero.Armor.color.b, valFin);
+    }
+    public void UpdateArmorValue(hero hero)
+    {
+        if (hero.ArmorText != null)
+        {
+            hero.ArmorText.text = hero.m_armor.ToString();
+            if (hero.Armor.color.a < 1 && hero.m_armor != 0)
+            {
+                StartCoroutine(ArmorFade(false, hero));
+            }
+            else
+            {
+                if (hero.Armor.color.a > 0 && hero.m_armor == 0)
+                {
+                    StartCoroutine(ArmorFade(true, hero));
+                }
+            }
+        }
 
+    }
+
+    public IEnumerator DamageNumberCorou(GameObject objet, int damage)
+    {
+        GameObject texte = GameObject.Instantiate(PrefabDmgText);
+        texte.transform.position = objet.transform.position;
+        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = ""+damage;
+        yield return new WaitForSeconds(2);
+        Destroy(texte);
+    }
+
+    public void DamageNumber(GameObject objet, int damage)
+    {
+        StartCoroutine(DamageNumberCorou(objet, damage));
+    }
+    public IEnumerator DamageNumberCorou(Vector3 objet, int damage)
+    {
+        GameObject texte = GameObject.Instantiate(PrefabDmgText);
+        texte.transform.position = objet;
+        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = "" + damage;
+        yield return new WaitForSeconds(2);
+        Destroy(texte);
+    }
+
+    public void DamageNumber(Vector3 objet, int damage)
+    {
+        StartCoroutine(DamageNumberCorou(objet, damage));
+    }
 }

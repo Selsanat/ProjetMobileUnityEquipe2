@@ -61,6 +61,8 @@ public class entityManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI m_valueText;
     [SerializeField] public Slider m_slider;
     [SerializeField] public TextMeshProUGUI stockText;
+    [SerializeField] public Image Armor;
+    [SerializeField] public TextMeshProUGUI ArmorText;
     [SerializeField] protected Deck m_deck;
     [SerializeField] public List<hero> heroList;
     [SerializeField] protected bool multipleTarget;
@@ -74,38 +76,7 @@ public class entityManager : MonoBehaviour
     public List<hero> getListHero() { return heroList; }
 
 
-    public void takeDamage (int damage)
-    {
-        Debug.Log("Pv avant : " + m_Pv + " " + m_role);
-        if(m_isDebufArmor)
-        {
-            m_armor /= 2;
-            m_isDebufArmor = false;
-        }
-        damage -= m_armor;
-        if (damage >= 0)
-            m_armor = 0;
-        else
-            damage = 0;
-        
-        m_Pv -= damage * m_damageMultiplier;
-        m_slider.value = m_Pv;
-        this.m_dmgTaken += damage * m_damageMultiplier;
-        Debug.Log("Pv apres: " + m_Pv +" " +m_role);
-        if (m_Pv <= 0)
-        {
-            isAlive = false;
-        }
-        if(m_role == Role.Arboriste)
-        {
-            gameManager.LifeArboriste = m_Pv;
-            
-        }
-        else if(m_role == Role.Pretre)
-        {
-            gameManager.LifePretre = m_Pv;
-        }
-    }
+
 
 
 

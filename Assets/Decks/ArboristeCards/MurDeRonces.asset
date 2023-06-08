@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_manaCost: 3
   m_value: 0
-  m_index: 0
+  m_index: 1
   nombreDexecutiion: 1
   unlockLevel: 0
   m_cardTypes: 24
@@ -28,8 +28,10 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
+  isDruidCard: 1
   Description: Bloque (6), Si un ennemi attaque l'empoisonne 2
   Name: Mur de ronces
   m_cardFrontSprite: {fileID: 21300000, guid: ebf064765012784478ce3b8a8fa1a085, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 572c203363f6c1a40bd8c8c0de13ccd2, type: 3}
   BackCard: {fileID: 11400000, guid: 696723add35e8824da7a827c0d65d40f, type: 2}
+  GM: {fileID: 0}

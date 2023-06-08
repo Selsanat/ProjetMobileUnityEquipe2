@@ -28,9 +28,11 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
+  isDruidCard: 1
   Description: "D\xE8s lors, n'importe quelle quantit\xE9 de v\xE9n\xE9ration suffie
     \xE0 vous faire transcender"
   Name: Profaner le ciel
   m_cardFrontSprite: {fileID: 21300000, guid: 58b1d26ecb533f745aac3b0a14f93bb8, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 424c68a96a6b7a44db5ef065a6c5218d, type: 3}
   BackCard: {fileID: 11400000, guid: 2c28cc5162c929d48a4a4c01287a62a6, type: 2}
+  GM: {fileID: 0}
