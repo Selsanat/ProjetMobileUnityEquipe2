@@ -31,5 +31,5 @@ MonoBehaviour:
   Description: "Soigne 2 PV et supprime les effets n\xE9gatifs"
   Name: Application des cataplasmes
   m_cardFrontSprite: {fileID: 21300000, guid: c5f39c4bda0b5574081094cb0057ba91, type: 3}
-  m_cardBackSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 21300000, guid: b2209d46b561fd742b44b78ac01f63b6, type: 3}
   BackCard: {fileID: 11400000, guid: 63ddd429494ac9d469a2a77b57baa499, type: 2}

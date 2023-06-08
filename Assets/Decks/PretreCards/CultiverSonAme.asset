@@ -31,5 +31,5 @@ MonoBehaviour:
   Description: Conservez une carte, doublez son soin et son bloquage
   Name: Cultiver son ame
   m_cardFrontSprite: {fileID: 21300000, guid: 7d4dac3e3902c3546a9b45f38033262b, type: 3}
-  m_cardBackSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 21300000, guid: 2f713c8b41251c64d960cd67e2eff75c, type: 3}
   BackCard: {fileID: 11400000, guid: 94b26be82533c1e43871b613e12d9716, type: 2}

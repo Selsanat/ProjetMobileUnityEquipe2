@@ -343,6 +343,7 @@ public class Deck : MonoBehaviour
         if (deck.Count >= 1 && availableCardSlots.Contains(true))
         {
             CardObject randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
+            randCard.DataCard.GM = gameManager;
 
             for (int i = 0; i < availableCardSlots.Length - gameManager.debuffDraw; i++)
             {

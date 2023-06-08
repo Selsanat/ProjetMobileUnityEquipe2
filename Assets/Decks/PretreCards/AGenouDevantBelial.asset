@@ -32,5 +32,5 @@ MonoBehaviour:
     cette mani\xE8re vous Soignent 3 v\xE9n\xE9rer 4"
   Name: A genou devant Belial
   m_cardFrontSprite: {fileID: 21300000, guid: 1b6e799ae7b17ba40bf3279ea7c2e3db, type: 3}
-  m_cardBackSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 21300000, guid: 693c4b1141701c746a4354aeb536d2fe, type: 3}
   BackCard: {fileID: 0}

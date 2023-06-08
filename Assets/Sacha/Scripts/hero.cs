@@ -6,6 +6,7 @@ using static Unity.Burst.Intrinsics.Arm;
 
 public class hero : entityManager
 {
+    #region stat ennemies GD
     public int ChienfirtAttack = 100;
     public int ChiensecondAttack = 45;
     public int ChienthridAttack = 20;
@@ -56,7 +57,7 @@ public class hero : entityManager
     public int DragondmgAOE = 10;
     public int DragondmgLourd = 20;
     public int Dragonarmor = 12;
-
+    #endregion
     public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int venerate)
     {
         m_role = role;
@@ -238,6 +239,11 @@ public class hero : entityManager
         }
     }
     #endregion
+
+    public void addEffect(dataCard.CardEffect card)
+    {
+        MyEffects.Add(card);
+    }
     public void setVarHero()
     {
         if (m_role == Role.Arboriste)

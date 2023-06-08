@@ -31,5 +31,5 @@ MonoBehaviour:
   Description: Au prochain tour, Bloquez d'autant que de blessures subits
   Name: Au pied des tabernacles
   m_cardFrontSprite: {fileID: 21300000, guid: 693c4b1141701c746a4354aeb536d2fe, type: 3}
-  m_cardBackSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 21300000, guid: 1b6e799ae7b17ba40bf3279ea7c2e3db, type: 3}
   BackCard: {fileID: 11400000, guid: 248f7a2ec09832c419cc59f1d08fc757, type: 2}

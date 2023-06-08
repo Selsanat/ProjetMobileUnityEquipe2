@@ -810,11 +810,12 @@ public class Fight : MonoBehaviour
 
     public IEnumerator turnwait()
     {
+        
         while (!endturnbool)
         {
             yield return new WaitUntil(() => isCardSend);
             
-            playCard(selectedcard, selectedhero);
+            playCard(selectedhero);
             Deselection(false);
             Gm.deck.PlayCard(selectedcard.m_index);
             isCardSend = false;
@@ -828,6 +829,7 @@ public class Fight : MonoBehaviour
                         ennemisButton1?.onClick.RemoveAllListeners();
                         ennemisButton1?.gameObject.SetActive(false);
                         enemies.Remove(enemiesAtStartOfCombat[i]);
+
                     }
                     else if (i == 1 && ennemisButton2?.IsActive() == true)
                     {
@@ -863,9 +865,10 @@ public class Fight : MonoBehaviour
                     WinFight();
             }
         }
-        PlayEnemyEffects();
+/*        PlayEnemyEffects();
         PlayEnemyTurn();
         Gm.isAbsolution = false;
+        print("Je passe par la lalalalalaa");*/
     }
 
     void PlayPlayerEffects() 
@@ -877,7 +880,7 @@ public class Fight : MonoBehaviour
                 dataCard.CardEffect e = h.MyEffects[i];
                 if (e.nbTour != 0)
                 {
-                    dataCard.DamageEffect(h, e.values);
+                    CardObject.DamageEffect(h, e.values);
                     e.nbTour--;
                     if (e.nbTour == 0)
                     {
@@ -896,23 +899,72 @@ public class Fight : MonoBehaviour
     }
     private void PlayEnemyEffects()
     {
-        foreach (hero h in enemiesAtStartOfCombat)
+        foreach (hero h in enemies)
         {
-            for (int i = 0; i < h.MyEffects?.Count; i++)
+            if (h.isAlive)
             {
-                dataCard.CardEffect e = h.MyEffects[i];
-                if (e.nbTour != 0)
+            //dédicace a clément la salope
+                for (int i = 0; i < h.MyEffects?.Count; i++)
                 {
-                    dataCard.DamageEffect(h, e.values);
-                    e.nbTour--;
-                    if (e.nbTour == 0)
+                    dataCard.CardEffect e = h.MyEffects[i];
+                    if (e.nbTour != 0)
                     {
-                        h.MyEffects.Remove(e);
+                        CardObject temp = new CardObject();
+                        temp.takeDamage(h, e.values);
+                        e.nbTour--;
+                        if (e.nbTour == 0)
+                        {
+                            h.MyEffects.Remove(e);
+                        }
+
+
                     }
-                    
+                }
+            }
+        }
+        for (int i = 0; i < enemiesAtStartOfCombat.Count; i++)
+        {
+            if (enemiesAtStartOfCombat[i].getPv() <= 0)
+            {
+                if (i == 0 && ennemisButton1?.IsActive() == true)
+                {
+                    Debug.Log("ennemi 1 mort");
+                    ennemisButton1?.onClick.RemoveAllListeners();
+                    ennemisButton1?.gameObject.SetActive(false);
+                    enemies.Remove(enemiesAtStartOfCombat[i]);
+
+                }
+                else if (i == 1 && ennemisButton2?.IsActive() == true)
+                {
+                    Debug.Log("ennemi 2 mort");
+                    ennemisButton2?.onClick.RemoveAllListeners();
+                    ennemisButton2?.gameObject.SetActive(false);
+                    enemies.Remove(enemiesAtStartOfCombat[i]);
+
+
+                }
+                else if (i == 2 && ennemisButton3?.IsActive() == true)
+                {
+                    Debug.Log("ennemi 3 mort");
+                    ennemisButton3?.onClick.RemoveAllListeners();
+                    ennemisButton3?.gameObject.SetActive(false);
+                    enemies.Remove(enemiesAtStartOfCombat[i]);
+
 
                 }
             }
+        }
+
+        if (!CheckifEnemyAreAlive())
+        {
+            lightsAllies.Clear();
+            lightsEnnemies.Clear();
+            if (Gm.waveCounter == 12)
+            {
+                WinFinalFight();
+            }
+            else
+                WinFight();
         }
 
     }
@@ -1036,7 +1088,7 @@ public class Fight : MonoBehaviour
     private void PlayEnemyTurn()
     {
 
-        
+        PlayEnemyEffects();
         foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
             En.EnemyAttack(heroes, false);
@@ -1148,6 +1200,7 @@ public class Fight : MonoBehaviour
 
     IEnumerator XpLerp()
     {
+        Gm.CardsInteractable = false;
         int lvldruid =0;
         int lvlpriest=0;
         bool lvlUpDruid = false;
@@ -1423,20 +1476,17 @@ public class Fight : MonoBehaviour
         }
         return false;
     }
-    void playCard(dataCard card, List<hero> selected)
+    void playCard(List<hero> selected)
     {
-        
-            Debug.Log("card type" + card.CardTypes);
-            Debug.Log("enemy count" + selected.Count);
-            for (int i = card.nombreDexecutiion; i != 0; i--)
+        CardObject card = Gm.CarteUtilisee;
+            for (int i = card.DataCard.nombreDexecutiion; i != 0; i--)
             {
-                switch (card.CardTypes)
+                switch (card.DataCard.CardTypes)
                 {
                     case dataCard.CardType.Damage:
                         foreach (hero hero in selected)
                         {
-                            Debug.Log("card damage");
-                            hero.takeDamage(card.m_value);
+                            hero.takeDamage(card.DataCard.m_value);
                         }
                         break;
                     case dataCard.CardType.Heal:
@@ -1463,11 +1513,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.HabemusDominum:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.DiabolusEst(hero);
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.HabemusDominum(hero);
                             }
@@ -1476,11 +1526,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.CultiverAme:
                         foreach (hero hero in selected)
                         {
-                        if (card.m_isUpsideDown)
+                        if (card.DataCard.m_isUpsideDown)
                             {
                                 card.CultiverFlamme();
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.CultiverAme(selectedcard);
                             }
@@ -1489,22 +1539,22 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.Conversion:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.Absolution();
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.Conversion(hero);
                             }
                         }
                         break;
                     case dataCard.CardType.Benediction:
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.Apotasie();
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 if (selectedhero[0].m_role == entityManager.Role.Pretre || selectedhero[0].m_role == entityManager.Role.Arboriste)
                                 {
@@ -1519,11 +1569,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.Tabernacle:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.Belial(hero);
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.Tabernacle(hero);
                             }
@@ -1532,11 +1582,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.VenererIdole:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.Blaspheme(hero);
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.VenererIdole(hero);
                             }
@@ -1545,11 +1595,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.AllumerCierges:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.IncendierCloatre();
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.AllumerCierges(hero);
                             }
@@ -1558,7 +1608,7 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.AccueillirNecessiteux:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 if (selectedhero[0].m_role == entityManager.Role.Pretre || selectedhero[0].m_role == entityManager.Role.Arboriste)
                                 {
@@ -1569,7 +1619,7 @@ public class Fight : MonoBehaviour
                                     card.MassacrerInfideles(selectedhero[1], selectedhero[0]);
                                 }
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.AccueillirNecessiteux(hero);
                             }
@@ -1578,7 +1628,7 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.MoxLion:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 if (selectedhero[0].m_role == entityManager.Role.Pretre || selectedhero[0].m_role == entityManager.Role.Arboriste)
                                 {
@@ -1589,7 +1639,7 @@ public class Fight : MonoBehaviour
                                     card.MoxAraignee(selectedhero[1], selectedhero[0]);
                                 }
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.MoxLion(hero);
                             }   
@@ -1598,11 +1648,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.MurDeRonces:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.LaissePourMort();
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.MurDeRonces(hero);
                             }
@@ -1611,11 +1661,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.Cataplasme:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.Belladone(hero);
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.Cataplasme(hero);
                             }
@@ -1624,11 +1674,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.SurgissementVitalique:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.RepandreMort();
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.SurgissementVitalique(hero);
                             }
@@ -1637,11 +1687,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.ArmureEcorse:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.MaleusHerbeticae(hero);
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.MaleusHerbeticae(hero);
                             }
@@ -1650,11 +1700,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.CommunionNature:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.Canibalisme();
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.CommunionNature(hero);
                             }
@@ -1663,11 +1713,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.SuivreEtoiles:
                         foreach (hero hero in selected)
                         {
-                            if (card.m_isUpsideDown)
+                            if (card.DataCard.m_isUpsideDown)
                             {
                                 card.ProfanerCiel();
                             }
-                            if (!card.m_isUpsideDown)
+                            if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.SuivreEtoiles(hero);
                             }
@@ -1675,7 +1725,7 @@ public class Fight : MonoBehaviour
                         break;  
                 }
             }
-        foreach(dataCard.CardEffect effect in card.CardEffects)
+        foreach(dataCard.CardEffect effect in card.DataCard.CardEffects)
         {
             foreach(hero h in selectedhero)
             {
