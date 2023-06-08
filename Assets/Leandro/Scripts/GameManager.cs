@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Unity.Burst.Intrinsics.X86;
@@ -98,8 +99,42 @@ public class GameManager : MonoBehaviour
         wave9();
         wave10();
         wave11();
-        wave12();  
+        wave12();
 
+
+        string path = Application.persistentDataPath + "/saveData.fun";
+        if (File.Exists(path))
+        {
+            print("Load");
+            LoadData();
+        }
+        else
+        {
+
+            SaveData();
+        }
+
+
+    }
+
+    public void SaveData()
+    {
+        savingData data = new savingData(LifeArboriste, LifePretre, waveCounter, levelArboriste, levelPretre, expArboriste, expPretre, IsPretrePlayed, IsArboristePlayed);
+        savingSysteme.SaveData(data);
+    }
+
+    public void LoadData()
+    {
+        savingData data = savingSysteme.LoadData();
+        LifeArboriste = data.lifeArbo;
+        LifePretre = data.lifePretre;
+        waveCounter = data.waveCount;
+        levelArboriste = data.levelArbo;
+        levelPretre = data.levelPretre;
+        expArboriste = data.expArbo;
+        expPretre = data.expPretre;
+        IsPretrePlayed = data.isPretrePlayed;
+        IsArboristePlayed = data.isArboPlayed;
     }
 
     #region Set Up Wave

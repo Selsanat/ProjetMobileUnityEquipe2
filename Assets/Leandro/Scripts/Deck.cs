@@ -277,7 +277,7 @@ public class Deck : MonoBehaviour
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         PiocheButton.onClick.AddListener(delegate { StartCoroutine(DrawCardCoroutine()); });
-        CancelButton.onClick.AddListener(CancelChosenCard);
+        CancelButton.onClick.AddListener(() => { CancelChosenCard(); gameManager.FM.play.onClick.RemoveAllListeners(); }) ;
         gameManager.deck = this;
         gameManager.FM.play = this.PlayButton;
         gameManager.FM.cancel = this.CancelButton;
