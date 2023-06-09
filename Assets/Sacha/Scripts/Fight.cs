@@ -1570,7 +1570,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.CultiverAme(selectedcard, hero);
+                                card.CultiverAme(hero);
                             }
                         }
                         break;
@@ -1594,7 +1594,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.Benediction(heroes[0], selectedhero[0]);
+                                card.Benediction(selectedhero[0]);
                             }
                         break;
                     case dataCard.CardType.Tabernacle:
@@ -1660,7 +1660,10 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.MoxLion(heroes[1]);
+                                if(perso2)
+                                    card.MoxLion(heroes[1]);
+                                else
+                                    card.MoxLion(heroes[0]);
                             }   
                         }
                         break;
@@ -1717,31 +1720,42 @@ public class Fight : MonoBehaviour
                         }
                         break;
                     case dataCard.CardType.CommunionNature:
-                        foreach (hero hero in selected)
+                        if (card.DataCard.m_isUpsideDown)
                         {
-                            if (card.DataCard.m_isUpsideDown)
-                            {
-                                card.Canibalisme();
-                            }
-                            if (!card.DataCard.m_isUpsideDown)
-                            {
-                                card.CommunionNature(hero);
-                            }
+                            card.Canibalisme();
+                        }
+                        if (!card.DataCard.m_isUpsideDown)
+                        {
+                            card.CommunionNature();
                         }
                         break;
                     case dataCard.CardType.SuivreEtoiles:
+                        if (card.DataCard.m_isUpsideDown)
+                        {
+                            card.ProfanerCiel();
+                        }
+                        if (!card.DataCard.m_isUpsideDown)
+                        {
+                            card.SuivreEtoiles();
+                        }
+                        break;  
+                    case dataCard.CardType.DormirPresDeLautre:
                         foreach (hero hero in selected)
                         {
                             if (card.DataCard.m_isUpsideDown)
                             {
-                                card.ProfanerCiel();
+                                if(perso2)
+                                    card.ReveillerPourManger(heroes[1], selectedhero[0]);
+                                else
+                                    card.ReveillerPourManger(heroes[0], selectedhero[0]);
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.SuivreEtoiles(hero);
+                                card.DormirPresDeLautre(hero);
+                                break;
                             }
                         }
-                        break;  
+                    break;
                 }
             }
         foreach(dataCard.CardEffect effect in card.DataCard.CardEffects)
