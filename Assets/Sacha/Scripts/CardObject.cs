@@ -609,7 +609,7 @@ public class CardObject : MonoBehaviour
         if (GameManager.Instance.FM.mana > 0)
         {
             AddArmor(ally, GameManager.Instance.FM.mana * 2);
-            GameManager.Instance.manaMultiplier = GameManager.Instance.FM.mana;
+            GameManager.Instance.manaMultiplier += GameManager.Instance.FM.mana;
             GameManager.Instance.FM.mana = 0;
             GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
         }
@@ -622,7 +622,7 @@ public class CardObject : MonoBehaviour
         {
             AddArmor(ally, GameManager.Instance.FM.mana * 2);
             takeDamage(enemy, GameManager.Instance.FM.mana * 2);
-            GameManager.Instance.manaMultiplier = GameManager.Instance.FM.mana;
+            GameManager.Instance.manaMultiplier += GameManager.Instance.FM.mana;
             GameManager.Instance.FM.mana *= 2;
             GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
 
@@ -750,11 +750,7 @@ public class CardObject : MonoBehaviour
     {
 
         Venerate(hero, 3);
-        GameManager.Instance.FM.mana += 3;
-       
-        GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
-        GameManager.Instance.FM.stockText.text = GameManager.Instance.FM.stock.ToString();
-
+        GameManager.Instance.manaMultiplier += 3;
     }
 
     public void Canibalisme() // voir si intégré
