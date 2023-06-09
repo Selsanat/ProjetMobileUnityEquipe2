@@ -18,6 +18,7 @@ using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
 using Map;
 using DG.Tweening.Core.Easing;
+using Random = UnityEngine.Random;
 
 public class Fight : MonoBehaviour
 {
@@ -1518,7 +1519,8 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.Damage:
                         foreach (hero hero in selected)
                         {
-                            hero.takeDamage(card.DataCard.m_value);
+                         hero.takeDamage(card.DataCard.m_value);
+                        print(hero.m_Pv);
                         StartCoroutine(Gm.CarteUtilisee.UpdateLife(hero));
                         StartCoroutine(DamageNumberCorou(Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position), card.DataCard.m_value));
                     }
@@ -1851,6 +1853,7 @@ public class Fight : MonoBehaviour
     {
         GameObject texte = GameObject.Instantiate(PrefabDmgText);
         texte.transform.position = objet;
+        texte.transform.position = new Vector3(texte.transform.position.x + Random.Range(-1f, 1f), texte.transform.position.y + Random.Range(-1f, 1f), texte.transform.position.z);
         PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = "" + damage;
         yield return new WaitForSeconds(2);
         Destroy(texte);
@@ -1859,5 +1862,24 @@ public class Fight : MonoBehaviour
     public void DamageNumber(Vector3 objet, int damage)
     {
         StartCoroutine(DamageNumberCorou(objet, damage));
+    }
+    public void UpdateLifeAllies()
+    {
+        foreach(hero hero in heroes)
+        {
+            StartCoroutine(UpdateLife(hero));
+        }
+    }
+    public IEnumerator UpdateLife(hero hero)
+    {
+        float TempsTransition = 5f;
+        float timeElapsed = 0;
+        while (timeElapsed < TempsTransition)
+        {
+            hero.m_slider.value = Mathf.Lerp(hero.m_slider.value, hero.m_Pv, Time.deltaTime);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        hero.m_slider.value = hero.m_Pv;
     }
 }

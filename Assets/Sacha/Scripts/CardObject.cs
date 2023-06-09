@@ -246,7 +246,6 @@ public class CardObject : MonoBehaviour
             yield return null;
         }
         hero.m_slider.value = hero.m_Pv;
-        
     }
     #region CARD EFFECTS
     public void heal(hero hero)
