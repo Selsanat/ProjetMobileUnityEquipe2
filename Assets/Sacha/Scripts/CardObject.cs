@@ -263,6 +263,7 @@ public class CardObject : MonoBehaviour
         hero.setPv(currentPv);
         if (currentPv < currentMaxPv)
             hero.setPv(currentMaxPv);
+
         if (gameManager.isAbsolution)
         {
             foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
@@ -283,6 +284,7 @@ public class CardObject : MonoBehaviour
         hero.setPv(hero.getPv() + value);
         if (hero.getPv() < hero.getMaxPv())
             hero.setPv(hero.getMaxPv());
+
         if (gameManager.isAbsolution)
         {
             foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
@@ -383,12 +385,15 @@ public class CardObject : MonoBehaviour
 
     public void AddCard()
     {
-        GameManager.Instance.deck.DrawCard();
+        StartCoroutine(GameManager.Instance.deck.DrawCardCoroutine());
     }
 
     public void AddCard(int value)
     {
-        GameManager.Instance.deck.DrawCard(value);
+        StartCoroutine(GameManager.Instance.deck.DrawCardCoroutine(value));
+        GameManager.Instance.deck.rearangecardslots();
+        GameManager.Instance.deck.RestoreCardPosition(false);
+        GameManager.Instance.deck.ReorderZCards();
     }
 
     public void KeepCardInHand(CardObject cardToKeep)
@@ -713,7 +718,7 @@ public class CardObject : MonoBehaviour
         AddArmor(ally, 7);
     }
 
-    public void CommunionNature(hero hero)
+    public void CommunionNature(hero hero)  //pas finis
     {
         Venerate(hero, 3);
 
@@ -731,7 +736,7 @@ public class CardObject : MonoBehaviour
         {
             if (hero.getMana() == hero.m_manaMax)
             {
-                AddCard(2);
+                AddCard();
                 return;
 
             }
@@ -775,8 +780,5 @@ public class CardObject : MonoBehaviour
 
     #endregion
 
-    public void draw(hero hero, int amout)
-    {
-        hero.GetDeck();
-    }
+
 }
