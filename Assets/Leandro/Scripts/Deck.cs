@@ -50,6 +50,10 @@ public class Deck : MonoBehaviour
 
     private List<CardObject> GraveYard = new List<CardObject>();
     [SerializeField] public List<CardObject> Hand = new List<CardObject>();
+    public List<CardObject> deckDruid;
+    public List<CardObject> deckPriest;
+    public List<CardObject> deckBaseDruid;
+    public List<CardObject> deckBasePriest;
     public List<CardObject> deck;
 
     private List<CardObject> playedCards;
@@ -266,7 +270,31 @@ public class Deck : MonoBehaviour
             }
         }
     }
-    
+    public void ConstruireDeck()
+    {
+        if (gameManager.FM.perso1)
+        {
+            for (int i = 0; i < gameManager.levelArboriste; i++)
+            {
+                deck.Add(deckDruid[i]);
+            }
+            for (int i = 0; i < deckBaseDruid.Count() - gameManager.levelPretre; i++)
+            {
+                deck.Add(deckBaseDruid[i]);
+            }
+        }
+        if (gameManager.FM.perso2)
+        {
+            for(int i = 0; i < gameManager.levelPretre; i++)
+            {
+                deck.Add(deckPriest[i]);
+            }
+            for (int i = 0; i < deckBasePriest.Count() - gameManager.levelArboriste; i++)
+            {
+                deck.Add(deckBasePriest[i]);
+            }
+        }
+    }
     public void Start()
     {
         foreach (CardObject card in deck)
@@ -281,10 +309,10 @@ public class Deck : MonoBehaviour
         gameManager.deck = this;
         gameManager.FM.play = this.PlayButton;
         gameManager.FM.cancel = this.CancelButton;
-
-            rearangecardslots();
+        deck.Clear();
+        ConstruireDeck();
+        rearangecardslots();
     }
-
     public void ReorderZCards()
     {
         for(int i = 0; i < Hand.Count; i++)
@@ -360,9 +388,17 @@ public class Deck : MonoBehaviour
                     randCard.transform.rotation = cardSlots[i].rotation;
 
                     randCard.Slot = cardSlots[i];
-                    randCard.indexHand = i;
-                    Hand.Add(randCard);
-                    availableCardSlots[i] = false;
+                    randCard.indexHand = 0;
+                    List<CardObject> NewHand = new List<CardObject>();
+                    NewHand.Add(randCard);
+                    foreach(CardObject card in Hand)
+                    {
+                        card.indexHand++;
+                        NewHand.Add(card);
+                    }
+                    Hand = NewHand.ToList();
+                    NewHand.Clear();
+                    availableCardSlots[Hand.Count-1] = false;
                     deck.Remove(randCard);
                     if (deck.Count == 0)
                     {
@@ -445,6 +481,9 @@ public class Deck : MonoBehaviour
             }
             StartCoroutine(TransposeTransparency(carte.gameObject));
         }
+        rearangecardslots();
+        RestoreCardPosition(false);
+        ReorderZCards();
     }
     private void HandToGraveyard()
     {
@@ -623,8 +662,8 @@ public class Deck : MonoBehaviour
         CardGO.transform.position = Camera.main.ScreenToWorldPoint(DeckCount.transform.position);
         while (timeElapsed < TempsTransition)
         {
-            CardGO.transform.rotation = Quaternion.Lerp(CardGO.transform.rotation, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + card.indexHand].rotation, Time.deltaTime * VitesseTranspo);
-            CardGO.transform.position = Vector3.Lerp(CardGO.transform.position, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + card.indexHand].position, Time.deltaTime * VitesseTranspo);
+            CardGO.transform.rotation = Quaternion.Lerp(CardGO.transform.rotation, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2].rotation, Time.deltaTime * VitesseTranspo);
+            CardGO.transform.position = Vector3.Lerp(CardGO.transform.position, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2].position, Time.deltaTime * VitesseTranspo);
             CardGO.transform.localScale = Vector3.Lerp(CardGO.transform.localScale, new Vector3(1,1,1), Time.deltaTime * VitesseTranspo);
             timeElapsed += Time.deltaTime;
             yield return null;
@@ -674,7 +713,9 @@ public class Deck : MonoBehaviour
     {
         EndTurnButton.interactable = false;
         gameManager.CardsInteractable = false;
-        foreach (CardObject card in Hand.ToList())
+        List<CardObject> ReversedCardlist = Hand.ToList();
+        ReversedCardlist.Reverse(); 
+        foreach (CardObject card in ReversedCardlist)
         {
             StartCoroutine(DiscardOneCoroutine(card));
             yield return new WaitForSeconds(0.25f);

@@ -317,8 +317,8 @@ public class CardObject : MonoBehaviour
                 value = 0;
 
             hero.m_Pv -= value * hero.m_damageMultiplier;
-        StartCoroutine(UpdateLife(hero));
-        GameManager.Instance.FM.UpdateArmorValue(hero);
+            StartCoroutine(UpdateLife(hero));
+            GameManager.Instance.FM.UpdateArmorValue(hero);
         if (hero.m_Pv <= 0)
             {
                 if (GameManager.Instance.FM.isCanibalisme)
