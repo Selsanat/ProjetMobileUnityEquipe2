@@ -8,6 +8,9 @@ using DG.Tweening.Core.Easing;
 using Unity.VisualScripting;
 using TMPro;
 using System;
+using UnityEngine.UIElements;
+using UnityEditor;
+using UnityEngine.Rendering.Universal;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -240,6 +243,18 @@ public class CardObject : MonoBehaviour
         this.DataCard.m_isDeleteOnTurn = true;
     }
 
+    public IEnumerator UpdateLife(hero hero)
+    {
+        float TempsTransition = 5f;
+        float timeElapsed = 0;
+        while (timeElapsed < TempsTransition)
+        {
+            hero.m_slider.value = Mathf.Lerp(hero.m_slider.value, hero.m_Pv, Time.deltaTime);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        hero.m_slider.value = hero.m_Pv;
+    }
     #region CARD EFFECTS
     public void heal(hero hero)
     {
@@ -259,6 +274,7 @@ public class CardObject : MonoBehaviour
             }
 
         }
+        StartCoroutine(UpdateLife(hero));
 
     }
 
@@ -278,6 +294,7 @@ public class CardObject : MonoBehaviour
             }
 
         }
+        StartCoroutine(UpdateLife(hero));
     }
 
     public void takeDamage(hero hero, int value)
@@ -298,7 +315,7 @@ public class CardObject : MonoBehaviour
                 value = 0;
 
             hero.m_Pv -= value * hero.m_damageMultiplier;
-            hero.m_slider.value = hero.m_Pv;
+        StartCoroutine(UpdateLife(hero));
         GameManager.Instance.FM.UpdateArmorValue(hero);
         if (hero.m_Pv <= 0)
             {
@@ -427,14 +444,23 @@ public class CardObject : MonoBehaviour
         takeDamage(enemy, 12);
     }
 
-    public void CultiverAme(dataCard data)
+    public void CultiverAme(dataCard data,hero ally)
     {
-        throw new NotImplementedException();
+        ally.setArmor(ally.getArmor() + 3);
+        AddCard();
+        Venerate(ally, 2);
     }
 
     public void CultiverFlamme()
     {
-        throw new NotImplementedException();
+        foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
+        {
+            if (enemy.getIsAlive())
+            {
+                enemy.setPv(enemy.getPv() - 6);
+            }
+        }
+        AddCard();
     }
 
     public void Conversion(hero hero)
