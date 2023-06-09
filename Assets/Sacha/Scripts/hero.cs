@@ -11,16 +11,16 @@ public class hero : entityManager
     public int ChiensecondAttack = 45;
     public int ChienthridAttack = 20;
     public int ChienfourthAttack = 10;
-    public int Chiendmg = 5;
-    public int ChienAOEDmg = 3;
+    public int Chiendmg = 3;
+    public int ChienAOEDmg = 2;
 
     public int SquelettesfirtAttack = 100;
     public int SquelettessecondAttack = 40;
-    public int Squelettesdmg = 3;
+    public int Squelettesdmg = 2;
     public int Squelettesarmor = 2;
 
-    public int Maindmg = 5;
-    public int Mainarmor = 8;
+    public int Maindmg = 4;
+    public int Mainarmor = 6;
     public int MainfirtAttack = 100;
     public int MainsecondAttack = 55;
     public int MainthridAttack = 35;
@@ -31,21 +31,21 @@ public class hero : entityManager
     public int GargouillesecondAttack = 60;
     public int GargouillethridAttack = 25;
     public int GargouillefourthAttack = 10;
-    public int GargouilledmgAOE = 6;
-    public int Gargouilledmg = 8;
+    public int GargouilledmgAOE = 4;
+    public int Gargouilledmg = 6;
 
     public int HommeVersfirtAttack = 100;
     public int HommeVerssecondAttack = 65;
     public int HommeVersthridAttack = 30;
     public int HommeVersfourthAttack = 10;
-    public int HommeVersdmgLourd = 10;
-    public int HommeVersdmg = 7;
-    public int HommeVersheal = 3;
+    public int HommeVersdmgLourd = 7;
+    public int HommeVersdmg = 5;
+    public int HommeVersheal = 2;
 
     public int DemonfirtAttack = 100;
     public int DemonsecondAttack = 45;
     public int DemonthridAttack = 12;
-    public int Demondmg = 12;
+    public int Demondmg = 8;
 
     public int DragonfirtAttack = 100;
     public int DragonsecondAttack = 75;
@@ -53,10 +53,10 @@ public class hero : entityManager
     public int DragonfourthAttack = 25;
     public int DragonfithAttack = 10;
     public int Dragonsixth = 5;
-    public int Dragondmg = 16;
-    public int DragondmgAOE = 10;
-    public int DragondmgLourd = 20;
-    public int Dragonarmor = 12;
+    public int Dragondmg = 9;
+    public int DragondmgAOE = 6;
+    public int DragondmgLourd = 12;
+    public int Dragonarmor = 10;
     #endregion
     public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int venerate)
     {
@@ -192,23 +192,23 @@ public class hero : entityManager
 
         if (m_level == 1)
         {
-            //Accueillir les nécessiteux
-            //Armure d'écorse
+            //Accueillir les nï¿½cessiteux
+            //Armure d'ï¿½corse
         }
         else if (m_level == 2)
         {
-            //Suivre les étoiles
-            //"Par ma main, soit béni !"
+            //Suivre les ï¿½toiles
+            //"Par ma main, soit bï¿½ni !"
         }
         else if (m_level == 3)
         {
             //Au pied des tabernacles
-            //Dormir prêt de l'autre
+            //Dormir prï¿½t de l'autre
         }
         else if (m_level == 4)
         {
             //Surgissement Vitalique
-            //Cultiver son âme
+            //Cultiver son ï¿½me
         }
         else if (m_level == 5)
         {
@@ -607,7 +607,7 @@ public class hero : entityManager
         {
             if (MainfourthAttack >= randomAttack)
             {
-                throw new System.NotImplementedException("attaque pas encore implémenté (ajoute des cartes injouables dans la pioche)");
+                throw new System.NotImplementedException("attaque pas encore implï¿½mentï¿½ (ajoute des cartes injouables dans la pioche)");
                 // nerf : ajoute des cartes injouables dans la pioche
             }
             else if (MainthridAttack >= randomAttack)
@@ -844,7 +844,7 @@ public class hero : entityManager
             else if (HommeVerssecondAttack >= randomAttack)
             {
                 //nerf et on ne vois plus la description des cartes
-                throw new System.NotImplementedException("attaque pas encore implémenté (ne plus voir la description des cartes)");
+                throw new System.NotImplementedException("attaque pas encore implï¿½mentï¿½ (ne plus voir la description des cartes)");
             }
             else if (HommeVersfirtAttack >= randomAttack)
             {
@@ -879,7 +879,7 @@ public class hero : entityManager
             else if (HommeVerssecondAttack >= randomAttack)
             {
                 //nerf et on ne vois plus la description des cartes
-                throw new System.NotImplementedException("attaque pas encore implémenté (ne plus voir la description des cartes)");
+                throw new System.NotImplementedException("attaque pas encore implï¿½mentï¿½ (ne plus voir la description des cartes)");
             }
             else if (HommeVersfirtAttack >= randomAttack)
             {
