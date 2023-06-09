@@ -57,6 +57,7 @@ public class Fight : MonoBehaviour
     [SerializeField] public TextMeshProUGUI stockText;
     [SerializeField] public TextMeshProUGUI manaText;
     [SerializeField] List<GameObject> EnPrefabs;
+    [SerializeField] List<GameObject> PrefabHeroes;
     [SerializeField] GameObject PrefabDmgText;
 
     public int mana;
@@ -117,37 +118,37 @@ public class Fight : MonoBehaviour
         //StartTurn();
     }
     #region MerdeLeandro
-    void ChangerBouttonEnGameObject(Button ComponentBouton, Sprite SpritreUtilise, bool sideTrueIsAllies)
-    {
-        GameObject perso = new GameObject();
-        perso.transform.position = Camera.main.ScreenToWorldPoint(ComponentBouton.transform.position);
-        SpriteRenderer SpritePerso = perso.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
-        SpritePerso.sprite = SpritreUtilise;
-        perso.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        perso.transform.parent = ComponentBouton.transform;
-        Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
-        lumiere.enabled = false;
-        
-        if (ComponentBouton == ennemisButton1 || ComponentBouton == ennemisButton2 || ComponentBouton == ennemisButton3)
+    /*    void ChangerBouttonEnGameObject(Button ComponentBouton, Sprite SpritreUtilise, bool sideTrueIsAllies)
         {
-            lightsEnnemies.Add(lumiere);
-            lumiere.color = Color.red;
-            return;
-        }
-        else
-        {
-            lumiere.color = Color.green;
-        }
-        lightsAllies.Add(lumiere);
-        
-    }
-    void ChangerBouttonEnGameObject(Button ComponentBouton, GameObject prefab, bool sideTrueIsAllies)
+            GameObject perso = new GameObject();
+            perso.transform.position = Camera.main.ScreenToWorldPoint(ComponentBouton.transform.position);
+            SpriteRenderer SpritePerso = perso.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
+            SpritePerso.sprite = SpritreUtilise;
+            perso.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            perso.transform.parent = ComponentBouton.transform;
+            Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
+            lumiere.enabled = false;
+
+            if (ComponentBouton == ennemisButton1 || ComponentBouton == ennemisButton2 || ComponentBouton == ennemisButton3)
+            {
+                lightsEnnemies.Add(lumiere);
+                lumiere.color = Color.red;
+                return;
+            }
+            else
+            {
+                lumiere.color = Color.green;
+            }
+            lightsAllies.Add(lumiere);
+
+        }*/
+    void ChangerBouttonEnGameObject(Button ComponentBouton, GameObject prefab, bool sideTrueIsAllies, float scale=0.1f)
     {
         GameObject perso = GameObject.Instantiate(prefab);
         perso.transform.position = Camera.main.ScreenToWorldPoint(ComponentBouton.transform.position);
         SpriteRenderer SpritePerso = perso.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
-        perso.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
         perso.transform.parent = ComponentBouton.transform;
+        perso.transform.localScale = new Vector3(scale, scale, scale);
         Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
         lumiere.enabled = false;
 
@@ -311,7 +312,8 @@ public class Fight : MonoBehaviour
             temp = GameObject.Find("champ");
             temp.GetComponent<Image>().sprite = heroSprite;
             arboristeButton = temp.GetComponent<Button>();
-            ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
+            //ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
+            ChangerBouttonEnGameObject(arboristeButton, PrefabHeroes[0], true, 0.16f);
             H2.m_slider = temp.GetComponentInChildren<Slider>();
             H2.m_slider.maxValue = H2.getMaxPv();
             H2.m_slider.value = H2.getPv();
@@ -324,7 +326,8 @@ public class Fight : MonoBehaviour
             temp = GameObject.Find("champ2");
             temp.GetComponent<Image>().sprite = heroSprite2;
             pretreButton = temp.GetComponent<Button>();
-            ChangerBouttonEnGameObject(pretreButton, heroSprite2, true);
+            //ChangerBouttonEnGameObject(pretreButton, heroSprite2, true);
+            ChangerBouttonEnGameObject(pretreButton, PrefabHeroes[1], true, 0.20f);
             H1.m_slider = temp.GetComponentInChildren<Slider>();
             H1.m_slider.maxValue = H1.getMaxPv();
             H1.m_slider.value = H1.getPv();
@@ -344,7 +347,8 @@ public class Fight : MonoBehaviour
             temp.GetComponent<Image>().sprite = heroSprite;
             
             arboristeButton = temp.GetComponent<Button>();
-            ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
+            //ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
+            ChangerBouttonEnGameObject(arboristeButton, PrefabHeroes[0], true, 0.16f);
             if (Gm.IsArboristePlayed == false)
             {
                 H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0, 0);
@@ -372,7 +376,8 @@ public class Fight : MonoBehaviour
             temp = GameObject.Find("champSolo");
             temp.GetComponent<Image>().sprite = heroSprite2;
             pretreButton = temp.GetComponent<Button>();
-            ChangerBouttonEnGameObject(pretreButton, heroSprite2, true);
+            //ChangerBouttonEnGameObject(pretreButton, heroSprite2, true);
+            ChangerBouttonEnGameObject(pretreButton, PrefabHeroes[1], true, 0.20f);
             if (Gm.IsPretrePlayed == false)
             {
                 H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0, 0);
@@ -562,12 +567,6 @@ public class Fight : MonoBehaviour
         foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
             En.EnemyAttack(heroes, true);
-        }
-
-        foreach(hero hero in heroes)
-        {
-            hero.setArmor(hero.m_nextArmor);
-            hero.m_nextArmor = 0;
         }
 
     }
@@ -868,6 +867,7 @@ public class Fight : MonoBehaviour
                 enemiesAtStartOfCombat[i].resetArmor();
             }   
 
+
             if (!CheckifEnemyAreAlive())
             {
                 lightsAllies.Clear();
@@ -910,7 +910,12 @@ public class Fight : MonoBehaviour
             }
             h.resetArmor();
             UpdateArmorValue(h);
+            h.setArmor(h.m_nextArmor);
+            print(h.m_armor + "VOILA MON ARMOR");
+            h.m_nextArmor = 0;
+            UpdateArmorValue(h);
         }
+
 
     }
     private void PlayEnemyEffects()
@@ -1145,7 +1150,20 @@ public class Fight : MonoBehaviour
         {
             StartTurn();
         }
+        foreach (hero hero in heroes)
+        {
+            if (hero.m_tabernacleActive)
+            {
+                CardObject temp = new CardObject();
+                temp.Tabernacle(hero);
+                Destroy(temp);
+
+            }
+
+            hero.m_dmgTaken = 0;
+        }
         PlayPlayerEffects();
+
     }
 
     public void ResetAll()
