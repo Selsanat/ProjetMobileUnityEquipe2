@@ -106,7 +106,6 @@ public class CardObject : MonoBehaviour
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-            print(this.isActiveAndEnabled);
             gameManager.HasCardInHand = true;
             
         }
@@ -532,7 +531,18 @@ public class CardObject : MonoBehaviour
 
     public void Tabernacle(hero ally) //appeler cette fonction à chaque fois que le joueur prend des degats
     {
-        AddArmor(ally, ally.m_dmgTaken);
+        if (ally.m_tabernacleActive)
+        {
+            print("Dmg taken Tabernacles = " + ally.m_dmgTaken);
+            ally.m_nextArmor += ally.m_dmgTaken;
+            ally.m_tabernacleActive = false;
+        }
+        else
+        {
+            ally.m_tabernacleActive = true;
+        }
+
+        /*AddArmor(ally, ally.m_dmgTaken);*/
 
     }
 

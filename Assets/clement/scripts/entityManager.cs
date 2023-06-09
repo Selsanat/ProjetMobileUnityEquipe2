@@ -42,6 +42,7 @@ public class entityManager : MonoBehaviour
     [SerializeField] public bool m_IsAttacking = false;
     [SerializeField] public int m_experienceMax = 4;
     [SerializeField] public bool m_isDebufArmor = false;
+    [SerializeField] public bool m_tabernacleActive = false;
     [SerializeField] public bool isAlive = true;
     [SerializeField] public bool isAntiHeal = false;
     [SerializeField] public bool isProvocation = false;
