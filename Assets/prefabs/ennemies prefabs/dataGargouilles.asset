@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c60385526f542e409151c68496c4330, type: 3}
   m_Name: dataGargouilles
   m_EditorClassIdentifier: 
-  m_maxPv: 40
-  m_Pv: 40
+  m_maxPv: 32
+  m_Pv: 32
   m_sprite: {fileID: 21300000, guid: 737de3c56c33df54c98da0fbf0a524da, type: 3}
   prefab: {fileID: -8653719598885068355, guid: 50541280f8bf75d41b0d3352cb19000b, type: 3}
   m_slider: {fileID: 0}
