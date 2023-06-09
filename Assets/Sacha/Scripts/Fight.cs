@@ -503,14 +503,9 @@ public class Fight : MonoBehaviour
     {
         endTurnButton.GetComponentInChildren<TextMeshProUGUI>().text = "End Turn";
         endTurnButton.onClick.AddListener(() => { repMana(); });
-        if(Gm.isManaMultiplier)
-        {
-            Gm.isManaMultiplier = false;
-            mana = 3 * Gm.manaMultiplier;
-        }
-        else
-            mana = 3;
-
+        
+        mana = 3 + Gm.manaMultiplier;
+        Gm.manaMultiplier = 0;
         manaText.text = mana.ToString();
         endturnbool = false;
         Gm.deck.StartTurn();
@@ -1658,7 +1653,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.MoxLion(hero);
+                                card.MoxLion(selectedhero[1]);
                             }   
                         }
                         break;
@@ -1697,7 +1692,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.SurgissementVitalique(hero);
+                                card.SurgissementVitalique();
                             }
                         }
                         break;

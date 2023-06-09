@@ -28,14 +28,15 @@ public class GameManager : MonoBehaviour
     public bool IsAnyProv = false;
     public int waveCounter = 0;
     public bool isManaMultiplier = false;
-    public int manaMultiplier = 2;
+    
+    public int manaMultiplier = 0;
     public bool isAbsolution = false;
     public bool winoulose;
 
     public bool isHoverButton = false;
     public Animator transi;
 
-    #region DataEnemys
+    #region perso
     #region Arboriste
     public int LifeArboriste = 50;
     public bool IsArboristePlayed = false;

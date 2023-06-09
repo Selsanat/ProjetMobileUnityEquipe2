@@ -11,6 +11,7 @@ using System;
 using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine.Rendering.Universal;
+using static UnityEngine.Rendering.DebugUI;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -213,16 +214,7 @@ public class CardObject : MonoBehaviour
         return Sr.sprite;
     }
 
-    [SerializeField][Button]
-    private void OnValidate()
-    {
-       //SetSprite();
-    }
 
-    private void Update()
-    {
-        //print(gameManager.HasCardInHand);
-    }
 
     IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
     {
@@ -251,18 +243,22 @@ public class CardObject : MonoBehaviour
         {
             hero.m_slider.value = Mathf.Lerp(hero.m_slider.value, hero.m_Pv, Time.deltaTime);
             timeElapsed += Time.deltaTime;
-            yield return null;
+            yield break;
         }
         hero.m_slider.value = hero.m_Pv;
+        
     }
     #region CARD EFFECTS
     public void heal(hero hero)
     {
+
+        print("health avant : " + hero.getPv() + "value" + this.DataCard.m_value);
         int currentPv = hero.getPv() + this.DataCard.m_value;
         int currentMaxPv = hero.getMaxPv();
         hero.setPv(currentPv);
         if (currentPv < currentMaxPv)
             hero.setPv(currentMaxPv);
+        print("health après : " + hero.getPv());
 
         if (gameManager.isAbsolution)
         {
@@ -281,9 +277,12 @@ public class CardObject : MonoBehaviour
 
     public void heal(hero hero, int value)
     {
+
         hero.setPv(hero.getPv() + value);
-        if (hero.getPv() < hero.getMaxPv())
+
+        if (hero.getPv() > hero.getMaxPv())
             hero.setPv(hero.getMaxPv());
+
 
         if (gameManager.isAbsolution)
         {
@@ -306,17 +305,17 @@ public class CardObject : MonoBehaviour
         GameManager.Instance.FM.DamageNumber(Placeholder, value);
         Destroy(Placeholder);
         if (hero.m_isDebufArmor)
-            {
-                hero.m_armor /= 2;
-                hero.m_isDebufArmor = false;
-            }
-            value -= hero.m_armor;
-            if (value >= 0)
-                hero.m_armor = 0;
-            else
-                value = 0;
+        {
+            hero.m_armor /= 2;
+            hero.m_isDebufArmor = false;
+        }
+        value -= hero.m_armor;
+        if (value >= 0)
+            hero.m_armor = 0;
+        else
+            value = 0;
 
-            hero.m_Pv -= value * hero.m_damageMultiplier;
+        hero.m_Pv -= value * hero.m_damageMultiplier;
         StartCoroutine(UpdateLife(hero));
         GameManager.Instance.FM.UpdateArmorValue(hero);
         if (hero.m_Pv <= 0)
@@ -346,8 +345,9 @@ public class CardObject : MonoBehaviour
 
     public void AddArmor(hero hero)
     {
-        GameManager.Instance.FM.UpdateArmorValue(hero);
         hero.setArmor(this.DataCard.m_value);
+        GameManager.Instance.FM.UpdateArmorValue(hero);
+
         if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
@@ -364,6 +364,7 @@ public class CardObject : MonoBehaviour
     {
 
         hero.setArmor(value);
+        GameManager.Instance.FM.UpdateArmorValue(hero);
         if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
@@ -418,21 +419,45 @@ public class CardObject : MonoBehaviour
         GameManager.Instance.FM.stockText.text = GameManager.Instance.FM.stock.ToString();
     }
 
-    public int Steal(hero enemy, hero ally, int value)
+    public int Steal(hero enemy, hero ally, int value, bool isBlas)
     {
         int surplusToReturn = 0;
-        enemy.setPv(enemy.getPv() - value);
-        if (enemy.getPv() <= 0)
+        if(isBlas)
         {
-            enemy.setIsAlive(false);
-        }
+            foreach (hero ennemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
+            {
+                ennemy.setPv(ennemy.getPv() - value);
+                if (ennemy.getPv() <= 0)
+                {
+                    ennemy.setIsAlive(false);
+                }
 
-        ally.setPv(ally.getPv() + value);
-        if (ally.getPv() > ally.getMaxPv())
-        {
-            surplusToReturn = ally.getPv() - ally.getMaxPv();
-            ally.setPv(ally.getMaxPv());
+                ally.setPv(ally.getPv() + value);
+                if (ally.getPv() > ally.getMaxPv())
+                {
+                    surplusToReturn = ally.getPv() - ally.getMaxPv();
+                    ally.setPv(ally.getMaxPv());
+                }
+            }
         }
+        else
+        {
+            enemy.setPv(enemy.getPv() - value);
+            if (enemy.getPv() <= 0)
+            {
+                enemy.setIsAlive(false);
+            }
+
+            ally.setPv(ally.getPv() + value);
+            if (ally.getPv() > ally.getMaxPv())
+            {
+                surplusToReturn = ally.getPv() - ally.getMaxPv();
+                ally.setPv(ally.getMaxPv());
+            }
+        }
+        
+        
+        UpdateLife(ally);
         return surplusToReturn;
     }
 
@@ -470,15 +495,15 @@ public class CardObject : MonoBehaviour
 
     public void Conversion(hero hero)
     {
-        while (hero.getArmor() > 0)
+        for(int i = 0; i == hero.getArmor(); i++)
         {
+            hero.setArmor(hero.getArmor() - 1);
+            hero.setPv(hero.getPv() + 1);
+
             if (hero.getPv() == hero.getMaxPv())
                 break;
-            hero.setArmor(hero.getArmor() - 1);
-
-            hero.setPv(hero.getPv() + 1);
-            GameManager.Instance.FM.UpdateArmorValue(hero);
         }
+        GameManager.Instance.FM.UpdateArmorValue(hero);
     }
 
     public void Absolution()
@@ -490,7 +515,7 @@ public class CardObject : MonoBehaviour
     {
         if (ally.getVenerate() > 0)
         {
-            enemy.takeDamage(ally.getVenerate());
+            takeDamage(enemy, ally.getVenerate());
             AddCard();
         }
     }
@@ -536,14 +561,7 @@ public class CardObject : MonoBehaviour
     }
     public void Blaspheme(hero ally)
     {
-        foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
-        {
-            if (enemy.getIsAlive())
-            {
-                Steal(enemy, ally, 5);
-            }
-        }
-
+        Steal(null, ally, 5, true);
     }
     public void AllumerCierges(hero pretre)
     {
@@ -583,17 +601,18 @@ public class CardObject : MonoBehaviour
     }
     public void MassacrerInfideles(hero ally, hero enemy)
     {
-        int surplus = Steal(enemy, ally, 7);
+        int surplus = Steal(enemy, ally, 7, false);
         takeDamage(enemy, surplus * 3);
 
     }
-    public void MoxLion(hero ally)
+    public void MoxLion(hero ally) // marche
     {
         if (GameManager.Instance.FM.mana > 0)
         {
             AddArmor(ally, GameManager.Instance.FM.mana * 2);
+            GameManager.Instance.manaMultiplier = GameManager.Instance.FM.mana;
             GameManager.Instance.FM.mana = 0;
-            GameManager.Instance.isManaMultiplier = true;
+            GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
         }
 
     }
@@ -604,28 +623,28 @@ public class CardObject : MonoBehaviour
         {
             AddArmor(ally, GameManager.Instance.FM.mana * 2);
             takeDamage(enemy, GameManager.Instance.FM.mana * 2);
-            GameManager.Instance.FM.mana = 0;
-            GameManager.Instance.isManaMultiplier = true;
+            GameManager.Instance.manaMultiplier = GameManager.Instance.FM.mana;
+            GameManager.Instance.FM.mana *= 2;
+            GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
+
 
         }
     }
 
     public void MurDeRonces(hero hero)//ajouté le poison
     {
-        int nb = 0;
         dataCard.CardEffect card = new dataCard.CardEffect();
         card.nbTour = 2;
         card.effects = dataCard.CardType.Poison;
         card.values = 2;
-        foreach (hero enemies in GameObject.FindObjectOfType<GameManager>().FM.enemiesAtStartOfCombat)
+        foreach (hero enemies in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
             if (enemies.getIsAlive() && enemies.m_IsAttacking)
             {
-                nb++;
                 enemies.MyEffects.Add(card);
             }
         }
-        AddArmor(hero, nb * 6);
+        AddArmor(hero, 6);
 
     }
 
@@ -665,14 +684,24 @@ public class CardObject : MonoBehaviour
 
     }
 
-    public void SurgissementVitalique(hero arboriste)
+    public void SurgissementVitalique()
     {
-        if (arboriste.getVenerate() > 0)
+        int newMana = GameManager.Instance.FM.mana;
+
+        foreach(hero hero in GameManager.Instance.FM.heroes)
         {
-            AddMana(arboriste.getVenerate());
-            arboriste.setVenerate(0);
-            AddCard();
+            if (hero.getIsAlive())
+            {
+                newMana += hero.m_mana;
+                hero.m_mana = 0;
+                hero.stockText.text = hero.m_mana.ToString();
+                
+            }
         }
+        GameManager.Instance.FM.mana = newMana + GameManager.Instance.FM.stock;
+        GameManager.Instance.FM.stock = 0;
+        GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
+        GameManager.Instance.FM.stockText.text = GameManager.Instance.FM.stock.ToString();
     }
 
     public void RepandreMort()
@@ -696,7 +725,7 @@ public class CardObject : MonoBehaviour
 
     }
 
-    public void ArmureEcorse(hero ally)
+    public void ArmureEcorse(hero ally) // voir si next armor est mis
     {
         AddArmor(ally, 7);
         ally.m_nextArmor = 7;
@@ -718,13 +747,18 @@ public class CardObject : MonoBehaviour
         AddArmor(ally, 7);
     }
 
-    public void CommunionNature(hero hero)  //pas finis
+    public void CommunionNature(hero hero) 
     {
+
         Venerate(hero, 3);
+        GameManager.Instance.FM.mana += 3;
+       
+        GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
+        GameManager.Instance.FM.stockText.text = GameManager.Instance.FM.stock.ToString();
 
     }
 
-    public void Canibalisme()
+    public void Canibalisme() // voir si intégré
     {
         GameManager.Instance.FM.isCanibalisme = true;
 
@@ -745,7 +779,7 @@ public class CardObject : MonoBehaviour
 
 
     }
-    public void ProfanerCiel()
+    public void ProfanerCiel() // voir si intégré
     {
         GameManager.Instance.FM.isProf = true;
 
@@ -757,7 +791,7 @@ public class CardObject : MonoBehaviour
         AddArmor(ally, 4);
 
     }
-    public void ReveillerPourManger(hero enemy, hero ally)
+    public void ReveillerPourManger(hero enemy, hero ally) //uniquement arbo
     {
         enemy.setPv(enemy.getPv() - 6);
         if (enemy.getPv() <= 0)
