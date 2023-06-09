@@ -1638,18 +1638,11 @@ public class Fight : MonoBehaviour
                         {
                             if (card.DataCard.m_isUpsideDown)
                             {
-                                if (selectedhero[0].m_role == entityManager.Role.Pretre || selectedhero[0].m_role == entityManager.Role.Arboriste)
-                                {
-                                card.MassacrerInfideles(selectedhero[0], selectedhero[1]);
-                                }
-                                else
-                                {
-                                    card.MassacrerInfideles(selectedhero[1], selectedhero[0]);
-                                }
+                                card.MassacrerInfideles(heroes[0], selectedhero[0]);
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.AccueillirNecessiteux(hero);
+                                card.AccueillirNecessiteux(heroes[0]);
                             }
                         }
                         break;
@@ -1658,18 +1651,13 @@ public class Fight : MonoBehaviour
                         {
                             if (card.DataCard.m_isUpsideDown)
                             {
-                                if (selectedhero[0].m_role == entityManager.Role.Pretre || selectedhero[0].m_role == entityManager.Role.Arboriste)
-                                {
-                                    card.MoxAraignee(selectedhero[0], selectedhero[1]);
-                                }
-                                else
-                                {
-                                    card.MoxAraignee(selectedhero[1], selectedhero[0]);
-                                }
+                               
+                                card.MoxAraignee(heroes[1], selectedhero[0]);
+                                
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.MoxLion(selectedhero[1]);
+                                card.MoxLion(heroes[1]);
                             }   
                         }
                         break;
