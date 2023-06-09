@@ -257,6 +257,7 @@ public class Fight : MonoBehaviour
             print(Gm.CarteUtilisee.DataCard.m_manaCost);
             mana -= Gm.CarteUtilisee.DataCard.m_manaCost; 
             manaText.text = mana.ToString();
+            play.onClick.RemoveAllListeners();
             play.gameObject.SetActive(false);
             cancel.gameObject.SetActive(false);
             DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
@@ -599,6 +600,7 @@ public class Fight : MonoBehaviour
         //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alli�e qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null;//&& selectedhero != null&& ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
+        
         play.onClick.AddListener(() => { if (conditionjouer) StartCoroutine(CardAnimDisolve()); });
         //[WIP]je dois le changer[WIP]
         
@@ -1159,6 +1161,7 @@ public class Fight : MonoBehaviour
         ennemisButton3?.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
         pretreButton?.onClick.RemoveAllListeners();
+        play.onClick.RemoveAllListeners();
         ennemisButton1 = null;
         ennemisButton2 = null;
         ennemisButton3 = null;
@@ -1428,6 +1431,7 @@ public class Fight : MonoBehaviour
         ennemisButton3?.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
         pretreButton?.onClick.RemoveAllListeners();
+        play.onClick.RemoveAllListeners();
         ennemisButton1 = null;
         ennemisButton2 = null;
         ennemisButton3 = null;
@@ -1576,14 +1580,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                if (selectedhero[0].m_role == entityManager.Role.Pretre || selectedhero[0].m_role == entityManager.Role.Arboriste)
-                                {
-                                    card.Benediction(selectedhero[0], selectedhero[1]);
-                                }
-                                else
-                                {
-                                    card.Benediction(selectedhero[1], selectedhero[0]);
-                                }
+                                card.Benediction(heroes[0], selectedhero[0]);
                             }
                         break;
                     case dataCard.CardType.Tabernacle:

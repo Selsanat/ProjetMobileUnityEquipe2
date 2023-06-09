@@ -613,7 +613,7 @@ public class Deck : MonoBehaviour
         }
         objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0);
     }
-    IEnumerator DrawCardCoroutine()
+    public IEnumerator DrawCardCoroutine()
     {
         float TempsTransition = TempsTrans;
         float timeElapsed = 0;
@@ -632,7 +632,7 @@ public class Deck : MonoBehaviour
         CardGO.transform.position = cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + card.indexHand].position;
         CardGO.transform.localScale = new Vector3(1, 1, 1);
     }
-    IEnumerator DrawCardCoroutine(int nombreAPiocher)
+    public IEnumerator DrawCardCoroutine(int nombreAPiocher)
     {
         EndTurnButton.interactable = false;
         gameManager.CardsInteractable = false;
