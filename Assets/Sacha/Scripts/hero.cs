@@ -1155,7 +1155,7 @@ public class hero : entityManager
             damage = 0;
         gameManager.FM.UpdateArmorValue(this);
         m_Pv -= damage * m_damageMultiplier;
-        StartCoroutine(CardObject.UpdateLife(hero));
+        //StartCoroutine(CardObject.UpdateLife(this.hero));
         this.m_dmgTaken += damage * m_damageMultiplier;
         Debug.Log("Pv apres: " + m_Pv +" " +m_role);
         if (m_Pv <= 0)
