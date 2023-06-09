@@ -29,10 +29,6 @@ public class CardObject : MonoBehaviour
     public TMP_Text Description;
     public TMP_Text Name;
     public TMP_Text Mana;
-
-
-
-
     public List<hero> heroToAttack; //always Start Null
     public bool stayInHand = false;
 
@@ -88,8 +84,8 @@ public class CardObject : MonoBehaviour
                 this.GetComponent<BoxCollider2D>().size = BaseColliderDimensions;
                 gameManager.deck.ReorderZCards();
                 
-               rendeureur.sortingOrder = 10;
-                canvas.sortingOrder = 10;
+               rendeureur.sortingOrder = 1000;
+                canvas.sortingOrder = 1000;
             }
             else
             {
@@ -102,7 +98,7 @@ public class CardObject : MonoBehaviour
     }
     void OnMouseDrag()
     {
-        if (gameManager.CardsInteractable )
+        if (gameManager.CardsInteractable)
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
@@ -141,35 +137,50 @@ public class CardObject : MonoBehaviour
         {
             transform.localScale = new Vector3(1, 1, 1);
             gameManager.deck.ReorderZCards();
+
             
-            if (transform.position.y < gameManager.RangePourActiverCarte)
+            if (transform.position.y >= gameManager.RangePourActiverCarte && gameManager.FM.mana >= DataCard.m_manaCost)   
             {
-                transform.position = PosBeforeDrag;
-                
-                if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect)
-                {
-                    gameManager.CardsInteractable = false;
-                    //print(gameManager.InspectUI.Image.sprite);
-                    print(this.GetComponent<SpriteRenderer>().sprite);
-                    gameManager.InspectUI.Image.sprite = this.GetComponent<SpriteRenderer>().sprite;
-                    gameManager.InspectUI.UI.SetActive(true);
-                    gameManager.InspectUI.Name.text = this.DataCard.Name;
-                    gameManager.InspectUI.description.text = this.DataCard.Description;
-                    RemettreCardSlot();
-                    
-                }
-                transform.position = M_t.position;
-                transform.localScale = new Vector3(1.5f,1.5f,1.5f);
-            }
-            else
-            {
+                print(DataCard.m_manaCost);
                 gameManager.CarteUtilisee = this;
                 gameManager.FM.Cardsend(this, indexHand);
 
                 Slot = this.gameObject.transform;
-                FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true) ;
-                FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true) ;
-                SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies) ;
+                FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true);
+                FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true);
+                SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies);
+
+                
+            }
+            else 
+            {
+
+
+                if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect && transform.position.y < gameManager.RangePourActiverCarte)
+                {
+                    gameManager.InspectUI.UI.SetActive(true);
+                    gameManager.CardsInteractable = false;
+                    if (m_dataCard.m_isUpsideDown)
+                    {
+                        
+                        gameManager.InspectUI.Name.text = this.DataCard.BackCard.Name;
+                        gameManager.InspectUI.description.text = this.DataCard.BackCard.Description;
+                    }
+                    else
+                    {
+                        
+                        gameManager.InspectUI.Name.text = this.DataCard.Name;
+                        gameManager.InspectUI.description.text = this.DataCard.Description;
+                    }
+                    
+                    gameManager.InspectUI.Image.sprite = this.GetComponent<SpriteRenderer>().sprite;
+                    gameManager.InspectUI.AutreUI.SetActive(false);
+                    RemettreCardSlot();
+
+                }
+                transform.position = PosBeforeDrag;
+                transform.position = M_t.position;
+                transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
             }
         }
@@ -179,7 +190,6 @@ public class CardObject : MonoBehaviour
 
     void HideHandExceptThis()
     {
-        print("hey");
         foreach(CardObject Carte in gameManager.Hand)
         {
             Carte.gameObject.SetActive(false);
@@ -270,33 +280,13 @@ public class CardObject : MonoBehaviour
         }
     }
 
-    public void takeDamage(hero hero)
-    {
-        if (hero.m_isDebufArmor)
-        {
-            hero.m_armor /= 2;
-            hero.m_isDebufArmor = false;
-        }
-        this.DataCard.m_value -= hero.m_armor;
-        if (this.DataCard.m_value >= 0)
-            hero.m_armor = 0;
-        else
-            this.DataCard.m_value = 0;
-
-        hero.m_Pv -= this.DataCard.m_value * hero.m_damageMultiplier;
-        hero.m_slider.value = hero.m_Pv;
-        Debug.Log("Pv apres: " + hero.m_Pv + " " + hero.m_role);
-        if (hero.m_Pv <= 0)
-        {
-            hero.isAlive = false;
-        }
-
-        hero.setVarHero();
-    }
-
     public void takeDamage(hero hero, int value)
     {
-            if (hero.m_isDebufArmor)
+        GameObject Placeholder = new GameObject();
+        Placeholder.transform.position = Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position);
+        gameManager.FM.DamageNumber(Placeholder, value);
+        Destroy(Placeholder);
+        if (hero.m_isDebufArmor)
             {
                 hero.m_armor /= 2;
                 hero.m_isDebufArmor = false;
@@ -309,8 +299,8 @@ public class CardObject : MonoBehaviour
 
             hero.m_Pv -= value * hero.m_damageMultiplier;
             hero.m_slider.value = hero.m_Pv;
-            Debug.Log("Pv apres: " + hero.m_Pv + " " + hero.m_role);
-            if (hero.m_Pv <= 0)
+        gameManager.FM.UpdateArmorValue(hero);
+        if (hero.m_Pv <= 0)
             {
                 if (GameManager.Instance.FM.isCanibalisme)
                 {
@@ -337,6 +327,7 @@ public class CardObject : MonoBehaviour
 
     public void AddArmor(hero hero)
     {
+        gameManager.FM.UpdateArmorValue(hero);
         hero.setArmor(this.DataCard.m_value);
         if (gameManager.isAbsolution)
         {
@@ -352,6 +343,7 @@ public class CardObject : MonoBehaviour
     }
     public void AddArmor(hero hero, int value)
     {
+
         hero.setArmor(value);
         if (gameManager.isAbsolution)
         {
@@ -364,6 +356,7 @@ public class CardObject : MonoBehaviour
             }
 
         }
+        gameManager.FM.UpdateArmorValue(hero);
     }
 
     public void AddMana(int value)
@@ -451,7 +444,9 @@ public class CardObject : MonoBehaviour
             if (hero.getPv() == hero.getMaxPv())
                 break;
             hero.setArmor(hero.getArmor() - 1);
+
             hero.setPv(hero.getPv() + 1);
+            gameManager.FM.UpdateArmorValue(hero);
         }
     }
 

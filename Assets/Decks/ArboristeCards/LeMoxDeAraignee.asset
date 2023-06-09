@@ -28,9 +28,11 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
+  isDruidCard: 1
   Description: "Inflige et Bloque le double de mana poss\xE9d\xE9s. Double vos Manas
     de ce tour"
   Name: "Le mox de l'araign\xE9e"
   m_cardFrontSprite: {fileID: 21300000, guid: e449d784bc9fa7c4da6d18bf5b198f79, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: ff25ae0c198e9af4ea8ff335ebf12a8a, type: 3}
   BackCard: {fileID: 11400000, guid: 659fea35bdc7c334ab292e12977393b4, type: 2}
+  GM: {fileID: 0}

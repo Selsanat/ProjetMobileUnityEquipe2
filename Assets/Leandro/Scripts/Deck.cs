@@ -269,11 +269,15 @@ public class Deck : MonoBehaviour
     
     public void Start()
     {
+        foreach (CardObject card in deck)
+        {
+            card.DataCard.m_isUpsideDown = false;
+        }
         gameManager = GameManager.Instance;
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         PiocheButton.onClick.AddListener(delegate { StartCoroutine(DrawCardCoroutine()); });
-        CancelButton.onClick.AddListener(CancelChosenCard);
+        CancelButton.onClick.AddListener(() => { CancelChosenCard(); gameManager.FM.play.onClick.RemoveAllListeners(); }) ;
         gameManager.deck = this;
         gameManager.FM.play = this.PlayButton;
         gameManager.FM.cancel = this.CancelButton;
@@ -351,6 +355,7 @@ public class Deck : MonoBehaviour
                 {
 
                     randCard.gameObject.SetActive(true);
+                    randCard.canvas.gameObject.SetActive(true);
                     randCard.transform.position = cardSlots[i].position;
                     randCard.transform.rotation = cardSlots[i].rotation;
 
@@ -512,12 +517,12 @@ public class Deck : MonoBehaviour
     [Button]
     private void BTransfo()
     {
-        StartCoroutine(TransfoCoroutine());
+        //StartCoroutine(TransfoCoroutine());
     }
     [Button]
     private void PDetransfo()
     {
-        StartCoroutine(DetransfoCoroutine());
+        //StartCoroutine(DetransfoCoroutine());
     }
 
     public void DeplaceCardUtiliseToPlace()
@@ -689,17 +694,31 @@ public class Deck : MonoBehaviour
         CardGO.transform.position = Camera.main.ScreenToWorldPoint(graveyardCount.transform.position);
         CardGO.transform.localScale = new Vector3(1, 1, 1);
     }
-    public IEnumerator TransfoCoroutine()
+
+    IEnumerator TourneCarte90(CardObject card)
+    {
+        yield return (TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90, 0)));
+        yield return (TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0, 0)));
+    }
+    public IEnumerator TransfoCoroutine(bool trueIfDruid)
     {
         StartCoroutine( TransposeTransparencyNegative(Background.gameObject));
         for (int i = 0; i < Hand.Count; i++)
         {
+            
             CardObject card = Hand[i];
-            StartCoroutine( TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90, 0)));
-            card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
-            StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0, 0)));
-            card.DataCard.m_isUpsideDown = true;
-            yield return new WaitForSeconds(0.25f);
+            if (trueIfDruid == card.DataCard.isDruidCard)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.BackCard.Name;
+                card.Description.text = card.DataCard.BackCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
+
+                card.DataCard.m_isUpsideDown = true;
+
+            }
+
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
@@ -710,11 +729,16 @@ public class Deck : MonoBehaviour
         for (int i = 0; i < Hand.Count;i++)
         {
             CardObject card = Hand[i];
-            StartCoroutine( TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90,0)));
-            card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
-            StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0,0)));
-            card.DataCard.m_isUpsideDown = true;
-            yield return new WaitForSeconds(0.25f);
+            if (card.DataCard.m_isUpsideDown)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.name;
+                card.Description.text = card.DataCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
+                card.DataCard.m_isUpsideDown = true;
+
+            }
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);

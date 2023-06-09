@@ -12,6 +12,7 @@ public class InspectCard : MonoBehaviour
     [SerializeField] public Image Image;
     [SerializeField] public TMP_Text Name;
     [SerializeField] public TMP_Text description;
+    [SerializeField] public GameObject AutreUI;
     private void Start()
     {
         gameManager = GameManager.Instance;
@@ -23,6 +24,12 @@ public class InspectCard : MonoBehaviour
         {
             gameManager.CardsInteractable = true;
             gameManager.HasCardInHand = false;
+            foreach(CardObject card in gameManager.deck.Hand)
+            {
+                card.gameObject.transform.localScale = new Vector3(1, 1, 1);
+                
+            }
+            AutreUI.SetActive(true);
             UI.SetActive(false);
             
         }

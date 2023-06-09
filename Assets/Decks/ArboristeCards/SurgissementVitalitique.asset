@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_manaCost: 0
   m_value: 0
-  m_index: 0
+  m_index: 2
   nombreDexecutiion: 1
   unlockLevel: 4
   m_cardTypes: 28
@@ -28,9 +28,11 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
+  isDruidCard: 1
   Description: "R\xE9cup\xE9rez vos points de v\xE9n\xE9ration en mana, Piochez une
     carte."
   Name: Surgissement vitalitique
   m_cardFrontSprite: {fileID: 21300000, guid: 916e366218d9a2b47841471e296f09c1, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: ca9ba9550a4ebe54fbbf36eb978d3fc7, type: 3}
   BackCard: {fileID: 11400000, guid: c4bb7603d35501e41b19faa0ba6be1c4, type: 2}
+  GM: {fileID: 0}

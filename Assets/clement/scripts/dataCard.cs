@@ -43,14 +43,14 @@ public class dataCard : ScriptableObject
 
     [SerializeField] string m_onCardExplain;
     [SerializeField] string m_FullCardExplain;
-
+    [SerializeField] public bool isDruidCard;
     [Header("looking")]
     [SerializeField] public String Description;
     [SerializeField] public String Name;
     [SerializeField] public Sprite m_cardFrontSprite;
     [SerializeField] public Sprite m_cardBackSprite;
 
-    [SerializeField] dataCard BackCard;
+    [SerializeField] public dataCard BackCard;
 
 
     public GameManager GM;
