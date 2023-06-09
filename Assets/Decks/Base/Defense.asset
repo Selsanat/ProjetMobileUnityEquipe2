@@ -12,26 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae1fa1b220ceaa4fae9d3d1a724796b, type: 3}
   m_Name: Defense
   m_EditorClassIdentifier: 
-  m_manaCost: 0
-  m_value: 0
-  m_index: 0
+  m_manaCost: 1
+  m_value: 3
+  m_index: 1
   nombreDexecutiion: 1
   unlockLevel: 0
-  m_cardTypes: 0
+  m_cardTypes: 2
   m_cardEffects: []
-  TargetAllies: 0
+  TargetAllies: 1
   TargetEnnemies: 0
   AOEAllies: 0
   AOEEnnemies: 0
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0
-  m_onCardExplain: 
+  m_onCardExplain: "Ajoute de l'armure a un alli\xE9"
   m_FullCardExplain: 
   isDruidCard: 0
-  Description: 
-  Name: 
-  m_cardFrontSprite: {fileID: 0}
-  m_cardBackSprite: {fileID: 0}
+  Description: "Ajoute de l'armure a un alli\xE9"
+  Name: Defense
+  m_cardFrontSprite: {fileID: 21300000, guid: 3101242226eb37b4db58d6f3bf41ea93, type: 3}
+  m_cardBackSprite: {fileID: 21300000, guid: 3101242226eb37b4db58d6f3bf41ea93, type: 3}
   BackCard: {fileID: 0}
   GM: {fileID: 0}
