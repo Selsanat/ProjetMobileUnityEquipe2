@@ -1552,7 +1552,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.CultiverAme(selectedcard);
+                                card.CultiverAme(selectedcard, hero);
                             }
                         }
                         break;
