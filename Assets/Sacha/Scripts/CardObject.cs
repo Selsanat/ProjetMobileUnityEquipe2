@@ -385,13 +385,17 @@ public class CardObject : MonoBehaviour
 
     public void AddCard()
     {
-        StartCoroutine(GameManager.Instance.deck.DrawCardCoroutine());
+        print(gameManager);
+        print(GameManager.Instance);
+        GameManager.Instance.deck.DrawCardTest(1);
     }
 
     public void AddCard(int value)
     {
-        StartCoroutine(GameManager.Instance.deck.DrawCardCoroutine(value));
-        
+        print(gameManager);
+        print(GameManager.Instance);
+        GameManager.Instance.deck.DrawCardTest(value);
+
     }
 
     public void KeepCardInHand(CardObject cardToKeep)
@@ -533,7 +537,6 @@ public class CardObject : MonoBehaviour
     {
         if (ally.m_tabernacleActive)
         {
-            print("Dmg taken Tabernacles = " + ally.m_dmgTaken);
             ally.m_nextArmor += ally.m_dmgTaken;
             ally.m_tabernacleActive = false;
         }
@@ -706,6 +709,7 @@ public class CardObject : MonoBehaviour
                 
             }
         }
+        AddCard();
         GameManager.Instance.FM.mana = newMana + GameManager.Instance.FM.stock;
         GameManager.Instance.FM.stock = 0;
         GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();

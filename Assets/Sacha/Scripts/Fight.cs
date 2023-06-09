@@ -256,7 +256,6 @@ public class Fight : MonoBehaviour
     {
         if (selectedhero.Count != 0)
         {
-            print(Gm.CarteUtilisee.DataCard.m_manaCost);
             mana -= Gm.CarteUtilisee.DataCard.m_manaCost; 
             manaText.text = mana.ToString();
             play.onClick.RemoveAllListeners();
@@ -831,7 +830,7 @@ public class Fight : MonoBehaviour
             
             playCard(selectedhero);
             Deselection(false);
-            Gm.deck.PlayCard(selectedcard.m_index);
+            Gm.deck.PlayCard(Gm.CarteUtilisee.indexHand);
             isCardSend = false;
             for (int i = 0; i < enemiesAtStartOfCombat.Count; i++)
             {

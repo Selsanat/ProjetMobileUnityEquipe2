@@ -380,6 +380,7 @@ public class Deck : MonoBehaviour
         }*/
     public CardObject DrawCard()
     {
+        print("JE PIOCHE AHHAHAHAHHAHA");
         if (deck.Count >= 1 && availableCardSlots.Contains(true))
         {
             CardObject randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
@@ -659,6 +660,10 @@ public class Deck : MonoBehaviour
             yield return null;
         }
         objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0);
+    }
+    public void DrawCardTest(int iterations)
+    {
+            StartCoroutine(DrawCardCoroutine(iterations));
     }
     public IEnumerator DrawCardCoroutine()
     {
