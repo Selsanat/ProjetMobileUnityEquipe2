@@ -284,7 +284,7 @@ public class CardObject : MonoBehaviour
     {
         GameObject Placeholder = new GameObject();
         Placeholder.transform.position = Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position);
-        gameManager.FM.DamageNumber(Placeholder, value);
+        GameManager.Instance.FM.DamageNumber(Placeholder, value);
         Destroy(Placeholder);
         if (hero.m_isDebufArmor)
             {
@@ -299,7 +299,7 @@ public class CardObject : MonoBehaviour
 
             hero.m_Pv -= value * hero.m_damageMultiplier;
             hero.m_slider.value = hero.m_Pv;
-        gameManager.FM.UpdateArmorValue(hero);
+        GameManager.Instance.FM.UpdateArmorValue(hero);
         if (hero.m_Pv <= 0)
             {
                 if (GameManager.Instance.FM.isCanibalisme)
@@ -327,11 +327,11 @@ public class CardObject : MonoBehaviour
 
     public void AddArmor(hero hero)
     {
-        gameManager.FM.UpdateArmorValue(hero);
+        GameManager.Instance.FM.UpdateArmorValue(hero);
         hero.setArmor(this.DataCard.m_value);
-        if (gameManager.isAbsolution)
+        if (GameManager.Instance.isAbsolution)
         {
-            foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
+            foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
             {
                 if (enemy.getIsAlive())
                 {
@@ -345,9 +345,9 @@ public class CardObject : MonoBehaviour
     {
 
         hero.setArmor(value);
-        if (gameManager.isAbsolution)
+        if (GameManager.Instance.isAbsolution)
         {
-            foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
+            foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
             {
                 if (enemy.getIsAlive())
                 {
@@ -356,22 +356,22 @@ public class CardObject : MonoBehaviour
             }
 
         }
-        gameManager.FM.UpdateArmorValue(hero);
+        GameManager.Instance.FM.UpdateArmorValue(hero);
     }
 
     public void AddMana(int value)
     {
-        gameManager.FM.mana += value;
+        GameManager.Instance.FM.mana += value;
     }
 
     public void AddCard()
     {
-        gameManager.deck.DrawCard();
+        GameManager.Instance.deck.DrawCard();
     }
 
     public void AddCard(int value)
     {
-        gameManager.deck.DrawCard(value);
+        GameManager.Instance.deck.DrawCard(value);
     }
 
     public void KeepCardInHand(CardObject cardToKeep)
@@ -391,9 +391,9 @@ public class CardObject : MonoBehaviour
 
     public void Venerate(hero hero, int value)
     {
-        gameManager.FM.stock += value;
+        GameManager.Instance.FM.stock += value;
 
-        gameManager.FM.stockText.text = gameManager.FM.stock.ToString();
+        GameManager.Instance.FM.stockText.text = GameManager.Instance.FM.stock.ToString();
     }
 
     public int Steal(hero enemy, hero ally, int value)
@@ -446,13 +446,13 @@ public class CardObject : MonoBehaviour
             hero.setArmor(hero.getArmor() - 1);
 
             hero.setPv(hero.getPv() + 1);
-            gameManager.FM.UpdateArmorValue(hero);
+            GameManager.Instance.FM.UpdateArmorValue(hero);
         }
     }
 
     public void Absolution()
     {
-        gameManager.isAbsolution = true;
+        GameManager.Instance.isAbsolution = true;
     }
 
     public void Benediction(hero ally, hero enemy)
@@ -466,14 +466,14 @@ public class CardObject : MonoBehaviour
 
     public void Apotasie()
     {
-        foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
+        foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
             if (enemy.getIsAlive())
             {
                 takeDamage(enemy, 4);
             }
         }
-        gameManager.FM.isApo = true;
+        GameManager.Instance.FM.isApo = true;
     }
 
     public void Tabernacle(hero ally) //appeler cette fonction à chaque fois que le joueur prend des degats
@@ -484,7 +484,7 @@ public class CardObject : MonoBehaviour
 
     public void Belial(hero pretre)
     {
-        foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
+        foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
             if (enemy.getIsAlive())
             {
@@ -505,7 +505,7 @@ public class CardObject : MonoBehaviour
     }
     public void Blaspheme(hero ally)
     {
-        foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
+        foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
             if (enemy.getIsAlive())
             {
@@ -525,7 +525,7 @@ public class CardObject : MonoBehaviour
     public void IncendierCloatre()
     {
         hero enemyWithMostPV = null;
-        foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
+        foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
             if (enemy.getIsAlive())
             {
@@ -541,7 +541,7 @@ public class CardObject : MonoBehaviour
     public void AccueillirNecessiteux(hero hero)
     {
         int nb = 0;
-        foreach (hero enemies in gameManager.FM.enemiesAtStartOfCombat)
+        foreach (hero enemies in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
             if (enemies.getIsAlive() && enemies.m_IsAttacking)
             {
@@ -558,23 +558,23 @@ public class CardObject : MonoBehaviour
     }
     public void MoxLion(hero ally)
     {
-        if (gameManager.FM.mana > 0)
+        if (GameManager.Instance.FM.mana > 0)
         {
-            AddArmor(ally, gameManager.FM.mana * 2);
-            gameManager.FM.mana = 0;
-            gameManager.isManaMultiplier = true;
+            AddArmor(ally, GameManager.Instance.FM.mana * 2);
+            GameManager.Instance.FM.mana = 0;
+            GameManager.Instance.isManaMultiplier = true;
         }
 
     }
 
     public void MoxAraignee(hero ally, hero enemy)
     {
-        if (gameManager.FM.mana > 0)
+        if (GameManager.Instance.FM.mana > 0)
         {
-            AddArmor(ally, gameManager.FM.mana * 2);
-            takeDamage(enemy, gameManager.FM.mana * 2);
-            gameManager.FM.mana = 0;
-            gameManager.isManaMultiplier = true;
+            AddArmor(ally, GameManager.Instance.FM.mana * 2);
+            takeDamage(enemy, GameManager.Instance.FM.mana * 2);
+            GameManager.Instance.FM.mana = 0;
+            GameManager.Instance.isManaMultiplier = true;
 
         }
     }
@@ -604,7 +604,7 @@ public class CardObject : MonoBehaviour
         card.nbTour = 2;
         card.effects = dataCard.CardType.Poison;
         card.values = 6;
-        foreach (hero enemies in gameManager.FM.enemiesAtStartOfCombat)
+        foreach (hero enemies in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
             if (enemies.getIsAlive() && !enemies.m_IsAttacking)
             {
@@ -618,7 +618,7 @@ public class CardObject : MonoBehaviour
     public void Cataplasme(hero hero)
     {
         heal(hero, 2);
-        gameManager.debuffDraw = 0;
+        GameManager.Instance.debuffDraw = 0;
         hero.m_isDebufArmor = false;
         hero.m_damageMultiplier = 1;
         hero.isAntiHeal = false;
@@ -650,9 +650,9 @@ public class CardObject : MonoBehaviour
         card.nbTour = 2;
         card.effects = dataCard.CardType.Poison;
         card.values = 5;
-        for (int i = 0; i < gameManager.FM.nbTransfo; i++)
+        for (int i = 0; i < GameManager.Instance.FM.nbTransfo; i++)
         {
-            foreach (hero enemies in gameManager.FM.enemiesAtStartOfCombat)
+            foreach (hero enemies in GameManager.Instance.FM.enemiesAtStartOfCombat)
             {
                 if (enemies.getIsAlive())
                 {
@@ -677,7 +677,7 @@ public class CardObject : MonoBehaviour
         card.nbTour = 2;
         card.effects = dataCard.CardType.Poison;
         card.values = 4;
-        foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
+        foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
             if (enemy.getIsAlive())
             {
@@ -695,13 +695,13 @@ public class CardObject : MonoBehaviour
 
     public void Canibalisme()
     {
-        gameManager.FM.isCanibalisme = true;
+        GameManager.Instance.FM.isCanibalisme = true;
 
     }
     public void SuivreEtoiles(hero ally)
     {
         Venerate(ally, 2);
-        foreach (hero hero in gameManager.FM.heroes)
+        foreach (hero hero in GameManager.Instance.FM.heroes)
         {
             if (hero.getMana() == hero.m_manaMax)
             {
@@ -716,7 +716,7 @@ public class CardObject : MonoBehaviour
     }
     public void ProfanerCiel()
     {
-        gameManager.FM.isProf = true;
+        GameManager.Instance.FM.isProf = true;
 
     }
     public void DormirPresDeLautre(hero ally, hero arboriste)
