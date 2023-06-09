@@ -243,10 +243,9 @@ public class CardObject : MonoBehaviour
         {
             hero.m_slider.value = Mathf.Lerp(hero.m_slider.value, hero.m_Pv, Time.deltaTime);
             timeElapsed += Time.deltaTime;
-            yield break;
+            yield return null;
         }
         hero.m_slider.value = hero.m_Pv;
-        
     }
     #region CARD EFFECTS
     public void heal(hero hero)
