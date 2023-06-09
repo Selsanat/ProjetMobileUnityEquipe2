@@ -1202,6 +1202,7 @@ public class Fight : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(2);
         Gm.transi.Play("Detransi");
+        
         // A appeler lorsqu'on relance
         /*FindObjectOfType<MapManager>().GenerateNewMap();*/
         Gm.SaveData();
