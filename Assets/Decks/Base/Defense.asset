@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae1fa1b220ceaa4fae9d3d1a724796b, type: 3}
+  m_Name: Defense
+  m_EditorClassIdentifier: 
+  m_manaCost: 0
+  m_value: 0
+  m_index: 0
+  nombreDexecutiion: 1
+  unlockLevel: 0
+  m_cardTypes: 0
+  m_cardEffects: []
+  TargetAllies: 0
+  TargetEnnemies: 0
+  AOEAllies: 0
+  AOEEnnemies: 0
+  m_isDeleteOnTurn: 0
+  m_isUpsideDown: 0
+  m_isBonusCard: 0
+  m_onCardExplain: 
+  m_FullCardExplain: 
+  isDruidCard: 0
+  Description: 
+  Name: 
+  m_cardFrontSprite: {fileID: 0}
+  m_cardBackSprite: {fileID: 0}
+  BackCard: {fileID: 0}
+  GM: {fileID: 0}

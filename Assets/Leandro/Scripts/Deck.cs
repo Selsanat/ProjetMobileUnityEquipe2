@@ -634,15 +634,20 @@ public class Deck : MonoBehaviour
     }
     IEnumerator DrawCardCoroutine(int nombreAPiocher)
     {
-        for(int i = 0; i < nombreAPiocher; i++)
+        EndTurnButton.interactable = false;
+        gameManager.CardsInteractable = false;
+        for (int i = 0; i < nombreAPiocher; i++)
         {
             StartCoroutine( DrawCardCoroutine());
             yield return new WaitForSeconds(0.25f);
         }
+        EndTurnButton.interactable = true;
+        gameManager.CardsInteractable = true;
     }
     IEnumerator DiscardCoroutine()
     {
-        foreach(CardObject card in Hand.ToList())
+        
+        foreach (CardObject card in Hand.ToList())
         {
             float TempsTransition = TempsTrans;
             float timeElapsed = 0;
@@ -663,9 +668,12 @@ public class Deck : MonoBehaviour
         LibereEspacesHand();
         HandToGraveyard();
         yield return DrawCardCoroutine(NombrePiocheDebutTour);
+        EndTurnButton.interactable = true;
     }
     public IEnumerator DiscardCoroutine(bool justeCache)
     {
+        EndTurnButton.interactable = false;
+        gameManager.CardsInteractable = false;
         foreach (CardObject card in Hand.ToList())
         {
             StartCoroutine(DiscardOneCoroutine(card));
@@ -673,6 +681,8 @@ public class Deck : MonoBehaviour
         }
         LibereEspacesHand();
         HandToGraveyard();
+        gameManager.CardsInteractable = true;
+        EndTurnButton.interactable = true;
 
         //yield return DrawCardCoroutine(NombrePiocheDebutTour);
     }
