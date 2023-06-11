@@ -58,7 +58,14 @@ public class Fight : MonoBehaviour
     [SerializeField] public TextMeshProUGUI manaText;
     [SerializeField] List<GameObject> EnPrefabs;
     [SerializeField] List<GameObject> PrefabHeroes;
+    [SerializeField] List<GameObject> PrefabHeroesalt;
+    [SerializeField] List<GameObject> Transformed;
     [SerializeField] GameObject PrefabDmgText;
+    public List<GameObject> HeroesGameObjectRef;
+    public List<GameObject> HeroesAltGameObjectRef;
+    public List<GameObject> EnnemiesGameObjectRef;
+    public hero ennemyPlaying;
+    
 
     public int mana;
     public int stock = 0;
@@ -142,13 +149,30 @@ public class Fight : MonoBehaviour
             lightsAllies.Add(lumiere);
 
         }*/
-    void ChangerBouttonEnGameObject(Button ComponentBouton, GameObject prefab, bool sideTrueIsAllies, float scale=0.1f)
+    void ChangerBouttonEnGameObject(Button ComponentBouton, GameObject prefab, bool sideTrueIsAllies, float scale=0.1f, GameObject altprefab = null)
     {
         GameObject perso = GameObject.Instantiate(prefab);
         perso.transform.position = Camera.main.ScreenToWorldPoint(ComponentBouton.transform.position);
         SpriteRenderer SpritePerso = perso.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
         perso.transform.parent = ComponentBouton.transform;
         perso.transform.localScale = new Vector3(scale, scale, scale);
+
+        if (sideTrueIsAllies)
+        {
+            GameObject persoalt = GameObject.Instantiate(altprefab);
+            persoalt.transform.position = Camera.main.ScreenToWorldPoint(ComponentBouton.transform.position);
+            SpriteRenderer SpritePersoalt = persoalt.AddComponent(typeof(SpriteRenderer)) as SpriteRenderer;
+            persoalt.transform.parent = ComponentBouton.transform;
+            persoalt.transform.localScale = new Vector3(scale, scale, scale);
+            foreach (SpriteRenderer sprite in persoalt.GetComponentsInChildren<SpriteRenderer>())
+            {
+                sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0);
+            }
+            HeroesGameObjectRef.Add(perso);
+            HeroesAltGameObjectRef.Add(persoalt);
+        }
+
+
         Light2D lumiere = perso.AddComponent(typeof(Light2D)) as Light2D;
         lumiere.enabled = false;
 
@@ -156,6 +180,7 @@ public class Fight : MonoBehaviour
         {
             lightsEnnemies.Add(lumiere);
             lumiere.color = Color.red;
+            EnnemiesGameObjectRef.Add(perso);
             return;
         }
         else
@@ -312,7 +337,7 @@ public class Fight : MonoBehaviour
             temp.GetComponent<Image>().sprite = heroSprite;
             arboristeButton = temp.GetComponent<Button>();
             //ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
-            ChangerBouttonEnGameObject(arboristeButton, PrefabHeroes[0], true, 0.16f);
+            ChangerBouttonEnGameObject(arboristeButton, PrefabHeroes[0], true, 0.16f, PrefabHeroesalt[0]);
             H2.m_slider = temp.GetComponentInChildren<Slider>();
             H2.m_slider.maxValue = H2.getMaxPv();
             H2.m_slider.value = H2.getPv();
@@ -326,7 +351,7 @@ public class Fight : MonoBehaviour
             temp.GetComponent<Image>().sprite = heroSprite2;
             pretreButton = temp.GetComponent<Button>();
             //ChangerBouttonEnGameObject(pretreButton, heroSprite2, true);
-            ChangerBouttonEnGameObject(pretreButton, PrefabHeroes[1], true, 0.20f);
+            ChangerBouttonEnGameObject(pretreButton, PrefabHeroes[1], true, 0.20f, PrefabHeroesalt[1]);
             H1.m_slider = temp.GetComponentInChildren<Slider>();
             H1.m_slider.maxValue = H1.getMaxPv();
             H1.m_slider.value = H1.getPv();
@@ -347,7 +372,7 @@ public class Fight : MonoBehaviour
             
             arboristeButton = temp.GetComponent<Button>();
             //ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
-            ChangerBouttonEnGameObject(arboristeButton, PrefabHeroes[0], true, 0.16f);
+            ChangerBouttonEnGameObject(arboristeButton, PrefabHeroes[0], true, 0.16f, PrefabHeroesalt[0]);
             if (Gm.IsArboristePlayed == false)
             {
                 H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0, 0);
@@ -376,7 +401,7 @@ public class Fight : MonoBehaviour
             temp.GetComponent<Image>().sprite = heroSprite2;
             pretreButton = temp.GetComponent<Button>();
             //ChangerBouttonEnGameObject(pretreButton, heroSprite2, true);
-            ChangerBouttonEnGameObject(pretreButton, PrefabHeroes[1], true, 0.20f);
+            ChangerBouttonEnGameObject(pretreButton, PrefabHeroes[1], true, 0.20f, PrefabHeroesalt[1]);
             if (Gm.IsPretrePlayed == false)
             {
                 H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0, 0);
@@ -549,7 +574,6 @@ public class Fight : MonoBehaviour
 
         if (enemiesAtStartOfCombat.Count== 0)
         {
-            print("g reussi");
             enemiesAtStartOfCombat = enemies.ToList();
         }
         else
@@ -565,6 +589,7 @@ public class Fight : MonoBehaviour
         }
         foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
+            ennemyPlaying = En;
             En.EnemyAttack(heroes, true);
         }
 
@@ -1100,22 +1125,41 @@ public class Fight : MonoBehaviour
         endTurnButton?.onClick.RemoveAllListeners();
 
         PlayEnemyTurn();
-
     }
 
-
-
-    private void PlayEnemyTurn()
+    public IEnumerator AllerRetourCombatCorou(GameObject objet, Vector3 transform)
     {
+        Vector3 pos = objet.transform.position;
+        yield return StartCoroutine(Gm.deck.TransposeAtoB(objet, new Vector3(transform.x+2, transform.y, transform.z)));
 
-        PlayEnemyEffects();
+        Animator Anim = objet.transform.GetChild(0).GetComponent<Animator>();
+        Anim.Play("Chien_Attack");
+        Anim.Play("Skeleton_Attack");
+        Anim.Play("Gargouille_Attack");
+        Anim.Play("Homme_Vers_Attack");
+        Anim.Play("Demon_Attack");
+        Anim.Play("Dragon_Attack");
+        Anim.Play("Main_Geante_Attack");
+        yield return new WaitForSeconds(1.5f);
+        yield return StartCoroutine(Gm.deck.TransposeAtoB(objet, pos));
+    }
+    public void AllerRetourCombat(GameObject objet, Vector3 transform)
+    {
+        StartCoroutine(AllerRetourCombatCorou(objet, transform));
+    }
+    public IEnumerator AttaqueEnnemiesCorou()
+    {
+        Gm.AnimAtk = true;
+        Gm.deck.EndTurnButton.interactable = false;
+        Gm.CardsInteractable = false;
         foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
+            ennemyPlaying = En;
             En.EnemyAttack(heroes, false);
             if (!CheckifHeroAreAlive())
             {
                 LooseFight();
-                return;
+                yield break;
             }
             foreach (hero h in heroes.ToList())
             {
@@ -1132,14 +1176,28 @@ public class Fight : MonoBehaviour
                         pretreButton?.onClick.RemoveAllListeners();
                         pretreButton.gameObject.SetActive(false);
                         /*h?.gameObject?.SetActive(false);*/
-
-
                     }
                 }
-
             }
-
+            if (enemies.Count > 1)
+            {
+                yield return new WaitForSeconds(2f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(1f);
+            }
         }
+        yield return new WaitForSeconds(enemies.Count-(1.5f* (enemies.Count/2)));
+        Gm.deck.EndTurnButton.interactable = true;
+        Gm.CardsInteractable = true;
+        Gm.AnimAtk = false;
+    }
+    private void PlayEnemyTurn()
+    {
+
+        PlayEnemyEffects();
+        StartCoroutine(AttaqueEnnemiesCorou());
         if (!CheckifHeroAreAlive())
         {
 
@@ -1469,7 +1527,8 @@ public class Fight : MonoBehaviour
         enemies.Clear();
         selectedhero.Clear();
         enemiesAtStartOfCombat.Clear();
-        
+        HeroesGameObjectRef.Clear();
+
         selectedcard = null;
         Gm.SaveData();
         yield return new WaitUntil(() => Input.GetMouseButton(0));

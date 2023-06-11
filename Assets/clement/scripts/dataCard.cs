@@ -44,6 +44,7 @@ public class dataCard : ScriptableObject
     [SerializeField] string m_onCardExplain;
     [SerializeField] string m_FullCardExplain;
     [SerializeField] public bool isDruidCard;
+    [SerializeField] public bool isBaseCard = false;
     [Header("looking")]
     [SerializeField] public String Description;
     [SerializeField] public String Name;

@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
 
     public bool isHoverButton = false;
     public Animator transi;
+    public bool AnimAtk = false;
     //private public MapNode _currentNode;
 
     #region perso
