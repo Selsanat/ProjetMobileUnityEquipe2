@@ -458,7 +458,7 @@ public class CardObject : MonoBehaviour
         }
         
         
-        UpdateLife(ally);
+        StartCoroutine(UpdateLife(ally));
         return surplusToReturn;
     }
 
@@ -477,9 +477,9 @@ public class CardObject : MonoBehaviour
 
     public void CultiverAme(hero ally)
     {
-        ally.setArmor(ally.getArmor() + 3);
-        AddCard();
+        AddArmor(ally, 3);
         Venerate(2);
+        AddCard();
     }
 
     public void CultiverFlamme()
@@ -496,15 +496,17 @@ public class CardObject : MonoBehaviour
 
     public void Conversion(hero hero)
     {
-        for(int i = 0; i == hero.getArmor(); i++)
+        while(hero.getArmor() > 0)
         {
-            hero.setArmor(hero.getArmor() - 1);
+            hero.setArmor(-1);
             hero.setPv(hero.getPv() + 1);
 
             if (hero.getPv() == hero.getMaxPv())
                 break;
         }
+        print(hero.getPv());
         GameManager.Instance.FM.UpdateArmorValue(hero);
+        StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
     }
 
     public void Absolution()
@@ -512,11 +514,11 @@ public class CardObject : MonoBehaviour
         GameManager.Instance.isAbsolution = true;
     }
 
-    public void Benediction(hero enemy)
+    public void Benediction(hero enemy) // par ma main je te béni 
     {
-        if (GameManager.Instance.FM.stock > 0)
+        if (GameManager.Instance.FM.heroes[0].m_mana > 0)
         {
-            takeDamage(enemy, GameManager.Instance.FM.stock);
+            takeDamage(enemy, GameManager.Instance.FM.heroes[0].m_mana);
             AddCard();
         }
     }
@@ -576,9 +578,12 @@ public class CardObject : MonoBehaviour
     }
     public void AllumerCierges(hero pretre)
     {
-        if (pretre.getVenerate() > 0)
+        if (pretre.m_mana > 0)
         {
-            AddCard(pretre.getVenerate());
+            for(int i = 0; i < pretre.m_mana; i++)
+            {
+                AddCard();
+            }   
         }
 
     }
@@ -761,8 +766,7 @@ public class CardObject : MonoBehaviour
 
     public void CommunionNature() 
     {
-        print("communion");
-        Venerate(3);
+        GameManager.Instance.FM.venerations += 2;
         GameManager.Instance.manaMultiplier += 3;
     }
 

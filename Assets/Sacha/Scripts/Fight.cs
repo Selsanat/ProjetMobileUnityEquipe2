@@ -63,6 +63,7 @@ public class Fight : MonoBehaviour
     public int mana;
     public int stock = 0;
     public int nbTransfo = 0;
+    public int venerations = 0;
     [SerializeField] public List<hero> heroes;
     [SerializeField] public List<hero> enemies;
     [SerializeField] public List<hero> selectedhero;
@@ -929,8 +930,9 @@ public class Fight : MonoBehaviour
                     dataCard.CardEffect e = h.MyEffects[i];
                     if (e.nbTour != 0)
                     {
-                        CardObject temp = new CardObject();
-                        temp.takeDamage(h, e.values);
+                        
+                        h.takeDamage(e.values);
+                        StartCoroutine(UpdateLife(h));
                         e.nbTour--;
                         if (e.nbTour == 0)
                         {
@@ -1009,7 +1011,8 @@ public class Fight : MonoBehaviour
         else 
             StartCoroutine(Gm.deck.DiscardCoroutine(true));
         
-        stock += mana;
+        stock += mana + venerations;
+        venerations = 0;
         mana = 0;
         stockText.text = stock.ToString();
         manaText.text = mana.ToString();
@@ -1611,7 +1614,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.Benediction(selectedhero[0]);
+                                card.Benediction(selectedhero[0]); // mettre l ennemi selectionner
                             }
                         break;
                     case dataCard.CardType.Tabernacle:
@@ -1641,17 +1644,14 @@ public class Fight : MonoBehaviour
                         }
                         break;
                     case dataCard.CardType.AllumerCierges:
-                        foreach (hero hero in selected)
-                        {
                             if (card.DataCard.m_isUpsideDown)
                             {
                                 card.IncendierCloatre();
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.AllumerCierges(hero);
+                                card.AllumerCierges(heroes[0]);
                             }
-                        }
                         break;
                     case dataCard.CardType.AccueillirNecessiteux:
                         foreach (hero hero in selected)
