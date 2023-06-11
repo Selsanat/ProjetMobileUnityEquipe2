@@ -1153,7 +1153,7 @@ public class hero : entityManager
     }
     public void takeDamage(int damage)
     {
-        
+        int temp = damage;
         Debug.Log("Pv avant : " + m_Pv + " " + m_role);
         if (m_isDebufArmor)
         {
@@ -1164,11 +1164,15 @@ public class hero : entityManager
         if (damage >= 0)
             m_armor = 0;
         else
+        {
             damage = 0;
+            m_armor -= temp;
+        }
+
         gameManager.FM.UpdateArmorValue(this);
         m_Pv -= damage * m_damageMultiplier;
         this.m_dmgTaken += damage * m_damageMultiplier;
-        Debug.Log("Pv apres: " + m_Pv +" " +m_role);
+        Debug.Log("Pv apres: " + m_Pv + " " +m_role);
         if (m_Pv <= 0)
         {
             isAlive = false;
