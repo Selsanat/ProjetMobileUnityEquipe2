@@ -12,6 +12,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEngine.Rendering.Universal;
 using static UnityEngine.Rendering.DebugUI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -685,6 +686,7 @@ public class CardObject : MonoBehaviour
             if (enemies.getIsAlive() && enemies.m_IsAttacking)
             {
                 enemies.MyEffects.Add(card);
+                gameManager.FM.UpdatePoisonValue(enemies);
             }
         }
         AddArmor(hero, 6);
@@ -702,6 +704,7 @@ public class CardObject : MonoBehaviour
             if (enemies.getIsAlive() && !enemies.m_IsAttacking)
             {
                 enemies.addEffect(card);
+                gameManager.FM.UpdatePoisonValue(enemies);
 
             }
         }
@@ -761,6 +764,7 @@ public class CardObject : MonoBehaviour
                 if (enemies.getIsAlive())
                 {
                     enemies.addEffect(card);
+                    gameManager.FM.UpdatePoisonValue(enemies);
                 }
             }
         }
@@ -774,7 +778,6 @@ public class CardObject : MonoBehaviour
         AddArmor(ally, 7);
         ally.m_nextArmor = 7;
     }
-
     public void MaleusHerbeticae(hero ally)//poison
     {
         dataCard.CardEffect card = new dataCard.CardEffect();
@@ -786,8 +789,10 @@ public class CardObject : MonoBehaviour
             if (enemy.getIsAlive())
             {
                 enemy.MyEffects.Add(card);
+                gameManager.FM.UpdatePoisonValue(enemy);
             }
         }
+        
         AddArmor(ally, 7);
     }
 

@@ -282,7 +282,7 @@ public class Deck : MonoBehaviour
                     deck.Add(deckDruid[i]);
                 }
             }
-            for (int i = 0; i < deckBaseDruid.Count() - gameManager.levelPretre; i++)
+            for (int i = 0; i < deckBaseDruid.Count() - gameManager.levelArboriste; i++)
             {
 
                     deck.Add(deckBaseDruid[i]);
@@ -298,7 +298,7 @@ public class Deck : MonoBehaviour
                     deck.Add(deckPriest[i]);
                 }
             }
-            for (int i = 0; i < deckBasePriest.Count() - gameManager.levelArboriste; i++)
+            for (int i = 0; i < deckBasePriest.Count() - gameManager.levelPretre; i++)
             {
                 deck.Add(deckBasePriest[i]);
             }
