@@ -35,4 +35,5 @@ MonoBehaviour:
   m_cardFrontSprite: {fileID: 21300000, guid: 2f713c8b41251c64d960cd67e2eff75c, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 7d4dac3e3902c3546a9b45f38033262b, type: 3}
   BackCard: {fileID: 0}
+  Deck: {fileID: 11400000, guid: 39b141c5298ab024fa639bcce4765385, type: 2}
   GM: {fileID: 0}

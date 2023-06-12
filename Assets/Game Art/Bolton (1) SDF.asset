@@ -2083,8 +2083,8 @@ MonoBehaviour:
     m_GlyphIndex: 66
     m_Scale: 1
   - m_ElementType: 1
-    m_Unicode: 101
-    m_GlyphIndex: 67
+    m_Unicode: 108
+    m_GlyphIndex: 74
     m_Scale: 1
   - m_ElementType: 1
     m_Unicode: 115

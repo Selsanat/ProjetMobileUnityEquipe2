@@ -543,7 +543,7 @@ public class Fight : MonoBehaviour
     }
     void StartTurn()
     {
-        endTurnButton.GetComponentInChildren<TextMeshProUGUI>().text = "End Turn";
+        //endTurnButton.GetComponentInChildren<TextMeshProUGUI>().text = "End Turn";
         endTurnButton.onClick.AddListener(() => { repMana(); });
         
         mana = 3 + Gm.manaMultiplier;
@@ -1056,7 +1056,7 @@ public class Fight : MonoBehaviour
         manaText.text = mana.ToString();
 
         endTurnButton?.onClick.RemoveAllListeners();
-        endTurnButton.GetComponentInChildren<TextMeshProUGUI>().text = "SKIP";
+        //endTurnButton.GetComponentInChildren<TextMeshProUGUI>().text = "SKIP";
         endTurnButton?.onClick.AddListener(() => { chargeMana(3); });
         
         

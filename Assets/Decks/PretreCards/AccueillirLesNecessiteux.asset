@@ -28,8 +28,12 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
+  isDruidCard: 0
+  isBaseCard: 0
   Description: "Pour chaque monstre qui s'appr\xEAte \xE0 attaquer, bloque 4"
   Name: "Accueillir les n\xE9cessiteux"
   m_cardFrontSprite: {fileID: 21300000, guid: 43edb2864c7228c4595b920a36d00886, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: c9109d4d980fe1a44965c9da952f345a, type: 3}
   BackCard: {fileID: 11400000, guid: 46e86cb2a6f4058419d47f02f623bad2, type: 2}
+  Deck: {fileID: 11400000, guid: 39b141c5298ab024fa639bcce4765385, type: 2}
+  GM: {fileID: 0}

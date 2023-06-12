@@ -50,6 +50,33 @@ public class CardObject : MonoBehaviour
 
     void Awake()
     {
+        DissolveController dissolveController = GetComponent<DissolveController>();
+        if(m_dataCard.Deck == null)
+        {
+            dissolveController.outColor = new Color(35, 35, 35);
+        }
+        else if(m_dataCard.Deck.Role == dataDeck.DeckRole.Pretre)
+        {
+            if (m_dataCard.m_isUpsideDown)
+            {
+                dissolveController.outColor = new Color(95, 25, 10);
+            }
+            else
+            {
+                dissolveController.outColor = new Color(199, 148, 21);
+            }
+        }else if(m_dataCard.Deck.Role == dataDeck.DeckRole.Arboriste)
+        {
+            if (m_dataCard.m_isUpsideDown)
+            {
+                dissolveController.outColor = new Color(38, 128, 126);
+            }
+            else
+            {
+                dissolveController.outColor = new Color(149, 206, 146);
+            }
+        }
+
         Mana.text = m_dataCard.m_manaCost.ToString();
         Mana.color = Color.black;
         Mana.color = new Color(Mana.color.r, Mana.color.g, Mana.color.b, 0.75f);

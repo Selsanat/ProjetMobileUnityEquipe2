@@ -298,7 +298,7 @@ public class hero : entityManager
             return;
         
         var tempColor = m_spriteTypeAttack.color;
-        tempColor.a = 1f;
+        tempColor.a = 0f;
         m_spriteTypeAttack.color = tempColor;
         m_spriteFocus.color = tempColor;
 
@@ -310,6 +310,7 @@ public class hero : entityManager
                 this.m_spriteFocus.gameObject.SetActive(true);  
                 m_valueText.text = "";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[4].bounds.size * 20f;
                 this.randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
@@ -334,6 +335,7 @@ public class hero : entityManager
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[3];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[3].bounds.size * 20f;
 
 
             }
@@ -342,6 +344,7 @@ public class hero : entityManager
                 Debug.Log("aoe");
                 m_valueText.text = ChienAOEDmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[2].bounds.size * 20f;
                 this.m_spriteFocus.sprite = null;
                 this.m_spriteFocus.gameObject.SetActive(false);
 
@@ -364,6 +367,7 @@ public class hero : entityManager
                 randomHero = temp;
                 m_valueText.text = Chiendmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
                 this.m_spriteFocus.gameObject.SetActive(true);
@@ -453,6 +457,7 @@ public class hero : entityManager
             {
                 m_valueText.text = Squelettesarmor.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[1].bounds.size * 20f;
                 this.m_spriteFocus.sprite = null;
                 this.m_spriteFocus.gameObject.SetActive(false);
                 tempColor.a = 0f;
@@ -472,6 +477,7 @@ public class hero : entityManager
                         randomHero = temp;
                         m_valueText.text = Squelettesdmg.ToString();
                         this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                        this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                         if (randomHero.m_role == Role.Arboriste)
                         {
                             this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
@@ -487,6 +493,7 @@ public class hero : entityManager
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = Squelettesdmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
@@ -559,6 +566,7 @@ public class hero : entityManager
             {
                 m_valueText.text = MainnbCardDebuf.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[4].bounds.size * 20f;
                 this.m_spriteFocus.sprite = null;
                 this.m_spriteFocus.gameObject.SetActive(false);
 
@@ -581,6 +589,7 @@ public class hero : entityManager
             {
                 m_valueText.text = Mainarmor.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[1].bounds.size * 20f;
                 this.m_spriteFocus.sprite = null;
                 this.m_spriteFocus.gameObject.SetActive(false);
 
@@ -601,6 +610,7 @@ public class hero : entityManager
                         randomHero = temp;
                         m_valueText.text = Maindmg.ToString();
                         this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                        this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                         if (randomHero.m_role == Role.Arboriste)
                         {
                             this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
@@ -616,6 +626,7 @@ public class hero : entityManager
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = Maindmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
@@ -709,6 +720,7 @@ public class hero : entityManager
                 }
                 m_valueText.text = "2";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[6];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[6].bounds.size * 20f;
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
             }
@@ -716,6 +728,7 @@ public class hero : entityManager
             {
                 m_valueText.text = "";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[7];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[7].bounds.size * 20f;
                 this.m_spriteFocus.sprite = null;
                 this.m_spriteFocus.gameObject.SetActive(false);
 
@@ -728,6 +741,7 @@ public class hero : entityManager
                 Debug.Log("aoe");
                 m_valueText.text = GargouilledmgAOE.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[2].bounds.size * 20f;
                 this.m_spriteFocus.sprite = null;
                 this.m_spriteFocus.gameObject.SetActive(false);
 
@@ -747,6 +761,7 @@ public class hero : entityManager
                         randomHero = temp;
                         m_valueText.text = Gargouilledmg.ToString();
                         this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                        this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                         if (randomHero.m_role == Role.Arboriste)
                         {
                             this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
@@ -762,6 +777,7 @@ public class hero : entityManager
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = Gargouilledmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
@@ -850,6 +866,7 @@ public class hero : entityManager
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = HommeVersdmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
@@ -869,6 +886,7 @@ public class hero : entityManager
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = HommeVersdmgLourd.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
@@ -902,6 +920,7 @@ public class hero : entityManager
                 }
                 this.m_valueText.text = "";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[5];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[5].bounds.size * 20f;
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
             }
@@ -955,6 +974,7 @@ public class hero : entityManager
                 int healing = this.m_Pv * 15 / 100;
                 this.m_valueText.text = healing.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[8];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[8].bounds.size * 20f;
                 this.m_spriteFocus.gameObject.SetActive(false);
 
             }
@@ -975,6 +995,7 @@ public class hero : entityManager
                 randomHero = temp;
                 m_valueText.text = Demondmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                 if (randomHero.m_role == Role.Arboriste)
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
@@ -1002,6 +1023,7 @@ public class hero : entityManager
                 randomHero = temp;
                 m_valueText.text = Demondmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                 if (randomHero.m_role == Role.Arboriste)
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
@@ -1070,6 +1092,7 @@ public class hero : entityManager
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = "1";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[9];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[9].bounds.size * 20f;
                 if (randomHero.m_role == Role.Arboriste)
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
@@ -1089,11 +1112,13 @@ public class hero : entityManager
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[3];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[3].bounds.size * 20f;
             }
             else if (DragonfourthAttack >= randomAttack) //armor
             {
                 m_valueText.text = Dragonarmor.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[1].bounds.size * 20f;
                 this.m_spriteFocus.sprite = null;
                 this.m_spriteFocus.gameObject.SetActive(false);
 
@@ -1106,6 +1131,7 @@ public class hero : entityManager
                 m_IsAttacking = true;
                 m_valueText.text = DragondmgAOE.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[2].bounds.size * 20f;
                 this.m_spriteFocus.sprite = null;
                 this.m_spriteFocus.gameObject.SetActive(false);
 
@@ -1120,6 +1146,7 @@ public class hero : entityManager
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = DragondmgLourd.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
@@ -1139,6 +1166,7 @@ public class hero : entityManager
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = Dragondmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
@@ -1219,6 +1247,7 @@ public class hero : entityManager
 
         gameManager.FM.UpdateArmorValue(this);
         m_Pv -= damage * m_damageMultiplier;
+        //StartCoroutine(CardObject.UpdateLife(this.hero));
         this.m_dmgTaken += damage * m_damageMultiplier;
         Debug.Log("Pv apres: " + m_Pv + " " +m_role);
         if (m_Pv <= 0)

@@ -12,6 +12,7 @@ public class Menu : MonoBehaviour
 
     public List<GameObject> go_credits;
 
+    public GameObject Title;
 
     public float speed = 1;
     //public SpriteRenderer space;
@@ -52,6 +53,10 @@ public class Menu : MonoBehaviour
             //go.transform.eulerAngles = new Vector3();
             caca++;
         }*/
+    }
+    private void Update()
+    {
+            Title.transform.position += new Vector3(0, Mathf.Sin(Time.time)*.0015f, 0);
     }
     public void reloadScene()
     {

@@ -29,9 +29,11 @@ MonoBehaviour:
   m_onCardExplain: 
   m_FullCardExplain: 
   isDruidCard: 1
+  isBaseCard: 0
   Description: Bloque (7), Lors du prochain tour, Bloque (7)
   Name: "Armure d'\xE9corse"
   m_cardFrontSprite: {fileID: 21300000, guid: 15d56ee9767e37442bc5d463ca2c1a13, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 9817db29f2fbe1e41bd49bbed526b728, type: 3}
   BackCard: {fileID: 11400000, guid: f5c14aacb61ba754787232042d814180, type: 2}
+  Deck: {fileID: 11400000, guid: 73e62c92598e28e4eb04d10bd9945d7b, type: 2}
   GM: {fileID: 0}
