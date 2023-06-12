@@ -192,8 +192,6 @@ public class CardObject : MonoBehaviour
             }
             else 
             {
-
-
                 if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect && transform.position.y < gameManager.RangePourActiverCarte)
                 {
                     gameManager.InspectUI.UI.SetActive(true);
@@ -222,6 +220,7 @@ public class CardObject : MonoBehaviour
 
             }
         }
+
         gameManager.HasCardInHand = false;
 
     }
@@ -318,7 +317,6 @@ public class CardObject : MonoBehaviour
             hero.setPv(hero.getMaxPv());
 
         print("health apr�s : " + hero.getPv());
-
         if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
@@ -821,13 +819,11 @@ public class CardObject : MonoBehaviour
         
         AddArmor(ally, 7);
     }
-
     public void CommunionNature() 
     {
         GameManager.Instance.FM.venerations += 2;
         GameManager.Instance.manaMultiplier += 3;
     }
-
     public void Canibalisme() // voir si int�gr�
     {
         GameManager.Instance.FM.isCanibalisme = true;
@@ -844,9 +840,6 @@ public class CardObject : MonoBehaviour
                 return;
             }
         }
-
-
-
     }
     public void ProfanerCiel() // voir si int�gr�
     {
@@ -859,7 +852,6 @@ public class CardObject : MonoBehaviour
             hero.stockText.text = hero.m_mana + " / " + hero.m_manaMax;
             
         }
-
     }
     public void DormirPresDeLautre(hero ally)
     {

@@ -268,7 +268,7 @@ public class Fight : MonoBehaviour
     {
         if(isChamp == false)
         {
-            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(4).gameObject.GetComponent<Light2D>();
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(5).gameObject.GetComponent<Light2D>();
             lightDuBoutton.enabled = true;
         }
         else
@@ -571,13 +571,13 @@ public class Fight : MonoBehaviour
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
                 arboristeButton.interactable = true;
-                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; });
+                arboristeButton.onClick.AddListener(() => { if (Gm.CardsInteractable) { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; } });
 
             }
             else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
             {
                 pretreButton.interactable = true;
-                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; });
+                pretreButton.onClick.AddListener(() => { if (Gm.CardsInteractable) { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; } });
                 
 
             }
@@ -1146,7 +1146,7 @@ public class Fight : MonoBehaviour
     public IEnumerator AllerRetourCombatCorou(GameObject objet, Vector3 transform)
     {
         Vector3 pos = objet.transform.position;
-        yield return StartCoroutine(Gm.deck.TransposeAtoB(objet, new Vector3(transform.x+2, transform.y, transform.z)));
+        yield return StartCoroutine(Gm.deck.TransposeAtoB(objet, new Vector3(transform.x+2, transform.y-3.5f, transform.z)));
 
         Animator Anim = objet.transform.GetChild(0).GetComponent<Animator>();
         Anim.Play("Chien_Attack");
@@ -1766,9 +1766,14 @@ public class Fight : MonoBehaviour
                         {
                             if (card.DataCard.m_isUpsideDown)
                             {
-                               
-                                card.MoxAraignee(heroes[1], selectedhero[0]);
-                                
+                                if (perso2)
+                                {
+                                    card.MoxAraignee(heroes[1], selectedhero[0]);
+                                }
+                                else
+                                {
+                                    card.MoxAraignee(heroes[0], selectedhero[0]);
+                                }
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {

@@ -841,7 +841,6 @@ public class Deck : MonoBehaviour
 
         for (int i = 0; i < Hand.Count; i++)
         {
-            
             CardObject card = Hand[i];
             if (trueIfDruid == card.DataCard.isDruidCard && !card.DataCard.isBaseCard)
             {
@@ -850,11 +849,34 @@ public class Deck : MonoBehaviour
                 card.Name.text = card.DataCard.BackCard.Name;
                 card.Description.text = card.DataCard.BackCard.Description;
                 card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
-
                 card.DataCard.m_isUpsideDown = true;
-
             }
-
+        }
+        for (int i = 0; i < GraveYard.Count; i++)
+        {
+            CardObject card = GraveYard[i];
+            if (trueIfDruid == card.DataCard.isDruidCard && !card.DataCard.isBaseCard)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.BackCard.Name;
+                card.Description.text = card.DataCard.BackCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
+                card.DataCard.m_isUpsideDown = true;
+            }
+        }
+        for (int i = 0; i < deck.Count; i++)
+        {
+            CardObject card = deck[i];
+            if (trueIfDruid == card.DataCard.isDruidCard && !card.DataCard.isBaseCard)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.BackCard.Name;
+                card.Description.text = card.DataCard.BackCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
+                card.DataCard.m_isUpsideDown = true;
+            }
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
@@ -862,13 +884,16 @@ public class Deck : MonoBehaviour
     public IEnumerator DetransfoCoroutine()
     {
         StartCoroutine(TransposeTransparency(Background.gameObject));
-        for(int i = 0; i < 2; i++)
+        if (GameManager.Instance.FM.perso1)
         {
-            foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[i].GetComponentsInChildren<SpriteRenderer>())
+            foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[0].GetComponentsInChildren<SpriteRenderer>())
             {
                 StartCoroutine(TransposeTransparencyNegative(sprite));
             }
-            foreach (SpriteRenderer sprite in gameManager.FM.HeroesGameObjectRef[i].GetComponentsInChildren<SpriteRenderer>())
+        }
+        if (GameManager.Instance.FM.perso2)
+        {
+            foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[1].GetComponentsInChildren<SpriteRenderer>())
             {
                 StartCoroutine(TransposeTransparency(sprite));
             }
@@ -884,7 +909,32 @@ public class Deck : MonoBehaviour
                 card.Description.text = card.DataCard.Description;
                 card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
                 card.DataCard.m_isUpsideDown = true;
-
+            }
+        }
+        for (int i = 0; i < GraveYard.Count; i++)
+        {
+            CardObject card = GraveYard[i];
+            if (card.DataCard.m_isUpsideDown)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.name;
+                card.Description.text = card.DataCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
+                card.DataCard.m_isUpsideDown = true;
+            }
+        }
+        for (int i = 0; i < deck.Count; i++)
+        {
+            CardObject card = deck[i];
+            if (card.DataCard.m_isUpsideDown)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.name;
+                card.Description.text = card.DataCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
+                card.DataCard.m_isUpsideDown = true;
             }
         }
         RestoreCardPosition(false);
