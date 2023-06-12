@@ -19,16 +19,17 @@ MonoBehaviour:
   unlockLevel: 0
   m_cardTypes: 25
   m_cardEffects: []
-  TargetAllies: 1
-  TargetEnnemies: 0
-  AOEAllies: 1
-  AOEEnnemies: 0
+  TargetAllies: 0
+  TargetEnnemies: 1
+  AOEAllies: 0
+  AOEEnnemies: 1
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
   isDruidCard: 1
+  isBaseCard: 0
   Description: Empoisonne 6 aux monstres attaquants
   Name: Laisser pour mort
   m_cardFrontSprite: {fileID: 21300000, guid: 572c203363f6c1a40bd8c8c0de13ccd2, type: 3}

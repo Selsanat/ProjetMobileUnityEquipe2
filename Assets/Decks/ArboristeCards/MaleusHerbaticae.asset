@@ -29,6 +29,7 @@ MonoBehaviour:
   m_onCardExplain: 
   m_FullCardExplain: 
   isDruidCard: 1
+  isBaseCard: 0
   Description: Empoisonne 4 tout les monstres, Bloque (7)
   Name: Maleus herbaticae
   m_cardFrontSprite: {fileID: 21300000, guid: 9817db29f2fbe1e41bd49bbed526b728, type: 3}

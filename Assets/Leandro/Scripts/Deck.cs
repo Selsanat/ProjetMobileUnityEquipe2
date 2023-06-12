@@ -577,21 +577,46 @@ public class Deck : MonoBehaviour
     {
         Transform AllyCardTransform = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform;
         Transform EnnemyCardTransform = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform;
-        if (gameManager.CarteUtilisee.DataCard.TargetAllies && gameManager.CarteUtilisee.DataCard.TargetEnnemies)
+
+        if(gameManager.CarteUtilisee.DataCard.m_isUpsideDown)
         {
-            StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, Vector3.Lerp(AllyCardTransform.position, EnnemyCardTransform.position, 0.5f)));
-            StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, Quaternion.Lerp(AllyCardTransform.rotation, EnnemyCardTransform.rotation, 0.5f)));
+            if (gameManager.CarteUtilisee.DataCard.BackCard.TargetAllies && gameManager.CarteUtilisee.DataCard.BackCard.TargetEnnemies)
+            {
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, Vector3.Lerp(AllyCardTransform.position, EnnemyCardTransform.position, 0.5f)));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, Quaternion.Lerp(AllyCardTransform.rotation, EnnemyCardTransform.rotation, 0.5f)));
+            }
+            if (gameManager.CarteUtilisee.DataCard.BackCard.TargetAllies && !gameManager.CarteUtilisee.DataCard.BackCard.TargetEnnemies)
+            {
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, AllyCardTransform.position));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, AllyCardTransform.rotation));
+            }
+            if (gameManager.CarteUtilisee.DataCard.BackCard.TargetEnnemies && !gameManager.CarteUtilisee.DataCard.BackCard.TargetAllies)
+            {
+
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.position));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.rotation));
+            }
+
         }
-        if (gameManager.CarteUtilisee.DataCard.TargetAllies && !gameManager.CarteUtilisee.DataCard.TargetEnnemies)
+        else
         {
-            StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, AllyCardTransform.position));
-            StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, AllyCardTransform.rotation));
+            if (gameManager.CarteUtilisee.DataCard.TargetAllies && gameManager.CarteUtilisee.DataCard.TargetEnnemies)
+            {
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, Vector3.Lerp(AllyCardTransform.position, EnnemyCardTransform.position, 0.5f)));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, Quaternion.Lerp(AllyCardTransform.rotation, EnnemyCardTransform.rotation, 0.5f)));
+            }
+            if (gameManager.CarteUtilisee.DataCard.TargetAllies && !gameManager.CarteUtilisee.DataCard.TargetEnnemies)
+            {
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, AllyCardTransform.position));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, AllyCardTransform.rotation));
+            }
+            if (gameManager.CarteUtilisee.DataCard.TargetEnnemies && !gameManager.CarteUtilisee.DataCard.TargetAllies)
+            {
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.position));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.rotation));
+            }
         }
-        if (gameManager.CarteUtilisee.DataCard.TargetEnnemies && !gameManager.CarteUtilisee.DataCard.TargetAllies)
-        {
-            StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.position));
-            StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.rotation));
-        }
+        
 
     }
 
