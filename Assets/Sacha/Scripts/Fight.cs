@@ -345,8 +345,8 @@ public class Fight : MonoBehaviour
             H2.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H2.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H2.Armor = H2.ArmorText.transform.parent.gameObject.GetComponent<Image>();
-            print(H2.ArmorText + "Champ");
             H2.stockText.text = H2.getMana().ToString() + " / " + H2.m_manaMax;
+            H2.m_buffs = H2.m_slider.transform.parent;
 
             temp = GameObject.Find("champ2");
             temp.GetComponent<Image>().sprite = heroSprite2;
@@ -359,8 +359,8 @@ public class Fight : MonoBehaviour
             H1.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H1.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H1.Armor = H1.ArmorText.transform.parent.gameObject.GetComponent<Image>();
-            print(H1.ArmorText + "Champ2");
             H1.stockText.text = H1.getMana().ToString() + " / " + H1.m_manaMax;
+            
 
             GameObject.Find("champSolo").SetActive(false);
         }
@@ -391,6 +391,7 @@ public class Fight : MonoBehaviour
             H2.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H2.Armor = H2.ArmorText.transform.parent.gameObject.GetComponent<Image>();
             H2.stockText.text = H2.getMana().ToString() + " / " + H2.m_manaMax;
+            
 
 
         }
@@ -419,6 +420,7 @@ public class Fight : MonoBehaviour
             H1.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H1.Armor = H1.ArmorText.transform.parent.gameObject.GetComponent<Image>();
             H1.stockText.text = H1.getMana().ToString() + " / " + H1.m_manaMax;
+            
         }
         #endregion
 
@@ -442,6 +444,7 @@ public class Fight : MonoBehaviour
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            en1.m_buffs = en1.m_slider.transform.parent.GetChild(4);
             en1.setIsAlive(true);
             ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false);
             GameObject.Find("enemy2").SetActive(false);
@@ -459,6 +462,7 @@ public class Fight : MonoBehaviour
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            en1.m_buffs = en1.m_slider.transform.parent.GetChild(4);
             en1.setIsAlive(true);
 
             ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false);
@@ -472,6 +476,7 @@ public class Fight : MonoBehaviour
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            En2.m_buffs = En2.m_slider.transform.parent.GetChild(4);
             En2.setIsAlive(true);
 
             ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false);
@@ -490,6 +495,7 @@ public class Fight : MonoBehaviour
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            en1.m_buffs = en1.m_slider.transform.parent.GetChild(4);
             en1.setIsAlive(true);
 
             ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false);
@@ -503,6 +509,7 @@ public class Fight : MonoBehaviour
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            En2.m_buffs = En2.m_slider.transform.parent.GetChild(4);
             En2.setIsAlive(true);
 
             ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false);
@@ -517,6 +524,7 @@ public class Fight : MonoBehaviour
             En3.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En3.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En3.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
+            En3.m_buffs = En3.m_slider.transform.parent.GetChild(4);
             En3.setIsAlive(true);
 
             ChangerBouttonEnGameObject(ennemisButton3, Gm.allWave[Gm.waveCounter][waveType][2].prefab, false);
@@ -963,6 +971,7 @@ public class Fight : MonoBehaviour
                         {
                             h.MyEffects.Remove(e);
                         }
+                        UpdatePoisonValue(h);
 
 
                     }
@@ -1907,6 +1916,34 @@ public class Fight : MonoBehaviour
         hero.Armor.color = new Color(hero.Armor.color.r, hero.Armor.color.g, hero.Armor.color.b, valFin);
         hero.ArmorText.color = new Color(hero.Armor.color.r, hero.Armor.color.g, hero.Armor.color.b, valFin);
     }
+    IEnumerator Poison(bool QuelSens, hero hero)
+    {
+        float valBase;
+        float valFin;
+        if (QuelSens)
+        {
+            valBase = 1f;
+            valFin = 0;
+        }
+        else
+        {
+            valBase = 0;
+            valFin = 1f;
+        }
+        float TempsTransition = 5;
+        float timeElapsed = 0;
+        hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color = new Color(hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.r, hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.g, hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.b, valBase);
+        hero.m_slider.transform.parent.GetChild(4).GetChild(0).GetComponent<TMP_Text>().color = new Color(hero.m_slider.transform.parent.GetChild(4).GetChild(0).GetComponent<TMP_Text>().color.r, hero.m_slider.transform.parent.GetChild(4).GetChild(0).GetComponent<TMP_Text>().color.g, hero.m_slider.transform.parent.GetChild(4).GetChild(0).GetComponent<TMP_Text>().color.b, valBase);
+        while (timeElapsed < TempsTransition)
+        {
+            hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color = Color.Lerp(hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color, new Color(hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.r, hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.g, hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.b, valFin), Time.deltaTime);
+            hero.m_slider.transform.parent.GetChild(4).GetChild(0).GetComponent<TMP_Text>().color = Color.Lerp(hero.m_slider.transform.parent.GetChild(4).GetChild(0).GetComponent<TMP_Text>().color, new Color(hero.m_slider.transform.parent.GetChild(4).GetChild(0).GetComponent<TMP_Text>().color.r, hero.m_slider.transform.parent.GetChild(4).GetChild(0).GetComponent<TMP_Text>().color.g, hero.m_slider.transform.parent.GetChild(4).GetChild(0).GetComponent<TMP_Text>().color.b, valFin), Time.deltaTime);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color = new Color(hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.r, hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.g, hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.b, valFin);
+        hero.m_slider.transform.parent.GetChild(4).GetChild(0).GetComponent<TMP_Text>().color = new Color(hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.r, hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.g, hero.m_slider.transform.parent.GetChild(4).GetComponent<Image>().color.b, valFin);
+    }
     public void UpdateArmorValue(hero hero)
     {
         if (hero.ArmorText != null)
@@ -1925,6 +1962,35 @@ public class Fight : MonoBehaviour
             }
         }
 
+    }
+    public void UpdatePoisonValue(hero hero)
+    {
+        TMP_Text texte = hero.m_buffs.transform.GetChild(0).GetComponent<TMP_Text>();
+        int poison_counter = 0;
+        foreach(dataCard.CardEffect effect in hero.MyEffects)
+        {
+            if (effect.effects == dataCard.CardType.Poison)
+            {
+                poison_counter += effect.values;
+
+            }
+        }
+        if (texte != null)
+        {
+            
+            if (Int32.Parse(texte.text) == 0 && poison_counter>0)
+            {
+                StartCoroutine(Poison(false, hero));
+            }
+            else
+            {
+                if (Int32.Parse(texte.text) != 0 && poison_counter == 0)
+                {
+                    StartCoroutine(Poison(true, hero));
+                }
+            }
+        }
+        texte.text = poison_counter.ToString();
     }
 
     public IEnumerator DamageNumberCorou(GameObject objet, int damage)
