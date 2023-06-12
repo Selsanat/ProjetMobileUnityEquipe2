@@ -307,6 +307,7 @@ public class hero : entityManager
             this.randomAttack = (int)Random.Range(0f, 100);
             if (ChienfourthAttack >= randomAttack)
             {
+                this.m_spriteFocus.gameObject.SetActive(true);  
                 m_valueText.text = "";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
                 this.randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
@@ -328,6 +329,8 @@ public class hero : entityManager
                 Debug.Log("boostStat");
                 m_valueText.text = "1";
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
+                
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[3];
@@ -340,6 +343,8 @@ public class hero : entityManager
                 m_valueText.text = ChienAOEDmg.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
+
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
                 m_IsAttacking = true;
@@ -361,6 +366,8 @@ public class hero : entityManager
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
+                this.m_spriteFocus.gameObject.SetActive(true);
+
                 if (randomHero.m_role == Role.Arboriste)
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
@@ -447,6 +454,7 @@ public class hero : entityManager
                 m_valueText.text = Squelettesarmor.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
 
@@ -455,6 +463,7 @@ public class hero : entityManager
             {
 
                 hero temp = heroesToAttack[0];
+                this.m_spriteFocus.gameObject.SetActive(true);
 
                 foreach (hero champ in heroesToAttack)
                 {
@@ -551,6 +560,8 @@ public class hero : entityManager
                 m_valueText.text = MainnbCardDebuf.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
+
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
                 // nerf : ajoute des cartes injouables dans la pioche
@@ -558,6 +569,8 @@ public class hero : entityManager
             else if (MainthridAttack >= randomAttack)
             {
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
+
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
                 m_valueText.text = "1";
@@ -569,6 +582,8 @@ public class hero : entityManager
                 m_valueText.text = Mainarmor.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
+
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
 
@@ -577,6 +592,7 @@ public class hero : entityManager
             {
                 m_IsAttacking = true;
                 hero temp = heroesToAttack[0];
+                this.m_spriteFocus.gameObject.SetActive(true);
 
                 foreach (hero champ in heroesToAttack)
                 {
@@ -673,6 +689,7 @@ public class hero : entityManager
             randomAttack = (int)Random.Range(0f, 100);
             if (GargouillefourthAttack >= randomAttack) //debuff next round
             {
+                this.m_spriteFocus.gameObject.SetActive(true);
 
                 hero temp = heroesToAttack[0];
 
@@ -700,6 +717,8 @@ public class hero : entityManager
                 m_valueText.text = "";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[7];
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
+
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
             }
@@ -710,11 +729,15 @@ public class hero : entityManager
                 m_valueText.text = GargouilledmgAOE.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
+
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
             }
             else if (GargouillefirtAttack >= randomAttack)
             {
+                this.m_spriteFocus.gameObject.SetActive(true);
+
                 hero temp = heroesToAttack[0];
                 m_IsAttacking = true;
                 foreach (hero champ in heroesToAttack)
@@ -820,6 +843,8 @@ public class hero : entityManager
             randomAttack = (int)Random.Range(0f, 100);
             if (HommeVersfourthAttack >= randomAttack)
             {
+                this.m_spriteFocus.gameObject.SetActive(true);
+
                 m_IsAttacking = true;
 
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
@@ -838,6 +863,8 @@ public class hero : entityManager
             }
             else if (HommeVersthridAttack >= randomAttack)
             {
+                this.m_spriteFocus.gameObject.SetActive(true);
+
                 m_IsAttacking = true;
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = HommeVersdmgLourd.ToString();
@@ -860,7 +887,9 @@ public class hero : entityManager
             }
             else if (HommeVersfirtAttack >= randomAttack)
             {
-                
+                this.m_spriteFocus.gameObject.SetActive(true);
+
+
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                
                 if (randomHero.m_role == Role.Arboriste)
@@ -926,9 +955,13 @@ public class hero : entityManager
                 int healing = this.m_Pv * 15 / 100;
                 this.m_valueText.text = healing.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[8];
+                this.m_spriteFocus.gameObject.SetActive(false);
+
             }
             else if (DemonsecondAttack >= randomAttack)
             {
+                this.m_spriteFocus.gameObject.SetActive(true);
+
                 hero temp = heroesToAttack[0];
                 m_IsAttacking = true;
                 foreach (hero champ in heroesToAttack)
@@ -954,6 +987,8 @@ public class hero : entityManager
             }
             else if (DemonfirtAttack >= randomAttack)
             {
+                this.m_spriteFocus.gameObject.SetActive(true);
+
                 hero temp = heroesToAttack[0];
                 m_IsAttacking = true;
                 foreach (hero champ in heroesToAttack)
@@ -1026,9 +1061,12 @@ public class hero : entityManager
 
         if (fight)
         {
+
             randomAttack = (int)Random.Range(0f, 100);
             if (Dragonsixth >= randomAttack) //antiheal
             {
+                this.m_spriteFocus.gameObject.SetActive(true);
+
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = "1";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[9];
@@ -1046,6 +1084,8 @@ public class hero : entityManager
                 Debug.Log("boostStat");
                 m_valueText.text = "2";
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
+
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[3];
@@ -1055,6 +1095,8 @@ public class hero : entityManager
                 m_valueText.text = Dragonarmor.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[1];
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
+
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
             }
@@ -1065,11 +1107,15 @@ public class hero : entityManager
                 m_valueText.text = DragondmgAOE.ToString();
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[2];
                 this.m_spriteFocus.sprite = null;
+                this.m_spriteFocus.gameObject.SetActive(false);
+
                 tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
             }
             else if (DragonsecondAttack >= randomAttack) //lourd
             {
+                this.m_spriteFocus.gameObject.SetActive(true);
+
                 m_IsAttacking = true;
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = DragondmgLourd.ToString();
@@ -1087,6 +1133,8 @@ public class hero : entityManager
             }
             else if (DragonfirtAttack >= randomAttack) //normal
             {
+                this.m_spriteFocus.gameObject.SetActive(true);
+
                 m_IsAttacking = true;
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                 m_valueText.text = Dragondmg.ToString();

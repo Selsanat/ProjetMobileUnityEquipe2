@@ -44,7 +44,7 @@ public class Fight : MonoBehaviour
     public bool isProf = false;
     public bool isApo = false;
     bool test = false;
-    private bool prout;
+    private bool isFirstTurn = true;
     private int ennemisTues = 0;
     [SerializeField] public Button play;
     [SerializeField] public Button cancel;
@@ -528,7 +528,9 @@ public class Fight : MonoBehaviour
 
         #endregion
 
+        
         StartTurn();
+        
 
     }
     void StartTurn()
@@ -589,10 +591,15 @@ public class Fight : MonoBehaviour
                 }
             }
         }
-        foreach (hero En in enemiesAtStartOfCombat.ToList())
+        
+        if(isFirstTurn)
         {
-            ennemyPlaying = En;
-            En.EnemyAttack(heroes, true);
+            foreach (hero En in enemiesAtStartOfCombat.ToList())
+            {
+                ennemyPlaying = En;
+                En.EnemyAttack(heroes, true);
+            }
+            isFirstTurn = false;
         }
 
     }
@@ -1154,6 +1161,7 @@ public class Fight : MonoBehaviour
         Anim.Play("Main_Geante_Attack");
         yield return new WaitForSeconds(1.5f);
         yield return StartCoroutine(Gm.deck.TransposeAtoB(objet, pos));
+
     }
     public void AllerRetourCombat(GameObject objet, Vector3 transform)
     {
@@ -1204,6 +1212,11 @@ public class Fight : MonoBehaviour
         Gm.deck.EndTurnButton.interactable = true;
         Gm.CardsInteractable = true;
         Gm.AnimAtk = false;
+        foreach (hero En in enemiesAtStartOfCombat.ToList())
+        {
+            ennemyPlaying = En;
+            En.EnemyAttack(heroes, true);
+        }
     }
     private void PlayEnemyTurn()
     {
