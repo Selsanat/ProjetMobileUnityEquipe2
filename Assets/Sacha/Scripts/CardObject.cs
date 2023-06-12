@@ -136,24 +136,31 @@ public class CardObject : MonoBehaviour
     [Button]
     void OnMouseUp()
     {
-        if (gameManager.CardsInteractable )
+        if (gameManager.CardsInteractable)
         {
             transform.localScale = new Vector3(1, 1, 1);
             gameManager.deck.ReorderZCards();
+            int costMana = 0;
 
-            
-            if (transform.position.y >= gameManager.RangePourActiverCarte && gameManager.FM.mana >= DataCard.m_manaCost)   
+            if(this.DataCard.m_isUpsideDown)
             {
-                print(DataCard.m_manaCost);
+                costMana = this.DataCard.BackCard.m_manaCost;
+            }
+            else
+            {
+                costMana = this.DataCard.m_manaCost;
+            }
+            
+            if (transform.position.y >= gameManager.RangePourActiverCarte && gameManager.FM.mana >= costMana)   
+            {
+                print(costMana);
                 gameManager.CarteUtilisee = this;
-                gameManager.FM.Cardsend(this, indexHand);
-
+                gameManager.FM.Cardsend(this, indexHand); 
                 Slot = this.gameObject.transform;
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true);
                 FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true);
                 SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies);
 
-                
             }
             else 
             {
@@ -299,6 +306,8 @@ public class CardObject : MonoBehaviour
 
     public void takeDamage(hero hero, int value)
     {
+        print("dmg : " + value);
+
         GameObject Placeholder = new GameObject();
         Placeholder.transform.position = Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position);
         GameManager.Instance.FM.DamageNumber(Placeholder, value);
@@ -322,7 +331,10 @@ public class CardObject : MonoBehaviour
                 if (GameManager.Instance.FM.isCanibalisme)
                 {
                     Venerate(3);
-                    heal(hero, 3);
+                    if (GameManager.Instance.FM.perso2)
+                        heal(GameManager.Instance.FM.heroes[1], 3);
+                    else
+                        heal(GameManager.Instance.FM.heroes[0], 3);
                 }
                 if (GameManager.Instance.FM.isProf)
                 {
@@ -361,6 +373,7 @@ public class CardObject : MonoBehaviour
     }
     public void AddArmor(hero hero, int value)
     {
+        print("add Armor");
 
         hero.setArmor(value);
         GameManager.Instance.FM.UpdateArmorValue(hero);
@@ -368,8 +381,10 @@ public class CardObject : MonoBehaviour
         {
             foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
             {
+                print("absolution");
                 if (enemy.getIsAlive())
                 {
+                    print("dmg absolution");
                     takeDamage(enemy, value);
                 }
             }
@@ -427,38 +442,41 @@ public class CardObject : MonoBehaviour
         {
             foreach (hero ennemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
             {
-                ennemy.setPv(ennemy.getPv() - value);
+                takeDamage(ennemy, value);
+                StartCoroutine(UpdateLife(ennemy));
                 if (ennemy.getPv() <= 0)
                 {
                     ennemy.setIsAlive(false);
                 }
 
-                ally.setPv(ally.getPv() + value);
-                if (ally.getPv() > ally.getMaxPv())
+                int pvHealed = (ally.getPv() + value);
+                if (pvHealed > ally.getMaxPv())
                 {
-                    surplusToReturn = ally.getPv() - ally.getMaxPv();
-                    ally.setPv(ally.getMaxPv());
+                    surplusToReturn = pvHealed - ally.getMaxPv();
                 }
+                heal(ally, value);
+
             }
         }
         else
         {
-            enemy.setPv(enemy.getPv() - value);
+            takeDamage(enemy, value);
+            StartCoroutine(UpdateLife(enemy));
             if (enemy.getPv() <= 0)
             {
                 enemy.setIsAlive(false);
             }
 
-            ally.setPv(ally.getPv() + value);
-            if (ally.getPv() > ally.getMaxPv())
+            
+            int pvHealed = (ally.getPv() + value);
+            if (pvHealed > ally.getMaxPv())
             {
-                surplusToReturn = ally.getPv() - ally.getMaxPv();
-                ally.setPv(ally.getMaxPv());
+                surplusToReturn = pvHealed - ally.getMaxPv();
             }
+            heal(ally, value);
         }
         
         
-        StartCoroutine(UpdateLife(ally));
         return surplusToReturn;
     }
 
@@ -488,7 +506,7 @@ public class CardObject : MonoBehaviour
         {
             if (enemy.getIsAlive())
             {
-                enemy.setPv(enemy.getPv() - 6);
+                takeDamage(enemy, 6);
             }
         }
         AddCard();
@@ -557,7 +575,8 @@ public class CardObject : MonoBehaviour
         {
             if (enemy.getIsAlive())
             {
-                enemy.setPv(enemy.getPv() - 6);
+                takeDamage(enemy, 6);
+
                 if (enemy.getPv() <= 0)
                 {
                     enemy.setIsAlive(false);
@@ -694,7 +713,8 @@ public class CardObject : MonoBehaviour
     {
         if (enemy.getArmor() > 0)
         {
-            enemy.setArmor(0);
+            enemy.m_armor = 0;
+            GameManager.Instance.FM.UpdateArmorValue(enemy);
         }
         takeDamage(enemy, 8);
 
@@ -804,7 +824,7 @@ public class CardObject : MonoBehaviour
     }
     public void ReveillerPourManger(hero ally, hero enemy) //uniquement arbo
     {
-        enemy.setPv(enemy.getPv() - 6);
+        takeDamage(enemy, 6);
         if (enemy.getPv() <= 0)
         {
             enemy.setIsAlive(false);

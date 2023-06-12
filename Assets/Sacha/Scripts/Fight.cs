@@ -19,6 +19,7 @@ using Slider = UnityEngine.UI.Slider;
 using Map;
 using DG.Tweening.Core.Easing;
 using Random = UnityEngine.Random;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Fight : MonoBehaviour
 {
@@ -560,13 +561,13 @@ public class Fight : MonoBehaviour
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
                 arboristeButton.interactable = true;
-                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; });
+                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; });
 
             }
             else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
             {
                 pretreButton.interactable = true;
-                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; });
+                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; });
                 
 
             }
@@ -605,7 +606,15 @@ public class Fight : MonoBehaviour
         pretreButton?.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
         card.DataCard.m_index = card.indexHand;
-        selectedcard = card.DataCard;
+        if (card.DataCard.m_isUpsideDown)
+        {
+            selectedcard = card.DataCard.BackCard;
+        }
+        else
+        {
+            selectedcard = card.DataCard;
+
+        }
         /*        if(play == null)
                 {
                     play = GameObject.Find("Play").GetComponent<Button>();
@@ -615,7 +624,6 @@ public class Fight : MonoBehaviour
                     print("testAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     cancel = GameObject.Find("Cancel").GetComponent<Button>();
                 }*/
-
         //condition a voir en fonction des besoins
         //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alli�e qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
@@ -1033,12 +1041,13 @@ public class Fight : MonoBehaviour
             isPretreTransform = false;
             StartCoroutine(Gm.deck.DetransfoCoroutine());
         }
-        else 
+        else
             StartCoroutine(Gm.deck.DiscardCoroutine(true));
         
         stock += mana + venerations;
         venerations = 0;
         mana = 0;
+        stock = 100;
         stockText.text = stock.ToString();
         manaText.text = mana.ToString();
 
@@ -1616,7 +1625,18 @@ public class Fight : MonoBehaviour
                         {
                             hero.setArmor(card.DataCard.m_value); // mettre la valeur de l'armure
                             Gm.FM.UpdateArmorValue(hero);
-                        }
+                            if (Gm.isAbsolution)
+                            {
+                                foreach (hero enemy in enemiesAtStartOfCombat)
+                                {
+                                    if (enemy.getIsAlive())
+                                    {
+                                        enemy.takeDamage(card.DataCard.m_value);
+                                    }
+                                }
+
+                            }
+                    }
                         break;
                     case dataCard.CardType.AddMana:
                         foreach (hero hero in selected)
@@ -1641,12 +1661,13 @@ public class Fight : MonoBehaviour
                         }
                         break;
                     case dataCard.CardType.CultiverAme:
+                        if (card.DataCard.m_isUpsideDown)
+                        {
+                            card.CultiverFlamme();
+                        }
                         foreach (hero hero in selected)
                         {
-                        if (card.DataCard.m_isUpsideDown)
-                            {
-                                card.CultiverFlamme();
-                            }
+                        
                             if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.CultiverAme(hero);
@@ -1690,12 +1711,13 @@ public class Fight : MonoBehaviour
                         }
                         break;
                     case dataCard.CardType.VenererIdole:
+                        if (card.DataCard.m_isUpsideDown)
+                        {
+                            card.Blaspheme(heroes[0]);
+                        }
                         foreach (hero hero in selected)
                         {
-                            if (card.DataCard.m_isUpsideDown)
-                            {
-                                card.Blaspheme(hero);
-                            }
+                            
                             if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.VenererIdole(hero);
