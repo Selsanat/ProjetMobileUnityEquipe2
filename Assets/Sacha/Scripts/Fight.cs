@@ -1271,6 +1271,9 @@ public class Fight : MonoBehaviour
         Gm.HasCardInHand = false;
         Gm.debuffDraw = 0;
         Gm.isHoverButton = false;
+        enemiesAtStartOfCombat.Clear();
+        HeroesGameObjectRef.Clear();
+        HeroesAltGameObjectRef.Clear();
     }
     private void LooseFight()
     {
@@ -1540,6 +1543,7 @@ public class Fight : MonoBehaviour
         selectedhero.Clear();
         enemiesAtStartOfCombat.Clear();
         HeroesGameObjectRef.Clear();
+        HeroesAltGameObjectRef.Clear();
 
         selectedcard = null;
         Gm.SaveData();

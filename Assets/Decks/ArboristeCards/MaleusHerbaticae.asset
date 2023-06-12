@@ -19,10 +19,10 @@ MonoBehaviour:
   unlockLevel: 1
   m_cardTypes: 31
   m_cardEffects: []
-  TargetAllies: 0
-  TargetEnnemies: 1
+  TargetAllies: 1
+  TargetEnnemies: 0
   AOEAllies: 0
-  AOEEnnemies: 1
+  AOEEnnemies: 0
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0

@@ -1188,6 +1188,35 @@ public class hero : entityManager
             gameManager.LifePretre = m_Pv;
             GameManager.Instance.FM.DamageNumber(Camera.main.ScreenToWorldPoint(gameManager.FM.pretreButton.transform.position), damage);
         }
+        else
+        {
+            StartCoroutine(gameManager.FM.UpdateLife(this));
+            if (m_Pv <= 0)
+            {
+                if (GameManager.Instance.FM.isCanibalisme)
+                {
+                    CardObject card = new CardObject();
+                    card.Venerate(3);
+                    if (GameManager.Instance.FM.perso2)
+                        card.heal(GameManager.Instance.FM.heroes[1], 3);
+                    else
+                        card.heal(GameManager.Instance.FM.heroes[0], 3);
+                }
+                if (GameManager.Instance.FM.isProf)
+                {
+                    foreach (hero champ in gameManager.FM.heroes)
+                    {
+                        champ.m_manaMax = 1;
+                        if (champ.m_mana > 1)
+                        {
+                            champ.m_mana = 1;
+                            champ.stockText.text = champ.m_mana + " / " + champ.m_manaMax;
+                        }
+                    }
+                }
+                isAlive = false;
+            }
+        }
            gameManager.FM.UpdateLifeAllies();
     }
 

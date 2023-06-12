@@ -265,7 +265,7 @@ public class CardObject : MonoBehaviour
             hero.setPv(currentMaxPv);
         print("health après : " + hero.getPv());
 
-        if (gameManager.isAbsolution)
+        if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
             {
@@ -277,6 +277,7 @@ public class CardObject : MonoBehaviour
 
         }
         StartCoroutine(UpdateLife(hero));
+        StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
 
     }
 
@@ -290,7 +291,7 @@ public class CardObject : MonoBehaviour
 
         print("health après : " + hero.getPv());
 
-        if (gameManager.isAbsolution)
+        if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
             {
@@ -302,6 +303,8 @@ public class CardObject : MonoBehaviour
 
         }
         StartCoroutine(UpdateLife(hero));
+        StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
+
     }
 
     public void takeDamage(hero hero, int value)
@@ -325,31 +328,33 @@ public class CardObject : MonoBehaviour
 
         hero.m_Pv -= value * hero.m_damageMultiplier;
         StartCoroutine(UpdateLife(hero));
+        StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
+
         GameManager.Instance.FM.UpdateArmorValue(hero);
         if (hero.m_Pv <= 0)
+        {
+            if (GameManager.Instance.FM.isCanibalisme)
             {
-                if (GameManager.Instance.FM.isCanibalisme)
+                Venerate(3);
+                if (GameManager.Instance.FM.perso2)
+                    heal(GameManager.Instance.FM.heroes[1], 3);
+                else
+                    heal(GameManager.Instance.FM.heroes[0], 3);
+            }
+            if (GameManager.Instance.FM.isProf)
+            {
+                foreach (hero champ in gameManager.FM.heroes)
                 {
-                    Venerate(3);
-                    if (GameManager.Instance.FM.perso2)
-                        heal(GameManager.Instance.FM.heroes[1], 3);
-                    else
-                        heal(GameManager.Instance.FM.heroes[0], 3);
-                }
-                if (GameManager.Instance.FM.isProf)
-                {
-                    foreach (hero champ in gameManager.FM.heroes)
+                    champ.m_manaMax = 1;
+                    if (champ.m_mana > 1)
                     {
-                        champ.m_manaMax = 1;
-                        if (champ.m_mana > 1)
-                        {
-                            champ.m_mana = 1;
-                            champ.stockText.text = champ.m_mana.ToString() + " / " + champ.m_manaMax;
-                        }
+                        champ.m_mana = 1;
+                        champ.stockText.text = champ.m_mana.ToString() + " / " + champ.m_manaMax;
                     }
                 }
-                hero.isAlive = false;
             }
+            hero.isAlive = false;
+        }
 
             hero.setVarHero();
     }
@@ -746,15 +751,13 @@ public class CardObject : MonoBehaviour
         dataCard.CardEffect card = new dataCard.CardEffect();
         card.nbTour = 2;
         card.effects = dataCard.CardType.Poison;
-        card.values = 5;
-        for (int i = 0; i < GameManager.Instance.FM.nbTransfo; i++)
+        card.values = 5 * GameManager.Instance.FM.nbTransfo;
+        
+        foreach (hero enemies in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
-            foreach (hero enemies in GameManager.Instance.FM.enemiesAtStartOfCombat)
+            if (enemies.getIsAlive())
             {
-                if (enemies.getIsAlive())
-                {
-                    enemies.addEffect(card);
-                }
+                enemies.addEffect(card);
             }
         }
 
@@ -813,6 +816,14 @@ public class CardObject : MonoBehaviour
     public void ProfanerCiel() // voir si intégré
     {
         GameManager.Instance.FM.isProf = true;
+        foreach(hero hero in GameManager.Instance.FM.heroes)
+        {
+            hero.m_manaMax = 1;
+            if(hero.m_mana > 1)
+                hero.m_mana = 1;
+            hero.stockText.text = hero.m_mana + " / " + hero.m_manaMax;
+            
+        }
 
     }
     public void DormirPresDeLautre(hero ally)

@@ -5620,7 +5620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6799286023481557668, guid: a35a0664c32a390488ec44363b25acd2, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9998797
+      value: 0.9998818
       objectReference: {fileID: 0}
     - target: {fileID: 6799286023481557668, guid: a35a0664c32a390488ec44363b25acd2, type: 3}
       propertyPath: m_LocalRotation.x
@@ -5632,7 +5632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6799286023481557668, guid: a35a0664c32a390488ec44363b25acd2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.01551239
+      value: -0.015378043
       objectReference: {fileID: 0}
     - target: {fileID: 7058279286979511468, guid: a35a0664c32a390488ec44363b25acd2, type: 3}
       propertyPath: m_Bounds.m_Center.x
@@ -5668,7 +5668,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7779803232015276728, guid: a35a0664c32a390488ec44363b25acd2, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.12872283
+      value: 0.12858959
       objectReference: {fileID: 0}
     - target: {fileID: 7779803232015276728, guid: a35a0664c32a390488ec44363b25acd2, type: 3}
       propertyPath: m_LocalRotation.x
@@ -5680,7 +5680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7779803232015276728, guid: a35a0664c32a390488ec44363b25acd2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.9916807
+      value: -0.9916979
       objectReference: {fileID: 0}
     - target: {fileID: 8158834575999458880, guid: a35a0664c32a390488ec44363b25acd2, type: 3}
       propertyPath: m_Bounds.m_Center.x
@@ -37199,7 +37199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: levelPretre
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: LifeArboriste
@@ -37211,7 +37211,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: levelArboriste
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: IsArboristePlayed
