@@ -1173,6 +1173,7 @@ public class hero : entityManager
             gameManager.LifePretre = m_Pv;
             GameManager.Instance.FM.DamageNumber(Camera.main.ScreenToWorldPoint(gameManager.FM.pretreButton.transform.position), damage);
         }
+           gameManager.FM.UpdateLifeAllies();
     }
 
     #endregion

@@ -18,6 +18,7 @@ using Image = UnityEngine.UI.Image;
 using Slider = UnityEngine.UI.Slider;
 using Map;
 using DG.Tweening.Core.Easing;
+using Random = UnityEngine.Random;
 
 public class Fight : MonoBehaviour
 {
@@ -257,6 +258,7 @@ public class Fight : MonoBehaviour
             print(Gm.CarteUtilisee.DataCard.m_manaCost);
             mana -= Gm.CarteUtilisee.DataCard.m_manaCost; 
             manaText.text = mana.ToString();
+            play.onClick.RemoveAllListeners();
             play.gameObject.SetActive(false);
             cancel.gameObject.SetActive(false);
             DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
@@ -502,14 +504,9 @@ public class Fight : MonoBehaviour
     {
         endTurnButton.GetComponentInChildren<TextMeshProUGUI>().text = "End Turn";
         endTurnButton.onClick.AddListener(() => { repMana(); });
-        if(Gm.isManaMultiplier)
-        {
-            Gm.isManaMultiplier = false;
-            mana = 3 * Gm.manaMultiplier;
-        }
-        else
-            mana = 3;
-
+        
+        mana = 3 + Gm.manaMultiplier;
+        Gm.manaMultiplier = 0;
         manaText.text = mana.ToString();
         endturnbool = false;
         Gm.deck.StartTurn();
@@ -533,13 +530,13 @@ public class Fight : MonoBehaviour
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
                 arboristeButton.interactable = true;
-                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.interactable = false; nbTransfo++; });
+                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; });
 
             }
             else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
             {
                 pretreButton.interactable = true;
-                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.interactable = false; nbTransfo++; });
+                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; });
                 
 
             }
@@ -599,6 +596,7 @@ public class Fight : MonoBehaviour
         //True si : La carte n'est pas null et qu'elle a une cible. Si elle n'en a pas, elle se lance si C'est une carte D'AOE Alli�e qui cible pas d'ennemies, ou inversement.
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null;//&& selectedhero != null&& ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
+        
         play.onClick.AddListener(() => { if (conditionjouer) StartCoroutine(CardAnimDisolve()); });
         //[WIP]je dois le changer[WIP]
         
@@ -807,6 +805,7 @@ public class Fight : MonoBehaviour
         }
         if (!selectedcard.AOEAllies && selectedcard.TargetAllies)
         {
+
             arboristeButton?.onClick.AddListener(() => { ClearSide(true); switchLightSelection(arboristeButton, true); if (perso2 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]);});
             pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton, true); ClearSide(true); selectedhero.Add(heroes[0]); });
         }
@@ -1122,13 +1121,13 @@ public class Fight : MonoBehaviour
                     {
                         arboristeButton?.onClick.RemoveAllListeners();
                         arboristeButton?.gameObject.SetActive(false);
-                        h.gameObject.SetActive(false);
+                        /*h?.gameObject?.SetActive(false);*/
                     }
                     else
                     {
                         pretreButton?.onClick.RemoveAllListeners();
                         pretreButton.gameObject.SetActive(false);
-                        h.gameObject.SetActive(false);
+                        /*h?.gameObject?.SetActive(false);*/
 
 
                     }
@@ -1159,6 +1158,7 @@ public class Fight : MonoBehaviour
         ennemisButton3?.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
         pretreButton?.onClick.RemoveAllListeners();
+        play.onClick.RemoveAllListeners();
         ennemisButton1 = null;
         ennemisButton2 = null;
         ennemisButton3 = null;
@@ -1187,14 +1187,24 @@ public class Fight : MonoBehaviour
     }
     private void LooseFight()
     {
-        Debug.Log("Loosedfight");
-        StopCoroutine(coroutine);
+
+        StartCoroutine(LoseFinalFight());
+    }
+    IEnumerator LoseFinalFight()
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
         ResetAll();
         Gm.winoulose = false;
-        SceneManager.LoadScene(0);
-        FindObjectOfType<MapManager>().GenerateNewMap();
+        Gm.transi.Play("Transi");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(2);
+        Gm.transi.Play("Detransi");
+        // A appeler lorsqu'on relance
+        /*FindObjectOfType<MapManager>().GenerateNewMap();*/
         Gm.SaveData();
-
     }
 
     public void WinFinalFight()
@@ -1205,15 +1215,17 @@ public class Fight : MonoBehaviour
 
     IEnumerator WinFinalCorou()
     {
-        StopCoroutine(coroutine);
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
         ResetAll();
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
         Gm.winoulose = true;
         SceneManager.LoadScene(2);
         Gm.transi.Play("Detransi");
-
-        FindObjectOfType<MapManager>().GenerateNewMap();
+        //FindObjectOfType<MapManager>().GenerateNewMap();
         Gm.SaveData();
     }
 
@@ -1428,6 +1440,7 @@ public class Fight : MonoBehaviour
         ennemisButton3?.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
         pretreButton?.onClick.RemoveAllListeners();
+        play.onClick.RemoveAllListeners();
         ennemisButton1 = null;
         ennemisButton2 = null;
         ennemisButton3 = null;
@@ -1506,8 +1519,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.Damage:
                         foreach (hero hero in selected)
                         {
-                            hero.takeDamage(card.DataCard.m_value);
-                        }
+                         hero.takeDamage(card.DataCard.m_value);
+                        print(hero.m_Pv);
+                        StartCoroutine(Gm.CarteUtilisee.UpdateLife(hero));
+                        StartCoroutine(DamageNumberCorou(Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position), card.DataCard.m_value));
+                    }
                         break;
                     case dataCard.CardType.Heal:
                         foreach (hero hero in selected)
@@ -1518,7 +1534,8 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.AddArmor:
                         foreach (hero hero in selected)
                         {
-                            hero.setArmor(2); // mettre la valeur de l'armure
+                            hero.setArmor(card.DataCard.m_value); // mettre la valeur de l'armure
+                            Gm.FM.UpdateArmorValue(hero);
                         }
                         break;
                     case dataCard.CardType.AddMana:
@@ -1552,7 +1569,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                /*card.CultiverAme(selectedcard);*/
+                                card.CultiverAme(selectedcard, hero);
                             }
                         }
                         break;
@@ -1576,14 +1593,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                if (selectedhero[0].m_role == entityManager.Role.Pretre || selectedhero[0].m_role == entityManager.Role.Arboriste)
-                                {
-                                    card.Benediction(selectedhero[0], selectedhero[1]);
-                                }
-                                else
-                                {
-                                    card.Benediction(selectedhero[1], selectedhero[0]);
-                                }
+                                card.Benediction(heroes[0], selectedhero[0]);
                             }
                         break;
                     case dataCard.CardType.Tabernacle:
@@ -1661,7 +1671,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.MoxLion(hero);
+                                card.MoxLion(selectedhero[1]);
                             }   
                         }
                         break;
@@ -1700,7 +1710,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.SurgissementVitalique(hero);
+                                card.SurgissementVitalique();
                             }
                         }
                         break;
@@ -1855,6 +1865,7 @@ public class Fight : MonoBehaviour
     {
         GameObject texte = GameObject.Instantiate(PrefabDmgText);
         texte.transform.position = objet;
+        texte.transform.position = new Vector3(texte.transform.position.x + Random.Range(-1f, 1f), texte.transform.position.y + Random.Range(-1f, 1f), texte.transform.position.z);
         PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = "" + damage;
         yield return new WaitForSeconds(2);
         Destroy(texte);
@@ -1863,5 +1874,24 @@ public class Fight : MonoBehaviour
     public void DamageNumber(Vector3 objet, int damage)
     {
         StartCoroutine(DamageNumberCorou(objet, damage));
+    }
+    public void UpdateLifeAllies()
+    {
+        foreach(hero hero in heroes)
+        {
+            StartCoroutine(UpdateLife(hero));
+        }
+    }
+    public IEnumerator UpdateLife(hero hero)
+    {
+        float TempsTransition = 5f;
+        float timeElapsed = 0;
+        while (timeElapsed < TempsTransition)
+        {
+            hero.m_slider.value = Mathf.Lerp(hero.m_slider.value, hero.m_Pv, Time.deltaTime);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        hero.m_slider.value = hero.m_Pv;
     }
 }

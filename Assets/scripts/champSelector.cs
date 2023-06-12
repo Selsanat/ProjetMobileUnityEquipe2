@@ -97,7 +97,7 @@ public class champSelector : MonoBehaviour
                     break;
                 }
                 go.GetComponent<Image>().sprite = gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_sprite;
-                go.GetComponentInChildren<TextMeshProUGUI>().text = gameManager.enemiesData[encount].m_role.ToString() + " \nPV : "  + gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_Pv;
+                go.GetComponentInChildren<TextMeshProUGUI>().text = gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_role.ToString() + " \nPV : "  + gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_Pv;
                 encount++;
             }
             
