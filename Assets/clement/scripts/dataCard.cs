@@ -53,6 +53,8 @@ public class dataCard : ScriptableObject
 
     [SerializeField] public dataCard BackCard;
 
+    public dataDeck Deck;
+
 
     public GameManager GM;
 
