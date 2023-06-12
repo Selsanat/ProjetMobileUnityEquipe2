@@ -29,10 +29,12 @@ MonoBehaviour:
   m_onCardExplain: 
   m_FullCardExplain: 
   isDruidCard: 1
+  isBaseCard: 0
   Description: "Pour chaque fois que vous avez transcend\xE9 cette partie, Empoisonnez
     5 tout les monstres"
   Name: "R\xE9pendre la mort"
   m_cardFrontSprite: {fileID: 21300000, guid: ca9ba9550a4ebe54fbbf36eb978d3fc7, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 916e366218d9a2b47841471e296f09c1, type: 3}
   BackCard: {fileID: 11400000, guid: c4b931975ac527849ad8f8e74f47a18c, type: 2}
+  Deck: {fileID: 11400000, guid: 73e62c92598e28e4eb04d10bd9945d7b, type: 2}
   GM: {fileID: 0}

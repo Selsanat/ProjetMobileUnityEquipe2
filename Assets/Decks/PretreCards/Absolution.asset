@@ -28,9 +28,13 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
+  isDruidCard: 0
+  isBaseCard: 0
   Description: "Ce tour, le bloquage et le soin inflige \xE9galement autant de blessure
     \xE0 tout les monstres"
   Name: Absolution
   m_cardFrontSprite: {fileID: 21300000, guid: 4955ad69ef499e6419bc3873cbca6c4b, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 6194c8bd44e1eba449dfcf6136839778, type: 3}
   BackCard: {fileID: 0}
+  Deck: {fileID: 11400000, guid: 39b141c5298ab024fa639bcce4765385, type: 2}
+  GM: {fileID: 0}

@@ -28,8 +28,12 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
+  isDruidCard: 0
+  isBaseCard: 0
   Description: "Inflige 15 blessures \xE0 l'ennemi avec le plus de points de vie"
   Name: Incendier le cloatre
   m_cardFrontSprite: {fileID: 21300000, guid: 9ab7f58fe3ce0df4abcd80aabbbcad56, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 580c5cab68893c14ea7e795464caefa4, type: 3}
   BackCard: {fileID: 0}
+  Deck: {fileID: 11400000, guid: 39b141c5298ab024fa639bcce4765385, type: 2}
+  GM: {fileID: 0}

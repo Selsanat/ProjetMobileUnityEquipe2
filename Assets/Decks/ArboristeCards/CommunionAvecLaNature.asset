@@ -29,9 +29,11 @@ MonoBehaviour:
   m_onCardExplain: 
   m_FullCardExplain: 
   isDruidCard: 1
+  isBaseCard: 0
   Description: "Au Prochain tour, gagnez 3 manas. V\xE9n\xE9rez 3"
   Name: Communion avec la nature
   m_cardFrontSprite: {fileID: 21300000, guid: e44ec82f916d57a4a8a02524847f2dc2, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: b5fc719c0bdb7ff4084f7465a15752ca, type: 3}
   BackCard: {fileID: 11400000, guid: c33c2177985ae08429c7ad6f03f9473b, type: 2}
+  Deck: {fileID: 11400000, guid: 73e62c92598e28e4eb04d10bd9945d7b, type: 2}
   GM: {fileID: 0}

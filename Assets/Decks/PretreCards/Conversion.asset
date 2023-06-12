@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_manaCost: 0
   m_value: 0
-  m_index: 0
+  m_index: 2
   nombreDexecutiion: 1
   unlockLevel: 6
   m_cardTypes: 10
@@ -28,9 +28,13 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
+  isDruidCard: 0
+  isBaseCard: 0
   Description: Transferez votre bloquage en soin (si vous avez 7 de block et qu'il
     vous manque 5 points de vie, il vous restera 2 de block et on vous soignera totalement)
   Name: Conversion
   m_cardFrontSprite: {fileID: 21300000, guid: 6194c8bd44e1eba449dfcf6136839778, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 4955ad69ef499e6419bc3873cbca6c4b, type: 3}
   BackCard: {fileID: 11400000, guid: 3cb7fdd433d6acd419c8b8460ce04a70, type: 2}
+  Deck: {fileID: 11400000, guid: 39b141c5298ab024fa639bcce4765385, type: 2}
+  GM: {fileID: 0}

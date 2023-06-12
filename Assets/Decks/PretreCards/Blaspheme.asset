@@ -28,9 +28,13 @@ MonoBehaviour:
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 
+  isDruidCard: 0
+  isBaseCard: 0
   Description: "Vole 5 points de vie \xE0 chaque monstre pour les rendre \xE0 un
     h\xE9ro"
   Name: "Blasph\xE8me"
   m_cardFrontSprite: {fileID: 21300000, guid: 080be867a7baf534ab3e50c06557c18c, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: a7ac1782d809a8e4ea4b80bfe079815e, type: 3}
   BackCard: {fileID: 0}
+  Deck: {fileID: 11400000, guid: 39b141c5298ab024fa639bcce4765385, type: 2}
+  GM: {fileID: 0}
