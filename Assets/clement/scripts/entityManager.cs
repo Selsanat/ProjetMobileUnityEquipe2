@@ -67,6 +67,7 @@ public class entityManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI ArmorText;
     [SerializeField] protected Deck m_deck;
     [SerializeField] public List<hero> heroList;
+    public int m_total_poison;
     [SerializeField] protected bool multipleTarget;
     [SerializeField] protected GameManager gameManager;
     [SerializeField] public List<dataCard.CardEffect> MyEffects = new List<dataCard.CardEffect>();

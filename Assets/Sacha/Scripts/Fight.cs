@@ -957,24 +957,12 @@ public class Fight : MonoBehaviour
         {
             if (h.isAlive)
             {
-            //dédicace a clément la salope
-                for (int i = 0; i < h.MyEffects?.Count; i++)
+                if (h.MyEffects?.Count > 0||h.m_total_poison>0)
                 {
-                    dataCard.CardEffect e = h.MyEffects[i];
-                    if (e.nbTour != 0)
-                    {
-                        
-                        h.takeDamage(e.values);
-                        StartCoroutine(UpdateLife(h));
-                        e.nbTour--;
-                        if (e.nbTour == 0)
-                        {
-                            h.MyEffects.Remove(e);
-                        }
-                        UpdatePoisonValue(h);
-
-
-                    }
+                    h.takeDamage(h.m_total_poison);
+                    StartCoroutine(UpdateLife(h));
+                    h.m_total_poison--;
+                    UpdatePoisonValue(h);
                 }
             }
         }
@@ -1966,31 +1954,38 @@ public class Fight : MonoBehaviour
     public void UpdatePoisonValue(hero hero)
     {
         TMP_Text texte = hero.m_buffs.transform.GetChild(0).GetComponent<TMP_Text>();
-        int poison_counter = 0;
-        foreach(dataCard.CardEffect effect in hero.MyEffects)
+        foreach (hero h in enemies)
         {
-            if (effect.effects == dataCard.CardType.Poison)
+            if (h.isAlive)
             {
-                poison_counter += effect.values;
-
+                if (h.MyEffects?.Count > 0 || h.m_total_poison > 0)
+                {
+                    //dédicace a clément la salope
+                    for (int i = 0; i < h.MyEffects?.Count; i++)
+                    {
+                        h.m_total_poison += h.MyEffects[i].values;
+                    }
+                    h.MyEffects.Clear();
+                }
             }
         }
         if (texte != null)
         {
             
-            if (Int32.Parse(texte.text) == 0 && poison_counter>0)
+            if (texte.text == "" && hero.m_total_poison>0)
             {
                 StartCoroutine(Poison(false, hero));
             }
             else
             {
-                if (Int32.Parse(texte.text) != 0 && poison_counter == 0)
+                if (texte.text != "" && hero.m_total_poison == 0)
                 {
                     StartCoroutine(Poison(true, hero));
+                    texte.text = "";
                 }
             }
         }
-        texte.text = poison_counter.ToString();
+        texte.text = hero.m_total_poison.ToString();
     }
 
     public IEnumerator DamageNumberCorou(GameObject objet, int damage)
