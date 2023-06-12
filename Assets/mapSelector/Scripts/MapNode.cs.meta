@@ -3,7 +3,13 @@ guid: e3e21f944b16505419d6c7dba624e2b3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - tranformCircle: {fileID: 3734502692755700589, guid: 2dfc49d7b0f8acc48a57f7395bc0bbfe, type: 3}
+  - sr: {instanceID: 0}
+  - image: {instanceID: 0}
+  - visitedCircle: {instanceID: 0}
+  - circleImage: {instanceID: 0}
+  - visitedCircleImage: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
