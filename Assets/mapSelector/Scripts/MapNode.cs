@@ -51,9 +51,9 @@ namespace Map
             }
             if (node.nodeType == NodeType.Mystery) 
             {
-                visitedCircle.transform.localScale *= 2.35f;
+                visitedCircle.transform.localScale *= 1.9f;
                 Vector3 VCircle = visitedCircle.transform.position;
-                VCircle.y -= 0.06f;
+                VCircle.y -= 0.04f;
                 visitedCircle.transform.position = VCircle;
             }
             if (node.nodeType == NodeType.Boss) 
