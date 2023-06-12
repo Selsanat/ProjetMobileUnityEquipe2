@@ -17,6 +17,7 @@ namespace Map
         public MapView view;
         public Campsite Camp;
         public Tower Tower;
+        
 
         public static MapPlayerTracker Instance;
 
@@ -31,12 +32,22 @@ namespace Map
             if (Tower == null)
                 Tower = GameObject.Find("Tour").GetComponent<Tower>();
             Tower.gameObject.SetActive(false);
+            if (champSelection == null)
+                champSelection = GameObject.Find("buttonManagerHero").GetComponent<champSelector>();
         }
 
+
+        private void Start()
+        {
+            /*if(GameManager.Instance._currentNode != null && GameManager.Instance.waveCounter != mapManager.CurrentMap.path.Count)
+                setPlayerToNode(GameManager.Instance._currentNode);*/
+            
+        }
         public void SelectNode(MapNode mapNode)
         {
             if (Locked) return;
 
+            
             // Debug.Log("Selected node: " + mapNode.Node.point);
 
             if (mapManager.CurrentMap.path.Count == 0)
@@ -61,21 +72,27 @@ namespace Map
 
         private void SendPlayerToNode(MapNode mapNode)
         {
+            //_currentNode = mapNode;
             Locked = lockAfterSelecting;
             mapManager.CurrentMap.path.Add(mapNode.Node.point);
             mapManager.SaveMap();
             view.SetAttainableNodes();
             view.SetLineColors();
             mapNode.ShowSwirlAnimation();
-            if (gameManager = null)
-                gameManager = GetComponent<GameManager>();
-            if (champSelection == null)
-                champSelection = GameObject.Find("buttonManagerHero").GetComponent<champSelector>();
-
-            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode, gameManager, champSelection, Camp,Tower));
+            
+            DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode));
         }
 
-        private static void EnterNode(MapNode mapNode, GameManager manager, champSelector champi, Campsite camp, Tower Tower)
+        private void setPlayerToNode(MapNode mapNode)
+        {
+            Locked = lockAfterSelecting;
+            mapManager.CurrentMap.path.Add(mapNode.Node.point);
+            mapManager.SaveMap();
+            view.SetAttainableNodes();
+            view.SetLineColors();
+        }
+
+        private static void EnterNode(MapNode mapNode)
         {
             // we have access to blueprint name here as well
             Debug.Log("Entering node: " + mapNode.Node.blueprintName + " of type: " + mapNode.Node.nodeType);
@@ -87,7 +104,6 @@ namespace Map
                 case NodeType.MinorEnemy:
                     Instance.transichamp();
                     break;
-
                 case NodeType.EliteEnemy:
                     break;
                 case NodeType.RestSite:
@@ -112,7 +128,7 @@ namespace Map
             GameManager gm = GameObject.FindObjectOfType<GameManager>();
             gm.transi.Play("Transi");
             yield return new WaitForSeconds(1.5f);
-           gm.transi.Play("Detransi");
+            gm.transi.Play("Detransi");
             GameObject.Find("OuterMapParent").SetActive(false);
             champSelection.setctive();
         }

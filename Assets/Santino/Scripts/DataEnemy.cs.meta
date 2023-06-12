@@ -3,7 +3,11 @@ guid: 4c60385526f542e409151c68496c4330
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_sprite: {instanceID: 0}
+  - prefab: {instanceID: 0}
+  - m_slider: {instanceID: 0}
+  - animation: {fileID: 7400000, guid: 5c457423790546f46b17e29d2b72118d, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

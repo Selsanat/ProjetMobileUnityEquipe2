@@ -15,6 +15,6 @@ MonoBehaviour:
   m_maxPv: 32
   m_Pv: 32
   m_sprite: {fileID: 21300000, guid: 737de3c56c33df54c98da0fbf0a524da, type: 3}
-  prefab: {fileID: -8653719598885068355, guid: 50541280f8bf75d41b0d3352cb19000b, type: 3}
+  prefab: {fileID: 4830178491808200545, guid: a326433be3fd2f34188511f005745fb8, type: 3}
   m_slider: {fileID: 0}
   m_role: 8

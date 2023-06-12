@@ -25,7 +25,7 @@ public class Deck : MonoBehaviour
     [SerializeField] float RangePourActiverCarte;
     [SerializeField] Button PiocheButton;
     [SerializeField] Button UseButton;
-    [SerializeField] Button EndTurnButton;
+    [SerializeField] public  Button EndTurnButton;
     [SerializeField] public Button CancelButton;
     [SerializeField] public Button PlayButton;
     [SerializeField] int  NbCarteHandPossible;
@@ -43,6 +43,7 @@ public class Deck : MonoBehaviour
     [SerializeField] public SpriteRenderer BackgroundAlt;
     [SerializeField] public List<Slider> SlidersXp;
     [SerializeField] public List<Image>  SpriteRenderers;
+    public Transform AoeEmplacement;
 
 
 
@@ -646,6 +647,20 @@ public class Deck : MonoBehaviour
         }
         objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1);
     }
+    public IEnumerator TransposeTransparency(SpriteRenderer objetABouger)
+    {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        SpriteRenderer mesh = objetABouger.GetComponent<SpriteRenderer>();
+        mesh.color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0);
+        while (timeElapsed < TempsTransition)
+        {
+            mesh.color = Color.Lerp(mesh.color, new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1), Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1);
+    }
     public IEnumerator TransposeTransparencyNegative(GameObject objetABouger)
     {
         float TempsTransition = TempsTrans;
@@ -659,6 +674,24 @@ public class Deck : MonoBehaviour
             yield return null;
         }
         objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0);
+    }
+    public IEnumerator TransposeTransparencyNegative(SpriteRenderer objetABouger)
+    {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        SpriteRenderer mesh = objetABouger.GetComponent<SpriteRenderer>();
+        mesh.color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1);
+        while (timeElapsed < TempsTransition)
+        {
+            mesh.color = Color.Lerp(mesh.color, new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0), Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0);
+    }
+    public void DrawCardTest(int iterations)
+    {
+        StartCoroutine(DrawCardCoroutine(iterations));
     }
     public IEnumerator DrawCardCoroutine()
     {
@@ -688,8 +721,12 @@ public class Deck : MonoBehaviour
             StartCoroutine( DrawCardCoroutine());
             yield return new WaitForSeconds(0.25f);
         }
-        EndTurnButton.interactable = true;
-        gameManager.CardsInteractable = true;
+        if (!gameManager.AnimAtk)
+        {
+            EndTurnButton.interactable = true;
+            gameManager.CardsInteractable = true;
+        }
+
     }
     IEnumerator DiscardCoroutine()
     {
@@ -762,11 +799,26 @@ public class Deck : MonoBehaviour
     public IEnumerator TransfoCoroutine(bool trueIfDruid)
     {
         StartCoroutine( TransposeTransparencyNegative(Background.gameObject));
+        int index = 0;
+        if (!trueIfDruid)
+        {
+            index = 1;
+        }
+
+        foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[index].GetComponentsInChildren<SpriteRenderer>())
+        {
+            StartCoroutine(TransposeTransparency(sprite));
+        }
+        foreach (SpriteRenderer sprite in gameManager.FM.HeroesGameObjectRef[index].GetComponentsInChildren<SpriteRenderer>())
+        {
+            StartCoroutine(TransposeTransparencyNegative(sprite));
+        }
+
         for (int i = 0; i < Hand.Count; i++)
         {
             
             CardObject card = Hand[i];
-            if (trueIfDruid == card.DataCard.isDruidCard)
+            if (trueIfDruid == card.DataCard.isDruidCard && !card.DataCard.isBaseCard)
             {
                 StartCoroutine(TourneCarte90(card));
                 yield return new WaitForSeconds(0.25f);
@@ -785,6 +837,17 @@ public class Deck : MonoBehaviour
     public IEnumerator DetransfoCoroutine()
     {
         StartCoroutine(TransposeTransparency(Background.gameObject));
+        for(int i = 0; i < 2; i++)
+        {
+            foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[i].GetComponentsInChildren<SpriteRenderer>())
+            {
+                StartCoroutine(TransposeTransparencyNegative(sprite));
+            }
+            foreach (SpriteRenderer sprite in gameManager.FM.HeroesGameObjectRef[i].GetComponentsInChildren<SpriteRenderer>())
+            {
+                StartCoroutine(TransposeTransparency(sprite));
+            }
+        }
         for (int i = 0; i < Hand.Count;i++)
         {
             CardObject card = Hand[i];

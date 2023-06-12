@@ -13,6 +13,7 @@ public class DataEnemy : ScriptableObject
     public Sprite m_sprite;
     public GameObject prefab;
     public Slider m_slider;
+    public AnimationClip animation;
 
     public entityManager.Role m_role;
 

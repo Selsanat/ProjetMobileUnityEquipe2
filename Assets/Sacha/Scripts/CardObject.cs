@@ -106,7 +106,6 @@ public class CardObject : MonoBehaviour
         {
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-            print(this.isActiveAndEnabled);
             gameManager.HasCardInHand = true;
             
         }
@@ -276,12 +275,13 @@ public class CardObject : MonoBehaviour
 
     public void heal(hero hero, int value)
     {
-
+        print("health avant : " + hero.getPv() + "value" + value);
         hero.setPv(hero.getPv() + value);
 
         if (hero.getPv() > hero.getMaxPv())
             hero.setPv(hero.getMaxPv());
 
+        print("health après : " + hero.getPv());
 
         if (gameManager.isAbsolution)
         {
@@ -321,7 +321,7 @@ public class CardObject : MonoBehaviour
             {
                 if (GameManager.Instance.FM.isCanibalisme)
                 {
-                    Venerate(hero, 3);
+                    Venerate(3);
                     heal(hero, 3);
                 }
                 if (GameManager.Instance.FM.isProf)
@@ -385,15 +385,17 @@ public class CardObject : MonoBehaviour
 
     public void AddCard()
     {
-        StartCoroutine(GameManager.Instance.deck.DrawCardCoroutine());
+        print(gameManager);
+        print(GameManager.Instance);
+        GameManager.Instance.deck.DrawCardTest(1);
     }
 
     public void AddCard(int value)
     {
-        StartCoroutine(GameManager.Instance.deck.DrawCardCoroutine(value));
-        GameManager.Instance.deck.rearangecardslots();
-        GameManager.Instance.deck.RestoreCardPosition(false);
-        GameManager.Instance.deck.ReorderZCards();
+        print(gameManager);
+        print(GameManager.Instance);
+        GameManager.Instance.deck.DrawCardTest(value);
+
     }
 
     public void KeepCardInHand(CardObject cardToKeep)
@@ -411,7 +413,7 @@ public class CardObject : MonoBehaviour
         card.DataCard.m_value += this.DataCard.m_value;
     }
 
-    public void Venerate(hero hero, int value)
+    public void Venerate(int value)
     {
         GameManager.Instance.FM.stock += value;
 
@@ -456,7 +458,7 @@ public class CardObject : MonoBehaviour
         }
         
         
-        UpdateLife(ally);
+        StartCoroutine(UpdateLife(ally));
         return surplusToReturn;
     }
 
@@ -473,11 +475,11 @@ public class CardObject : MonoBehaviour
         takeDamage(enemy, 12);
     }
 
-    public void CultiverAme(dataCard data,hero ally)
+    public void CultiverAme(hero ally)
     {
-        ally.setArmor(ally.getArmor() + 3);
+        AddArmor(ally, 3);
+        Venerate(2);
         AddCard();
-        Venerate(ally, 2);
     }
 
     public void CultiverFlamme()
@@ -494,15 +496,17 @@ public class CardObject : MonoBehaviour
 
     public void Conversion(hero hero)
     {
-        for(int i = 0; i == hero.getArmor(); i++)
+        while(hero.getArmor() > 0)
         {
-            hero.setArmor(hero.getArmor() - 1);
+            hero.setArmor(-1);
             hero.setPv(hero.getPv() + 1);
 
             if (hero.getPv() == hero.getMaxPv())
                 break;
         }
+        print(hero.getPv());
         GameManager.Instance.FM.UpdateArmorValue(hero);
+        StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
     }
 
     public void Absolution()
@@ -510,11 +514,11 @@ public class CardObject : MonoBehaviour
         GameManager.Instance.isAbsolution = true;
     }
 
-    public void Benediction(hero ally, hero enemy)
+    public void Benediction(hero enemy) // par ma main je te béni 
     {
-        if (ally.getVenerate() > 0)
+        if (GameManager.Instance.FM.heroes[0].m_mana > 0)
         {
-            takeDamage(enemy, ally.getVenerate());
+            takeDamage(enemy, GameManager.Instance.FM.heroes[0].m_mana);
             AddCard();
         }
     }
@@ -533,7 +537,17 @@ public class CardObject : MonoBehaviour
 
     public void Tabernacle(hero ally) //appeler cette fonction à chaque fois que le joueur prend des degats
     {
-        AddArmor(ally, ally.m_dmgTaken);
+        if (ally.m_tabernacleActive)
+        {
+            ally.m_nextArmor += ally.m_dmgTaken;
+            ally.m_tabernacleActive = false;
+        }
+        else
+        {
+            ally.m_tabernacleActive = true;
+        }
+
+        /*AddArmor(ally, ally.m_dmgTaken);*/
 
     }
 
@@ -548,7 +562,7 @@ public class CardObject : MonoBehaviour
                 {
                     enemy.setIsAlive(false);
                     heal(pretre, 3);
-                    Venerate(pretre, 4);
+                    Venerate(4);
                 }
             }
         }
@@ -556,7 +570,7 @@ public class CardObject : MonoBehaviour
     public void VenererIdole(hero ally)
     {
         heal(ally, 3);
-        Venerate(ally, 2);
+        Venerate(2);
     }
     public void Blaspheme(hero ally)
     {
@@ -564,9 +578,12 @@ public class CardObject : MonoBehaviour
     }
     public void AllumerCierges(hero pretre)
     {
-        if (pretre.getVenerate() > 0)
+        if (pretre.m_mana > 0)
         {
-            AddCard(pretre.getVenerate());
+            for(int i = 0; i < pretre.m_mana; i++)
+            {
+                AddCard();
+            }   
         }
 
     }
@@ -609,7 +626,7 @@ public class CardObject : MonoBehaviour
         if (GameManager.Instance.FM.mana > 0)
         {
             AddArmor(ally, GameManager.Instance.FM.mana * 2);
-            GameManager.Instance.manaMultiplier = GameManager.Instance.FM.mana;
+            GameManager.Instance.manaMultiplier += GameManager.Instance.FM.mana;
             GameManager.Instance.FM.mana = 0;
             GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
         }
@@ -622,7 +639,7 @@ public class CardObject : MonoBehaviour
         {
             AddArmor(ally, GameManager.Instance.FM.mana * 2);
             takeDamage(enemy, GameManager.Instance.FM.mana * 2);
-            GameManager.Instance.manaMultiplier = GameManager.Instance.FM.mana;
+            GameManager.Instance.manaMultiplier += GameManager.Instance.FM.mana;
             GameManager.Instance.FM.mana *= 2;
             GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
 
@@ -697,6 +714,7 @@ public class CardObject : MonoBehaviour
                 
             }
         }
+        AddCard();
         GameManager.Instance.FM.mana = newMana + GameManager.Instance.FM.stock;
         GameManager.Instance.FM.stock = 0;
         GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
@@ -746,15 +764,10 @@ public class CardObject : MonoBehaviour
         AddArmor(ally, 7);
     }
 
-    public void CommunionNature(hero hero) 
+    public void CommunionNature() 
     {
-
-        Venerate(hero, 3);
-        GameManager.Instance.FM.mana += 3;
-       
-        GameManager.Instance.FM.manaText.text = GameManager.Instance.FM.mana.ToString();
-        GameManager.Instance.FM.stockText.text = GameManager.Instance.FM.stock.ToString();
-
+        GameManager.Instance.FM.venerations += 2;
+        GameManager.Instance.manaMultiplier += 3;
     }
 
     public void Canibalisme() // voir si intégré
@@ -762,16 +775,15 @@ public class CardObject : MonoBehaviour
         GameManager.Instance.FM.isCanibalisme = true;
 
     }
-    public void SuivreEtoiles(hero ally)
+    public void SuivreEtoiles()
     {
-        Venerate(ally, 2);
+        Venerate(2);
         foreach (hero hero in GameManager.Instance.FM.heroes)
         {
             if (hero.getMana() == hero.m_manaMax)
             {
-                AddCard();
+                AddCard(2);
                 return;
-
             }
         }
 
@@ -783,21 +795,21 @@ public class CardObject : MonoBehaviour
         GameManager.Instance.FM.isProf = true;
 
     }
-    public void DormirPresDeLautre(hero ally, hero arboriste)
+    public void DormirPresDeLautre(hero ally)
     {
-        Venerate(arboriste, 4);
+        Venerate(4);
         heal(ally, 4);
         AddArmor(ally, 4);
 
     }
-    public void ReveillerPourManger(hero enemy, hero ally) //uniquement arbo
+    public void ReveillerPourManger(hero ally, hero enemy) //uniquement arbo
     {
         enemy.setPv(enemy.getPv() - 6);
         if (enemy.getPv() <= 0)
         {
             enemy.setIsAlive(false);
             heal(ally, 6);
-            Venerate(ally, 6);
+            Venerate(6);
         }
     }
 

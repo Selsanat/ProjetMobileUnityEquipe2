@@ -1,3 +1,4 @@
+using Map;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -35,6 +36,8 @@ public class GameManager : MonoBehaviour
 
     public bool isHoverButton = false;
     public Animator transi;
+    public bool AnimAtk = false;
+    //private public MapNode _currentNode;
 
     #region perso
     #region Arboriste
@@ -101,8 +104,7 @@ public class GameManager : MonoBehaviour
         wave10();
         wave11();
         wave12();
-
-
+        SaveData();
         string path = Application.persistentDataPath + "/saveData.fun";
         if (File.Exists(path))
         {
