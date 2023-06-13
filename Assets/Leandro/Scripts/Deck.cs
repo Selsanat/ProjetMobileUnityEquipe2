@@ -100,20 +100,29 @@ public class Deck : MonoBehaviour
             {
                 SlidersXp[2].maxValue = herolist[0].getexperienceMAX();
                 SlidersXp[2].value = gameManager.expArboriste;
+
+                
+
             }
             else
             {
                 SlidersXp[2].maxValue = herolist[0].getexperienceMAX();
                 SlidersXp[2].value = gameManager.expPretre;
             }
-            
+            SlidersXp[2].transform.GetChild(3).GetComponent<TMP_Text>().text = SlidersXp[2].value + "/" + SlidersXp[2].maxValue;
+            gameManager.deck.SlidersXp[2].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + gameManager.levelArboriste;
+
         }
         else
         {
             SlidersXp[0].maxValue = herolist[0].getexperienceMAX();
             SlidersXp[0].value = gameManager.expArboriste;
+            SlidersXp[0].transform.GetChild(3).GetComponent<TMP_Text>().text = SlidersXp[0].value + "/" + SlidersXp[0].maxValue;
             SlidersXp[1].maxValue = herolist[1].getexperienceMAX();
             SlidersXp[1].value = gameManager.expPretre;
+            SlidersXp[1].transform.GetChild(3).GetComponent<TMP_Text>().text = SlidersXp[1].value + "/" + SlidersXp[1].maxValue;
+            gameManager.deck.SlidersXp[0].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + gameManager.levelArboriste;
+            gameManager.deck.SlidersXp[1].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + gameManager.levelPretre;
         }
     }
     void OnDrawGizmosSelected()
@@ -521,7 +530,6 @@ public class Deck : MonoBehaviour
     {
         StartCoroutine(DrawCardCoroutine(NombrePiocheDebutTour));
     }
-
     public void CancelChosenCard(bool TrueIfPlay)
     {
         if (gameManager.FM.CheckifEnemyAreAlive())
@@ -542,7 +550,6 @@ public class Deck : MonoBehaviour
         PlayButton.gameObject.SetActive(false);
         rearangecardslots();
 
-
         ReorderZCards();
         gameManager.FM.CancelCard();
         gameManager.isHoverButton = false;
@@ -551,8 +558,6 @@ public class Deck : MonoBehaviour
     {
         CancelChosenCard(false);
     }
-
-
     [Button]
     private void BDrawCard() {
         DrawCard();
@@ -823,6 +828,8 @@ public class Deck : MonoBehaviour
     }
     public IEnumerator TransfoCoroutine(bool trueIfDruid)
     {
+        EndTurnButton.interactable = false;
+        gameManager.CardsInteractable = false;
         StartCoroutine( TransposeTransparencyNegative(Background.gameObject));
         int index = 0;
         if (!trueIfDruid)
@@ -850,6 +857,7 @@ public class Deck : MonoBehaviour
                 card.Description.text = card.DataCard.BackCard.Description;
                 card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
                 card.DataCard.m_isUpsideDown = true;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.BackCard.m_manaCost.ToString();
             }
         }
         for (int i = 0; i < GraveYard.Count; i++)
@@ -863,6 +871,7 @@ public class Deck : MonoBehaviour
                 card.Description.text = card.DataCard.BackCard.Description;
                 card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
                 card.DataCard.m_isUpsideDown = true;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.BackCard.m_manaCost.ToString();
             }
         }
         for (int i = 0; i < deck.Count; i++)
@@ -876,13 +885,18 @@ public class Deck : MonoBehaviour
                 card.Description.text = card.DataCard.BackCard.Description;
                 card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
                 card.DataCard.m_isUpsideDown = true;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.BackCard.m_manaCost.ToString();
             }
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
+        EndTurnButton.interactable = true;
+        gameManager.CardsInteractable = true;
     }
     public IEnumerator DetransfoCoroutine()
     {
+        EndTurnButton.interactable = false;
+        gameManager.CardsInteractable = false;
         StartCoroutine(TransposeTransparency(Background.gameObject));
         if (GameManager.Instance.FM.perso1)
         {
@@ -890,14 +904,23 @@ public class Deck : MonoBehaviour
             {
                 StartCoroutine(TransposeTransparencyNegative(sprite));
             }
-        }
-        if (GameManager.Instance.FM.perso2)
-        {
-            foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[1].GetComponentsInChildren<SpriteRenderer>())
+            foreach (SpriteRenderer sprite in gameManager.FM.HeroesGameObjectRef[0].GetComponentsInChildren<SpriteRenderer>())
             {
                 StartCoroutine(TransposeTransparency(sprite));
             }
+            if (GameManager.Instance.FM.perso2)
+            {
+                foreach (SpriteRenderer sprite in gameManager.FM.HeroesGameObjectRef[1].GetComponentsInChildren<SpriteRenderer>())
+                {
+                    StartCoroutine(TransposeTransparency(sprite));
+                }
+                foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[1].GetComponentsInChildren<SpriteRenderer>())
+                {
+                    StartCoroutine(TransposeTransparencyNegative(sprite));
+                }
+            }
         }
+
         for (int i = 0; i < Hand.Count;i++)
         {
             CardObject card = Hand[i];
@@ -908,7 +931,8 @@ public class Deck : MonoBehaviour
                 card.Name.text = card.DataCard.name;
                 card.Description.text = card.DataCard.Description;
                 card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
-                card.DataCard.m_isUpsideDown = true;
+                card.DataCard.m_isUpsideDown = false;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.m_manaCost.ToString();
             }
         }
         for (int i = 0; i < GraveYard.Count; i++)
@@ -921,7 +945,8 @@ public class Deck : MonoBehaviour
                 card.Name.text = card.DataCard.name;
                 card.Description.text = card.DataCard.Description;
                 card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
-                card.DataCard.m_isUpsideDown = true;
+                card.DataCard.m_isUpsideDown = false;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.m_manaCost.ToString();
             }
         }
         for (int i = 0; i < deck.Count; i++)
@@ -934,11 +959,11 @@ public class Deck : MonoBehaviour
                 card.Name.text = card.DataCard.name;
                 card.Description.text = card.DataCard.Description;
                 card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
-                card.DataCard.m_isUpsideDown = true;
+                card.DataCard.m_isUpsideDown = false;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.m_manaCost.ToString();
             }
         }
         RestoreCardPosition(false);
-        yield return new WaitForSeconds(0.5f);
         StartCoroutine(DiscardCoroutine(true));
     }
 }
