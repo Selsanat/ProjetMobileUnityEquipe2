@@ -74,12 +74,19 @@ namespace Map
         private void SendPlayerToNode(MapNode mapNode)
         {
             _currentNode = mapNode;
-           /* Locked = lockAfterSelecting;
             mapManager.CurrentMap.path.Add(mapNode.Node.point);
+
             view.SetAttainableNodes();
             view.SetLineColors();
-            mapNode.ShowSwirlAnimation();*/
-            
+            mapNode.ShowSwirlAnimation();
+            mapManager.CurrentMap.path.Remove(mapNode.Node.point);
+
+            /* Locked = lockAfterSelecting;
+             mapManager.CurrentMap.path.Add(mapNode.Node.point);
+             view.SetAttainableNodes();
+             view.SetLineColors();
+             */
+
             DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode));
         }
 
@@ -88,8 +95,7 @@ namespace Map
             Locked = lockAfterSelecting;
             mapManager.CurrentMap.path.Add(mapNode.Node.point);
             mapManager.SaveMap();
-            view.SetAttainableNodes();
-            view.SetLineColors();
+            
         }
 
         private static void EnterNode(MapNode mapNode)

@@ -1320,6 +1320,8 @@ public class Fight : MonoBehaviour
         {
             StopCoroutine(coroutine);
         }
+        MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
+        MapPlayerTracker.Instance.mapManager.SaveMap();
         ResetAll();
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
