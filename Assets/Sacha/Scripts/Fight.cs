@@ -19,7 +19,7 @@ using Slider = UnityEngine.UI.Slider;
 using Map;
 using DG.Tweening.Core.Easing;
 using Random = UnityEngine.Random;
-using static UnityEngine.Rendering.DebugUI;
+using static UnityEngine.Rendering.DebugUI; 
 
 public class Fight : MonoBehaviour
 {
@@ -1578,6 +1578,7 @@ public class Fight : MonoBehaviour
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
         StartCoroutine(XpLerp());
 
+        MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
         MapPlayerTracker.Instance.mapManager.SaveMap();
     }
 

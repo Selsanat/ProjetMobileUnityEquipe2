@@ -74,17 +74,16 @@ namespace Map
         private void SendPlayerToNode(MapNode mapNode)
         {
             _currentNode = mapNode;
-            /*Locked = lockAfterSelecting;
+           /* Locked = lockAfterSelecting;
             mapManager.CurrentMap.path.Add(mapNode.Node.point);
-            mapManager.SaveMap();
             view.SetAttainableNodes();
-            view.SetLineColors();*/
-            mapNode.ShowSwirlAnimation();
+            view.SetLineColors();
+            mapNode.ShowSwirlAnimation();*/
             
             DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode));
         }
 
-        private void setPlayerToNode(MapNode mapNode)
+        public void setPlayerToNode(MapNode mapNode)
         {
             Locked = lockAfterSelecting;
             mapManager.CurrentMap.path.Add(mapNode.Node.point);

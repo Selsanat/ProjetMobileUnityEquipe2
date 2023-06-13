@@ -8,8 +8,6 @@ public static class savingSysteme
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/saveData.fun";
-
-        Debug.Log(path);
         FileStream stream = new FileStream(path, FileMode.Create);
 
         formatter.Serialize(stream, data);
