@@ -390,7 +390,6 @@ public class hero : entityManager
                 gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(5).gameObject, Camera.main.ScreenToWorldPoint(randomHero.m_slider.transform.position));
                 randomHero.m_isDebufArmor = true;
                 Debug.Log("debuff armor");
-
             }
             else if (ChienthridAttack >= randomAttack) //booste la force
             {
@@ -398,7 +397,6 @@ public class hero : entityManager
                 gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(5).gameObject, gameManager.deck.AoeEmplacement.position);
                 Chiendmg++;
                 ChienAOEDmg++;
-
             }
             else if (ChiensecondAttack >= randomAttack) //attaque tout les allier
             {
@@ -414,8 +412,6 @@ public class hero : entityManager
             {
                 hero temp = heroesToAttack[0];
                 m_IsAttacking = false;
-
-
                 if (randomHero.getIsAlive() == true)
                 {
                     randomHero.takeDamage(Chiendmg);
