@@ -1267,7 +1267,7 @@ public class hero : entityManager
         }
         else
         {
-            StartCoroutine(GameManager.Instance.FM.UpdateLife(this));
+            //StartCoroutine(GameManager.Instance.FM.UpdateLife(this));
             if (m_Pv <= 0)
             {
                 if (GameManager.Instance.FM.isCanibalisme)

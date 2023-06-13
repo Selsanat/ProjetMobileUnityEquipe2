@@ -268,7 +268,7 @@ public class Fight : MonoBehaviour
     {
         if(isChamp == false)
         {
-            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(4).gameObject.GetComponent<Light2D>();
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(5).gameObject.GetComponent<Light2D>();
             lightDuBoutton.enabled = true;
         }
         else
@@ -1578,7 +1578,7 @@ public class Fight : MonoBehaviour
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
         StartCoroutine(XpLerp());
 
-
+        MapPlayerTracker.Instance.mapManager.SaveMap();
     }
 
     bool CheckifHeroAreAlive()//TRUE = min ONE ALIVE

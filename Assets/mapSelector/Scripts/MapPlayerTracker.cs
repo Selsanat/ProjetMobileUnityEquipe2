@@ -17,6 +17,7 @@ namespace Map
         public MapView view;
         public Campsite Camp;
         public Tower Tower;
+        public MapNode _currentNode;
         
 
         public static MapPlayerTracker Instance;
@@ -72,12 +73,12 @@ namespace Map
 
         private void SendPlayerToNode(MapNode mapNode)
         {
-            //_currentNode = mapNode;
-            Locked = lockAfterSelecting;
+            _currentNode = mapNode;
+            /*Locked = lockAfterSelecting;
             mapManager.CurrentMap.path.Add(mapNode.Node.point);
             mapManager.SaveMap();
             view.SetAttainableNodes();
-            view.SetLineColors();
+            view.SetLineColors();*/
             mapNode.ShowSwirlAnimation();
             
             DOTween.Sequence().AppendInterval(enterNodeDelay).OnComplete(() => EnterNode(mapNode));

@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     public bool isHoverButton = false;
     public Animator transi;
     public bool AnimAtk = false;
+    public MapPlayerTracker maptracker;
     //private public MapNode _currentNode;
 
     #region perso
@@ -116,6 +117,9 @@ public class GameManager : MonoBehaviour
 
             SaveData();
         }
+
+        if(maptracker != null)
+            maptracker = FindObjectOfType<MapPlayerTracker>();
 
 
     }
