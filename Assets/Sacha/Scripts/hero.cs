@@ -23,28 +23,27 @@ public class hero : entityManager
     public int Mainarmor = 6;
     public int MainfirtAttack = 100;
     public int MainsecondAttack = 55;
-    public int MainthridAttack = 35;
-    public int MainfourthAttack = 10;
+    public int MainthridAttack = 25;
     public int MainnbCardDebuf = 5;
 
     public int GargouillefirtAttack = 100;
     public int GargouillesecondAttack = 60;
     public int GargouillethridAttack = 25;
-    public int GargouillefourthAttack = 10;
     public int GargouilledmgAOE = 4;
     public int Gargouilledmg = 6;
+    public int gargouilleArmor = 4;
+
 
     public int HommeVersfirtAttack = 100;
-    public int HommeVerssecondAttack = 65;
-    public int HommeVersthridAttack = 30;
-    public int HommeVersfourthAttack = 10;
+    public int HommeVerssecondAttack = 55;
+    public int HommeVersthridAttack = 20;
     public int HommeVersdmgLourd = 7;
     public int HommeVersdmg = 5;
     public int HommeVersheal = 2;
 
     public int DemonfirtAttack = 100;
     public int DemonsecondAttack = 45;
-    public int DemonthridAttack = 12;
+    public int DemonthridAttack = 10;
     public int Demondmg = 8;
 
     public int DragonfirtAttack = 100;
@@ -562,19 +561,7 @@ public class hero : entityManager
         if (fight)
         {
             this.randomAttack = (int)Random.Range(0f, 100);
-            if (MainfourthAttack >= randomAttack)
-            {
-                m_valueText.text = MainnbCardDebuf.ToString();
-                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
-                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[4].bounds.size * 20f;
-                this.m_spriteFocus.sprite = null;
-                this.m_spriteFocus.gameObject.SetActive(false);
-
-                tempColor.a = 0f;
-                m_spriteFocus.color = tempColor;
-                // nerf : ajoute des cartes injouables dans la pioche
-            }
-            else if (MainthridAttack >= randomAttack)
+            if (MainthridAttack >= randomAttack)
             {
                 this.m_spriteFocus.sprite = null;
                 this.m_spriteFocus.gameObject.SetActive(false);
@@ -644,12 +631,8 @@ public class hero : entityManager
         }
         else
         {
-            if (MainfourthAttack >= randomAttack)
-            {
-                throw new System.NotImplementedException("attaque pas encore impl�ment� (ajoute des cartes injouables dans la pioche)");
-                // nerf : ajoute des cartes injouables dans la pioche
-            }
-            else if (MainthridAttack >= randomAttack)
+
+            if (MainthridAttack >= randomAttack)
             {
                 gameManager.debuffDraw++;
 
@@ -698,7 +681,8 @@ public class hero : entityManager
         if (fight)
         {
             randomAttack = (int)Random.Range(0f, 100);
-            if (GargouillefourthAttack >= randomAttack) //debuff next round
+
+            if (GargouillethridAttack >= randomAttack)
             {
                 this.m_spriteFocus.gameObject.SetActive(true);
 
@@ -722,17 +706,6 @@ public class hero : entityManager
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[6];
                 this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[6].bounds.size * 20f;
                 tempColor.a = 1f;
-                m_spriteFocus.color = tempColor;
-            }
-            else if (GargouillethridAttack >= randomAttack)
-            {
-                m_valueText.text = "";
-                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[7];
-                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[7].bounds.size * 20f;
-                this.m_spriteFocus.sprite = null;
-                this.m_spriteFocus.gameObject.SetActive(false);
-
-                tempColor.a = 0f;
                 m_spriteFocus.color = tempColor;
             }
             else if (GargouillesecondAttack >= randomAttack)
@@ -793,9 +766,10 @@ public class hero : entityManager
         }
         else
         {
-            if (GargouillefourthAttack >= randomAttack) //debuff next round
+          
+            if (GargouillethridAttack >= randomAttack)
             {
-
+                m_IsAttacking = false;
                 hero temp = heroesToAttack[0];
 
                 foreach (hero champ in heroesToAttack)
@@ -806,23 +780,19 @@ public class hero : entityManager
 
                 temp.m_damageMultiplier = 2;
             }
-            else if (GargouillethridAttack >= randomAttack)
-            {
-                this.isProvocation = true;
-                gameManager.IsAnyProv = true;
-            }
             else if (GargouillesecondAttack >= randomAttack)
             {
-                this.isProvocation = false;
                 foreach (hero champ in heroesToAttack)
                     champ.takeDamage(GargouilledmgAOE);
+                this.setArmor(gargouilleArmor);
+                m_IsAttacking = false;
+
             }
             else if (GargouillefirtAttack >= randomAttack)
             {
                 Debug.Log("dmg");
-                m_IsAttacking = false;
                 hero temp = heroesToAttack[0];
-
+                m_IsAttacking = false;
                 foreach (hero champ in heroesToAttack)
                 {
                     if (champ.getPv() - Gargouilledmg <= 0)
@@ -857,18 +827,13 @@ public class hero : entityManager
         if (fight)
         {
             randomAttack = (int)Random.Range(0f, 100);
-            if (HommeVersfourthAttack >= randomAttack)
+           if (HommeVersthridAttack >= randomAttack)
             {
                 this.m_spriteFocus.gameObject.SetActive(true);
 
-                m_IsAttacking = true;
 
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
-                m_valueText.text = HommeVersdmg.ToString();
-                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
-                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
-                tempColor.a = 1f;
-                m_spriteFocus.color = tempColor;
+
                 if (randomHero.m_role == Role.Arboriste)
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
@@ -877,8 +842,15 @@ public class hero : entityManager
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
+                this.m_valueText.text = "";
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[5];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[5].bounds.size * 20f;
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
+
+                
             }
-            else if (HommeVersthridAttack >= randomAttack)
+            else if (HommeVerssecondAttack >= randomAttack)
             {
                 this.m_spriteFocus.gameObject.SetActive(true);
 
@@ -898,18 +870,19 @@ public class hero : entityManager
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
             }
-            else if (HommeVerssecondAttack >= randomAttack)
-            {
-                //nerf et on ne vois plus la description des cartes
-                throw new System.NotImplementedException("attaque pas encore impl�ment� (ne plus voir la description des cartes)");
-            }
             else if (HommeVersfirtAttack >= randomAttack)
             {
+
                 this.m_spriteFocus.gameObject.SetActive(true);
 
+                m_IsAttacking = true;
 
                 randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
-               
+                m_valueText.text = HommeVersdmg.ToString();
+                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[0];
+                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[0].bounds.size * 20f;
+                tempColor.a = 1f;
+                m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite;
@@ -918,37 +891,30 @@ public class hero : entityManager
                 {
                     this.m_spriteFocus.sprite = gameManager.FM.heroSprite2;
                 }
-                this.m_valueText.text = "";
-                this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[5];
-                this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[5].bounds.size * 20f;
-                tempColor.a = 1f;
-                m_spriteFocus.color = tempColor;
+                
             }
         }
         else
         {
-            if (HommeVersfourthAttack >= randomAttack)
+            if (HommeVersthridAttack >= randomAttack)
             {
-                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(HommeVersdmg);
-                this.m_Pv += HommeVersheal;
-            }
-            else if (HommeVersthridAttack >= randomAttack)
-            {
-                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(HommeVersdmgLourd);
-            }
-            else if (HommeVerssecondAttack >= randomAttack)
-            {
-                //nerf et on ne vois plus la description des cartes
-                throw new System.NotImplementedException("attaque pas encore impl�ment� (ne plus voir la description des cartes)");
-            }
-            else if (HommeVersfirtAttack >= randomAttack)
-            {
-                if(randomHero.getIsAlive() == true)
+                if (randomHero.getIsAlive() == true)
                     randomHero.m_isDebufArmor = true;
                 else
                 {
                     heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].m_isDebufArmor = true;
                 }
+            }
+            else if (HommeVerssecondAttack >= randomAttack)
+            {
+                m_IsAttacking = false;
+                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(HommeVersdmgLourd);
+            }
+            else if (HommeVersfirtAttack >= randomAttack)
+            {
+                m_IsAttacking = false;
+                heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)].takeDamage(HommeVersdmg);
+                this.m_Pv += HommeVersheal;
             }
         }
 
@@ -971,8 +937,7 @@ public class hero : entityManager
             randomAttack = (int)Random.Range(0f, 100);
             if (DemonthridAttack >= randomAttack)
             {
-                int healing = this.m_Pv * 15 / 100;
-                this.m_valueText.text = healing.ToString();
+                this.m_valueText.text = "3";
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[8];
                 this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[8].bounds.size * 20f;
                 this.m_spriteFocus.gameObject.SetActive(false);
@@ -1040,6 +1005,7 @@ public class hero : entityManager
             if (DemonthridAttack >= randomAttack)
             {
                 this.m_Pv = this.m_Pv * 15 / 100;
+                Demondmg += 3;
             }
             else if (DemonsecondAttack >= randomAttack)
             {
