@@ -268,12 +268,12 @@ public class Fight : MonoBehaviour
     {
         if(isChamp == false)
         {
-            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(5).gameObject.GetComponent<Light2D>();
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(6).gameObject.GetComponent<Light2D>();
             lightDuBoutton.enabled = true;
         }
         else
         {
-            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(1).gameObject.GetComponent<Light2D>();
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(2).gameObject.GetComponent<Light2D>();
             lightDuBoutton.enabled = true;
         }
         
@@ -343,6 +343,8 @@ public class Fight : MonoBehaviour
             H2.m_slider = temp.GetComponentInChildren<Slider>();
             H2.m_slider.maxValue = H2.getMaxPv();
             H2.m_slider.value = H2.getPv();
+            H2.pvText = GameObject.Find("pvChamp").GetComponent<TextMeshProUGUI>();
+            H2.pvText.text = H2.getPv().ToString() + " / " + H2.getMaxPv().ToString();
             H2.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H2.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H2.Armor = H2.ArmorText.transform.parent.gameObject.GetComponent<Image>();
@@ -357,6 +359,8 @@ public class Fight : MonoBehaviour
             H1.m_slider = temp.GetComponentInChildren<Slider>();
             H1.m_slider.maxValue = H1.getMaxPv();
             H1.m_slider.value = H1.getPv();
+            H1.pvText = GameObject.Find("pvChamp2").GetComponent<TextMeshProUGUI>();
+            H1.pvText.text = H1.getPv().ToString() + " / " + H1.getMaxPv().ToString();
             H1.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H1.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H1.Armor = H1.ArmorText.transform.parent.gameObject.GetComponent<Image>();
@@ -377,17 +381,19 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(arboristeButton, PrefabHeroes[0], true, 0.16f, PrefabHeroesalt[0]);
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 20, 20, 0, 0, null, 0, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
             }
             else
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
+                H2 = new hero(entityManager.Role.Arboriste, 20, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
 
 
             H2.m_slider = temp.GetComponentInChildren<Slider>();
             H2.m_slider.maxValue = H2.getMaxPv();
             H2.m_slider.value = H2.getPv();
+            H2.pvText = GameObject.Find("pvChampSolo").GetComponent<TextMeshProUGUI>();
+            H2.pvText.text = H2.getPv().ToString() + " / " + H2.getMaxPv().ToString();
             H2.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H2.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H2.Armor = H2.ArmorText.transform.parent.gameObject.GetComponent<Image>();
@@ -407,16 +413,18 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(pretreButton, PrefabHeroes[1], true, 0.20f, PrefabHeroesalt[1]);
             if (Gm.IsPretrePlayed == false)
             {
-                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0, 0);
+                H1 = new hero(entityManager.Role.Pretre, 20, 20, 0, 0, null, 0, 0);
                 Gm.LifePretre = H1.getPv();
                 Gm.IsPretrePlayed = true;
             }
             else
-                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
+                H1 = new hero(entityManager.Role.Pretre, 20, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
 
             H1.m_slider = temp.GetComponentInChildren<Slider>();
             H1.m_slider.maxValue = H1.getMaxPv();
             H1.m_slider.value = H1.getPv();
+            H1.pvText = GameObject.Find("pvChampSolo").GetComponent<TextMeshProUGUI>();
+            H1.pvText.text = H1.getPv().ToString() + " / " + H1.getMaxPv().ToString();
             H1.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H1.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H1.Armor = H1.ArmorText.transform.parent.gameObject.GetComponent<Image>();
@@ -442,6 +450,8 @@ public class Fight : MonoBehaviour
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
             en1.m_slider.value = en1.getPv();
+            en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
+            en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -460,6 +470,8 @@ public class Fight : MonoBehaviour
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
             en1.m_slider.value = en1.getPv();
+            en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
+            en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -474,6 +486,8 @@ public class Fight : MonoBehaviour
             En2.m_slider = temp.GetComponentInChildren<Slider>();
             En2.m_slider.maxValue = En2.getMaxPv();
             En2.m_slider.value = En2.getPv();
+            En2.pvText = GameObject.Find("pvEn2").GetComponent<TextMeshProUGUI>();
+            En2.pvText.text = En2.getPv().ToString() + " / " + En2.getMaxPv().ToString();
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -493,6 +507,8 @@ public class Fight : MonoBehaviour
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
             en1.m_slider.value = en1.getPv();
+            en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
+            en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -507,6 +523,8 @@ public class Fight : MonoBehaviour
             En2.m_slider = temp.GetComponentInChildren<Slider>();
             En2.m_slider.maxValue = En2.getMaxPv();
             En2.m_slider.value = En2.getPv();
+            En2.pvText = GameObject.Find("pvEn2").GetComponent<TextMeshProUGUI>();
+            En2.pvText.text = En2.getPv().ToString() + " / " + En2.getMaxPv().ToString();
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -522,6 +540,8 @@ public class Fight : MonoBehaviour
             En3.m_slider = temp.GetComponentInChildren<Slider>();
             En3.m_slider.maxValue = En3.getMaxPv();
             En3.m_slider.value = En3.getPv();
+            En3.pvText = GameObject.Find("pvEn3").GetComponent<TextMeshProUGUI>();
+            En3.pvText.text = En3.getPv().ToString() + " / " + En3.getMaxPv().ToString();
             En3.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En3.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En3.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -2102,6 +2122,6 @@ public class Fight : MonoBehaviour
             timeElapsed += Time.deltaTime;
             yield return null;
         }
-        hero.m_slider.value = hero.m_Pv;
+        
     }
 }
