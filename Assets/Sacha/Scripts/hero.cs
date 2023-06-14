@@ -294,6 +294,7 @@ public class hero : entityManager
     #region IA
     public void chienIA(List<hero> heroesToAttack, bool fight)
     {
+        
         if (this.isAlive == false)
             return;
         
