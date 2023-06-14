@@ -29,11 +29,9 @@ public class GameManager : MonoBehaviour
     public bool IsAnyProv = false;
     public int waveCounter = 0;
     public bool isManaMultiplier = false;
-    
     public int manaMultiplier = 0;
     public bool isAbsolution = false;
     public bool winoulose;
-
     public bool isHoverButton = false;
     public Animator transi;
     public bool AnimAtk = false;
@@ -42,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     #region perso
     #region Arboriste
-    public int LifeArboriste = 50;
+    public int LifeArboriste = 20;
     public bool IsArboristePlayed = false;
     public int levelArboriste = 0;
     public int expArboriste = 0;
@@ -51,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     #region Pretre
 
-    public int LifePretre = 50;
+    public int LifePretre = 20;
     public bool IsPretrePlayed = false;
     public int levelPretre = 0;
     public int expPretre = 0;

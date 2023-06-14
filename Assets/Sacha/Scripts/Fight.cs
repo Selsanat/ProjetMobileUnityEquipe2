@@ -319,21 +319,21 @@ public class Fight : MonoBehaviour
 
             if (Gm.IsPretrePlayed == false)
             {
-                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0, 0);
+                H1 = new hero(entityManager.Role.Pretre, 20, 20, 0, 0, null, 0, 0);
                 Gm.LifePretre = H1.getPv();
                 Gm.IsPretrePlayed = true;
             }
             else
-                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
+                H1 = new hero(entityManager.Role.Pretre, 20, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
                 
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 20, 20, 0, 0, null, 0, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
             }
             else
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
+                H2 = new hero(entityManager.Role.Arboriste, 20, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
 
             temp = GameObject.Find("champ");
             temp.GetComponent<Image>().sprite = heroSprite;
@@ -536,7 +536,14 @@ public class Fight : MonoBehaviour
 
         #endregion
 
-        
+        List<CardObject> list = new List<CardObject>();
+        list = FindObjectsOfType<CardObject>().ToList();
+        foreach (CardObject c in list)
+        {
+            c.DataCard.m_isUpsideDown = false;
+            c.gameObject.SetActive(false);
+        }
+
         StartTurn();
         
 
@@ -571,13 +578,13 @@ public class Fight : MonoBehaviour
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
                 arboristeButton.interactable = true;
-                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; });
+                arboristeButton.onClick.AddListener(() => { if (Gm.CardsInteractable) { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; } });
 
             }
             else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
             {
                 pretreButton.interactable = true;
-                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; });
+                pretreButton.onClick.AddListener(() => { if (Gm.CardsInteractable) { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; } });
                 
 
             }
@@ -912,7 +919,6 @@ public class Fight : MonoBehaviour
 
                     }
                 }
-                enemiesAtStartOfCombat[i].resetArmor();
             }   
 
 
@@ -1146,7 +1152,7 @@ public class Fight : MonoBehaviour
     public IEnumerator AllerRetourCombatCorou(GameObject objet, Vector3 transform)
     {
         Vector3 pos = objet.transform.position;
-        yield return StartCoroutine(Gm.deck.TransposeAtoB(objet, new Vector3(transform.x+2, transform.y, transform.z)));
+        yield return StartCoroutine(Gm.deck.TransposeAtoB(objet, new Vector3(transform.x+2, transform.y-3.5f, transform.z)));
 
         Animator Anim = objet.transform.GetChild(0).GetComponent<Animator>();
         Anim.Play("Chien_Attack");
@@ -1171,6 +1177,7 @@ public class Fight : MonoBehaviour
         Gm.CardsInteractable = false;
         foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
+            En.resetArmor();
             ennemyPlaying = En;
             En.EnemyAttack(heroes, false);
             if (!CheckifHeroAreAlive())
@@ -1214,12 +1221,7 @@ public class Fight : MonoBehaviour
             ennemyPlaying = En;
             En.EnemyAttack(heroes, true);
         }
-    }
-    private void PlayEnemyTurn()
-    {
 
-        PlayEnemyEffects();
-        StartCoroutine(AttaqueEnnemiesCorou());
         if (!CheckifHeroAreAlive())
         {
 
@@ -1242,7 +1244,12 @@ public class Fight : MonoBehaviour
             hero.m_dmgTaken = 0;
         }
         PlayPlayerEffects();
-
+    }
+    private void PlayEnemyTurn()
+    {
+        PlayEnemyEffects();
+        StartCoroutine(AttaqueEnnemiesCorou());
+        
     }
 
     public void ResetAll()
@@ -1349,6 +1356,8 @@ public class Fight : MonoBehaviour
             {
                 lvlpriest = Gm.levelPretre;
             }
+            print(enemiesAtStartOfCombat.Count);
+            print("XP GAGNEE : " +(int)((2 * enemiesAtStartOfCombat.Count) / heroes.Count));
             hero.gainExperience((int)((2*enemiesAtStartOfCombat.Count)/heroes.Count));
             if (hero.m_role == entityManager.Role.Arboriste)
             {
@@ -1364,23 +1373,25 @@ public class Fight : MonoBehaviour
         yield return new WaitUntil(() => Input.GetMouseButton(0));
         float TempsTransition = 5;
         float timeElapsed = 0;
-
         if (heroes.Count == 1)
         {
 
             if (heroes[0].m_role == entityManager.Role.Arboriste)
             {
                 lvlUpDruid = Gm.deck.SlidersXp[2].value > Gm.expArboriste||lvlUpDruid;
+               
             }
             else
             {
                 lvlUpPriest = Gm.deck.SlidersXp[2].value > Gm.expPretre||lvlUpPriest;
+                
             }
         }
         else
         {
             lvlUpDruid = Gm.deck.SlidersXp[0].value > Gm.expArboriste || lvlUpDruid;
             lvlUpPriest = Gm.deck.SlidersXp[1].value > Gm.expPretre|| lvlUpPriest;
+
 
         }
         while (timeElapsed < TempsTransition)
@@ -1398,6 +1409,7 @@ public class Fight : MonoBehaviour
                     {
                         Gm.deck.SlidersXp[2].value = Mathf.Lerp(Gm.deck.SlidersXp[2].value, Gm.expArboriste, Time.deltaTime * 1.5f);
                     }
+                    
                 }
                 else
                 {
@@ -1411,6 +1423,7 @@ public class Fight : MonoBehaviour
                     }
 
                 }
+                Gm.deck.SlidersXp[2].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[2].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[2].maxValue);
             }
             else
             {
@@ -1431,7 +1444,8 @@ public class Fight : MonoBehaviour
                 {
                     Gm.deck.SlidersXp[1].value = Mathf.Lerp(Gm.deck.SlidersXp[1].value, Gm.expPretre, Time.deltaTime * 1.5f);
                 }
-                
+                Gm.deck.SlidersXp[0].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[0].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[0].maxValue);
+                Gm.deck.SlidersXp[1].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[1].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[1].maxValue);
             }
             
             timeElapsed += Time.deltaTime * 1.5f;
@@ -1449,6 +1463,7 @@ public class Fight : MonoBehaviour
                     if (lvlUpDruid)
                     {
                         Gm.deck.SlidersXp[2].value = 0;
+                        Gm.deck.SlidersXp[2].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + Gm.levelArboriste;
                     }
                 }
                 else
@@ -1456,10 +1471,12 @@ public class Fight : MonoBehaviour
                     if (lvlUpPriest)
                     {
                         Gm.deck.SlidersXp[2].value = 0;
+                        Gm.deck.SlidersXp[2].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + Gm.levelPretre;
                     }
 
                 }
                 Gm.deck.SlidersXp[2].maxValue = heroes[0].getexperienceMAX();
+                Gm.deck.SlidersXp[2].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[2].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[2].maxValue);
             }
             else
             {
@@ -1474,7 +1491,10 @@ public class Fight : MonoBehaviour
                     Gm.deck.SlidersXp[1].value = 0;
                     Gm.deck.SlidersXp[1].maxValue = heroes[1].getexperienceMAX();
                 }
-
+                Gm.deck.SlidersXp[0].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[0].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[0].maxValue);
+                Gm.deck.SlidersXp[1].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[1].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[1].maxValue);
+                Gm.deck.SlidersXp[0].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + Gm.levelPretre;
+                Gm.deck.SlidersXp[1].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + Gm.levelPretre;
             }
             while (timeElapsed < TempsTransition)
             {
@@ -1496,6 +1516,7 @@ public class Fight : MonoBehaviour
                         }
 
                     }
+                    Gm.deck.SlidersXp[2].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[2].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[2].maxValue);
                 }
                 else
                 {
@@ -1508,6 +1529,8 @@ public class Fight : MonoBehaviour
                     {
                         Gm.deck.SlidersXp[1].value = Mathf.Lerp(Gm.deck.SlidersXp[1].value, Gm.expPretre, Time.deltaTime * 1.5f);
                     }
+                    Gm.deck.SlidersXp[0].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[0].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[0].maxValue);
+                    Gm.deck.SlidersXp[1].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[1].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[1].maxValue);
 
                 }
 
@@ -1525,12 +1548,14 @@ public class Fight : MonoBehaviour
             {
                 Gm.deck.SlidersXp[2].value = Gm.expPretre;
             }
-           
+            Gm.deck.SlidersXp[2].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[2].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[2].maxValue);
         }
         else
         {
             Gm.deck.SlidersXp[0].value = Gm.expArboriste;
             Gm.deck.SlidersXp[1].value = Gm.expPretre;
+            Gm.deck.SlidersXp[0].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[0].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[0].maxValue);
+            Gm.deck.SlidersXp[1].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[1].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[1].maxValue);
         }
         #endregion
         yield return new WaitUntil(() => Input.GetMouseButton(0));
@@ -1578,6 +1603,7 @@ public class Fight : MonoBehaviour
         Gm.deck.AfficheSideUiXP(perso1 && perso2);
         Gm.deck.SetBonneBarreXp(heroes);
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
+        isFirstTurn= true;
         StartCoroutine(XpLerp());
 
         MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
@@ -1769,9 +1795,14 @@ public class Fight : MonoBehaviour
                         {
                             if (card.DataCard.m_isUpsideDown)
                             {
-                               
-                                card.MoxAraignee(heroes[1], selectedhero[0]);
-                                
+                                if (perso2)
+                                {
+                                    card.MoxAraignee(heroes[1], selectedhero[0]);
+                                }
+                                else
+                                {
+                                    card.MoxAraignee(heroes[0], selectedhero[0]);
+                                }
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {

@@ -24,7 +24,7 @@ MonoBehaviour:
   AOEAllies: 1
   AOEEnnemies: 0
   m_isDeleteOnTurn: 0
-  m_isUpsideDown: 0
+  m_isUpsideDown: 1
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 

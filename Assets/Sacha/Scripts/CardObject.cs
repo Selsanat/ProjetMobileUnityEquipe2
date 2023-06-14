@@ -192,8 +192,6 @@ public class CardObject : MonoBehaviour
             }
             else 
             {
-
-
                 if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect && transform.position.y < gameManager.RangePourActiverCarte)
                 {
                     gameManager.InspectUI.UI.SetActive(true);
@@ -222,6 +220,7 @@ public class CardObject : MonoBehaviour
 
             }
         }
+
         gameManager.HasCardInHand = false;
 
     }
@@ -271,15 +270,19 @@ public class CardObject : MonoBehaviour
 
     public IEnumerator UpdateLife(hero hero)
     {
-        float TempsTransition = 5f;
-        float timeElapsed = 0;
-        while (timeElapsed < TempsTransition)
+        if (hero != null)
         {
-            hero.m_slider.value = Mathf.Lerp(hero.m_slider.value, hero.m_Pv, Time.deltaTime);
-            timeElapsed += Time.deltaTime;
-            yield return null;
+            float TempsTransition = 5f;
+            float timeElapsed = 0;
+            while (timeElapsed < TempsTransition)
+            {
+                hero.m_slider.value = Mathf.Lerp(hero.m_slider.value, hero.m_Pv, Time.deltaTime);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+            hero.m_slider.value = hero.m_Pv;
         }
-        hero.m_slider.value = hero.m_Pv;
+
     }
     #region CARD EFFECTS
     public void heal(hero hero)
@@ -318,7 +321,6 @@ public class CardObject : MonoBehaviour
             hero.setPv(hero.getMaxPv());
 
         print("health apr�s : " + hero.getPv());
-
         if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
@@ -328,11 +330,16 @@ public class CardObject : MonoBehaviour
                     takeDamage(enemy, value);
                 }
             }
-
         }
-        StartCoroutine(UpdateLife(hero));
+        if (hero != null)
+        {
+            StartCoroutine(UpdateLife(hero));
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
-
+        }
+        else
+        {
+            print("Hero is null, can't update life sadly");
+        }
     }
 
     public void takeDamage(hero hero, int value)
@@ -821,13 +828,11 @@ public class CardObject : MonoBehaviour
         
         AddArmor(ally, 7);
     }
-
     public void CommunionNature() 
     {
         GameManager.Instance.FM.venerations += 2;
         GameManager.Instance.manaMultiplier += 3;
     }
-
     public void Canibalisme() // voir si int�gr�
     {
         GameManager.Instance.FM.isCanibalisme = true;
@@ -844,9 +849,6 @@ public class CardObject : MonoBehaviour
                 return;
             }
         }
-
-
-
     }
     public void ProfanerCiel() // voir si int�gr�
     {
@@ -859,7 +861,6 @@ public class CardObject : MonoBehaviour
             hero.stockText.text = hero.m_mana + " / " + hero.m_manaMax;
             
         }
-
     }
     public void DormirPresDeLautre(hero ally)
     {
