@@ -35,11 +35,12 @@ public class GameManager : MonoBehaviour
     public bool isHoverButton = false;
     public Animator transi;
     public bool AnimAtk = false;
+    public MapPlayerTracker maptracker;
     //private public MapNode _currentNode;
 
     #region perso
     #region Arboriste
-    public int LifeArboriste = 50;
+    public int LifeArboriste = 20;
     public bool IsArboristePlayed = false;
     public int levelArboriste = 0;
     public int expArboriste = 0;
@@ -48,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     #region Pretre
 
-    public int LifePretre = 50;
+    public int LifePretre = 20;
     public bool IsPretrePlayed = false;
     public int levelPretre = 0;
     public int expPretre = 0;
@@ -114,6 +115,9 @@ public class GameManager : MonoBehaviour
 
             SaveData();
         }
+
+        if(maptracker != null)
+            maptracker = FindObjectOfType<MapPlayerTracker>();
 
 
     }
