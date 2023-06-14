@@ -284,8 +284,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait des trucs
-    avec ta soeur
+  m_text: "V\xE9n\xE9rez 2, si vous \xEAtes sur le point de transcender, piochez
+    2."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.5
+  m_fontSize: 9.65
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -795,7 +795,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &73723427
 Transform:
   m_ObjectHideFlags: 0
@@ -827,7 +827,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 199, g: 148, b: 21, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!114 &73723429
@@ -1096,8 +1096,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait des trucs
-    avec ta soeur
+  m_text: "Bloque 3, V\xE9n\xE8re 2, Pioche 1"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -1124,7 +1123,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.5
+  m_fontSize: 10
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2100,7 +2099,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort ennemy single
+  m_text: "Dormir pr\xE8s de l'autre"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -2127,7 +2126,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 20.4
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2369,7 +2368,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort ennemy single
+  m_text: "Par ma main soit b\xE9ni"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -2396,7 +2395,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 19.9
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3218,8 +3217,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait des trucs
-    avec ta soeur
+  m_text: "Au Prochain tour, gagnez 3 manas. V\xE9n\xE9rez 3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -3246,7 +3244,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.5
+  m_fontSize: 10
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3354,7 +3352,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort ennemy single
+  m_text: "Accueillir les n\xE9cessiteux"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -3381,7 +3379,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 18.15
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3777,7 +3775,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Un sort de zone sur les alli\xE9s, qui les tues vu qu'on est nul en gp"
+  m_text: "Soigne 2 PV et supprime les effets n\xE9gatifs"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -4308,7 +4306,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Sort unique alli\xE9"
+  m_text: "Armure d'\xE9corse"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -4845,7 +4843,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort ennemy single
+  m_text: "V\xE9n\xE9rer les id\xF4les"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -4872,7 +4870,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 25.35
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4941,7 +4939,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &304877186
 Transform:
   m_ObjectHideFlags: 0
@@ -5078,7 +5076,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 149, g: 206, b: 146, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!1 &312720371
@@ -5354,7 +5352,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort ennemy single
+  m_text: Cultiver son ame
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -5381,7 +5379,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 25.9
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6206,7 +6204,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &392438768
 Transform:
   m_ObjectHideFlags: 0
@@ -6238,7 +6236,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 199, g: 148, b: 21, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!114 &392438770
@@ -7355,7 +7353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &542583531
 Transform:
   m_ObjectHideFlags: 0
@@ -7492,7 +7490,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 149, g: 206, b: 146, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!1 &546941074
@@ -7987,7 +7985,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -8314,7 +8312,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -8430,7 +8428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &602804148
 Transform:
   m_ObjectHideFlags: 0
@@ -8567,7 +8565,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 149, g: 206, b: 146, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!1 &607757025
@@ -8739,7 +8737,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort de zone sur ennemis
+  m_text: Surgissement vitalitique
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -9979,7 +9977,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Sort alli\xE9 en zone"
+  m_text: Application des cataplasmes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -10006,7 +10004,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25.4
+  m_fontSize: 20.65
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10718,7 +10716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &662342342
 Transform:
   m_ObjectHideFlags: 0
@@ -10750,7 +10748,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 149, g: 206, b: 146, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!114 &662342344
@@ -11127,8 +11125,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait des trucs
-    avec ta soeur
+  m_text: "Pour chaque monstre qui s'appr\xEAte \xE0 attaquer, bloque 4"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -11155,7 +11152,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.5
+  m_fontSize: 10
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11921,8 +11918,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait des trucs
-    avec ta soeur
+  m_text: Transferez votre bloquage en soin (si vous avez 7 de block et qu'il vous
+    manque 5 points de vie, il vous restera 2 de block et on vous soignera totalement)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -11949,7 +11946,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.5
+  m_fontSize: 7.05
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -13306,7 +13303,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort ennemy single
+  m_text: Conversion
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -13333,7 +13330,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 39.2
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -15130,8 +15127,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait des trucs
-    avec ta soeur
+  m_text: "Inflige autant de blessures que de points de v\xE9n\xE9ration poss\xE9d\xE9.
+    Piochez une carte"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -15158,7 +15155,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.5
+  m_fontSize: 8.8
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -15467,7 +15464,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort ennemy single
+  m_text: Au pied des tabernacles
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -15494,7 +15491,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 20.65
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -16425,7 +16422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: AOE Allies et sort single
+  m_text: Le mox du lion
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -16452,7 +16449,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.65
+  m_fontSize: 29.2
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -17132,7 +17129,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Petite AOE sur les ennemis en full chilling, full dehka '
+  m_text: "R\xE9cup\xE9rez vos points de v\xE9n\xE9ration en mana, Piochez une carte."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -17159,7 +17156,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
+  m_fontSize: 9.55
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -17363,7 +17360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1110868715
 Transform:
   m_ObjectHideFlags: 0
@@ -17500,7 +17497,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 149, g: 206, b: 146, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!1 &1113061611
@@ -17561,8 +17558,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Cr\xE9e une AOE sur les Alli\xE9s, en m\xEAme temps que faire des d\xE9g\xE2ts
-    a un ennemi"
+  m_text: "Vide le mana, Bloquez du double. Au prochain tour, r\xE9cup\xE9rez ce
+    mana."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -17589,7 +17586,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 7.75
+  m_fontSize: 9.1
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -19305,7 +19302,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1256127015
 Transform:
   m_ObjectHideFlags: 0
@@ -19337,7 +19334,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 199, g: 148, b: 21, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!114 &1256127017
@@ -19464,7 +19461,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1259547325
 Transform:
   m_ObjectHideFlags: 0
@@ -19496,7 +19493,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 199, g: 148, b: 21, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!114 &1259547327
@@ -20222,7 +20219,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1304538995
 Transform:
   m_ObjectHideFlags: 0
@@ -20254,7 +20251,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 199, g: 148, b: 21, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!114 &1304538997
@@ -20555,7 +20552,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -22360,7 +22357,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1392341096
 Transform:
   m_ObjectHideFlags: 0
@@ -22497,7 +22494,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 149, g: 206, b: 146, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!1001 &1393880989
@@ -23807,7 +23804,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1510563777
 Transform:
   m_ObjectHideFlags: 0
@@ -23999,7 +23996,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 38, g: 128, b: 126, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!1 &1531180813
@@ -24021,7 +24018,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1531180814
 Transform:
   m_ObjectHideFlags: 0
@@ -24053,7 +24050,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 199, g: 148, b: 21, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!114 &1531180816
@@ -25047,8 +25044,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait des trucs
-    avec ta soeur
+  m_text: Au prochain tour, Bloquez d'autant que de blessures subits
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -25075,7 +25071,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.5
+  m_fontSize: 10
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -25596,7 +25592,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort ennemy single
+  m_text: "Suivre les \xE9toiles"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -25623,7 +25619,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 25.65
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -26083,7 +26079,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1690747224
 Transform:
   m_ObjectHideFlags: 0
@@ -26115,7 +26111,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 199, g: 148, b: 21, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!114 &1690747226
@@ -27315,7 +27311,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1788261183
 Transform:
   m_ObjectHideFlags: 0
@@ -27347,7 +27343,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 149, g: 206, b: 146, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!114 &1788261185
@@ -27726,7 +27722,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort ennemy single
+  m_text: Communion avec la nature
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -27753,7 +27749,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 20.65
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -27964,8 +27960,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait des trucs
-    avec ta soeur
+  m_text: "Soigne 3, la cible V\xE9n\xE8re 2"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -27992,7 +27987,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.5
+  m_fontSize: 10
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -28235,7 +28230,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -28814,7 +28809,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -31620,8 +31615,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait des trucs
-    avec ta soeur
+  m_text: "Piochez une carte pour chaque point de v\xE9n\xE9ration poss\xE9d\xE9
+    par le pr\xEAtre"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -31648,7 +31643,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.5
+  m_fontSize: 8.25
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -32097,7 +32092,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sort ennemy single
+  m_text: Allumer les cierges
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -32124,7 +32119,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.05
+  m_fontSize: 23.55
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -32502,7 +32497,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pew pew ally single
+  m_text: Bloque (7), Lors du prochain tour, Bloque (7)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -32598,7 +32593,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2057291243
 Transform:
   m_ObjectHideFlags: 0
@@ -32630,7 +32625,7 @@ MonoBehaviour:
   dissolveAmount: 1
   dissolveSpeed: 2
   isDissolving: 0
-  outColor: {r: 2.9960785, g: 0, b: 0, a: 1}
+  outColor: {r: 199, g: 148, b: 21, a: 1}
   inColor: {r: 0.078431375, g: 0, b: 2.9960785, a: 1}
   mat: {fileID: 0}
 --- !u!114 &2057291245
@@ -33584,8 +33579,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Met une grosse balayette a l'ennemi, ce chien, parce qu'il a fait des trucs
-    avec ta soeur
+  m_text: "Soignez 4, Bloquez 4, V\xE9n\xE9rez 4"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
   m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
@@ -33612,7 +33606,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.5
+  m_fontSize: 10
   m_fontSizeBase: 37.29
   m_fontWeight: 400
   m_enableAutoSizing: 1

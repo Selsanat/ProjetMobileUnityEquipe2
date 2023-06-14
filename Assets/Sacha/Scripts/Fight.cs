@@ -536,7 +536,14 @@ public class Fight : MonoBehaviour
 
         #endregion
 
-        
+        List<CardObject> list = new List<CardObject>();
+        list = FindObjectsOfType<CardObject>().ToList();
+        foreach (CardObject c in list)
+        {
+            c.DataCard.m_isUpsideDown = false;
+            c.gameObject.SetActive(false);
+        }
+
         StartTurn();
         
 
@@ -1578,6 +1585,7 @@ public class Fight : MonoBehaviour
         Gm.deck.AfficheSideUiXP(perso1 && perso2);
         Gm.deck.SetBonneBarreXp(heroes);
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
+        isFirstTurn= true;
         StartCoroutine(XpLerp());
 
         MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);

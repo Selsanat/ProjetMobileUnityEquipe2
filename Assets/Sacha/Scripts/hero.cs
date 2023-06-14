@@ -304,6 +304,7 @@ public class hero : entityManager
         if (fight)
         {
             this.randomAttack = (int)Random.Range(0f, 100);
+            print(randomAttack);
             if (ChienfourthAttack >= randomAttack)
             {
                 this.m_spriteFocus.gameObject.SetActive(true);  
@@ -311,6 +312,7 @@ public class hero : entityManager
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
                 this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[4].bounds.size * 20f;
                 this.randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
+                print(randomHero.m_role);
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
@@ -386,6 +388,27 @@ public class hero : entityManager
         {
             if (ChienfourthAttack >= randomAttack)
             {
+                if(m_slider == null)
+                {
+                    print("null");
+                }
+                if(randomHero == null)
+                {
+                    print("hero");
+                }
+                if(m_slider.transform.parent.GetChild(5).gameObject == null)
+                {
+                    print("child");
+                }
+                if(randomHero.m_slider == null)
+                {
+                    print("slider");
+                }
+                if(heroesToAttack == null)
+                {                     
+                    print("heroes");
+                }
+
                 gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(5).gameObject, Camera.main.ScreenToWorldPoint(randomHero.m_slider.transform.position));
                 randomHero.m_isDebufArmor = true;
                 Debug.Log("debuff armor");
