@@ -17,5 +17,6 @@ public class TutoManager : MonoBehaviour
     public void ChangeNextScene()
     {
         SceneManager.LoadScene(nextSceneName);
+        
     }
 }
