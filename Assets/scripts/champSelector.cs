@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using UnityEditor;
+using Unity.VisualScripting;
 
 public class champSelector : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class champSelector : MonoBehaviour
     public List<GameObject> objects = new List<GameObject>();
     public Button buttonArboriste;
     public Button buttonPretre;
+
+    public GameObject lightpretre;
+    public GameObject lightarbo;
 
     public Button start;
     public Sprite notSelectedArboriste;
@@ -24,9 +28,6 @@ public class champSelector : MonoBehaviour
     public TextMeshProUGUI ArboLife;
     public TextMeshProUGUI PretreLife;
 
-    public Sprite en1;
-    public Sprite en2;
-    public Sprite en3;
     int wavetype = 0;
     public void Start()
     {
@@ -38,10 +39,10 @@ public class champSelector : MonoBehaviour
             return;
 
         selectedArboriste = !selectedArboriste;
-        if (selectedArboriste)
-            buttonArboriste.image.sprite = SelectedArboriste;
-        else
-            buttonArboriste.image.sprite = notSelectedArboriste;
+        lightarbo.gameObject.SetActive(!selectedArboriste);
+
+        print(selectedArboriste);
+        
     }
     public void selectPretre()
     {
@@ -49,10 +50,10 @@ public class champSelector : MonoBehaviour
             return;
 
         selectedPretre = !selectedPretre;
-        if (selectedPretre)
-            buttonPretre.image.sprite = SelectedPretre;
-        else
-            buttonPretre.image.sprite = notSelectedPretre;
+        lightpretre.gameObject.SetActive(!selectedPretre);
+
+        print(selectedPretre);
+        
     }
 
 
@@ -61,10 +62,7 @@ public class champSelector : MonoBehaviour
         if(selectedArboriste || selectedPretre)
         {
             StartCoroutine(TransiLevel());
-
-            
         }
-        
     }
     public void setctive()
     {
@@ -96,7 +94,11 @@ public class champSelector : MonoBehaviour
                     go.SetActive(false);
                     break;
                 }
-                go.GetComponent<Image>().sprite = gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_sprite;
+                GameObject en = Instantiate(gameManager.allWave[gameManager.waveCounter][wavetype][encount].prefab, go.transform);
+                en.transform.localScale = new Vector3(10, 10, 10);
+                en.transform.parent = go.transform;
+                en.transform.localPosition += new Vector3(-50, 0, 0);
+                //ens[encount].sprite = gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_sprite;
                 go.GetComponentInChildren<TextMeshProUGUI>().text = gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_role.ToString() + " \nPV : "  + gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_Pv;
                 encount++;
             }
