@@ -319,21 +319,21 @@ public class Fight : MonoBehaviour
 
             if (Gm.IsPretrePlayed == false)
             {
-                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0, 0);
+                H1 = new hero(entityManager.Role.Pretre, 20, 20, 0, 0, null, 0, 0);
                 Gm.LifePretre = H1.getPv();
                 Gm.IsPretrePlayed = true;
             }
             else
-                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
+                H1 = new hero(entityManager.Role.Pretre, 20, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
                 
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 20, 20, 0, 0, null, 0, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
             }
             else
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
+                H2 = new hero(entityManager.Role.Arboriste, 20, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
 
             temp = GameObject.Find("champ");
             temp.GetComponent<Image>().sprite = heroSprite;
@@ -919,7 +919,6 @@ public class Fight : MonoBehaviour
 
                     }
                 }
-                enemiesAtStartOfCombat[i].resetArmor();
             }   
 
 
@@ -1178,6 +1177,7 @@ public class Fight : MonoBehaviour
         Gm.CardsInteractable = false;
         foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
+            En.resetArmor();
             ennemyPlaying = En;
             En.EnemyAttack(heroes, false);
             if (!CheckifHeroAreAlive())
@@ -1221,12 +1221,7 @@ public class Fight : MonoBehaviour
             ennemyPlaying = En;
             En.EnemyAttack(heroes, true);
         }
-    }
-    private void PlayEnemyTurn()
-    {
 
-        PlayEnemyEffects();
-        StartCoroutine(AttaqueEnnemiesCorou());
         if (!CheckifHeroAreAlive())
         {
 
@@ -1249,7 +1244,12 @@ public class Fight : MonoBehaviour
             hero.m_dmgTaken = 0;
         }
         PlayPlayerEffects();
-
+    }
+    private void PlayEnemyTurn()
+    {
+        PlayEnemyEffects();
+        StartCoroutine(AttaqueEnnemiesCorou());
+        
     }
 
     public void ResetAll()
