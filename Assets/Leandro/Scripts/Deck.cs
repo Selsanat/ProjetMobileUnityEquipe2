@@ -25,7 +25,7 @@ public class Deck : MonoBehaviour
     [SerializeField] float RangePourActiverCarte;
     [SerializeField] Button PiocheButton;
     [SerializeField] Button UseButton;
-    [SerializeField] Button EndTurnButton;
+    [SerializeField] public  Button EndTurnButton;
     [SerializeField] public Button CancelButton;
     [SerializeField] public Button PlayButton;
     [SerializeField] int  NbCarteHandPossible;
@@ -43,6 +43,7 @@ public class Deck : MonoBehaviour
     [SerializeField] public SpriteRenderer BackgroundAlt;
     [SerializeField] public List<Slider> SlidersXp;
     [SerializeField] public List<Image>  SpriteRenderers;
+    public Transform AoeEmplacement;
 
 
 
@@ -50,6 +51,10 @@ public class Deck : MonoBehaviour
 
     private List<CardObject> GraveYard = new List<CardObject>();
     [SerializeField] public List<CardObject> Hand = new List<CardObject>();
+    public List<CardObject> deckDruid;
+    public List<CardObject> deckPriest;
+    public List<CardObject> deckBaseDruid;
+    public List<CardObject> deckBasePriest;
     public List<CardObject> deck;
 
     private List<CardObject> playedCards;
@@ -266,21 +271,57 @@ public class Deck : MonoBehaviour
             }
         }
     }
-    
+    public void ConstruireDeck()
+    {
+        if (gameManager.FM.perso1)
+        {
+            for (int i = 0; i < gameManager.levelArboriste; i++)
+            {
+                if (i < 8)
+                {
+                    deck.Add(deckDruid[i]);
+                }
+            }
+            for (int i = 0; i < deckBaseDruid.Count() - gameManager.levelArboriste; i++)
+            {
+
+                    deck.Add(deckBaseDruid[i]);
+                
+            }
+        }
+        if (gameManager.FM.perso2)
+        {
+            for(int i = 0; i < gameManager.levelPretre; i++)
+            {
+                if (i < 8)
+                {
+                    deck.Add(deckPriest[i]);
+                }
+            }
+            for (int i = 0; i < deckBasePriest.Count() - gameManager.levelPretre; i++)
+            {
+                deck.Add(deckBasePriest[i]);
+            }
+        }
+    }
     public void Start()
     {
+        foreach (CardObject card in deck)
+        {
+            card.DataCard.m_isUpsideDown = false;
+        }
         gameManager = GameManager.Instance;
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         PiocheButton.onClick.AddListener(delegate { StartCoroutine(DrawCardCoroutine()); });
-        CancelButton.onClick.AddListener(CancelChosenCard);
+        CancelButton.onClick.AddListener(() => { CancelChosenCard(); gameManager.FM.play.onClick.RemoveAllListeners(); }) ;
         gameManager.deck = this;
         gameManager.FM.play = this.PlayButton;
         gameManager.FM.cancel = this.CancelButton;
-
-            rearangecardslots();
+        deck.Clear();
+        ConstruireDeck();
+        rearangecardslots();
     }
-
     public void ReorderZCards()
     {
         for(int i = 0; i < Hand.Count; i++)
@@ -343,6 +384,7 @@ public class Deck : MonoBehaviour
         if (deck.Count >= 1 && availableCardSlots.Contains(true))
         {
             CardObject randCard = deck[UnityEngine.Random.Range(0, deck.Count)];
+            randCard.DataCard.GM = gameManager;
 
             for (int i = 0; i < availableCardSlots.Length - gameManager.debuffDraw; i++)
             {
@@ -350,13 +392,22 @@ public class Deck : MonoBehaviour
                 {
 
                     randCard.gameObject.SetActive(true);
+                    randCard.canvas.gameObject.SetActive(true);
                     randCard.transform.position = cardSlots[i].position;
                     randCard.transform.rotation = cardSlots[i].rotation;
 
                     randCard.Slot = cardSlots[i];
-                    randCard.indexHand = i;
-                    Hand.Add(randCard);
-                    availableCardSlots[i] = false;
+                    randCard.indexHand = 0;
+                    List<CardObject> NewHand = new List<CardObject>();
+                    NewHand.Add(randCard);
+                    foreach(CardObject card in Hand)
+                    {
+                        card.indexHand++;
+                        NewHand.Add(card);
+                    }
+                    Hand = NewHand.ToList();
+                    NewHand.Clear();
+                    availableCardSlots[Hand.Count-1] = false;
                     deck.Remove(randCard);
                     if (deck.Count == 0)
                     {
@@ -439,12 +490,19 @@ public class Deck : MonoBehaviour
             }
             StartCoroutine(TransposeTransparency(carte.gameObject));
         }
+        rearangecardslots();
+        RestoreCardPosition(false);
+        ReorderZCards();
     }
     private void HandToGraveyard()
     {
         foreach (CardObject carte in Hand)
         {
+            if (!carte.stayInHand)
+            {
             GraveYard.Add(carte);
+            }
+            carte.stayInHand = false;
         }
         Hand.Clear();
     }
@@ -507,33 +565,58 @@ public class Deck : MonoBehaviour
     [Button]
     private void BTransfo()
     {
-        StartCoroutine(TransfoCoroutine());
+        //StartCoroutine(TransfoCoroutine());
     }
     [Button]
     private void PDetransfo()
     {
-        StartCoroutine(DetransfoCoroutine());
+        //StartCoroutine(DetransfoCoroutine());
     }
 
     public void DeplaceCardUtiliseToPlace()
     {
         Transform AllyCardTransform = GameObject.FindGameObjectsWithTag("AllyCardTransform")[0].transform;
         Transform EnnemyCardTransform = GameObject.FindGameObjectsWithTag("EnnemyCardTransform")[0].transform;
-        if (gameManager.CarteUtilisee.DataCard.TargetAllies && gameManager.CarteUtilisee.DataCard.TargetEnnemies)
+
+        if(gameManager.CarteUtilisee.DataCard.m_isUpsideDown)
         {
-            StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, Vector3.Lerp(AllyCardTransform.position, EnnemyCardTransform.position, 0.5f)));
-            StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, Quaternion.Lerp(AllyCardTransform.rotation, EnnemyCardTransform.rotation, 0.5f)));
+            if (gameManager.CarteUtilisee.DataCard.BackCard.TargetAllies && gameManager.CarteUtilisee.DataCard.BackCard.TargetEnnemies)
+            {
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, Vector3.Lerp(AllyCardTransform.position, EnnemyCardTransform.position, 0.5f)));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, Quaternion.Lerp(AllyCardTransform.rotation, EnnemyCardTransform.rotation, 0.5f)));
+            }
+            if (gameManager.CarteUtilisee.DataCard.BackCard.TargetAllies && !gameManager.CarteUtilisee.DataCard.BackCard.TargetEnnemies)
+            {
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, AllyCardTransform.position));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, AllyCardTransform.rotation));
+            }
+            if (gameManager.CarteUtilisee.DataCard.BackCard.TargetEnnemies && !gameManager.CarteUtilisee.DataCard.BackCard.TargetAllies)
+            {
+
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.position));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.rotation));
+            }
+
         }
-        if (gameManager.CarteUtilisee.DataCard.TargetAllies && !gameManager.CarteUtilisee.DataCard.TargetEnnemies)
+        else
         {
-            StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, AllyCardTransform.position));
-            StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, AllyCardTransform.rotation));
+            if (gameManager.CarteUtilisee.DataCard.TargetAllies && gameManager.CarteUtilisee.DataCard.TargetEnnemies)
+            {
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, Vector3.Lerp(AllyCardTransform.position, EnnemyCardTransform.position, 0.5f)));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, Quaternion.Lerp(AllyCardTransform.rotation, EnnemyCardTransform.rotation, 0.5f)));
+            }
+            if (gameManager.CarteUtilisee.DataCard.TargetAllies && !gameManager.CarteUtilisee.DataCard.TargetEnnemies)
+            {
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, AllyCardTransform.position));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, AllyCardTransform.rotation));
+            }
+            if (gameManager.CarteUtilisee.DataCard.TargetEnnemies && !gameManager.CarteUtilisee.DataCard.TargetAllies)
+            {
+                StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.position));
+                StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.rotation));
+            }
         }
-        if (gameManager.CarteUtilisee.DataCard.TargetEnnemies && !gameManager.CarteUtilisee.DataCard.TargetAllies)
-        {
-            StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.position));
-            StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, EnnemyCardTransform.rotation));
-        }
+        
 
     }
 
@@ -589,6 +672,20 @@ public class Deck : MonoBehaviour
         }
         objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1);
     }
+    public IEnumerator TransposeTransparency(SpriteRenderer objetABouger)
+    {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        SpriteRenderer mesh = objetABouger.GetComponent<SpriteRenderer>();
+        mesh.color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0);
+        while (timeElapsed < TempsTransition)
+        {
+            mesh.color = Color.Lerp(mesh.color, new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1), Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1);
+    }
     public IEnumerator TransposeTransparencyNegative(GameObject objetABouger)
     {
         float TempsTransition = TempsTrans;
@@ -603,7 +700,25 @@ public class Deck : MonoBehaviour
         }
         objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0);
     }
-    IEnumerator DrawCardCoroutine()
+    public IEnumerator TransposeTransparencyNegative(SpriteRenderer objetABouger)
+    {
+        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;
+        SpriteRenderer mesh = objetABouger.GetComponent<SpriteRenderer>();
+        mesh.color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 1);
+        while (timeElapsed < TempsTransition)
+        {
+            mesh.color = Color.Lerp(mesh.color, new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0), Time.deltaTime * VitesseTranspo);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        objetABouger.GetComponent<SpriteRenderer>().color = new Color(mesh.color.r, mesh.color.g, mesh.color.b, 0);
+    }
+    public void DrawCardTest(int iterations)
+    {
+        StartCoroutine(DrawCardCoroutine(iterations));
+    }
+    public IEnumerator DrawCardCoroutine()
     {
         float TempsTransition = TempsTrans;
         float timeElapsed = 0;
@@ -613,8 +728,8 @@ public class Deck : MonoBehaviour
         CardGO.transform.position = Camera.main.ScreenToWorldPoint(DeckCount.transform.position);
         while (timeElapsed < TempsTransition)
         {
-            CardGO.transform.rotation = Quaternion.Lerp(CardGO.transform.rotation, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + card.indexHand].rotation, Time.deltaTime * VitesseTranspo);
-            CardGO.transform.position = Vector3.Lerp(CardGO.transform.position, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + card.indexHand].position, Time.deltaTime * VitesseTranspo);
+            CardGO.transform.rotation = Quaternion.Lerp(CardGO.transform.rotation, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2].rotation, Time.deltaTime * VitesseTranspo);
+            CardGO.transform.position = Vector3.Lerp(CardGO.transform.position, cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2].position, Time.deltaTime * VitesseTranspo);
             CardGO.transform.localScale = Vector3.Lerp(CardGO.transform.localScale, new Vector3(1,1,1), Time.deltaTime * VitesseTranspo);
             timeElapsed += Time.deltaTime;
             yield return null;
@@ -622,17 +737,26 @@ public class Deck : MonoBehaviour
         CardGO.transform.position = cardSlots[(int)Mathf.Ceil(cardSlots.Count / 2) - Hand.Count / 2 + card.indexHand].position;
         CardGO.transform.localScale = new Vector3(1, 1, 1);
     }
-    IEnumerator DrawCardCoroutine(int nombreAPiocher)
+    public IEnumerator DrawCardCoroutine(int nombreAPiocher)
     {
-        for(int i = 0; i < nombreAPiocher; i++)
+        EndTurnButton.interactable = false;
+        gameManager.CardsInteractable = false;
+        for (int i = 0; i < nombreAPiocher; i++)
         {
             StartCoroutine( DrawCardCoroutine());
             yield return new WaitForSeconds(0.25f);
         }
+        if (!gameManager.AnimAtk)
+        {
+            EndTurnButton.interactable = true;
+            gameManager.CardsInteractable = true;
+        }
+
     }
     IEnumerator DiscardCoroutine()
     {
-        foreach(CardObject card in Hand.ToList())
+        
+        foreach (CardObject card in Hand.ToList())
         {
             float TempsTransition = TempsTrans;
             float timeElapsed = 0;
@@ -653,16 +777,23 @@ public class Deck : MonoBehaviour
         LibereEspacesHand();
         HandToGraveyard();
         yield return DrawCardCoroutine(NombrePiocheDebutTour);
+        EndTurnButton.interactable = true;
     }
     public IEnumerator DiscardCoroutine(bool justeCache)
     {
-        foreach (CardObject card in Hand.ToList())
+        EndTurnButton.interactable = false;
+        gameManager.CardsInteractable = false;
+        List<CardObject> ReversedCardlist = Hand.ToList();
+        ReversedCardlist.Reverse(); 
+        foreach (CardObject card in ReversedCardlist)
         {
             StartCoroutine(DiscardOneCoroutine(card));
             yield return new WaitForSeconds(0.25f);
         }
         LibereEspacesHand();
         HandToGraveyard();
+        gameManager.CardsInteractable = true;
+        EndTurnButton.interactable = true;
 
         //yield return DrawCardCoroutine(NombrePiocheDebutTour);
     }
@@ -684,17 +815,46 @@ public class Deck : MonoBehaviour
         CardGO.transform.position = Camera.main.ScreenToWorldPoint(graveyardCount.transform.position);
         CardGO.transform.localScale = new Vector3(1, 1, 1);
     }
-    public IEnumerator TransfoCoroutine()
+
+    IEnumerator TourneCarte90(CardObject card)
+    {
+        yield return (TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90, 0)));
+        yield return (TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0, 0)));
+    }
+    public IEnumerator TransfoCoroutine(bool trueIfDruid)
     {
         StartCoroutine( TransposeTransparencyNegative(Background.gameObject));
+        int index = 0;
+        if (!trueIfDruid)
+        {
+            index = 1;
+        }
+
+        foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[index].GetComponentsInChildren<SpriteRenderer>())
+        {
+            StartCoroutine(TransposeTransparency(sprite));
+        }
+        foreach (SpriteRenderer sprite in gameManager.FM.HeroesGameObjectRef[index].GetComponentsInChildren<SpriteRenderer>())
+        {
+            StartCoroutine(TransposeTransparencyNegative(sprite));
+        }
+
         for (int i = 0; i < Hand.Count; i++)
         {
+            
             CardObject card = Hand[i];
-            StartCoroutine( TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90, 0)));
-            card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
-            StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0, 0)));
-            card.DataCard.m_isUpsideDown = true;
-            yield return new WaitForSeconds(0.25f);
+            if (trueIfDruid == card.DataCard.isDruidCard && !card.DataCard.isBaseCard)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.BackCard.Name;
+                card.Description.text = card.DataCard.BackCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
+
+                card.DataCard.m_isUpsideDown = true;
+
+            }
+
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
@@ -702,14 +862,30 @@ public class Deck : MonoBehaviour
     public IEnumerator DetransfoCoroutine()
     {
         StartCoroutine(TransposeTransparency(Background.gameObject));
+        for(int i = 0; i < 2; i++)
+        {
+            foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[i].GetComponentsInChildren<SpriteRenderer>())
+            {
+                StartCoroutine(TransposeTransparencyNegative(sprite));
+            }
+            foreach (SpriteRenderer sprite in gameManager.FM.HeroesGameObjectRef[i].GetComponentsInChildren<SpriteRenderer>())
+            {
+                StartCoroutine(TransposeTransparency(sprite));
+            }
+        }
         for (int i = 0; i < Hand.Count;i++)
         {
             CardObject card = Hand[i];
-            StartCoroutine( TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 90,0)));
-            card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
-            StartCoroutine(TransposeAtoBRotation(card.gameObject, Quaternion.Euler(0, 0,0)));
-            card.DataCard.m_isUpsideDown = true;
-            yield return new WaitForSeconds(0.25f);
+            if (card.DataCard.m_isUpsideDown)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.name;
+                card.Description.text = card.DataCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
+                card.DataCard.m_isUpsideDown = true;
+
+            }
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);

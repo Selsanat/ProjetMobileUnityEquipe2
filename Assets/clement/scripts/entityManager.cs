@@ -30,38 +30,47 @@ public class entityManager : MonoBehaviour
     }
 
     [SerializeField] public Role m_role;
-    [SerializeField] protected int m_maxPv;
-    [SerializeField] protected int m_Pv;
-    [SerializeField] protected int m_attack;
-    [SerializeField] protected int m_speed;
-    [SerializeField] protected int m_buff;
-    [SerializeField] protected int m_nerf;
-    [SerializeField] protected int m_armor;
-    [SerializeField] protected int m_experience;
-    [SerializeField] protected int m_level;
-    [SerializeField] protected int m_experienceMax = 4;
-    [SerializeField] protected bool m_isDebufArmor = false;
-    [SerializeField] protected bool isAlive = true;
-    [SerializeField] protected bool isAntiHeal = false;
-    [SerializeField] protected bool isProvocation = false;
-    [SerializeField] protected int m_damageMultiplier = 1;
-    [SerializeField] protected int m_mana;
+    [SerializeField] public int m_maxPv;
+    [SerializeField] public int m_Pv;
+    [SerializeField] public int m_attack;
+    [SerializeField] public int m_speed;
+    [SerializeField] public int m_buff;
+    [SerializeField] public int m_nerf;
+    [SerializeField] public int m_armor;
+    [SerializeField] public int m_experience;
+    [SerializeField] public int m_level;
+    [SerializeField] public bool m_IsAttacking = false;
+    [SerializeField] public int m_experienceMax = 4;
+    [SerializeField] public bool m_isDebufArmor = false;
+    [SerializeField] public bool m_tabernacleActive = false;
+    [SerializeField] public bool isAlive = true;
+    [SerializeField] public bool isAntiHeal = false;
+    [SerializeField] public bool isProvocation = false;
+    [SerializeField] public int m_damageMultiplier = 1;
+    [SerializeField] public int m_mana;
+    [SerializeField] public int m_nextArmor = 0;
     [SerializeField] public int m_manaMax;
+    [SerializeField] public int m_dmgTaken = 0;
     [SerializeField] public bool isFull;
     [SerializeField] public int randomAttack;
     [SerializeField] public hero randomHero;
+    [SerializeField] protected int m_venerate;
     [SerializeField] public Sprite m_sprite;
     [SerializeField] public Image m_spriteTypeAttack;
     [SerializeField] public Image m_spriteFocus;
     [SerializeField] public List<Sprite> m_spriteList;
     [SerializeField] public TextMeshProUGUI m_valueText;
     [SerializeField] public Slider m_slider;
+    [SerializeField] public Transform m_buffs;
     [SerializeField] public TextMeshProUGUI stockText;
+    [SerializeField] public Image Armor;
+    [SerializeField] public TextMeshProUGUI ArmorText;
     [SerializeField] protected Deck m_deck;
     [SerializeField] public List<hero> heroList;
+    public int m_total_poison;
     [SerializeField] protected bool multipleTarget;
     [SerializeField] protected GameManager gameManager;
-    [SerializeField] public List<dataCard.CardEffect> MyEffects;
+    [SerializeField] public List<dataCard.CardEffect> MyEffects = new List<dataCard.CardEffect>();
 
     public void Start()
     {
@@ -70,37 +79,7 @@ public class entityManager : MonoBehaviour
     public List<hero> getListHero() { return heroList; }
 
 
-    public void takeDamage (int damage)
-    {
-        Debug.Log("Pv avant : " + m_Pv + " " + m_role);
-        if(m_isDebufArmor)
-        {
-            m_armor /= 2;
-            m_isDebufArmor = false;
-        }
-        damage -= m_armor;
-        if (damage >= 0)
-            m_armor = 0;
-        else
-            damage = 0;
-        
-        m_Pv -= damage * m_damageMultiplier;
-        m_slider.value = m_Pv;
-        Debug.Log("Pv apres: " + m_Pv +" " +m_role);
-        if (m_Pv <= 0)
-        {
-            isAlive = false;
-        }
 
-        if(m_role == Role.Arboriste)
-        {
-            gameManager.LifeArboriste = m_Pv;
-        }
-        else if(m_role == Role.Pretre)
-        {
-            gameManager.LifePretre = m_Pv;
-        }
-    }
 
 
 
