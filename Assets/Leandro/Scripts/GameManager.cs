@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
     public MapPlayerTracker maptracker;
     //private public MapNode _currentNode;
 
+    public static GameObject Background;
+
     #region perso
     #region Arboriste
     public int LifeArboriste = 50;
