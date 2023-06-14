@@ -186,39 +186,9 @@ public class hero : entityManager
             gameManager.levelPretre = m_level;
         }
 
-        /*m_maxPv = m_maxPv + 10;
-        m_Pv = m_maxPv;*/
+        gameManager.MasteryAchivement(m_level);
 
-        if (m_level == 1)
-        {
-            //Accueillir les n�cessiteux
-            //Armure d'�corse
-        }
-        else if (m_level == 2)
-        {
-            //Suivre les �toiles
-            //"Par ma main, soit b�ni !"
-        }
-        else if (m_level == 3)
-        {
-            //Au pied des tabernacles
-            //Dormir pr�t de l'autre
-        }
-        else if (m_level == 4)
-        {
-            //Surgissement Vitalique
-            //Cultiver son �me
-        }
-        else if (m_level == 5)
-        {
-            //Communion avec la nature
-            //Allumer les cierges 
-        }
-        else if (m_level == 6)
-        {
-            //conversion
-            //Application de cataplasme
-        }
+        
     }
 
     public void gainExperience(int experience)
@@ -295,16 +265,14 @@ public class hero : entityManager
     {
         if (this.isAlive == false)
             return;
-        
         var tempColor = m_spriteTypeAttack.color;
-        tempColor.a = 0f;
+        tempColor.a = 1f;
         m_spriteTypeAttack.color = tempColor;
         m_spriteFocus.color = tempColor;
 
         if (fight)
         {
             this.randomAttack = (int)Random.Range(0f, 100);
-            print(randomAttack);
             if (ChienfourthAttack >= randomAttack)
             {
                 this.m_spriteFocus.gameObject.SetActive(true);  
@@ -312,7 +280,6 @@ public class hero : entityManager
                 this.m_spriteTypeAttack.sprite = gameManager.entityManager.m_spriteList[4];
                 this.m_spriteTypeAttack.rectTransform.sizeDelta = gameManager.entityManager.m_spriteList[4].bounds.size * 20f;
                 this.randomHero = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
-                print(randomHero.m_role);
                 tempColor.a = 1f;
                 m_spriteFocus.color = tempColor;
                 if (randomHero.m_role == Role.Arboriste)
@@ -388,27 +355,6 @@ public class hero : entityManager
         {
             if (ChienfourthAttack >= randomAttack)
             {
-                if(m_slider == null)
-                {
-                    print("null");
-                }
-                if(randomHero == null)
-                {
-                    print("hero");
-                }
-                if(m_slider.transform.parent.GetChild(5).gameObject == null)
-                {
-                    print("child");
-                }
-                if(randomHero.m_slider == null)
-                {
-                    print("slider");
-                }
-                if(heroesToAttack == null)
-                {                     
-                    print("heroes");
-                }
-
                 gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(5).gameObject, Camera.main.ScreenToWorldPoint(randomHero.m_slider.transform.position));
                 randomHero.m_isDebufArmor = true;
                 Debug.Log("debuff armor");

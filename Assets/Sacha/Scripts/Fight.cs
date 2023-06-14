@@ -578,16 +578,18 @@ public class Fight : MonoBehaviour
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
                 arboristeButton.interactable = true;
-                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; });
+                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); });
 
             }
             else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
             {
                 pretreButton.interactable = true;
-                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; });
+                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); });
                 
 
             }
+            if (isPretreTransform && isArboTransform)
+                Gm.TranscendanceBothHeroAchivement();
         }
         
 
@@ -1057,7 +1059,6 @@ public class Fight : MonoBehaviour
         stock += mana + venerations;
         venerations = 0;
         mana = 0;
-        stock = 100;
         stockText.text = stock.ToString();
         manaText.text = mana.ToString();
 
@@ -1180,11 +1181,6 @@ public class Fight : MonoBehaviour
             En.resetArmor();
             ennemyPlaying = En;
             En.EnemyAttack(heroes, false);
-            if (!CheckifHeroAreAlive())
-            {
-                LooseFight();
-                yield break;
-            }
             foreach (hero h in heroes.ToList())
             {
                 if (h.getIsAlive() == false)
@@ -1200,9 +1196,20 @@ public class Fight : MonoBehaviour
                         pretreButton?.onClick.RemoveAllListeners();
                         pretreButton.gameObject.SetActive(false);
                         /*h?.gameObject?.SetActive(false);*/
+
                     }
                 }
             }
+
+            
+
+            if (!CheckifHeroAreAlive())
+            {
+                yield return new WaitForSeconds(3f);
+                LooseFight();
+                yield break;
+            }
+
             if (enemies.Count > 1)
             {
                 yield return new WaitForSeconds(2f);
@@ -1277,8 +1284,8 @@ public class Fight : MonoBehaviour
         Gm.levelPretre = 0;
         Gm.expPretre = 0;
         Gm.expArboriste = 0;
-        Gm.LifeArboriste = 50;
-        Gm.LifePretre = 50;
+        Gm.LifeArboriste = 20;
+        Gm.LifePretre = 20;
         Gm.IsArboristePlayed = false;
         Gm.IsPretrePlayed = false;
         Gm.waveCounter = 0;
@@ -1291,10 +1298,12 @@ public class Fight : MonoBehaviour
         enemiesAtStartOfCombat.Clear();
         HeroesGameObjectRef.Clear();
         HeroesAltGameObjectRef.Clear();
+        Gm.needToResetMap = true;
+        Gm.SaveData();
     }
     private void LooseFight()
     {
-
+        Gm.DeathAchivement();
         StartCoroutine(LoseFinalFight());
     }
     IEnumerator LoseFinalFight()
@@ -1309,14 +1318,16 @@ public class Fight : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(2);
         Gm.transi.Play("Detransi");
-        
+
         // A appeler lorsqu'on relance
         /*FindObjectOfType<MapManager>().GenerateNewMap();*/
-        Gm.SaveData();
+        
     }
 
     public void WinFinalFight()
     {
+        Gm.WinAchivement();
+        Gm.RestAchivement();
         StartCoroutine(WinFinalCorou());
 
     }
@@ -1327,16 +1338,15 @@ public class Fight : MonoBehaviour
         {
             StopCoroutine(coroutine);
         }
-        MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
-        MapPlayerTracker.Instance.mapManager.SaveMap();
+        
         ResetAll();
+        Gm.SaveData();
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
         Gm.winoulose = true;
         SceneManager.LoadScene(2);
         Gm.transi.Play("Detransi");
         //FindObjectOfType<MapManager>().GenerateNewMap();
-        Gm.SaveData();
     }
 
     IEnumerator XpLerp()
@@ -1365,6 +1375,8 @@ public class Fight : MonoBehaviour
             {
                 lvlUpPriest = Gm.levelArboriste > lvlpriest;
             }
+            if (Gm.levelArboriste >= 8 && Gm.levelPretre >= 8)
+                Gm.PeakPerformanceAchivement();
         }
 
         #region AnimationBarreXP
@@ -1581,11 +1593,19 @@ public class Fight : MonoBehaviour
     }
     private void WinFight()
     {
+        if(perso1 && !perso2)
+        {
+            if (heroes[0].m_role == entityManager.Role.Pretre)
+                Gm.MiracleAchivement();
+            else if (heroes[0].m_role == entityManager.Role.Arboriste)
+                Gm.GrowthAchivement();
+        }
+
         StopCoroutine(coroutine);
         Gm.deck.AfficheSideUiXP(perso1 && perso2);
         Gm.deck.SetBonneBarreXp(heroes);
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
-        isFirstTurn= true;
+        isFirstTurn = true;
         StartCoroutine(XpLerp());
 
         MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);

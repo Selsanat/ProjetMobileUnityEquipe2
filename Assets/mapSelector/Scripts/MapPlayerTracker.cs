@@ -113,6 +113,7 @@ namespace Map
                 case NodeType.EliteEnemy:
                     break;
                 case NodeType.RestSite:
+                    GameManager.Instance.campUsed = true;
                     Instance.transicampfire();
                     break;
                 case NodeType.Treasure:
