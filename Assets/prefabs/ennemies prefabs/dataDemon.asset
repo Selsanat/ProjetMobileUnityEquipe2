@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c60385526f542e409151c68496c4330, type: 3}
   m_Name: dataDemon
   m_EditorClassIdentifier: 
-  m_maxPv: 60
-  m_Pv: 60
+  m_maxPv: 48
+  m_Pv: 48
   m_sprite: {fileID: 21300000, guid: 49f4f0c7075ff05489e5ce46443eb35f, type: 3}
+  prefab: {fileID: 2161965787726876197, guid: 0bbcfa7931b9acf46a50a413ca12401b, type: 3}
   m_slider: {fileID: 0}
   m_role: 10

@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
     public Transform pos1;
-    public Transform pos2;
+    //public Transform pos2;
     public List<GameObject> Startcards;
 
     public List<GameObject> go_credits;
 
+    public GameObject Title;
 
     public float speed = 1;
     //public SpriteRenderer space;
@@ -53,6 +54,10 @@ public class Menu : MonoBehaviour
             caca++;
         }*/
     }
+    private void Update()
+    {
+            Title.transform.position += new Vector3(0, Mathf.Sin(Time.time)*.0015f, 0);
+    }
     public void reloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -69,11 +74,7 @@ public class Menu : MonoBehaviour
             go.SetActive(!go.activeInHierarchy);
         }
     }
-    
-    public void Collection()
-    {
 
-    }
     public void StartGame()
     {
         SceneManager.LoadScene("levelSelector");

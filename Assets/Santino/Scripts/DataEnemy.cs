@@ -11,7 +11,9 @@ public class DataEnemy : ScriptableObject
 
 
     public Sprite m_sprite;
+    public GameObject prefab;
     public Slider m_slider;
+    public AnimationClip animation;
 
     public entityManager.Role m_role;
 
@@ -22,5 +24,6 @@ public class DataEnemy : ScriptableObject
     public hero SetEnemy()
     {
         return enemy = new hero(m_role, m_maxPv, m_Pv, m_sprite);
+
     }
 }

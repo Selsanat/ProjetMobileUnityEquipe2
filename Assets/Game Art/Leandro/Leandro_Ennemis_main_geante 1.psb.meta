@@ -1,0 +1,897 @@
+fileFormatVersion: 2
+guid: 577467cc63f466d4f9e1d4fb50bf2701
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: b2a9591990af98743ba3ff7cf1000886, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 1
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    isReadable: 0
+    streamingMipmaps: 1
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMasterTextureLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  spriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 0, y: 0}
+    spritePosition: {x: 0, y: 0}
+  mosaicSpriteImportData: []
+  rigSpriteImportData:
+  - name: Doigt 6
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 484
+      y: 380
+      width: 180
+      height: 258
+    spriteID: 75947e729bfbcb143991c9ae5169b6ae
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 484, y: 380}
+    spritePosition: {x: 243, y: 12}
+  - name: Doigt 5
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 321
+      y: 4
+      width: 400
+      height: 200
+    spriteID: 1b716a31b65aa1d41b75c1fbf67fbeca
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 321, y: 4}
+    spritePosition: {x: 28, y: 136}
+  - name: Doigt 4
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 321
+      y: 212
+      width: 435
+      height: 160
+    spriteID: 0a025b67d3196be4cb2d982da7cce1d0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 321, y: 212}
+    spritePosition: {x: 5, y: 277}
+  - name: Paume
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 309
+      height: 396
+    spriteID: c62e08e27c4b56543960c98937f517d8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 304, y: 11}
+  - name: Doigt 3
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 408
+      width: 219
+      height: 288
+    spriteID: fdc57f352d330cb409c70a1933b6461b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 408}
+    spritePosition: {x: 253, y: 325}
+  - name: Doigt 2
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 704
+      width: 299
+      height: 192
+    spriteID: 8301d5f7481603d489b754a62c4d29d1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 4, y: 704}
+    spritePosition: {x: 76, y: 342}
+  - name: Doigt 1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 321
+      y: 380
+      width: 155
+      height: 368
+    spriteID: 62112435859f7a645928a87177216f25
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    parentGroupIndex: -1
+    uvTransform: {x: 321, y: 380}
+    spritePosition: {x: 427, y: 214}
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    boneReadOnly: 0
+  sharedRigSpriteImportData: []
+  sharedRigCharacterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    boneReadOnly: 0
+  platformSettings: []
+  mosaicLayers: 1
+  characterMode: 1
+  documentPivot: {x: 0, y: 0}
+  documentAlignment: 7
+  importHiddenLayers: 0
+  layerMappingOption: 2
+  generatePhysicsShape: 0
+  paperDollMode: 0
+  keepDupilcateSpriteName: 1
+  skeletonAssetReferenceID: 
+  spriteCategoryList:
+    categories: []
+  spritePackingTag: 
+  resliceFromLayer: 0
+  mosaicPSDLayers: []
+  rigPSDLayers:
+  - name: "Main g\xE9ante"
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 75b1ed1f32861db4c8e7fb9b101dff52
+    layerID: 0
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Doigt 6
+    spriteName: Doigt 6
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 75947e729bfbcb143991c9ae5169b6ae
+    layerID: -386476949
+    mosaicPosition: {x: 484, y: 380}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Doigt 5
+    spriteName: Doigt 5
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 1b716a31b65aa1d41b75c1fbf67fbeca
+    layerID: -386476950
+    mosaicPosition: {x: 321, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Doigt 4
+    spriteName: Doigt 4
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 0a025b67d3196be4cb2d982da7cce1d0
+    layerID: -386476951
+    mosaicPosition: {x: 321, y: 212}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Paume
+    spriteName: Paume
+    isGroup: 0
+    parentIndex: 0
+    spriteID: c62e08e27c4b56543960c98937f517d8
+    layerID: -2135373390
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Doigt 3
+    spriteName: Doigt 3
+    isGroup: 0
+    parentIndex: 0
+    spriteID: fdc57f352d330cb409c70a1933b6461b
+    layerID: -386476944
+    mosaicPosition: {x: 4, y: 408}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Doigt 2
+    spriteName: Doigt 2
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 8301d5f7481603d489b754a62c4d29d1
+    layerID: -386476945
+    mosaicPosition: {x: 4, y: 704}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Doigt 1
+    spriteName: Doigt 1
+    isGroup: 0
+    parentIndex: 0
+    spriteID: 62112435859f7a645928a87177216f25
+    layerID: -386476946
+    mosaicPosition: {x: 321, y: 380}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Dragon
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 2f980ee1b8f2d27489b44c47717edd6a
+    layerID: -408509179
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  - name: Aile gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 596e1dd747b226e44bbbb4a3066c6257
+    layerID: 2047281454
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Pied gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: b8ff54f7bc9d4614883f39451cd0ae27
+    layerID: -1613575407
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Cuisse gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: a5495f62a7a534841af4a5b29fd71217
+    layerID: -2040703513
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Tibia gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 8b506b8c4b79bd54597ccd935b21657c
+    layerID: 518733170
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Queue
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 200583e391424084fae0fa709ce654be
+    layerID: 271030637
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Bras gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 0b35f1bbcf7ee4044ab7582e110a5756
+    layerID: -1777606825
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Main gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 861fc1176840f6b4d82cfc5b3a336d70
+    layerID: 1776754646
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: "T\xEAte"
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 53e620839c7baa543acf09e42d16d8c4
+    layerID: 1305033367
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Machoire
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: b47ca6ce1adbeca48a8802b7c23d2660
+    layerID: 1076433014
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Cou
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 07fdfc29bb485b84db6aaa140b225255
+    layerID: 1502599557
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Torse
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 8bb35e2ce0b1f7d4e8ba297ab91d5c43
+    layerID: 82816611
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Bassin
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: f8668623433f2ff47b9df60abbf87b75
+    layerID: 1484821786
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Pied droit
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 51d87f6a694da1e4ca3d2f71e6b6991a
+    layerID: 381773438
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Cuisse droite
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: c0de771f41096f549b05ab68f2d7e497
+    layerID: 496137887
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Tibia droit
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: aca10059f1b1b2043aefd6e14329ffc2
+    layerID: -1068330461
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Bras droit
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 86185ddfec83d80439c2372ae1ec8a64
+    layerID: -76177788
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Main droite
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 0ac438cebde105c4a918c2c3ae17a0cd
+    layerID: -791515288
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Aile droite
+    spriteName: 
+    isGroup: 0
+    parentIndex: 8
+    spriteID: 7efaa55da44843b41bf02b4f05ff8a37
+    layerID: -358846364
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Gargouille
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 345db7cd7a91a054e9685bff6429e32d
+    layerID: 372235125
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  - name: Aile gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: e5f5aeaca6fdd2140b02aef7719d5128
+    layerID: -681998822
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Aile droite
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 995a203ad4f362b4f8e772bd16eeccde
+    layerID: 713592660
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Jambe gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 9ade1137706043d42822618adea86e00
+    layerID: 845200674
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Queue
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 4496631bdce4bfd45bcb47234f7ee3e5
+    layerID: 1731943719
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Jambe droite
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 0a6e024f342f9a343b4c1f68d741a935
+    layerID: -608315344
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Main gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 4c770a198217e8c4f8d56646cf705f02
+    layerID: -1617598366
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Baton
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: f8dd7ecc9d4d2e94ab8dd61d2d092091
+    layerID: 996776308
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Pied droit
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 3c283bc59f81847468e56f2e80d2ef8b
+    layerID: 1730044146
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Pied gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: ee2b1d7197fa1e948bd8d93853bbcd38
+    layerID: 496258375
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Bassin
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: c719a062647ae4d40a6e7609bb2f1047
+    layerID: -524066070
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Main droite
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 66145dc1dd864634c8c2348def00fa5d
+    layerID: -1842379296
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Bras gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: b9720f776739c8a4599d0d7f6a7e4262
+    layerID: 446879989
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Bras droit
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 9072c117dffeda145bf52ca094c38bc5
+    layerID: -1942568748
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: "T\xEAte"
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 3bbb99b064318a94481b22ca3e1b0e8b
+    layerID: -454869983
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Machoire
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: efc9610f99aaa904b8799ede2e7d0b2b
+    layerID: 591252926
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Cou
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 7695160e186b8444c8c16323b9a7b6c5
+    layerID: -461643637
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Torse
+    spriteName: 
+    isGroup: 0
+    parentIndex: 27
+    spriteID: 4bb41ff69b9811243bf4025aa582059d
+    layerID: 192281461
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Chien
+    spriteName: 
+    isGroup: 1
+    parentIndex: -1
+    spriteID: 664f80a9f173cc845aca876a0f5b1cf3
+    layerID: -791022871
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  - name: Queue
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: a0ace513d45c5e24badb6ac8420b4aa5
+    layerID: 1731943720
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: "Pied arri\xE8re gauche"
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: 9f066b3a88f46d243a9f9a0c586e0788
+    layerID: 1205570042
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: "Pied arri\xE8re droit"
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: 350ff9859b2c7544ebcbd19f5fa7e2e8
+    layerID: 1737238927
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: "Patte arri\xE8re gauche"
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: 170e5eeb6aa0133458be015d9779dc0d
+    layerID: -277326090
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: "Patte arri\xE8re droite"
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: 53591e0fb831c8c4cb30827793f88721
+    layerID: -601676184
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Bassin
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: 23e1e3e9f066f484e9d55b3083183545
+    layerID: -120781543
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Torse
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: d3b08d1f79f14c24cbf9a1cbe3e908e4
+    layerID: 192281458
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Pied avant gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: b284eb6d892d4c34aba8a66883b3dded
+    layerID: 1168645165
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Patte avant gauche
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: 3364a57032bc4d644b37594cee042533
+    layerID: 1841681077
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Pied avant droit
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: 95b53d7344f9c784eab02a44c308b362
+    layerID: 1808682818
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Patte avant droite
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: 9286ea8205a0a1649b3e2fe7b8327532
+    layerID: -981505027
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: "T\xEAte"
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: d7700db0056fde64ca65228fc51362e5
+    layerID: -858154510
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Machoire
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: 69b4868655b7cd1419153c74aaa392e1
+    layerID: -2137630429
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Cou
+    spriteName: 
+    isGroup: 0
+    parentIndex: 45
+    spriteID: 0ccef1024b3dd00429e4769f0233271d
+    layerID: -461643638
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 1
+  - name: Papier
+    spriteName: 
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 234790a6af98c5e428f1d1105dbdd3ae
+    layerID: 765473083
+    mosaicPosition: {x: 0, y: 0}
+    flatten: 0
+    isImported: 0
+    isVisible: 0
+  sharedRigPSDLayers: []
+  pSDLayerImportSetting: []
+  generateGOHierarchy: 0
+  textureAssetName: 
+  prefabAssetName: 
+  spriteLibAssetName: 
+  skeletonAssetName: 
+  secondarySpriteTextures: []

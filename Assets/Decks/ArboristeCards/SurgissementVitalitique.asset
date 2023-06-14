@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ae1fa1b220ceaa4fae9d3d1a724796b, type: 3}
+  m_Name: SurgissementVitalitique
+  m_EditorClassIdentifier: 
+  m_manaCost: 0
+  m_value: 0
+  m_index: 2
+  nombreDexecutiion: 1
+  unlockLevel: 4
+  m_cardTypes: 28
+  m_cardEffects: []
+  TargetAllies: 1
+  TargetEnnemies: 0
+  AOEAllies: 1
+  AOEEnnemies: 0
+  m_isDeleteOnTurn: 0
+  m_isUpsideDown: 0
+  m_isBonusCard: 0
+  m_onCardExplain: 
+  m_FullCardExplain: 
+  isDruidCard: 1
+  isBaseCard: 0
+  Description: "R\xE9cup\xE9rez vos points de v\xE9n\xE9ration en mana, Piochez une
+    carte."
+  Name: Surgissement vitalitique
+  m_cardFrontSprite: {fileID: 21300000, guid: 916e366218d9a2b47841471e296f09c1, type: 3}
+  m_cardBackSprite: {fileID: 21300000, guid: ca9ba9550a4ebe54fbbf36eb978d3fc7, type: 3}
+  BackCard: {fileID: 11400000, guid: c4bb7603d35501e41b19faa0ba6be1c4, type: 2}
+  Deck: {fileID: 11400000, guid: 73e62c92598e28e4eb04d10bd9945d7b, type: 2}
+  GM: {fileID: 0}

@@ -22,7 +22,6 @@ public class dataDeck : ScriptableObject
 
     }
 
-
     public enum DeckRole
     {
         Guerrier,

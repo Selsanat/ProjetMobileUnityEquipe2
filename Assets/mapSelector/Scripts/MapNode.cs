@@ -39,9 +39,30 @@ namespace Map
             Blueprint = blueprint;
             if (sr != null) sr.sprite = blueprint.sprite;
             if (image != null) image.sprite = blueprint.sprite;
-            if (node.nodeType == NodeType.Boss) transform.localScale *= 1.5f;
             if (sr != null) initialScale = sr.transform.localScale.x;
             if (image != null) initialScale = image.transform.localScale.x;
+            if (node.nodeType == NodeType.MinorEnemy) visitedCircle.transform.localScale *= 1.6f;
+            if (node.nodeType == NodeType.RestSite)
+            {
+                visitedCircle.transform.localScale *= 1.8f;
+                Vector3 VCircle = visitedCircle.transform.position;
+                VCircle.y -= 0.09f;
+                visitedCircle.transform.position = VCircle;
+            }
+            if (node.nodeType == NodeType.Mystery) 
+            {
+                visitedCircle.transform.localScale *= 1.9f;
+                Vector3 VCircle = visitedCircle.transform.position;
+                VCircle.y -= 0.04f;
+                visitedCircle.transform.position = VCircle;
+            }
+            if (node.nodeType == NodeType.Boss) 
+            {
+                visitedCircle.transform.localScale *= 2.5f;
+                Vector3 VCircle = visitedCircle.transform.position;
+                VCircle.y -= 0.06f;
+                visitedCircle.transform.position = VCircle;
+            }
 
             if (visitedCircle != null)
             {

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23dd0271997c14f4eb390c7be1c1d0a0, type: 3}
+  m_Name: PretreDeck
+  m_EditorClassIdentifier: 
+  m_name: Pretre
+  m_role: 3
+  dataCards:
+  - {fileID: 11400000, guid: 3cb7fdd433d6acd419c8b8460ce04a70, type: 2}
+  - {fileID: 11400000, guid: 330bc4de91ac02a498404f01e23c37fa, type: 2}
+  - {fileID: 11400000, guid: 248f7a2ec09832c419cc59f1d08fc757, type: 2}
+  - {fileID: 11400000, guid: 830dad9036b34a24d9e30ed8d787843b, type: 2}
+  - {fileID: 11400000, guid: af4f2f3f43836bd4c803b4e3a9406b2f, type: 2}
+  - {fileID: 11400000, guid: e302cda3e6d11604c9f630008c4e4dff, type: 2}
+  - {fileID: 11400000, guid: 66b5e31ace4b73742b4b0cb21ab2c802, type: 2}
+  - {fileID: 11400000, guid: f1400f9278c4a744fb5045ea5b0c59cc, type: 2}
+  - {fileID: 11400000, guid: 5b74fd9e592014b4fa4a9d335b0cf565, type: 2}
+  - {fileID: 11400000, guid: cec43900ff524254395d5df7beac0acf, type: 2}
+  - {fileID: 11400000, guid: bc716c426d63bc34aa0fb20abb7fe921, type: 2}
+  - {fileID: 11400000, guid: 46e86cb2a6f4058419d47f02f623bad2, type: 2}
+  - {fileID: 11400000, guid: 03b21a58326190540ad3388045cf633e, type: 2}
+  - {fileID: 11400000, guid: 60fa265dbdb12bc4b849663be1b535be, type: 2}
