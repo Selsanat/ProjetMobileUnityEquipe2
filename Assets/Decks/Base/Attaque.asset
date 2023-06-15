@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Attaque
   m_EditorClassIdentifier: 
   m_manaCost: 1
-  m_value: 3
+  m_value: 40
   m_index: 0
   nombreDexecutiion: 1
   unlockLevel: 0
@@ -35,4 +35,5 @@ MonoBehaviour:
   m_cardFrontSprite: {fileID: 21300000, guid: 214cdcfd20ebc284e9dba9e378166bbc, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 214cdcfd20ebc284e9dba9e378166bbc, type: 3}
   BackCard: {fileID: 0}
+  Deck: {fileID: 0}
   GM: {fileID: 0}
