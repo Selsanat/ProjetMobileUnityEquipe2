@@ -1300,8 +1300,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "La barre rouge et les nombres dessous correspond \xE0 vos points de vie.
-    Une entit\xE9 meurt une fois \xE0 0 pv."
+  m_text: "La barre et les nombres dessous correspond \xE0 vos points de vie. Une
+    entit\xE9 meurt une fois \xE0 0 pv."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_sharedMaterial: {fileID: -4049758276073571366, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
