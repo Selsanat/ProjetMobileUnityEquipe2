@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_manaCost: 2
   m_value: 0
-  m_index: 0
+  m_index: 2
   nombreDexecutiion: 1
   unlockLevel: 5
   m_cardTypes: 32
