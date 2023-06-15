@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
     public bool campUsed = false;
     //private public MapNode _currentNode;
 
+    public static GameObject Background;
+
     #region perso
     #region Arboriste
     public int LifeArboriste = 40;
