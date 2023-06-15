@@ -394,8 +394,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Tutoriel 9/12
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
-  m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
+  m_sharedMaterial: {fileID: -8128695050805484950, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1169,8 +1169,8 @@ MonoBehaviour:
   m_text: "Lorsqu'un h\xE9ros poss\xE8de assez de v\xE9n\xE9ration, cliquez sur lui
     pour le transformer pendant le tour."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 798326c940695204c97f2621eb50c94b, type: 2}
-  m_sharedMaterial: {fileID: 2886709319468825809, guid: 798326c940695204c97f2621eb50c94b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
+  m_sharedMaterial: {fileID: -4049758276073571366, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
