@@ -2145,7 +2145,8 @@ public class Fight : MonoBehaviour
     public IEnumerator DamageNumberCorou(Vector3 objet, int damage)
     {
         GameObject texte = GameObject.Instantiate(PrefabDmgText);
-        texte.transform.position = objet;
+
+        texte.transform.position = new Vector3(objet.x, objet.y+2, objet.z);
         texte.transform.position = new Vector3(texte.transform.position.x + Random.Range(-1f, 1f), texte.transform.position.y + Random.Range(-1f, 1f), texte.transform.position.z);
         PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = "" + damage;
         yield return new WaitForSeconds(2);
