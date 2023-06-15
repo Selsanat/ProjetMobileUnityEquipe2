@@ -27,7 +27,6 @@ public class Deck : MonoBehaviour
     [SerializeField] Button UseButton;
     [SerializeField] public  Button EndTurnButton;
     [SerializeField] public Button CancelButton;
-    [SerializeField] public Button PlayButton;
     [SerializeField] int  NbCarteHandPossible;
     [SerializeField] float DecalageX;
     [SerializeField] float DecalageY;
@@ -100,20 +99,29 @@ public class Deck : MonoBehaviour
             {
                 SlidersXp[2].maxValue = herolist[0].getexperienceMAX();
                 SlidersXp[2].value = gameManager.expArboriste;
+
+                
+
             }
             else
             {
                 SlidersXp[2].maxValue = herolist[0].getexperienceMAX();
                 SlidersXp[2].value = gameManager.expPretre;
             }
-            
+            SlidersXp[2].transform.GetChild(3).GetComponent<TMP_Text>().text = SlidersXp[2].value + "/" + SlidersXp[2].maxValue;
+            gameManager.deck.SlidersXp[2].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + gameManager.levelArboriste;
+
         }
         else
         {
             SlidersXp[0].maxValue = herolist[0].getexperienceMAX();
             SlidersXp[0].value = gameManager.expArboriste;
+            SlidersXp[0].transform.GetChild(3).GetComponent<TMP_Text>().text = SlidersXp[0].value + "/" + SlidersXp[0].maxValue;
             SlidersXp[1].maxValue = herolist[1].getexperienceMAX();
             SlidersXp[1].value = gameManager.expPretre;
+            SlidersXp[1].transform.GetChild(3).GetComponent<TMP_Text>().text = SlidersXp[1].value + "/" + SlidersXp[1].maxValue;
+            gameManager.deck.SlidersXp[0].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + gameManager.levelArboriste;
+            gameManager.deck.SlidersXp[1].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + gameManager.levelPretre;
         }
     }
     void OnDrawGizmosSelected()
@@ -275,14 +283,14 @@ public class Deck : MonoBehaviour
     {
         if (gameManager.FM.perso1)
         {
-            for (int i = 0; i < gameManager.levelArboriste; i++)
+            for (int i = 0; i < gameManager.levelArboriste + 2; i++)
             {
                 if (i < 8)
                 {
                     deck.Add(deckDruid[i]);
                 }
             }
-            for (int i = 0; i < deckBaseDruid.Count() - gameManager.levelArboriste; i++)
+            for (int i = 0; i < deckBaseDruid.Count() - (gameManager.levelArboriste + 2); i++)
             {
 
                     deck.Add(deckBaseDruid[i]);
@@ -291,14 +299,14 @@ public class Deck : MonoBehaviour
         }
         if (gameManager.FM.perso2)
         {
-            for(int i = 0; i < gameManager.levelPretre; i++)
+            for(int i = 0; i < gameManager.levelPretre + 2; i++)
             {
                 if (i < 8)
                 {
                     deck.Add(deckPriest[i]);
                 }
             }
-            for (int i = 0; i < deckBasePriest.Count() - gameManager.levelPretre; i++)
+            for (int i = 0; i < deckBasePriest.Count() - (gameManager.levelPretre + 2); i++)
             {
                 deck.Add(deckBasePriest[i]);
             }
@@ -314,9 +322,8 @@ public class Deck : MonoBehaviour
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         PiocheButton.onClick.AddListener(delegate { StartCoroutine(DrawCardCoroutine()); });
-        CancelButton.onClick.AddListener(() => { CancelChosenCard(); gameManager.FM.play.onClick.RemoveAllListeners(); }) ;
+        CancelButton.onClick.AddListener(() => { CancelChosenCard();}) ;
         gameManager.deck = this;
-        gameManager.FM.play = this.PlayButton;
         gameManager.FM.cancel = this.CancelButton;
         deck.Clear();
         ConstruireDeck();
@@ -521,7 +528,6 @@ public class Deck : MonoBehaviour
     {
         StartCoroutine(DrawCardCoroutine(NombrePiocheDebutTour));
     }
-
     public void CancelChosenCard(bool TrueIfPlay)
     {
         if (gameManager.FM.CheckifEnemyAreAlive())
@@ -539,9 +545,7 @@ public class Deck : MonoBehaviour
         gameManager.CardsInteractable = true;
         gameManager.CarteUtilisee = null;
         CancelButton.gameObject.SetActive(false);
-        PlayButton.gameObject.SetActive(false);
         rearangecardslots();
-
 
         ReorderZCards();
         gameManager.FM.CancelCard();
@@ -551,8 +555,6 @@ public class Deck : MonoBehaviour
     {
         CancelChosenCard(false);
     }
-
-
     [Button]
     private void BDrawCard() {
         DrawCard();
@@ -823,6 +825,8 @@ public class Deck : MonoBehaviour
     }
     public IEnumerator TransfoCoroutine(bool trueIfDruid)
     {
+        EndTurnButton.interactable = false;
+        gameManager.CardsInteractable = false;
         StartCoroutine( TransposeTransparencyNegative(Background.gameObject));
         int index = 0;
         if (!trueIfDruid)
@@ -841,7 +845,6 @@ public class Deck : MonoBehaviour
 
         for (int i = 0; i < Hand.Count; i++)
         {
-            
             CardObject card = Hand[i];
             if (trueIfDruid == card.DataCard.isDruidCard && !card.DataCard.isBaseCard)
             {
@@ -850,29 +853,71 @@ public class Deck : MonoBehaviour
                 card.Name.text = card.DataCard.BackCard.Name;
                 card.Description.text = card.DataCard.BackCard.Description;
                 card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
-
                 card.DataCard.m_isUpsideDown = true;
-
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.BackCard.m_manaCost.ToString();
             }
-
+        }
+        for (int i = 0; i < GraveYard.Count; i++)
+        {
+            CardObject card = GraveYard[i];
+            if (trueIfDruid == card.DataCard.isDruidCard && !card.DataCard.isBaseCard)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.BackCard.Name;
+                card.Description.text = card.DataCard.BackCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
+                card.DataCard.m_isUpsideDown = true;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.BackCard.m_manaCost.ToString();
+            }
+        }
+        for (int i = 0; i < deck.Count; i++)
+        {
+            CardObject card = deck[i];
+            if (trueIfDruid == card.DataCard.isDruidCard && !card.DataCard.isBaseCard)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.BackCard.Name;
+                card.Description.text = card.DataCard.BackCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardBackSprite;
+                card.DataCard.m_isUpsideDown = true;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.BackCard.m_manaCost.ToString();
+            }
         }
         RestoreCardPosition(false);
         yield return new WaitForSeconds(0.5f);
+        EndTurnButton.interactable = true;
+        gameManager.CardsInteractable = true;
     }
     public IEnumerator DetransfoCoroutine()
     {
+        EndTurnButton.interactable = false;
+        gameManager.CardsInteractable = false;
         StartCoroutine(TransposeTransparency(Background.gameObject));
-        for(int i = 0; i < 2; i++)
+        if (GameManager.Instance.FM.perso1)
         {
-            foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[i].GetComponentsInChildren<SpriteRenderer>())
+            foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[0].GetComponentsInChildren<SpriteRenderer>())
             {
                 StartCoroutine(TransposeTransparencyNegative(sprite));
             }
-            foreach (SpriteRenderer sprite in gameManager.FM.HeroesGameObjectRef[i].GetComponentsInChildren<SpriteRenderer>())
+            foreach (SpriteRenderer sprite in gameManager.FM.HeroesGameObjectRef[0].GetComponentsInChildren<SpriteRenderer>())
             {
                 StartCoroutine(TransposeTransparency(sprite));
             }
+            if (GameManager.Instance.FM.perso2)
+            {
+                foreach (SpriteRenderer sprite in gameManager.FM.HeroesGameObjectRef[1].GetComponentsInChildren<SpriteRenderer>())
+                {
+                    StartCoroutine(TransposeTransparency(sprite));
+                }
+                foreach (SpriteRenderer sprite in gameManager.FM.HeroesAltGameObjectRef[1].GetComponentsInChildren<SpriteRenderer>())
+                {
+                    StartCoroutine(TransposeTransparencyNegative(sprite));
+                }
+            }
         }
+
         for (int i = 0; i < Hand.Count;i++)
         {
             CardObject card = Hand[i];
@@ -883,12 +928,39 @@ public class Deck : MonoBehaviour
                 card.Name.text = card.DataCard.name;
                 card.Description.text = card.DataCard.Description;
                 card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
-                card.DataCard.m_isUpsideDown = true;
-
+                card.DataCard.m_isUpsideDown = false;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.m_manaCost.ToString();
+            }
+        }
+        for (int i = 0; i < GraveYard.Count; i++)
+        {
+            CardObject card = GraveYard[i];
+            if (card.DataCard.m_isUpsideDown)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.name;
+                card.Description.text = card.DataCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
+                card.DataCard.m_isUpsideDown = false;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.m_manaCost.ToString();
+            }
+        }
+        for (int i = 0; i < deck.Count; i++)
+        {
+            CardObject card = deck[i];
+            if (card.DataCard.m_isUpsideDown)
+            {
+                StartCoroutine(TourneCarte90(card));
+                yield return new WaitForSeconds(0.25f);
+                card.Name.text = card.DataCard.name;
+                card.Description.text = card.DataCard.Description;
+                card.GetComponent<SpriteRenderer>().sprite = card.DataCard.m_cardFrontSprite;
+                card.DataCard.m_isUpsideDown = false;
+                card.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = card.DataCard.m_manaCost.ToString();
             }
         }
         RestoreCardPosition(false);
-        yield return new WaitForSeconds(0.5f);
         StartCoroutine(DiscardCoroutine(true));
     }
 }
