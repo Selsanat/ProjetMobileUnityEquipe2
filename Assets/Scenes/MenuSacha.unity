@@ -302,7 +302,7 @@ MonoBehaviour:
   m_text: "Programation\n\nBENITES L\xE9andro\nBOSTIN Cl\xE9ment\nEPRY Sacha\nROMERO
     Santino\n\n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_sharedMaterial: {fileID: -8128695050805484950, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -536,8 +536,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Swipe up a card to start
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
-  m_sharedMaterial: {fileID: -4332625848354039474, guid: 7e9e69f0cca08f34ea1975aa14f2e6d6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
+  m_sharedMaterial: {fileID: -4049758276073571366, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -676,7 +676,7 @@ MonoBehaviour:
 
     SCHULZ Floriane'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_sharedMaterial: {fileID: -8128695050805484950, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -818,7 +818,7 @@ MonoBehaviour:
 
     MANSION Vincent'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_sharedMaterial: {fileID: -8128695050805484950, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1117,7 +1117,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Return
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1824,7 +1824,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Cr\xE9dits"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_sharedMaterial: {fileID: -8128695050805484950, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
