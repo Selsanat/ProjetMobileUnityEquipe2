@@ -30,8 +30,7 @@ MonoBehaviour:
   m_FullCardExplain: 
   isDruidCard: 0
   isBaseCard: 0
-  Description: Transferez votre bloquage en soin (si vous avez 7 de block et qu'il
-    vous manque 5 points de vie, il vous restera 2 de block et on vous soignera totalement)
+  Description: Transferez votre bloquage en soin
   Name: Conversion
   m_cardFrontSprite: {fileID: 21300000, guid: 6194c8bd44e1eba449dfcf6136839778, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 4955ad69ef499e6419bc3873cbca6c4b, type: 3}

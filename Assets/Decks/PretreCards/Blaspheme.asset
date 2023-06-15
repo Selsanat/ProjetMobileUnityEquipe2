@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae1fa1b220ceaa4fae9d3d1a724796b, type: 3}
   m_Name: Blaspheme
   m_EditorClassIdentifier: 
-  m_manaCost: 3
+  m_manaCost: 2
   m_value: 0
   m_index: 0
   nombreDexecutiion: 1
