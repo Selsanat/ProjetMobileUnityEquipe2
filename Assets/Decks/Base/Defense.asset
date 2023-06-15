@@ -26,8 +26,8 @@ MonoBehaviour:
   m_isDeleteOnTurn: 0
   m_isUpsideDown: 0
   m_isBonusCard: 0
-  m_onCardExplain: "Ajoute de l'armure a un alli\xE9"
-  m_FullCardExplain: "Ajoute de l'armure a un alli\xE9"
+  m_onCardExplain: "Ajoute 3 d'armure a un alli\xE9"
+  m_FullCardExplain: "Ajoute 3 d'armure a un alli\xE9"
   isDruidCard: 0
   isBaseCard: 1
   Description: "Ajoute de l'armure a un alli\xE9"
@@ -35,4 +35,5 @@ MonoBehaviour:
   m_cardFrontSprite: {fileID: 21300000, guid: 3101242226eb37b4db58d6f3bf41ea93, type: 3}
   m_cardBackSprite: {fileID: 21300000, guid: 3101242226eb37b4db58d6f3bf41ea93, type: 3}
   BackCard: {fileID: 0}
+  Deck: {fileID: 0}
   GM: {fileID: 0}

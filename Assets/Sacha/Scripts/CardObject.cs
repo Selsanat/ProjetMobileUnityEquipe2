@@ -182,12 +182,12 @@ public class CardObject : MonoBehaviour
             
             if (transform.position.y >= gameManager.RangePourActiverCarte && gameManager.FM.mana >= costMana)   
             {
-                print(costMana);
                 gameManager.CarteUtilisee = this;
                 gameManager.FM.Cardsend(this, indexHand); 
                 Slot = this.gameObject.transform;
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true);
                 SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies);
+
 
             }
             else 
@@ -247,18 +247,6 @@ public class CardObject : MonoBehaviour
         return Sr.sprite;
     }
 
-
-
-    IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
-    {
-        for (int i =0; i <100; i++)
-        {
-            gameManager.deck.TransposeAtoB(objetABouger, position);
-            yield return null;
-        }
-        
-    }
-
     public bool getIsDeleteOnTurn()
     {
         return this.DataCard.m_isDeleteOnTurn;
@@ -270,6 +258,7 @@ public class CardObject : MonoBehaviour
 
     public IEnumerator UpdateLife(hero hero)
     {
+        print("Est ce que le hero est null " + hero);
         if (hero != null)
         {
             float TempsTransition = 5f;
