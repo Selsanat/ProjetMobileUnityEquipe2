@@ -34,16 +34,16 @@ EditorBuildSettings:
     guid: 7b20dbbacfacfe54f95ed5ee9a740d60
   - enabled: 1
     path: Assets/Scenes/Tutorial/TutoPart07.unity
-    guid: a17302f614785234680d4912aa47bffb
-  - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart08.unity
     guid: 76c5939bee50c044c954fe83356b42d2
   - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart09.unity
+    path: Assets/Scenes/Tutorial/TutoPart08.unity
     guid: 6d6189c9a1d456e46b9f0472f0f4f5d5
   - enabled: 1
+    path: Assets/Scenes/Tutorial/TutoPart09.unity
+    guid: a4b0396fc05fc914395164325952a106
+  - enabled: 1
     path: Assets/Scenes/Tutorial/TutoPart10.unity
-    guid: e17480ae1c3a12e4b83d5c1b017ccaf2
+    guid: 06a14f0c13a0ce54590a86947b2481b3
   m_configObjects:
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 9b921a98ce607514785f74d7745d1548, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: ef8126afba5961744953b54db779178b, type: 2}

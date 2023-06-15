@@ -1,22 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TutoManager : MonoBehaviour
 {
-    public string prevSceneName;
-    public string nextSceneName;
+    public string prevName;
+    public string nextName;
+    private string name;
+    public Animator animator;
 
-    public void ChangePrevScene()
+    public void ChangeScenePrev()
     {
-        SceneManager.LoadScene(prevSceneName);
+        name = prevName;
+        animator.SetTrigger("fadeout");
     }
 
-    public void ChangeNextScene()
+    public void ChangeSceneNext()
     {
-        SceneManager.LoadScene(nextSceneName);
-        
+        name = nextName;
+        animator.SetTrigger("fadeout");
+    }
+
+    public void OnFadeComplete()
+    {
+        SceneManager.LoadScene(name);
     }
 }
