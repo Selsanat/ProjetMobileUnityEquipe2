@@ -105,6 +105,7 @@ public class champSelector : MonoBehaviour
                 en.transform.localScale = new Vector3(10, 10, 10);
                 en.transform.parent = go.transform;
                 en.transform.localPosition += new Vector3(-50, 0, 0);
+                en.GetComponentInChildren<Animator>().speed = 0;
                 //ens[encount].sprite = gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_sprite;
                 go.GetComponentInChildren<TextMeshProUGUI>().text = gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_role.ToString() + " \nPV : "  + gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_Pv;
                 encount++;
