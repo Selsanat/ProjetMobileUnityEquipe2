@@ -118,6 +118,7 @@ namespace Map
                 case NodeType.EliteEnemy:
                     break;
                 case NodeType.RestSite:
+                    GameManager.Instance.campUsed = true;
                     Instance.transicampfire();
                     camera.transform.position = fireCamp.transform.position;
                     break;

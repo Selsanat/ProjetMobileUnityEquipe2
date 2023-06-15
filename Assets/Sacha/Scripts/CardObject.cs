@@ -280,6 +280,7 @@ public class CardObject : MonoBehaviour
             yield return null;
         }
         hero.m_slider.value = hero.m_Pv;
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
     }
     #region CARD EFFECTS
     public void heal(hero hero)
