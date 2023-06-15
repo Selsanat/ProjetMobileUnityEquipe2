@@ -673,7 +673,7 @@ public class Fight : MonoBehaviour
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null;//&& selectedhero != null&& ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
         
-        play.onClick.AddListener(() => { if (conditionjouer) StartCoroutine(CardAnimDisolve()); });
+        //play.onClick.AddListener(() => { if (conditionjouer) StartCoroutine(CardAnimDisolve()); });
         //[WIP]je dois le changer[WIP]
         
         if (!selectedcard.AOEEnnemies && selectedcard.TargetEnnemies)
@@ -691,6 +691,7 @@ public class Fight : MonoBehaviour
                             if(enemiesAtStartOfCombat[0].m_IsAttacking)
                             {
                                 selectedhero.Add(enemiesAtStartOfCombat[0]);
+                                StartCoroutine(CardAnimDisolve());
                                 switchLightSelection(ennemisButton1, false);
                             }
                                 
@@ -700,6 +701,7 @@ public class Fight : MonoBehaviour
                             if (!enemiesAtStartOfCombat[0].m_IsAttacking)
                             {
                                 selectedhero.Add(enemiesAtStartOfCombat[0]);
+                                StartCoroutine(CardAnimDisolve());
                                 switchLightSelection(ennemisButton1, false);
                             }
 
@@ -707,6 +709,7 @@ public class Fight : MonoBehaviour
                         else
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[0]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton1, false);
                         }
 
@@ -722,6 +725,7 @@ public class Fight : MonoBehaviour
                         if (enemiesAtStartOfCombat[0].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[0]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton1, false);
                         }
 
@@ -731,6 +735,7 @@ public class Fight : MonoBehaviour
                         if (!enemiesAtStartOfCombat[0].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[0]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton1, false);
                         }
 
@@ -738,6 +743,7 @@ public class Fight : MonoBehaviour
                     else
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[0]);
+                        StartCoroutine(CardAnimDisolve());
                         switchLightSelection(ennemisButton1, false);
                     }
                 }
@@ -753,6 +759,7 @@ public class Fight : MonoBehaviour
                         if (enemiesAtStartOfCombat[1].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[1]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton2, false);
                         }
 
@@ -762,6 +769,7 @@ public class Fight : MonoBehaviour
                         if (!enemiesAtStartOfCombat[1].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[1]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton2, false);
                         }
 
@@ -769,6 +777,7 @@ public class Fight : MonoBehaviour
                     else
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[1]);
+                        StartCoroutine(CardAnimDisolve());
                         switchLightSelection(ennemisButton2, false);
                     }
                 }
@@ -779,6 +788,7 @@ public class Fight : MonoBehaviour
                         if (enemiesAtStartOfCombat[1].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[1]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton2, false);
                         }
 
@@ -788,6 +798,7 @@ public class Fight : MonoBehaviour
                         if (!enemiesAtStartOfCombat[1].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[1]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton2, false);
                         }
 
@@ -796,6 +807,7 @@ public class Fight : MonoBehaviour
                     else
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[1]);
+                        StartCoroutine(CardAnimDisolve());
                         switchLightSelection(ennemisButton2, false);
                     }
                 }
@@ -836,6 +848,7 @@ public class Fight : MonoBehaviour
                         if (enemiesAtStartOfCombat[2].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[2]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton3, false);
                         }
 
@@ -845,6 +858,7 @@ public class Fight : MonoBehaviour
                         if (!enemiesAtStartOfCombat[2].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[2]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton3, false);
                         }
 
@@ -852,6 +866,7 @@ public class Fight : MonoBehaviour
                     else
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[2]);
+                        StartCoroutine(CardAnimDisolve());
                         switchLightSelection(ennemisButton3, false);
                     }
                 }
@@ -877,13 +892,14 @@ public class Fight : MonoBehaviour
                     }
                     
                 }
+                StartCoroutine(CardAnimDisolve());
             }
         }
         if (!selectedcard.AOEAllies && selectedcard.TargetAllies)
         {
 
-            arboristeButton?.onClick.AddListener(() => { ClearSide(true); switchLightSelection(arboristeButton, true); if (perso2 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]);});
-            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton, true); ClearSide(true); selectedhero.Add(heroes[0]); });
+            arboristeButton?.onClick.AddListener(() => { ClearSide(true); switchLightSelection(arboristeButton, true); if (perso2 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); StartCoroutine(CardAnimDisolve()); });
+            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton, true); ClearSide(true); selectedhero.Add(heroes[0]); StartCoroutine(CardAnimDisolve()); });
         }
         else
         {
@@ -894,6 +910,7 @@ public class Fight : MonoBehaviour
                     selectedhero.Add(hero);
                     ActivateSideLights(true);
                 }
+                StartCoroutine(CardAnimDisolve());
             }
         }
         coroutine = StartCoroutine(turnwait());
@@ -1328,10 +1345,15 @@ public class Fight : MonoBehaviour
     }
     IEnumerator LoseFinalFight()
     {
+        
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
         }
+        isFirstTurn = true;
+        isApo = false;
+        isCanibalisme = false;
+        isProf = false;
         ResetAll();
         Gm.winoulose = false;
         Gm.transi.Play("Transi");
@@ -1358,7 +1380,11 @@ public class Fight : MonoBehaviour
         {
             StopCoroutine(coroutine);
         }
-        
+        isFirstTurn = true;
+        isApo = false;
+        isCanibalisme = false;
+        isProf = false;
+
         ResetAll();
         Gm.SaveData();
         Gm.transi.Play("Transi");
@@ -1626,8 +1652,10 @@ public class Fight : MonoBehaviour
         Gm.deck.SetBonneBarreXp(heroes);
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
         isFirstTurn = true;
+        isApo = false;
+        isCanibalisme = false;
+        isProf = false;
         StartCoroutine(XpLerp());
-
         MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
         MapPlayerTracker.Instance.mapManager.SaveMap();
     }
