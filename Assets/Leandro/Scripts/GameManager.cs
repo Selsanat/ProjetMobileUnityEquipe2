@@ -34,11 +34,9 @@ public class GameManager : MonoBehaviour
     public int waveCounter = 0;
     public bool isManaMultiplier = false;
     public bool needToResetMap = false;
-    
     public int manaMultiplier = 0;
     public bool isAbsolution = false;
     public bool winoulose;
-
     public bool isHoverButton = false;
     public Animator transi;
     public bool AnimAtk = false;

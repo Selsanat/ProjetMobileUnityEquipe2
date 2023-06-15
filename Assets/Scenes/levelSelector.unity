@@ -37460,6 +37460,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 8de835b83ffd3424c9bb8c14fdd7dfca, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
+--- !u!1 &935894368 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6903154555705509218, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
+  m_PrefabInstance: {fileID: 935894367}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &991268578
 GameObject:
   m_ObjectHideFlags: 0
@@ -38229,12 +38234,124 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
   m_PrefabInstance: {fileID: 935894367}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 935894368}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1b37ee88dc88a24da22f26519d69421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!81 &1081757120
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935894368}
+  m_Enabled: 1
+--- !u!114 &1081757121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935894368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f253b76c0eafb640b0794e5a64b0297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixerGroup: {fileID: 24300002, guid: 703b79b768509b24a906b07ec8c3e066, type: 2}
+  sounds:
+  - name: Click
+    clip: {fileID: 8300000, guid: 394dd26dd47ebd041abc1df444d15f53, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Draw 1
+    clip: {fileID: 8300000, guid: 2c6bbdc796455aa4988bc4dc7df9687e, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Draw 2
+    clip: {fileID: 8300000, guid: 9254243a98ef5644bb7e66b4da16008c, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Coup Epee
+    clip: {fileID: 8300000, guid: cb1f13b0058afc84ba8cfe1775159f68, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Dragon Cri
+    clip: {fileID: 8300000, guid: 239b15195e2142445ba4398c18132820, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Dragon Ronflement
+    clip: {fileID: 8300000, guid: 7525636c7859fc648bcdac33cb6c2d17, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Demon Attaque
+    clip: {fileID: 8300000, guid: 87a6cd932f9654841bf13591e62db77f, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Ver Attaque
+    clip: {fileID: 8300000, guid: 82de751c93f3dcc4ead87f3bcc8148bd, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Gargouille Attaque
+    clip: {fileID: 8300000, guid: 58a2100633c5df440b2bca39dcc18356, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Chien Attaque
+    clip: {fileID: 8300000, guid: c073ff0a74b5fe249b20837144be758a, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Squelette Attaque
+    clip: {fileID: 8300000, guid: 1abf0800b4f9b664fa9156f06abf0ca7, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Arboriste Sort
+    clip: {fileID: 8300000, guid: 7b72daf0cad940149a88e94acbd75919, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Pretre Sort
+    clip: {fileID: 8300000, guid: 22d00832f7798e244b1ace37ea6e34df, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Pretre Transfo
+    clip: {fileID: 8300000, guid: 345269b50fc85f4409a6e608130ecfc9, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Pretre Transfo 1
+    clip: {fileID: 8300000, guid: 14d02ed9845074f4384ce05126cdff35, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Druide Transfo
+    clip: {fileID: 8300000, guid: ee11f08e9c69863449d171f3c0998dcc, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Ambiance 1
+    clip: {fileID: 8300000, guid: 68ce11f2a73f0ee498a85db20aac49b8, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
+  - name: Ambiance 2
+    clip: {fileID: 8300000, guid: b371c89e7a577dc44983d34a7a9ba8aa, type: 3}
+    volume: 0.5
+    pitch: 0
+    source: {fileID: 0}
 --- !u!1001 &1105916876
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50756,6 +50873,7 @@ GameObject:
   - component: {fileID: 1723415120}
   - component: {fileID: 1723415122}
   - component: {fileID: 1723415121}
+  - component: {fileID: 1723415123}
   m_Layer: 0
   m_Name: TransiLevel
   m_TagString: Untagged
@@ -50811,6 +50929,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8307db09b362d41ac32e64e067e062, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!81 &1723415123
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723415119}
+  m_Enabled: 1
 --- !u!1 &1728991371
 GameObject:
   m_ObjectHideFlags: 0
