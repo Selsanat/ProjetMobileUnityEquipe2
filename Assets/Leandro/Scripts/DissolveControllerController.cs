@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
 using Color = UnityEngine.Color;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DissolveControllerController : MonoBehaviour
 {
@@ -265,5 +266,10 @@ public class DissolveControllerController : MonoBehaviour
         Textitre.text = "Vous avez succombé";
         yield return TransposeTextColo();
         StartCoroutine(Ecrit("Les monstres sans pitié dévorent votre chair et broient votre espoir, laissant derrière eux un tableau grotesque d'agonie et de désolation."));
+        yield return new WaitUntil(() => Input.GetMouseButton(0));
+        GameManager.Instance.transi.Play("Transi");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(0);
+        GameManager.Instance.transi.Play("Detransi");
     }
 }

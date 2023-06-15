@@ -63,6 +63,7 @@ public class entityManager : MonoBehaviour
     [SerializeField] public Slider m_slider;
     [SerializeField] public Transform m_buffs;
     [SerializeField] public TextMeshProUGUI stockText;
+    [SerializeField] public TextMeshProUGUI pvText;
     [SerializeField] public Image Armor;
     [SerializeField] public TextMeshProUGUI ArmorText;
     [SerializeField] protected Deck m_deck;
