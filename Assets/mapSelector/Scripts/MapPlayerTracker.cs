@@ -21,9 +21,7 @@ namespace Map
         public Tower Tower;
         public MapNode _currentNode;
         public Transform background;
-        public Transform camera;
-        public Transform fireCamp;
-        public Transform tower;
+        private Coroutine inst;
 
         public static MapPlayerTracker Instance;
 
@@ -101,7 +99,11 @@ namespace Map
             mapManager.SaveMap();
             
         }
-
+        IEnumerator Wait()
+        {
+            yield return new WaitForSeconds(1);
+            background.gameObject.SetActive(false);
+        }
         private void EnterNode(MapNode mapNode)
         {
             // we have access to blueprint name here as well
@@ -109,7 +111,11 @@ namespace Map
             // load appropriate scene with context based on nodeType:
             // or show appropriate GUI over the map: 
             // if you choose to show GUI in some of these cases, do not forget to set "Locked" in MapPlayerTracker back to false
-            background.gameObject.SetActive(false);
+            if (inst != null)
+            {
+                StopCoroutine(inst);
+            }
+            inst = StartCoroutine(Wait());
             switch (mapNode.Node.nodeType)
             {
                 case NodeType.MinorEnemy:
@@ -120,7 +126,6 @@ namespace Map
                 case NodeType.RestSite:
                     GameManager.Instance.campUsed = true;
                     Instance.transicampfire();
-                    camera.transform.position = fireCamp.transform.position;
                     break;
                 case NodeType.Treasure:
                     break;

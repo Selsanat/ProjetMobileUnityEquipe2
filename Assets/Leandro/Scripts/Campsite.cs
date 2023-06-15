@@ -42,7 +42,7 @@ public class Campsite : MonoBehaviour
                 gameManager.LifePretre = 50;
             str += "" + gameManager.LifePretre;
         }
-        str += "PV) Cliquer pour continuer";
+        str += "PV)\nCliquer pour continuer";
         if (inst != null)
         {
             StopCoroutine(inst);
@@ -110,9 +110,9 @@ public class Campsite : MonoBehaviour
     {
         druide.gameObject.SetActive(true);
         pretre.gameObject.SetActive(true);
-        float TempsTransition = TempsTrans;
-        float timeElapsed = 0;
-        if (isDruid)
+        /*float TempsTransition = TempsTrans;
+        float timeElapsed = 0;*/
+/*        if (isDruid)
         {
             while (timeElapsed < TempsTransition)
             {
@@ -131,7 +131,7 @@ public class Campsite : MonoBehaviour
                 timeElapsed += Time.deltaTime;
                 yield return null;
             }
-        }
+        }*/
         if (isDruid)
         {
             pretre.intensity = 0;
@@ -139,12 +139,13 @@ public class Campsite : MonoBehaviour
             pretre.gameObject.SetActive(false);
             string str = "Soignez le druide ? (";
             str += "" + gameManager.LifeArboriste;
-            str += "PV) Cliquer pour continuer. . .";
+            str += "PV)\nCliquer pour continuer. . .";
             if (inst != null)
             {
                 StopCoroutine(inst);
             }
             inst = StartCoroutine(Ecrit(str));
+            yield return null;
         }
         else
         {
@@ -153,12 +154,13 @@ public class Campsite : MonoBehaviour
             druide.gameObject.SetActive(false);
             string str = "Soignez le pretre ? (";
             str += "" + gameManager.LifePretre;
-            str += "PV) Cliquer pour continuer. . .";
+            str += "PV)\nCliquer pour continuer. . .";
             if (inst != null)
             {
                 StopCoroutine(inst);
             }
             inst = StartCoroutine(Ecrit(str));
+            yield return null;
         }
     }
 }
