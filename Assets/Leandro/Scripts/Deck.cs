@@ -27,7 +27,6 @@ public class Deck : MonoBehaviour
     [SerializeField] Button UseButton;
     [SerializeField] public  Button EndTurnButton;
     [SerializeField] public Button CancelButton;
-    [SerializeField] public Button PlayButton;
     [SerializeField] int  NbCarteHandPossible;
     [SerializeField] float DecalageX;
     [SerializeField] float DecalageY;
@@ -284,14 +283,14 @@ public class Deck : MonoBehaviour
     {
         if (gameManager.FM.perso1)
         {
-            for (int i = 0; i < gameManager.levelArboriste; i++)
+            for (int i = 0; i < gameManager.levelArboriste + 2; i++)
             {
                 if (i < 8)
                 {
                     deck.Add(deckDruid[i]);
                 }
             }
-            for (int i = 0; i < deckBaseDruid.Count() - gameManager.levelArboriste; i++)
+            for (int i = 0; i < deckBaseDruid.Count() - (gameManager.levelArboriste + 2); i++)
             {
 
                     deck.Add(deckBaseDruid[i]);
@@ -300,14 +299,14 @@ public class Deck : MonoBehaviour
         }
         if (gameManager.FM.perso2)
         {
-            for(int i = 0; i < gameManager.levelPretre; i++)
+            for(int i = 0; i < gameManager.levelPretre + 2; i++)
             {
                 if (i < 8)
                 {
                     deck.Add(deckPriest[i]);
                 }
             }
-            for (int i = 0; i < deckBasePriest.Count() - gameManager.levelPretre; i++)
+            for (int i = 0; i < deckBasePriest.Count() - (gameManager.levelPretre + 2); i++)
             {
                 deck.Add(deckBasePriest[i]);
             }
@@ -323,9 +322,8 @@ public class Deck : MonoBehaviour
         gameManager.RangePourActiverCarte = RangePourActiverCarte;
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         PiocheButton.onClick.AddListener(delegate { StartCoroutine(DrawCardCoroutine()); });
-        CancelButton.onClick.AddListener(() => { CancelChosenCard(); gameManager.FM.play.onClick.RemoveAllListeners(); }) ;
+        CancelButton.onClick.AddListener(() => { CancelChosenCard();}) ;
         gameManager.deck = this;
-        gameManager.FM.play = this.PlayButton;
         gameManager.FM.cancel = this.CancelButton;
         deck.Clear();
         ConstruireDeck();
@@ -547,7 +545,6 @@ public class Deck : MonoBehaviour
         gameManager.CardsInteractable = true;
         gameManager.CarteUtilisee = null;
         CancelButton.gameObject.SetActive(false);
-        PlayButton.gameObject.SetActive(false);
         rearangecardslots();
 
         ReorderZCards();

@@ -187,7 +187,6 @@ public class CardObject : MonoBehaviour
                 gameManager.FM.Cardsend(this, indexHand); 
                 Slot = this.gameObject.transform;
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true);
-                FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true);
                 SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies);
 
             }

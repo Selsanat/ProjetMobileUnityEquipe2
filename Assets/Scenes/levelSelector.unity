@@ -37284,7 +37284,7 @@ PrefabInstance:
       objectReference: {fileID: 1723415121}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: LifePretre
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: levelPretre
@@ -37296,7 +37296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: LifeArboriste
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6903154555705509229, guid: 8ec54a5fb219d9c448088d849e208568, type: 3}
       propertyPath: IsPretrePlayed
