@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static Cinemachine.DocumentationSortingAttribute;
 using static Unity.Burst.Intrinsics.Arm;
 
 public class hero : entityManager
@@ -70,6 +71,7 @@ public class hero : entityManager
         m_mana = mana;
         m_armor = 0;
         m_level = 0;
+        m_experienceMax = 5;
         m_experience = 0;
         m_venerate = venerate;
         int a = Random.Range(0, 1);
@@ -87,7 +89,7 @@ public class hero : entityManager
 
 
     }
-    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int level, int experience, int experienceMax=4)
+    public hero(Role role, int maxPV, int Pv, int attack, int nerf, Deck deck, int mana, int level, int experience, int experienceMax=5)
     {
         m_role = role;
         m_maxPv = maxPV;
@@ -101,7 +103,7 @@ public class hero : entityManager
         m_armor = 0;
         m_level = level;
         m_experience = experience;
-        m_experienceMax = 4+(level*2);
+        m_experienceMax = 5 + (level);
         if(m_role == Role.Arboriste)
             m_manaMax = 6;
         else
@@ -174,7 +176,7 @@ public class hero : entityManager
     {
         m_level++;
         m_experience -= m_experienceMax;
-        //m_experienceMax += 2;
+        m_experienceMax++;
         if (this.m_role == Role.Arboriste)
         {
             gameManager.expArboriste = m_experience;
@@ -263,6 +265,7 @@ public class hero : entityManager
     #region IA
     public void chienIA(List<hero> heroesToAttack, bool fight)
     {
+        
         if (this.isAlive == false)
             return;
         var tempColor = m_spriteTypeAttack.color;
@@ -358,7 +361,6 @@ public class hero : entityManager
                 gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, Camera.main.ScreenToWorldPoint(randomHero.m_slider.transform.position));
                 randomHero.m_isDebufArmor = true;
                 Debug.Log("debuff armor");
-
             }
             else if (ChienthridAttack >= randomAttack) //booste la force
             {
@@ -366,7 +368,6 @@ public class hero : entityManager
                 gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, gameManager.deck.AoeEmplacement.position);
                 Chiendmg++;
                 ChienAOEDmg++;
-
             }
             else if (ChiensecondAttack >= randomAttack) //attaque tout les allier
             {
@@ -382,8 +383,6 @@ public class hero : entityManager
             {
                 hero temp = heroesToAttack[0];
                 m_IsAttacking = false;
-
-
                 if (randomHero.getIsAlive() == true)
                 {
                     randomHero.takeDamage(Chiendmg);

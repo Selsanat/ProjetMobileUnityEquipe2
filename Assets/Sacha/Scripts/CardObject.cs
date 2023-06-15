@@ -159,6 +159,7 @@ public class CardObject : MonoBehaviour
         rendeureur.sortingOrder = 10;
         canvas.sortingOrder = 10;
         HideHandExceptThis();
+
     }
 
     [Button]
@@ -181,19 +182,16 @@ public class CardObject : MonoBehaviour
             
             if (transform.position.y >= gameManager.RangePourActiverCarte && gameManager.FM.mana >= costMana)   
             {
-                print(costMana);
                 gameManager.CarteUtilisee = this;
                 gameManager.FM.Cardsend(this, indexHand); 
                 Slot = this.gameObject.transform;
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true);
-                FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true);
                 SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies);
+
 
             }
             else 
             {
-
-
                 if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect && transform.position.y < gameManager.RangePourActiverCarte)
                 {
                     gameManager.InspectUI.UI.SetActive(true);
@@ -222,6 +220,7 @@ public class CardObject : MonoBehaviour
 
             }
         }
+
         gameManager.HasCardInHand = false;
 
     }
@@ -248,18 +247,6 @@ public class CardObject : MonoBehaviour
         return Sr.sprite;
     }
 
-
-
-    IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
-    {
-        for (int i =0; i <100; i++)
-        {
-            gameManager.deck.TransposeAtoB(objetABouger, position);
-            yield return null;
-        }
-        
-    }
-
     public bool getIsDeleteOnTurn()
     {
         return this.DataCard.m_isDeleteOnTurn;
@@ -271,13 +258,18 @@ public class CardObject : MonoBehaviour
 
     public IEnumerator UpdateLife(hero hero)
     {
-        float TempsTransition = 5f;
-        float timeElapsed = 0;
-        while (timeElapsed < TempsTransition)
+        print("Est ce que le hero est null " + hero);
+        if (hero != null)
         {
-            hero.m_slider.value = Mathf.Lerp(hero.m_slider.value, hero.m_Pv, Time.deltaTime);
-            timeElapsed += Time.deltaTime;
-            yield return null;
+            float TempsTransition = 5f;
+            float timeElapsed = 0;
+            while (timeElapsed < TempsTransition)
+            {
+                hero.m_slider.value = Mathf.Lerp(hero.m_slider.value, hero.m_Pv, Time.deltaTime);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+            hero.m_slider.value = hero.m_Pv;
         }
         hero.m_slider.value = hero.m_Pv;
         hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
@@ -305,6 +297,7 @@ public class CardObject : MonoBehaviour
             }
 
         }
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
         StartCoroutine(UpdateLife(hero));
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
 
@@ -319,7 +312,6 @@ public class CardObject : MonoBehaviour
             hero.setPv(hero.getMaxPv());
 
         print("health apr�s : " + hero.getPv());
-
         if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
@@ -329,17 +321,23 @@ public class CardObject : MonoBehaviour
                     takeDamage(enemy, value);
                 }
             }
-
         }
-        StartCoroutine(UpdateLife(hero));
-        StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
-
+        if (hero != null)
+        {
+            StartCoroutine(UpdateLife(hero));
+            StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
+        }
+        else
+        {
+            print("Hero is null, can't update life sadly");
+        }
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
     }
 
     public void takeDamage(hero hero, int value)
     {
         print("dmg : " + value);
-
+        print("pv avant : " + hero.getPv());
         GameObject Placeholder = new GameObject();
         Placeholder.transform.position = Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position);
         GameManager.Instance.FM.DamageNumber(Placeholder, value);
@@ -356,6 +354,8 @@ public class CardObject : MonoBehaviour
             value = 0;
 
         hero.m_Pv -= value * hero.m_damageMultiplier;
+        print("pv apr�s : " + hero.getPv());
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
         StartCoroutine(UpdateLife(hero));
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
 
@@ -822,13 +822,11 @@ public class CardObject : MonoBehaviour
         
         AddArmor(ally, 7);
     }
-
     public void CommunionNature() 
     {
         GameManager.Instance.FM.venerations += 2;
         GameManager.Instance.manaMultiplier += 3;
     }
-
     public void Canibalisme() // voir si int�gr�
     {
         GameManager.Instance.FM.isCanibalisme = true;
@@ -845,9 +843,6 @@ public class CardObject : MonoBehaviour
                 return;
             }
         }
-
-
-
     }
     public void ProfanerCiel() // voir si int�gr�
     {
@@ -860,7 +855,6 @@ public class CardObject : MonoBehaviour
             hero.stockText.text = hero.m_mana + " / " + hero.m_manaMax;
             
         }
-
     }
     public void DormirPresDeLautre(hero ally)
     {
