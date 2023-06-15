@@ -308,6 +308,7 @@ public class CardObject : MonoBehaviour
             }
 
         }
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
         StartCoroutine(UpdateLife(hero));
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
 
@@ -335,12 +336,13 @@ public class CardObject : MonoBehaviour
         if (hero != null)
         {
             StartCoroutine(UpdateLife(hero));
-        StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
+            StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
         }
         else
         {
             print("Hero is null, can't update life sadly");
         }
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
     }
 
     public void takeDamage(hero hero, int value)

@@ -118,6 +118,7 @@ public class GameManager : MonoBehaviour
         wave10();
         wave11();
         wave12();
+        SaveData();
         string path = Application.persistentDataPath + "/saveData.fun";
         if (File.Exists(path))
         {
