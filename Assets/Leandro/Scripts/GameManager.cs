@@ -45,9 +45,11 @@ public class GameManager : MonoBehaviour
     public bool campUsed = false;
     //private public MapNode _currentNode;
 
+    public static GameObject Background;
+
     #region perso
     #region Arboriste
-    public int LifeArboriste = 20;
+    public int LifeArboriste = 40;
     public bool IsArboristePlayed = false;
     public int levelArboriste = 0;
     public int expArboriste = 0;
@@ -56,7 +58,7 @@ public class GameManager : MonoBehaviour
 
     #region Pretre
 
-    public int LifePretre = 20;
+    public int LifePretre = 40;
     public bool IsPretrePlayed = false;
     public int levelPretre = 0;
     public int expPretre = 0;
@@ -118,6 +120,7 @@ public class GameManager : MonoBehaviour
         wave10();
         wave11();
         wave12();
+        SaveData();
         string path = Application.persistentDataPath + "/saveData.fun";
         if (File.Exists(path))
         {
