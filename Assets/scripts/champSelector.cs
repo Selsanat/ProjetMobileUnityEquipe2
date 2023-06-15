@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEditor;
 using Unity.VisualScripting;
+using UnityEngine.U2D.IK;
 
 public class champSelector : MonoBehaviour
 {
@@ -15,8 +16,11 @@ public class champSelector : MonoBehaviour
     public Button buttonArboriste;
     public Button buttonPretre;
 
-    public GameObject lightpretre;
-    public GameObject lightarbo;
+    public GameObject unselectpre;
+    public GameObject unselectabro;
+
+    public GameObject selecPretre;
+    public GameObject selecarbo;
 
     public Button start;
     public Sprite notSelectedArboriste;
@@ -39,7 +43,8 @@ public class champSelector : MonoBehaviour
             return;
 
         selectedArboriste = !selectedArboriste;
-        lightarbo.gameObject.SetActive(!selectedArboriste);
+        unselectabro.gameObject.SetActive(!selectedArboriste);
+        selecarbo.gameObject.SetActive(selectedArboriste);
 
         print(selectedArboriste);
         
@@ -50,7 +55,9 @@ public class champSelector : MonoBehaviour
             return;
 
         selectedPretre = !selectedPretre;
-        lightpretre.gameObject.SetActive(!selectedPretre);
+
+        selecPretre.gameObject.SetActive(selectedPretre);
+        unselectpre.gameObject.SetActive(!selectedPretre);
 
         print(selectedPretre);
         
@@ -97,6 +104,7 @@ public class champSelector : MonoBehaviour
                 GameObject en = Instantiate(gameManager.allWave[gameManager.waveCounter][wavetype][encount].prefab, go.transform);
                 en.transform.localScale = new Vector3(10, 10, 10);
                 en.transform.parent = go.transform;
+                en.GetComponentInChildren<Animator>().speed = 0;
                 en.transform.localPosition += new Vector3(-50, 0, 0);
                 //ens[encount].sprite = gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_sprite;
                 go.GetComponentInChildren<TextMeshProUGUI>().text = gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_role.ToString() + " \nPV : "  + gameManager.allWave[gameManager.waveCounter][wavetype][encount].m_Pv;

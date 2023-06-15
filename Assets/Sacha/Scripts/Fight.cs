@@ -46,7 +46,6 @@ public class Fight : MonoBehaviour
     bool test = false;
     private bool isFirstTurn = true;
     private int ennemisTues = 0;
-    [SerializeField] public Button play;
     [SerializeField] public Button cancel;
     [SerializeField] public Button arboristeButton;
     [SerializeField] public Button pretreButton;
@@ -268,12 +267,12 @@ public class Fight : MonoBehaviour
     {
         if(isChamp == false)
         {
-            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(5).gameObject.GetComponent<Light2D>();
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(6).gameObject.GetComponent<Light2D>();
             lightDuBoutton.enabled = true;
         }
         else
         {
-            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(1).gameObject.GetComponent<Light2D>();
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(2).gameObject.GetComponent<Light2D>();
             lightDuBoutton.enabled = true;
         }
         
@@ -285,8 +284,6 @@ public class Fight : MonoBehaviour
         {
             mana -= Gm.CarteUtilisee.DataCard.m_manaCost; 
             manaText.text = mana.ToString();
-            play.onClick.RemoveAllListeners();
-            play.gameObject.SetActive(false);
             cancel.gameObject.SetActive(false);
             DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
             Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
@@ -296,6 +293,8 @@ public class Fight : MonoBehaviour
             dissolveController.dissolveAmount = 1;
             Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
             isCardSend = true;
+
+            
         }
     }
     #endregion
@@ -319,21 +318,21 @@ public class Fight : MonoBehaviour
 
             if (Gm.IsPretrePlayed == false)
             {
-                H1 = new hero(entityManager.Role.Pretre, 20, 20, 0, 0, null, 0, 0);
+                H1 = new hero(entityManager.Role.Pretre, 40, 40, 0, 0, null, 0, 0);
                 Gm.LifePretre = H1.getPv();
                 Gm.IsPretrePlayed = true;
             }
             else
-                H1 = new hero(entityManager.Role.Pretre, 20, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
+                H1 = new hero(entityManager.Role.Pretre, 40, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
                 
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 20, 20, 0, 0, null, 0, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 40, 40, 0, 0, null, 0, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
             }
             else
-                H2 = new hero(entityManager.Role.Arboriste, 20, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
+                H2 = new hero(entityManager.Role.Arboriste, 40, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
 
             temp = GameObject.Find("champ");
             temp.GetComponent<Image>().sprite = heroSprite;
@@ -343,6 +342,8 @@ public class Fight : MonoBehaviour
             H2.m_slider = temp.GetComponentInChildren<Slider>();
             H2.m_slider.maxValue = H2.getMaxPv();
             H2.m_slider.value = H2.getPv();
+            H2.pvText = GameObject.Find("pvChamp").GetComponent<TextMeshProUGUI>();
+            H2.pvText.text = H2.getPv().ToString() + " / " + H2.getMaxPv().ToString();
             H2.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H2.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H2.Armor = H2.ArmorText.transform.parent.gameObject.GetComponent<Image>();
@@ -357,6 +358,8 @@ public class Fight : MonoBehaviour
             H1.m_slider = temp.GetComponentInChildren<Slider>();
             H1.m_slider.maxValue = H1.getMaxPv();
             H1.m_slider.value = H1.getPv();
+            H1.pvText = GameObject.Find("pvChamp2").GetComponent<TextMeshProUGUI>();
+            H1.pvText.text = H1.getPv().ToString() + " / " + H1.getMaxPv().ToString();
             H1.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H1.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H1.Armor = H1.ArmorText.transform.parent.gameObject.GetComponent<Image>();
@@ -377,17 +380,19 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(arboristeButton, PrefabHeroes[0], true, 0.16f, PrefabHeroesalt[0]);
             if (Gm.IsArboristePlayed == false)
             {
-                H2 = new hero(entityManager.Role.Arboriste, 50, 50, 0, 0, null, 0, 0);
+                H2 = new hero(entityManager.Role.Arboriste, 40, 40, 0, 0, null, 0, 0);
                 Gm.LifeArboriste = H2.getPv();
                 Gm.IsArboristePlayed = true;
             }
             else
-                H2 = new hero(entityManager.Role.Arboriste, 50, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
+                H2 = new hero(entityManager.Role.Arboriste, 40, Gm.LifeArboriste, 0, 0, null, 0, Gm.levelArboriste, Gm.expArboriste);
 
 
             H2.m_slider = temp.GetComponentInChildren<Slider>();
             H2.m_slider.maxValue = H2.getMaxPv();
             H2.m_slider.value = H2.getPv();
+            H2.pvText = GameObject.Find("pvChampSolo").GetComponent<TextMeshProUGUI>();
+            H2.pvText.text = H2.getPv().ToString() + " / " + H2.getMaxPv().ToString();
             H2.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H2.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H2.Armor = H2.ArmorText.transform.parent.gameObject.GetComponent<Image>();
@@ -407,16 +412,18 @@ public class Fight : MonoBehaviour
             ChangerBouttonEnGameObject(pretreButton, PrefabHeroes[1], true, 0.20f, PrefabHeroesalt[1]);
             if (Gm.IsPretrePlayed == false)
             {
-                H1 = new hero(entityManager.Role.Pretre, 50, 50, 0, 0, null, 0, 0);
+                H1 = new hero(entityManager.Role.Pretre, 40, 40, 0, 0, null, 0, 0);
                 Gm.LifePretre = H1.getPv();
                 Gm.IsPretrePlayed = true;
             }
             else
-                H1 = new hero(entityManager.Role.Pretre, 50, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
+                H1 = new hero(entityManager.Role.Pretre, 40, Gm.LifePretre, 0, 0, null, 0, Gm.levelPretre, Gm.expPretre);
 
             H1.m_slider = temp.GetComponentInChildren<Slider>();
             H1.m_slider.maxValue = H1.getMaxPv();
             H1.m_slider.value = H1.getPv();
+            H1.pvText = GameObject.Find("pvChampSolo").GetComponent<TextMeshProUGUI>();
+            H1.pvText.text = H1.getPv().ToString() + " / " + H1.getMaxPv().ToString();
             H1.stockText = temp.GetComponentInChildren<TextMeshProUGUI>();
             H1.ArmorText = temp.GetComponentsInChildren<TextMeshProUGUI>()[1];
             H1.Armor = H1.ArmorText.transform.parent.gameObject.GetComponent<Image>();
@@ -438,10 +445,13 @@ public class Fight : MonoBehaviour
             en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
+            temp.GetComponent<Image>().rectTransform.sizeDelta = Gm.allWave[Gm.waveCounter][waveType][0].m_sprite.bounds.size * 100f;
             ennemisButton1 = temp.GetComponent<Button>();
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
             en1.m_slider.value = en1.getPv();
+            en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
+            en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -460,6 +470,8 @@ public class Fight : MonoBehaviour
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
             en1.m_slider.value = en1.getPv();
+            en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
+            en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -474,6 +486,8 @@ public class Fight : MonoBehaviour
             En2.m_slider = temp.GetComponentInChildren<Slider>();
             En2.m_slider.maxValue = En2.getMaxPv();
             En2.m_slider.value = En2.getPv();
+            En2.pvText = GameObject.Find("pvEn2").GetComponent<TextMeshProUGUI>();
+            En2.pvText.text = En2.getPv().ToString() + " / " + En2.getMaxPv().ToString();
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -493,6 +507,8 @@ public class Fight : MonoBehaviour
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
             en1.m_slider.value = en1.getPv();
+            en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
+            en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -507,6 +523,8 @@ public class Fight : MonoBehaviour
             En2.m_slider = temp.GetComponentInChildren<Slider>();
             En2.m_slider.maxValue = En2.getMaxPv();
             En2.m_slider.value = En2.getPv();
+            En2.pvText = GameObject.Find("pvEn2").GetComponent<TextMeshProUGUI>();
+            En2.pvText.text = En2.getPv().ToString() + " / " + En2.getMaxPv().ToString();
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -522,6 +540,8 @@ public class Fight : MonoBehaviour
             En3.m_slider = temp.GetComponentInChildren<Slider>();
             En3.m_slider.maxValue = En3.getMaxPv();
             En3.m_slider.value = En3.getPv();
+            En3.pvText = GameObject.Find("pvEn3").GetComponent<TextMeshProUGUI>();
+            En3.pvText.text = En3.getPv().ToString() + " / " + En3.getMaxPv().ToString();
             En3.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             En3.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En3.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -578,16 +598,18 @@ public class Fight : MonoBehaviour
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
                 arboristeButton.interactable = true;
-                arboristeButton.onClick.AddListener(() => { if (Gm.CardsInteractable) { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; } });
+                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); });
 
             }
             else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
             {
                 pretreButton.interactable = true;
-                pretreButton.onClick.AddListener(() => { if (Gm.CardsInteractable) { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; } });
+                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); });
                 
 
             }
+            if (isPretreTransform && isArboTransform)
+                Gm.TranscendanceBothHeroAchivement();
         }
         
 
@@ -651,7 +673,7 @@ public class Fight : MonoBehaviour
         //[WIP]je dois le changer[WIP]
         bool conditionjouer = Gm.CarteUtilisee != null;//&& selectedhero != null&& ((selectedcard.AOEAllies && !selectedcard.TargetEnnemies) || (selectedcard.AOEEnnemies && !selectedcard.TargetAllies));
         
-        play.onClick.AddListener(() => { if (conditionjouer) StartCoroutine(CardAnimDisolve()); });
+        //play.onClick.AddListener(() => { if (conditionjouer) StartCoroutine(CardAnimDisolve()); });
         //[WIP]je dois le changer[WIP]
         
         if (!selectedcard.AOEEnnemies && selectedcard.TargetEnnemies)
@@ -669,6 +691,7 @@ public class Fight : MonoBehaviour
                             if(enemiesAtStartOfCombat[0].m_IsAttacking)
                             {
                                 selectedhero.Add(enemiesAtStartOfCombat[0]);
+                                StartCoroutine(CardAnimDisolve());
                                 switchLightSelection(ennemisButton1, false);
                             }
                                 
@@ -678,6 +701,7 @@ public class Fight : MonoBehaviour
                             if (!enemiesAtStartOfCombat[0].m_IsAttacking)
                             {
                                 selectedhero.Add(enemiesAtStartOfCombat[0]);
+                                StartCoroutine(CardAnimDisolve());
                                 switchLightSelection(ennemisButton1, false);
                             }
 
@@ -685,6 +709,7 @@ public class Fight : MonoBehaviour
                         else
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[0]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton1, false);
                         }
 
@@ -700,6 +725,7 @@ public class Fight : MonoBehaviour
                         if (enemiesAtStartOfCombat[0].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[0]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton1, false);
                         }
 
@@ -709,6 +735,7 @@ public class Fight : MonoBehaviour
                         if (!enemiesAtStartOfCombat[0].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[0]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton1, false);
                         }
 
@@ -716,6 +743,7 @@ public class Fight : MonoBehaviour
                     else
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[0]);
+                        StartCoroutine(CardAnimDisolve());
                         switchLightSelection(ennemisButton1, false);
                     }
                 }
@@ -731,6 +759,7 @@ public class Fight : MonoBehaviour
                         if (enemiesAtStartOfCombat[1].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[1]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton2, false);
                         }
 
@@ -740,6 +769,7 @@ public class Fight : MonoBehaviour
                         if (!enemiesAtStartOfCombat[1].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[1]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton2, false);
                         }
 
@@ -747,6 +777,7 @@ public class Fight : MonoBehaviour
                     else
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[1]);
+                        StartCoroutine(CardAnimDisolve());
                         switchLightSelection(ennemisButton2, false);
                     }
                 }
@@ -757,6 +788,7 @@ public class Fight : MonoBehaviour
                         if (enemiesAtStartOfCombat[1].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[1]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton2, false);
                         }
 
@@ -766,6 +798,7 @@ public class Fight : MonoBehaviour
                         if (!enemiesAtStartOfCombat[1].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[1]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton2, false);
                         }
 
@@ -774,6 +807,7 @@ public class Fight : MonoBehaviour
                     else
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[1]);
+                        StartCoroutine(CardAnimDisolve());
                         switchLightSelection(ennemisButton2, false);
                     }
                 }
@@ -814,6 +848,7 @@ public class Fight : MonoBehaviour
                         if (enemiesAtStartOfCombat[2].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[2]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton3, false);
                         }
 
@@ -823,6 +858,7 @@ public class Fight : MonoBehaviour
                         if (!enemiesAtStartOfCombat[2].m_IsAttacking)
                         {
                             selectedhero.Add(enemiesAtStartOfCombat[2]);
+                            StartCoroutine(CardAnimDisolve());
                             switchLightSelection(ennemisButton3, false);
                         }
 
@@ -830,6 +866,7 @@ public class Fight : MonoBehaviour
                     else
                     {
                         selectedhero.Add(enemiesAtStartOfCombat[2]);
+                        StartCoroutine(CardAnimDisolve());
                         switchLightSelection(ennemisButton3, false);
                     }
                 }
@@ -855,13 +892,14 @@ public class Fight : MonoBehaviour
                     }
                     
                 }
+                StartCoroutine(CardAnimDisolve());
             }
         }
         if (!selectedcard.AOEAllies && selectedcard.TargetAllies)
         {
 
-            arboristeButton?.onClick.AddListener(() => { ClearSide(true); switchLightSelection(arboristeButton, true); if (perso2 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]);});
-            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton, true); ClearSide(true); selectedhero.Add(heroes[0]); });
+            arboristeButton?.onClick.AddListener(() => { ClearSide(true); switchLightSelection(arboristeButton, true); if (perso2 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); StartCoroutine(CardAnimDisolve()); });
+            pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton, true); ClearSide(true); selectedhero.Add(heroes[0]); StartCoroutine(CardAnimDisolve()); });
         }
         else
         {
@@ -872,8 +910,12 @@ public class Fight : MonoBehaviour
                     selectedhero.Add(hero);
                     ActivateSideLights(true);
                 }
+                StartCoroutine(CardAnimDisolve());
             }
         }
+
+        
+
         coroutine = StartCoroutine(turnwait());
     }
 
@@ -919,8 +961,29 @@ public class Fight : MonoBehaviour
 
                     }
                 }
-            }   
+            }
 
+            foreach (hero E in heroes)
+            {
+                if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
+                {
+                    arboristeButton?.onClick.RemoveAllListeners();
+                    arboristeButton.interactable = true;
+                    arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); });
+
+                }
+                else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
+                {
+                    pretreButton?.onClick.RemoveAllListeners();
+                    pretreButton.interactable = true;
+                    pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); });
+
+
+                }
+            }
+
+            if (isPretreTransform && isArboTransform)
+                Gm.TranscendanceBothHeroAchivement();
 
             if (!CheckifEnemyAreAlive())
             {
@@ -1057,7 +1120,6 @@ public class Fight : MonoBehaviour
         stock += mana + venerations;
         venerations = 0;
         mana = 0;
-        stock = 100;
         stockText.text = stock.ToString();
         manaText.text = mana.ToString();
 
@@ -1093,8 +1155,7 @@ public class Fight : MonoBehaviour
         {
             foreach (hero h in heroes)
             {
-                if (h.getMana() == h.m_manaMax)
-                    break;
+                
                 if (h.m_role == hero.Role.Arboriste)
                 {
                     while(stock >= 1)
@@ -1120,8 +1181,7 @@ public class Fight : MonoBehaviour
             {
                 if (h.m_role == hero.Role.Pretre)
                 {
-                    if(h.getMana() == h.m_manaMax)
-                        break;
+                    
 
                     while (stock >= 1)
                     {
@@ -1180,11 +1240,6 @@ public class Fight : MonoBehaviour
             En.resetArmor();
             ennemyPlaying = En;
             En.EnemyAttack(heroes, false);
-            if (!CheckifHeroAreAlive())
-            {
-                LooseFight();
-                yield break;
-            }
             foreach (hero h in heroes.ToList())
             {
                 if (h.getIsAlive() == false)
@@ -1200,9 +1255,20 @@ public class Fight : MonoBehaviour
                         pretreButton?.onClick.RemoveAllListeners();
                         pretreButton.gameObject.SetActive(false);
                         /*h?.gameObject?.SetActive(false);*/
+
                     }
                 }
             }
+
+            
+
+            if (!CheckifHeroAreAlive())
+            {
+                yield return new WaitForSeconds(3f);
+                LooseFight();
+                yield break;
+            }
+
             if (enemies.Count > 1)
             {
                 yield return new WaitForSeconds(2f);
@@ -1262,7 +1328,6 @@ public class Fight : MonoBehaviour
         ennemisButton3?.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
         pretreButton?.onClick.RemoveAllListeners();
-        play.onClick.RemoveAllListeners();
         ennemisButton1 = null;
         ennemisButton2 = null;
         ennemisButton3 = null;
@@ -1277,8 +1342,8 @@ public class Fight : MonoBehaviour
         Gm.levelPretre = 0;
         Gm.expPretre = 0;
         Gm.expArboriste = 0;
-        Gm.LifeArboriste = 50;
-        Gm.LifePretre = 50;
+        Gm.LifeArboriste = 40;
+        Gm.LifePretre = 40;
         Gm.IsArboristePlayed = false;
         Gm.IsPretrePlayed = false;
         Gm.waveCounter = 0;
@@ -1291,32 +1356,41 @@ public class Fight : MonoBehaviour
         enemiesAtStartOfCombat.Clear();
         HeroesGameObjectRef.Clear();
         HeroesAltGameObjectRef.Clear();
+        Gm.needToResetMap = true;
+        Gm.SaveData();
     }
     private void LooseFight()
     {
-
+        Gm.DeathAchivement();
         StartCoroutine(LoseFinalFight());
     }
     IEnumerator LoseFinalFight()
     {
+        
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
         }
+        isFirstTurn = true;
+        isApo = false;
+        isCanibalisme = false;
+        isProf = false;
         ResetAll();
         Gm.winoulose = false;
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(2);
         Gm.transi.Play("Detransi");
-        
+
         // A appeler lorsqu'on relance
         /*FindObjectOfType<MapManager>().GenerateNewMap();*/
-        Gm.SaveData();
+        
     }
 
     public void WinFinalFight()
     {
+        Gm.WinAchivement();
+        Gm.RestAchivement();
         StartCoroutine(WinFinalCorou());
 
     }
@@ -1327,16 +1401,19 @@ public class Fight : MonoBehaviour
         {
             StopCoroutine(coroutine);
         }
-        MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
-        MapPlayerTracker.Instance.mapManager.SaveMap();
+        isFirstTurn = true;
+        isApo = false;
+        isCanibalisme = false;
+        isProf = false;
+
         ResetAll();
+        Gm.SaveData();
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
         Gm.winoulose = true;
         SceneManager.LoadScene(2);
         Gm.transi.Play("Detransi");
         //FindObjectOfType<MapManager>().GenerateNewMap();
-        Gm.SaveData();
     }
 
     IEnumerator XpLerp()
@@ -1356,9 +1433,7 @@ public class Fight : MonoBehaviour
             {
                 lvlpriest = Gm.levelPretre;
             }
-            print(enemiesAtStartOfCombat.Count);
-            print("XP GAGNEE : " +(int)((2 * enemiesAtStartOfCombat.Count) / heroes.Count));
-            hero.gainExperience((int)((2*enemiesAtStartOfCombat.Count)/heroes.Count));
+            hero.gainExperience((int)((4 * enemiesAtStartOfCombat.Count)/heroes.Count));
             if (hero.m_role == entityManager.Role.Arboriste)
             {
                 lvlUpDruid = Gm.levelArboriste > lvldruid;
@@ -1367,6 +1442,8 @@ public class Fight : MonoBehaviour
             {
                 lvlUpPriest = Gm.levelArboriste > lvlpriest;
             }
+            if (Gm.levelArboriste >= 6 && Gm.levelPretre >= 6)
+                Gm.PeakPerformanceAchivement();
         }
 
         #region AnimationBarreXP
@@ -1483,17 +1560,17 @@ public class Fight : MonoBehaviour
                 if (lvlUpDruid)
                 {
                     Gm.deck.SlidersXp[0].value = 0;
-                    Gm.deck.SlidersXp[0].maxValue = heroes[0].getexperienceMAX();
+                    Gm.deck.SlidersXp[0].maxValue = heroes[1].getexperienceMAX();
 
                 }
                 if (lvlUpPriest)
                 {
                     Gm.deck.SlidersXp[1].value = 0;
-                    Gm.deck.SlidersXp[1].maxValue = heroes[1].getexperienceMAX();
+                    Gm.deck.SlidersXp[1].maxValue = heroes[0].getexperienceMAX();
                 }
                 Gm.deck.SlidersXp[0].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[0].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[0].maxValue);
                 Gm.deck.SlidersXp[1].transform.GetChild(3).GetComponent<TMP_Text>().text = Mathf.Round(Gm.deck.SlidersXp[1].value) + "/" + Mathf.Round(Gm.deck.SlidersXp[1].maxValue);
-                Gm.deck.SlidersXp[0].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + Gm.levelPretre;
+                Gm.deck.SlidersXp[0].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + Gm.levelArboriste;
                 Gm.deck.SlidersXp[1].transform.GetChild(4).GetComponent<TMP_Text>().text = "LVL " + Gm.levelPretre;
             }
             while (timeElapsed < TempsTransition)
@@ -1565,10 +1642,10 @@ public class Fight : MonoBehaviour
         Gm.entityManager.getListHero().Clear();
         ennemisButton1?.onClick.RemoveAllListeners();
         ennemisButton2?.onClick.RemoveAllListeners();
+        ennemisButton2?.onClick.RemoveAllListeners();
         ennemisButton3?.onClick.RemoveAllListeners();
         arboristeButton?.onClick.RemoveAllListeners();
         pretreButton?.onClick.RemoveAllListeners();
-        play.onClick.RemoveAllListeners();
         ennemisButton1 = null;
         ennemisButton2 = null;
         ennemisButton3 = null;
@@ -1599,13 +1676,23 @@ public class Fight : MonoBehaviour
     }
     private void WinFight()
     {
+        if(perso1 && !perso2)
+        {
+            if (heroes[0].m_role == entityManager.Role.Pretre)
+                Gm.MiracleAchivement();
+            else if (heroes[0].m_role == entityManager.Role.Arboriste)
+                Gm.GrowthAchivement();
+        }
+
         StopCoroutine(coroutine);
         Gm.deck.AfficheSideUiXP(perso1 && perso2);
         Gm.deck.SetBonneBarreXp(heroes);
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
-        isFirstTurn= true;
+        isFirstTurn = true;
+        isApo = false;
+        isCanibalisme = false;
+        isProf = false;
         StartCoroutine(XpLerp());
-
         MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
         MapPlayerTracker.Instance.mapManager.SaveMap();
     }
@@ -1754,16 +1841,17 @@ public class Fight : MonoBehaviour
                         }
                         break;
                     case dataCard.CardType.VenererIdole:
-                        if (card.DataCard.m_isUpsideDown)
-                        {
-                            card.Blaspheme(heroes[0]);
-                        }
+                        
                         foreach (hero hero in selected)
                         {
                             
                             if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.VenererIdole(hero);
+                            }
+                            if (card.DataCard.m_isUpsideDown)
+                            {
+                                card.Blaspheme(hero);
                             }
                         }
                         break;
@@ -1772,10 +1860,14 @@ public class Fight : MonoBehaviour
                             {
                                 card.IncendierCloatre();
                             }
-                            if (!card.DataCard.m_isUpsideDown)
+                            foreach (hero hero in selected)
                             {
-                                card.AllumerCierges(heroes[0]);
+                                if (!card.DataCard.m_isUpsideDown)
+                                {
+                                    card.AllumerCierges(hero);
+                                }
                             }
+                        
                         break;
                     case dataCard.CardType.AccueillirNecessiteux:
                         foreach (hero hero in selected)
@@ -1786,7 +1878,7 @@ public class Fight : MonoBehaviour
                             }
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                card.AccueillirNecessiteux(heroes[0]);
+                                card.AccueillirNecessiteux(hero);
                             }
                         }
                         break;
@@ -1796,20 +1888,16 @@ public class Fight : MonoBehaviour
                             if (card.DataCard.m_isUpsideDown)
                             {
                                 if (perso2)
-                                {
                                     card.MoxAraignee(heroes[1], selectedhero[0]);
-                                }
+
                                 else
-                                {
                                     card.MoxAraignee(heroes[0], selectedhero[0]);
-                                }
+
                             }
+
                             if (!card.DataCard.m_isUpsideDown)
                             {
-                                if(perso2)
-                                    card.MoxLion(heroes[1]);
-                                else
-                                    card.MoxLion(heroes[0]);
+                                card.MoxLion(hero);
                             }   
                         }
                         break;
@@ -1840,8 +1928,6 @@ public class Fight : MonoBehaviour
                         }
                         break;
                     case dataCard.CardType.SurgissementVitalique:
-                        foreach (hero hero in selected)
-                        {
                             if (card.DataCard.m_isUpsideDown)
                             {
                                 card.RepandreMort();
@@ -1850,7 +1936,6 @@ public class Fight : MonoBehaviour
                             {
                                 card.SurgissementVitalique();
                             }
-                        }
                         break;
                     case dataCard.CardType.ArmureEcorse:
                         foreach (hero hero in selected)
@@ -2077,7 +2162,8 @@ public class Fight : MonoBehaviour
     public IEnumerator DamageNumberCorou(Vector3 objet, int damage)
     {
         GameObject texte = GameObject.Instantiate(PrefabDmgText);
-        texte.transform.position = objet;
+
+        texte.transform.position = new Vector3(objet.x, objet.y+2, objet.z);
         texte.transform.position = new Vector3(texte.transform.position.x + Random.Range(-1f, 1f), texte.transform.position.y + Random.Range(-1f, 1f), texte.transform.position.z);
         PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = "" + damage;
         yield return new WaitForSeconds(2);
@@ -2105,6 +2191,6 @@ public class Fight : MonoBehaviour
             timeElapsed += Time.deltaTime;
             yield return null;
         }
-        hero.m_slider.value = hero.m_Pv;
+        
     }
 }
