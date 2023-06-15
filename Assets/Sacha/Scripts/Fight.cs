@@ -446,6 +446,7 @@ public class Fight : MonoBehaviour
             en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
+            temp.GetComponent<Image>().rectTransform.sizeDelta = Gm.allWave[Gm.waveCounter][waveType][0].m_sprite.bounds.size * 100f;
             ennemisButton1 = temp.GetComponent<Button>();
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
