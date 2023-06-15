@@ -15,8 +15,11 @@ public class champSelector : MonoBehaviour
     public Button buttonArboriste;
     public Button buttonPretre;
 
-    public GameObject lightpretre;
-    public GameObject lightarbo;
+    public GameObject unselectpre;
+    public GameObject unselectabro;
+
+    public GameObject selecPretre;
+    public GameObject selecarbo;
 
     public Button start;
     public Sprite notSelectedArboriste;
@@ -39,7 +42,8 @@ public class champSelector : MonoBehaviour
             return;
 
         selectedArboriste = !selectedArboriste;
-        lightarbo.gameObject.SetActive(!selectedArboriste);
+        unselectabro.gameObject.SetActive(!selectedArboriste);
+        selecarbo.gameObject.SetActive(selectedArboriste);
 
         print(selectedArboriste);
         
@@ -50,7 +54,9 @@ public class champSelector : MonoBehaviour
             return;
 
         selectedPretre = !selectedPretre;
-        lightpretre.gameObject.SetActive(!selectedPretre);
+
+        selecPretre.gameObject.SetActive(selectedPretre);
+        unselectpre.gameObject.SetActive(!selectedPretre);
 
         print(selectedPretre);
         
