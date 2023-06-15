@@ -159,6 +159,7 @@ public class CardObject : MonoBehaviour
         rendeureur.sortingOrder = 10;
         canvas.sortingOrder = 10;
         HideHandExceptThis();
+
     }
 
     [Button]
@@ -339,7 +340,7 @@ public class CardObject : MonoBehaviour
     public void takeDamage(hero hero, int value)
     {
         print("dmg : " + value);
-
+        print("pv avant : " + hero.getPv());
         GameObject Placeholder = new GameObject();
         Placeholder.transform.position = Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position);
         GameManager.Instance.FM.DamageNumber(Placeholder, value);
@@ -356,6 +357,8 @@ public class CardObject : MonoBehaviour
             value = 0;
 
         hero.m_Pv -= value * hero.m_damageMultiplier;
+        print("pv apr�s : " + hero.getPv());
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
         StartCoroutine(UpdateLife(hero));
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
 
