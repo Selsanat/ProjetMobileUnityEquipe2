@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
 
-        PlayGamesPlatform.Activate();
+        //PlayGamesPlatform.Activate();
         if(_instance != null)
         {
             Destroy(gameObject);
