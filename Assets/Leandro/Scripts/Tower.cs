@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Map;
 
 public class Tower : MonoBehaviour
 {
@@ -82,6 +83,8 @@ public class Tower : MonoBehaviour
         }
         yield return new WaitForSeconds(1);
         gameManager.transi.Play("Detransi");
+        MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
+        MapPlayerTracker.Instance.mapManager.SaveMap();
         SceneManager.LoadScene(0);
 
     }
