@@ -20,7 +20,7 @@ public class TutoManager : MonoBehaviour
 
         if (File.Exists(path))
         {
-            //SceneManager.LoadScene(1);
+            SceneManager.LoadScene(1);
         }
 
     }
