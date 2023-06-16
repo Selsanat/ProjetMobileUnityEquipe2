@@ -690,7 +690,7 @@ public class CardObject : MonoBehaviour
                 nb++;
             }
         }
-        AddArmor(hero, nb);
+        AddArmor(hero, nb * 4);
     }
     public void MassacrerInfideles(hero ally, hero enemy)
     {
@@ -762,7 +762,7 @@ public class CardObject : MonoBehaviour
 
     public void Cataplasme(hero hero)
     {
-        heal(hero, 2);
+        heal(hero, 4);
         GameManager.Instance.debuffDraw = 0;
         hero.m_isDebufArmor = false;
         hero.m_damageMultiplier = 1;
@@ -809,7 +809,7 @@ public class CardObject : MonoBehaviour
         dataCard.CardEffect card = new dataCard.CardEffect();
         card.nbTour = 2;
         card.effects = dataCard.CardType.Poison;
-        card.values = 5 * GameManager.Instance.FM.nbTransfo;
+        card.values = 2 * GameManager.Instance.FM.nbTransfo;
         
         foreach (hero enemies in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
@@ -861,7 +861,7 @@ public class CardObject : MonoBehaviour
     }
     public void SuivreEtoiles()
     {
-        Venerate(2);
+        Venerate(4);
         foreach (hero hero in GameManager.Instance.FM.heroes)
         {
             if (hero.getMana() == hero.m_manaMax)
