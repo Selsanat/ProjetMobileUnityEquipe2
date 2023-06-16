@@ -13,6 +13,7 @@ using UnityEditor;
 using UnityEngine.Rendering.Universal;
 using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine.UI;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -312,6 +313,7 @@ public class CardObject : MonoBehaviour
             hero.setPv(hero.getMaxPv());
 
         print("health apr�s : " + hero.getPv());
+        hero.m_slider.value = hero.m_Pv;
         if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
@@ -355,6 +357,7 @@ public class CardObject : MonoBehaviour
 
         hero.m_Pv -= value * hero.m_damageMultiplier;
         print("pv apr�s : " + hero.getPv());
+        hero.m_slider.value = hero.m_Pv;
         hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
         StartCoroutine(UpdateLife(hero));
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
