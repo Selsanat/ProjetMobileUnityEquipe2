@@ -267,7 +267,7 @@ public class Fight : MonoBehaviour
     {
         if(isChamp == false)
         {
-            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(6).gameObject.GetComponent<Light2D>();
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(8).gameObject.GetComponent<Light2D>();
             lightDuBoutton.enabled = true;
         }
         else
@@ -451,6 +451,11 @@ public class Fight : MonoBehaviour
             en1.m_slider.value = en1.getPv();
             en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
             en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
+            en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
+            en1.ArmorText = GameObject.Find("shieldTextEn").GetComponent<TextMeshProUGUI>();
+            en1.ArmorText.text = en1.getArmor().ToString();
+            en1.Armor = GameObject.Find("shieldEn").GetComponent<Image>();
+            
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -472,6 +477,10 @@ public class Fight : MonoBehaviour
             en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
             en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            en1.ArmorText = GameObject.Find("shieldTextEn").GetComponent<TextMeshProUGUI>();
+            en1.Armor = GameObject.Find("shieldEn").GetComponent<Image>();
+
+            en1.ArmorText.text = en1.getArmor().ToString();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.m_buffs = en1.m_slider.transform.parent.GetChild(4);
@@ -488,6 +497,10 @@ public class Fight : MonoBehaviour
             En2.pvText = GameObject.Find("pvEn2").GetComponent<TextMeshProUGUI>();
             En2.pvText.text = En2.getPv().ToString() + " / " + En2.getMaxPv().ToString();
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En2.Armor = GameObject.Find("shieldEn").GetComponent<Image>();
+
+            En2.ArmorText = GameObject.Find("shieldTextEn2").GetComponent<TextMeshProUGUI>();
+            En2.ArmorText.text = En2.getArmor().ToString();
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En2.m_buffs = En2.m_slider.transform.parent.GetChild(4);
@@ -509,6 +522,10 @@ public class Fight : MonoBehaviour
             en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
             en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            en1.ArmorText = GameObject.Find("shieldTextEn").GetComponent<TextMeshProUGUI>();
+            en1.ArmorText.text = en1.getArmor().ToString();
+            en1.Armor = GameObject.Find("shieldEn").GetComponent<Image>();
+
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.m_buffs = en1.m_slider.transform.parent.GetChild(4);
@@ -525,6 +542,10 @@ public class Fight : MonoBehaviour
             En2.pvText = GameObject.Find("pvEn2").GetComponent<TextMeshProUGUI>();
             En2.pvText.text = En2.getPv().ToString() + " / " + En2.getMaxPv().ToString();
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En2.ArmorText = GameObject.Find("shieldTextEn2").GetComponent<TextMeshProUGUI>();
+            En2.Armor = GameObject.Find("shieldEn2").GetComponent<Image>();
+
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En2.m_buffs = En2.m_slider.transform.parent.GetChild(4);
@@ -541,7 +562,11 @@ public class Fight : MonoBehaviour
             En3.m_slider.value = En3.getPv();
             En3.pvText = GameObject.Find("pvEn3").GetComponent<TextMeshProUGUI>();
             En3.pvText.text = En3.getPv().ToString() + " / " + En3.getMaxPv().ToString();
+            En3.ArmorText = GameObject.Find("shieldTextEn3").GetComponent<TextMeshProUGUI>();
+            En3.ArmorText.text = En3.getArmor().ToString();
             En3.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En3.Armor = GameObject.Find("shieldEn3").GetComponent<Image>();
+
             En3.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En3.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En3.m_buffs = En3.m_slider.transform.parent.GetChild(4);
@@ -1025,11 +1050,24 @@ public class Fight : MonoBehaviour
                 }
             }
             h.resetArmor();
-            UpdateArmorValue(h);
+            if (h.ArmorText != null)
+                h.ArmorText.text = h.getArmor().ToString();
+
+            if (h.m_role == entityManager.Role.Arboriste || h.m_role == entityManager.Role.Pretre)
+                UpdateArmorValue(h);
+
             h.setArmor(h.m_nextArmor);
             print(h.m_armor + "VOILA MON ARMOR");
             h.m_nextArmor = 0;
-            UpdateArmorValue(h);
+
+            if (h.ArmorText != null)
+                h.ArmorText.text = h.getArmor().ToString();
+
+            if(h.m_role == entityManager.Role.Arboriste || h.m_role == entityManager.Role.Pretre)
+            {
+                UpdateArmorValue(h);
+
+            }
         }
 
 
@@ -1237,6 +1275,8 @@ public class Fight : MonoBehaviour
         foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
             En.resetArmor();
+            En.ArmorText.text = En.getArmor().ToString();
+
             ennemyPlaying = En;
             En.EnemyAttack(heroes, false);
             foreach (hero h in heroes.ToList())
@@ -1753,7 +1793,12 @@ public class Fight : MonoBehaviour
                         foreach (hero hero in selected)
                         {
                             hero.setArmor(card.DataCard.m_value); // mettre la valeur de l'armure
-                            Gm.FM.UpdateArmorValue(hero);
+                            if(hero.ArmorText != null)
+                                hero.ArmorText.text = hero.m_armor.ToString();
+
+                            if(hero.m_role == entityManager.Role.Pretre || hero.m_role == entityManager.Role.Arboriste)
+                                Gm.FM.UpdateArmorValue(hero);
+
                             if (Gm.isAbsolution)
                             {
                                 foreach (hero enemy in enemiesAtStartOfCombat)

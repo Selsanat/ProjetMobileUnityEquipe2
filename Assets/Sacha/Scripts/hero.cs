@@ -481,7 +481,8 @@ public class hero : entityManager
             {
                 Debug.Log("armor");
                 this.setArmor(Squelettesarmor);
-                gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, gameManager.deck.AoeEmplacement.position);
+                ArmorText.text = getArmor().ToString();
+                gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(8).gameObject, gameManager.deck.AoeEmplacement.position);
             }
             else if (SquelettesfirtAttack >= randomAttack)
             {
@@ -495,20 +496,20 @@ public class hero : entityManager
                     if (champ.getPv() - Squelettesdmg <= 0)
                     {
                         temp.takeDamage(Squelettesdmg);
-                        gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, Camera.main.ScreenToWorldPoint(temp.m_slider.transform.position));
+                        gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(8).gameObject, Camera.main.ScreenToWorldPoint(temp.m_slider.transform.position));
                         return;
                     }
                 }
                 if (randomHero.getIsAlive() == true)
                 {
                     randomHero.takeDamage(Squelettesdmg);
-                    gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, Camera.main.ScreenToWorldPoint(randomHero.m_slider.transform.position));
+                    gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(8).gameObject, Camera.main.ScreenToWorldPoint(randomHero.m_slider.transform.position));
                 }
                 else
                 {
                     hero tempo = heroesToAttack[(int)Random.Range(0f, heroesToAttack.Count)];
                     tempo.takeDamage(Squelettesdmg);
-                    gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, Camera.main.ScreenToWorldPoint(tempo.m_slider.transform.position));
+                    gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(8).gameObject, Camera.main.ScreenToWorldPoint(tempo.m_slider.transform.position));
                 }
             }
         }
@@ -608,6 +609,8 @@ public class hero : entityManager
             else if (MainsecondAttack >= randomAttack)
             {
                 this.setArmor(Mainarmor);
+                ArmorText.text = getArmor().ToString();
+
 
             }
             else if (MainfirtAttack >= randomAttack)
@@ -753,6 +756,8 @@ public class hero : entityManager
                 foreach (hero champ in heroesToAttack)
                     champ.takeDamage(GargouilledmgAOE);
                 this.setArmor(gargouilleArmor);
+                ArmorText.text = getArmor().ToString();
+
                 m_IsAttacking = false;
 
             }
@@ -1132,6 +1137,8 @@ public class hero : entityManager
             else if (DragonfourthAttack >= randomAttack) //armor
             {
                 this.setArmor(Dragonarmor);
+                ArmorText.text = getArmor().ToString();
+
             }
             else if (DragonthridAttack >= randomAttack) //aoe
             {
@@ -1178,8 +1185,12 @@ public class hero : entityManager
             damage = 0;
             m_armor -= temp;
         }
-        
-        gameManager.FM.UpdateArmorValue(this);
+
+        if(ArmorText != null)
+            ArmorText.text = getArmor().ToString();
+
+        if(this.m_role == Role.Arboriste || this.m_role == Role.Pretre)
+            gameManager.FM.UpdateArmorValue(this);
         m_Pv -= damage * m_damageMultiplier;
         //StartCoroutine(CardObject.UpdateLife(this.hero));
         this.m_dmgTaken += damage * m_damageMultiplier;

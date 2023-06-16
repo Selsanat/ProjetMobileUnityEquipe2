@@ -14,6 +14,7 @@ using UnityEngine.Rendering.Universal;
 using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine.UI;
+using static entityManager;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -355,14 +356,18 @@ public class CardObject : MonoBehaviour
         else
             value = 0;
 
+        if (hero.ArmorText != null)
+            hero.ArmorText.text = hero.getArmor().ToString();
+
         hero.m_Pv -= value * hero.m_damageMultiplier;
         print("pv apr�s : " + hero.getPv());
         hero.m_slider.value = hero.m_Pv;
         hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
         StartCoroutine(UpdateLife(hero));
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
+        if (hero.m_role == Role.Arboriste || hero.m_role == Role.Pretre)
+            GameManager.Instance.FM.UpdateArmorValue(hero);
 
-        GameManager.Instance.FM.UpdateArmorValue(hero);
         if (hero.m_Pv <= 0)
         {
             if (GameManager.Instance.FM.isCanibalisme)
@@ -394,7 +399,11 @@ public class CardObject : MonoBehaviour
     public void AddArmor(hero hero)
     {
         hero.setArmor(this.DataCard.m_value);
-        GameManager.Instance.FM.UpdateArmorValue(hero);
+        if (hero.ArmorText != null)
+            hero.ArmorText.text = hero.getArmor().ToString();
+
+        if (hero.m_role == Role.Arboriste || hero.m_role == Role.Pretre)
+            GameManager.Instance.FM.UpdateArmorValue(hero);
 
         if (GameManager.Instance.isAbsolution)
         {
@@ -413,7 +422,12 @@ public class CardObject : MonoBehaviour
         print("add Armor");
 
         hero.setArmor(value);
-        GameManager.Instance.FM.UpdateArmorValue(hero);
+        if (hero.ArmorText != null)
+            hero.ArmorText.text = hero.getArmor().ToString();
+
+        if (hero.m_role == Role.Arboriste || hero.m_role == Role.Pretre)
+            GameManager.Instance.FM.UpdateArmorValue(hero);
+
         if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
@@ -427,7 +441,8 @@ public class CardObject : MonoBehaviour
             }
 
         }
-        GameManager.Instance.FM.UpdateArmorValue(hero);
+        
+        
     }
 
     public void AddMana(int value)
@@ -560,7 +575,13 @@ public class CardObject : MonoBehaviour
                 break;
         }
         print(hero.getPv());
-        GameManager.Instance.FM.UpdateArmorValue(hero);
+
+        if (hero.ArmorText != null)
+            hero.ArmorText.text = hero.getArmor().ToString();
+
+        if (hero.m_role == Role.Arboriste || hero.m_role == Role.Pretre)
+            GameManager.Instance.FM.UpdateArmorValue(hero);
+        
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
     }
 
@@ -753,7 +774,10 @@ public class CardObject : MonoBehaviour
         if (enemy.getArmor() > 0)
         {
             enemy.m_armor = 0;
-            GameManager.Instance.FM.UpdateArmorValue(enemy);
+            if (enemy.ArmorText != null)
+                enemy.ArmorText.text = enemy.getArmor().ToString();
+            if (enemy.m_role == Role.Arboriste || enemy.m_role == Role.Pretre)
+                GameManager.Instance.FM.UpdateArmorValue(enemy);
         }
         takeDamage(enemy, 8);
 
