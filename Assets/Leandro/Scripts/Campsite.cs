@@ -90,7 +90,7 @@ public class Campsite : MonoBehaviour
         gameManager.transi.Play("Detransi");
         MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
         MapPlayerTracker.Instance.mapManager.SaveMap();
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
 
     }
     IEnumerator SoigneEtchangeScreen(bool isDruid)

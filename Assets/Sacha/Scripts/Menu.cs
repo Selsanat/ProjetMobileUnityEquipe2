@@ -77,7 +77,7 @@ public class Menu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("levelSelector");
+        SceneManager.LoadScene(4);
         gameObject.SetActive(false);
     }
 }

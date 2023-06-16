@@ -358,21 +358,21 @@ public class hero : entityManager
         {
             if (ChienfourthAttack >= randomAttack)
             {
-                gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, Camera.main.ScreenToWorldPoint(randomHero.m_slider.transform.position));
+                gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(8).gameObject, Camera.main.ScreenToWorldPoint(randomHero.m_slider.transform.position));
                 randomHero.m_isDebufArmor = true;
                 Debug.Log("debuff armor");
             }
             else if (ChienthridAttack >= randomAttack) //booste la force
             {
                 Debug.Log("boostStat");
-                gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, gameManager.deck.AoeEmplacement.position);
+                gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(8).gameObject, gameManager.deck.AoeEmplacement.position);
                 Chiendmg++;
                 ChienAOEDmg++;
             }
             else if (ChiensecondAttack >= randomAttack) //attaque tout les allier
             {
                 Debug.Log("aoe");
-                gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, gameManager.deck.AoeEmplacement.position);
+                gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(8).gameObject, gameManager.deck.AoeEmplacement.position);
                 foreach (hero hero in heroesToAttack)
                 {
                     hero.takeDamage(ChienAOEDmg);
@@ -386,7 +386,7 @@ public class hero : entityManager
                 if (randomHero.getIsAlive() == true)
                 {
                     randomHero.takeDamage(Chiendmg);
-                    gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, Camera.main.ScreenToWorldPoint(randomHero.m_slider.transform.position));
+                    gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(8).gameObject, Camera.main.ScreenToWorldPoint(randomHero.m_slider.transform.position));
                 }
                 else
                 {
@@ -395,7 +395,7 @@ public class hero : entityManager
                         if (champ.getPv() - Chiendmg <= 0)
                         {
                             temp.takeDamage(Chiendmg);
-                            gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(6).gameObject, Camera.main.ScreenToWorldPoint(temp.m_slider.transform.position));
+                            gameManager.FM.AllerRetourCombat(m_slider.transform.parent.GetChild(8).gameObject, Camera.main.ScreenToWorldPoint(temp.m_slider.transform.position));
                             return;
                         }
                     }

@@ -94,7 +94,7 @@ public class Fight : MonoBehaviour
     {
         if (test == false)
         {
-            if (SceneManager.GetActiveScene().buildIndex == 1)
+            if (SceneManager.GetActiveScene().buildIndex == 2)
             {
                 test = true;
                 StartFight();
@@ -1418,7 +1418,7 @@ public class Fight : MonoBehaviour
         Gm.winoulose = false;
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
         Gm.transi.Play("Detransi");
 
         // A appeler lorsqu'on relance
@@ -1450,7 +1450,7 @@ public class Fight : MonoBehaviour
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
         Gm.winoulose = true;
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
         Gm.transi.Play("Detransi");
         //FindObjectOfType<MapManager>().GenerateNewMap();
     }
@@ -1709,7 +1709,7 @@ public class Fight : MonoBehaviour
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
         Gm.transi.Play("Detransi");
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
         test = false;
 
     }
