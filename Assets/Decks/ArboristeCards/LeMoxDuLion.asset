@@ -21,10 +21,10 @@ MonoBehaviour:
   m_cardEffects: []
   TargetAllies: 1
   TargetEnnemies: 0
-  AOEAllies: 1
+  AOEAllies: 0
   AOEEnnemies: 0
   m_isDeleteOnTurn: 0
-  m_isUpsideDown: 1
+  m_isUpsideDown: 0
   m_isBonusCard: 0
   m_onCardExplain: 
   m_FullCardExplain: 

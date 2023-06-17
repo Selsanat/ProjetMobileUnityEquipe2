@@ -19,7 +19,8 @@ using Slider = UnityEngine.UI.Slider;
 using Map;
 using DG.Tweening.Core.Easing;
 using Random = UnityEngine.Random;
-using static UnityEngine.Rendering.DebugUI; 
+using static UnityEngine.Rendering.DebugUI;
+using PathCreation.Examples;
 
 public class Fight : MonoBehaviour
 {
@@ -1139,7 +1140,39 @@ public class Fight : MonoBehaviour
     {
         endturnbool = !endturnbool;
     }
+    public IEnumerator animMana()
+    {
 
+        FindObjectOfType<ParticleSystem>().GetComponent<PathFollower>().addPath();
+
+        yield return new WaitForSeconds(0.7f);
+        FindObjectOfType<ParticleSystem>().GetComponent<PathFollower>().removePath();
+        stockText.text = stock.ToString();
+        endTurnButton?.onClick.RemoveAllListeners();
+        endTurnButton?.onClick.AddListener(() => { chargeMana(3); });
+
+
+        foreach (hero h in heroes)
+        {
+            if (h.m_role == hero.Role.Arboriste && h.getMana() != h.m_manaMax)
+            {
+                arboristeButton?.onClick.RemoveAllListeners();
+                arboristeButton?.onClick.AddListener(() => { chargeMana(0); });
+                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+            }
+            else if (h.m_role == hero.Role.Pretre && h.getMana() != h.m_manaMax)
+            {
+
+                pretreButton?.onClick.RemoveAllListeners();
+                pretreButton?.onClick.AddListener(() => { chargeMana(1); });
+                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+            }
+
+        }
+
+
+        yield return null;
+    }
     public void repMana()
     {
         if (coroutine != null)
@@ -1157,32 +1190,10 @@ public class Fight : MonoBehaviour
         stock += mana + venerations;
         venerations = 0;
         mana = 0;
-        stockText.text = stock.ToString();
         manaText.text = mana.ToString();
 
-        endTurnButton?.onClick.RemoveAllListeners();
-        //endTurnButton.GetComponentInChildren<TextMeshProUGUI>().text = "SKIP";
-        endTurnButton?.onClick.AddListener(() => { chargeMana(3); });
         
-        
-        foreach (hero h in heroes)
-        {
-            if(h.m_role == hero.Role.Arboriste && h.getMana() != h.m_manaMax)
-            {
-                arboristeButton?.onClick.RemoveAllListeners();
-                arboristeButton?.onClick.AddListener(() => { chargeMana(0); });
-                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
-            }
-            else if (h.m_role == hero.Role.Pretre && h.getMana() != h.m_manaMax)
-            {
-
-                pretreButton?.onClick.RemoveAllListeners();
-                pretreButton?.onClick.AddListener(() => { chargeMana(1); });
-                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
-            }   
-            
-        }
-        
+        StartCoroutine(animMana());
         
     }
 
