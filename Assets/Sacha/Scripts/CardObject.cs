@@ -13,6 +13,8 @@ using UnityEditor;
 using UnityEngine.Rendering.Universal;
 using static UnityEngine.Rendering.DebugUI;
 using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine.UI;
+using static entityManager;
 
 [ExecuteInEditMode]
 public class CardObject : MonoBehaviour
@@ -159,6 +161,7 @@ public class CardObject : MonoBehaviour
         rendeureur.sortingOrder = 10;
         canvas.sortingOrder = 10;
         HideHandExceptThis();
+
     }
 
     [Button]
@@ -181,13 +184,12 @@ public class CardObject : MonoBehaviour
             
             if (transform.position.y >= gameManager.RangePourActiverCarte && gameManager.FM.mana >= costMana)   
             {
-                print(costMana);
                 gameManager.CarteUtilisee = this;
                 gameManager.FM.Cardsend(this, indexHand); 
                 Slot = this.gameObject.transform;
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true);
-                FindObjectOfType<Deck>().PlayButton.gameObject.SetActive(true);
                 SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies);
+
 
             }
             else 
@@ -247,18 +249,6 @@ public class CardObject : MonoBehaviour
         return Sr.sprite;
     }
 
-
-
-    IEnumerator TransposeAtoB(GameObject objetABouger, Vector3 position)
-    {
-        for (int i =0; i <100; i++)
-        {
-            gameManager.deck.TransposeAtoB(objetABouger, position);
-            yield return null;
-        }
-        
-    }
-
     public bool getIsDeleteOnTurn()
     {
         return this.DataCard.m_isDeleteOnTurn;
@@ -270,6 +260,7 @@ public class CardObject : MonoBehaviour
 
     public IEnumerator UpdateLife(hero hero)
     {
+        print("Est ce que le hero est null " + hero);
         if (hero != null)
         {
             float TempsTransition = 5f;
@@ -282,7 +273,8 @@ public class CardObject : MonoBehaviour
             }
             hero.m_slider.value = hero.m_Pv;
         }
-
+        hero.m_slider.value = hero.m_Pv;
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
     }
     #region CARD EFFECTS
     public void heal(hero hero)
@@ -307,6 +299,7 @@ public class CardObject : MonoBehaviour
             }
 
         }
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
         StartCoroutine(UpdateLife(hero));
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
 
@@ -321,6 +314,7 @@ public class CardObject : MonoBehaviour
             hero.setPv(hero.getMaxPv());
 
         print("health apr�s : " + hero.getPv());
+        hero.m_slider.value = hero.m_Pv;
         if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in gameManager.FM.enemiesAtStartOfCombat)
@@ -334,18 +328,19 @@ public class CardObject : MonoBehaviour
         if (hero != null)
         {
             StartCoroutine(UpdateLife(hero));
-        StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
+            StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
         }
         else
         {
             print("Hero is null, can't update life sadly");
         }
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
     }
 
     public void takeDamage(hero hero, int value)
     {
         print("dmg : " + value);
-
+        print("pv avant : " + hero.getPv());
         GameObject Placeholder = new GameObject();
         Placeholder.transform.position = Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position);
         GameManager.Instance.FM.DamageNumber(Placeholder, value);
@@ -361,11 +356,18 @@ public class CardObject : MonoBehaviour
         else
             value = 0;
 
+        if (hero.ArmorText != null)
+            hero.ArmorText.text = hero.getArmor().ToString();
+
         hero.m_Pv -= value * hero.m_damageMultiplier;
+        print("pv apr�s : " + hero.getPv());
+        hero.m_slider.value = hero.m_Pv;
+        hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
         StartCoroutine(UpdateLife(hero));
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
+        if (hero.m_role == Role.Arboriste || hero.m_role == Role.Pretre)
+            GameManager.Instance.FM.UpdateArmorValue(hero);
 
-        GameManager.Instance.FM.UpdateArmorValue(hero);
         if (hero.m_Pv <= 0)
         {
             if (GameManager.Instance.FM.isCanibalisme)
@@ -397,7 +399,11 @@ public class CardObject : MonoBehaviour
     public void AddArmor(hero hero)
     {
         hero.setArmor(this.DataCard.m_value);
-        GameManager.Instance.FM.UpdateArmorValue(hero);
+        if (hero.ArmorText != null)
+            hero.ArmorText.text = hero.getArmor().ToString();
+
+        if (hero.m_role == Role.Arboriste || hero.m_role == Role.Pretre)
+            GameManager.Instance.FM.UpdateArmorValue(hero);
 
         if (GameManager.Instance.isAbsolution)
         {
@@ -416,7 +422,12 @@ public class CardObject : MonoBehaviour
         print("add Armor");
 
         hero.setArmor(value);
-        GameManager.Instance.FM.UpdateArmorValue(hero);
+        if (hero.ArmorText != null)
+            hero.ArmorText.text = hero.getArmor().ToString();
+
+        if (hero.m_role == Role.Arboriste || hero.m_role == Role.Pretre)
+            GameManager.Instance.FM.UpdateArmorValue(hero);
+
         if (GameManager.Instance.isAbsolution)
         {
             foreach (hero enemy in GameManager.Instance.FM.enemiesAtStartOfCombat)
@@ -430,7 +441,8 @@ public class CardObject : MonoBehaviour
             }
 
         }
-        GameManager.Instance.FM.UpdateArmorValue(hero);
+        
+        
     }
 
     public void AddMana(int value)
@@ -563,7 +575,13 @@ public class CardObject : MonoBehaviour
                 break;
         }
         print(hero.getPv());
-        GameManager.Instance.FM.UpdateArmorValue(hero);
+
+        if (hero.ArmorText != null)
+            hero.ArmorText.text = hero.getArmor().ToString();
+
+        if (hero.m_role == Role.Arboriste || hero.m_role == Role.Pretre)
+            GameManager.Instance.FM.UpdateArmorValue(hero);
+        
         StartCoroutine(GameManager.Instance.FM.UpdateLife(hero));
     }
 
@@ -672,7 +690,7 @@ public class CardObject : MonoBehaviour
                 nb++;
             }
         }
-        AddArmor(hero, nb);
+        AddArmor(hero, nb * 4);
     }
     public void MassacrerInfideles(hero ally, hero enemy)
     {
@@ -744,7 +762,7 @@ public class CardObject : MonoBehaviour
 
     public void Cataplasme(hero hero)
     {
-        heal(hero, 2);
+        heal(hero, 4);
         GameManager.Instance.debuffDraw = 0;
         hero.m_isDebufArmor = false;
         hero.m_damageMultiplier = 1;
@@ -756,7 +774,10 @@ public class CardObject : MonoBehaviour
         if (enemy.getArmor() > 0)
         {
             enemy.m_armor = 0;
-            GameManager.Instance.FM.UpdateArmorValue(enemy);
+            if (enemy.ArmorText != null)
+                enemy.ArmorText.text = enemy.getArmor().ToString();
+            if (enemy.m_role == Role.Arboriste || enemy.m_role == Role.Pretre)
+                GameManager.Instance.FM.UpdateArmorValue(enemy);
         }
         takeDamage(enemy, 8);
 
@@ -788,7 +809,7 @@ public class CardObject : MonoBehaviour
         dataCard.CardEffect card = new dataCard.CardEffect();
         card.nbTour = 2;
         card.effects = dataCard.CardType.Poison;
-        card.values = 5 * GameManager.Instance.FM.nbTransfo;
+        card.values = 2 * GameManager.Instance.FM.nbTransfo;
         
         foreach (hero enemies in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
@@ -840,7 +861,7 @@ public class CardObject : MonoBehaviour
     }
     public void SuivreEtoiles()
     {
-        Venerate(2);
+        Venerate(4);
         foreach (hero hero in GameManager.Instance.FM.heroes)
         {
             if (hero.getMana() == hero.m_manaMax)

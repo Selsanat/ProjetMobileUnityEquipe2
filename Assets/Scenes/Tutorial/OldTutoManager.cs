@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class TutoManager : MonoBehaviour
 {
@@ -12,6 +13,17 @@ public class TutoManager : MonoBehaviour
     private string name;
     public Animator animator;
 
+
+    private void Start()
+    {
+        string path = Application.persistentDataPath + "/saveData.fun";
+
+        if (File.Exists(path))
+        {
+            SceneManager.LoadScene(1);
+        }
+
+    }
     public void ChangeScenePrev()
     {
         name = prevName;
@@ -22,6 +34,11 @@ public class TutoManager : MonoBehaviour
     {
         name = nextName;
         animator.SetTrigger("fadeout");
+    }
+
+    public void skip()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void OnFadeComplete()

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Map;
 
 public class Tower : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class Tower : MonoBehaviour
             gameManager.levelPretre++;
             str += "" + gameManager.levelPretre;
         }
-        str += ") Cliquer pour continuer";
+        str += ")\nCliquer pour continuer";
         if (inst != null)
         {
             StopCoroutine(inst);
@@ -82,7 +83,9 @@ public class Tower : MonoBehaviour
         }
         yield return new WaitForSeconds(1);
         gameManager.transi.Play("Detransi");
-        SceneManager.LoadScene(0);
+        MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
+        MapPlayerTracker.Instance.mapManager.SaveMap();
+        SceneManager.LoadScene(1);
 
     }
     IEnumerator SoigneEtchangeScreen(bool isDruid)
@@ -106,9 +109,9 @@ public class Tower : MonoBehaviour
     {
         druide.gameObject.SetActive(true);
         pretre.gameObject.SetActive(true);
-        float TempsTransition = TempsTrans;
-        float timeElapsed = 0;
-        if (isDruid)
+/*        float TempsTransition = TempsTrans;
+        float timeElapsed = 0;*/
+/*        if (isDruid)
         {
             while (timeElapsed < TempsTransition)
             {
@@ -127,7 +130,7 @@ public class Tower : MonoBehaviour
                 timeElapsed += Time.deltaTime;
                 yield return null;
             }
-        }
+        }*/
         if (isDruid)
         {
             pretre.intensity = 0;
@@ -135,12 +138,13 @@ public class Tower : MonoBehaviour
             pretre.gameObject.SetActive(false);
             string str = "Eveiller le druide ? (LVL ";
             str += "" + gameManager.levelArboriste;
-            str += ") Cliquer pour continuer. . .";
+            str += ")\nCliquer pour continuer. . .";
             if (inst != null)
             {
                 StopCoroutine(inst);
             }
             inst = StartCoroutine(Ecrit(str));
+            yield return null;
         }
         else
         {
@@ -149,12 +153,13 @@ public class Tower : MonoBehaviour
             druide.gameObject.SetActive(false);
             string str = "Eveiller le pretre ? ( LVL";
             str += "" + gameManager.levelPretre;
-            str += ") Cliquer pour continuer. . .";
+            str += ")\nCliquer pour continuer. . .";
             if (inst != null)
             {
                 StopCoroutine(inst);
             }
             inst = StartCoroutine(Ecrit(str));
+            yield return null;
         }
     }
 }

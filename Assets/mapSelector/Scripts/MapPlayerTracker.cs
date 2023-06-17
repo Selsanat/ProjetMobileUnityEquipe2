@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Linq;
 using DG.Tweening;
+using DG.Tweening.Core.Easing;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
 namespace Map
@@ -18,7 +20,8 @@ namespace Map
         public Campsite Camp;
         public Tower Tower;
         public MapNode _currentNode;
-        
+        public Transform background;
+        private Coroutine inst;
 
         public static MapPlayerTracker Instance;
 
@@ -42,7 +45,6 @@ namespace Map
         {
             /*if(GameManager.Instance._currentNode != null && GameManager.Instance.waveCounter != mapManager.CurrentMap.path.Count)
                 setPlayerToNode(GameManager.Instance._currentNode);*/
-            
         }
         public void SelectNode(MapNode mapNode)
         {
@@ -97,14 +99,23 @@ namespace Map
             mapManager.SaveMap();
             
         }
-
-        private static void EnterNode(MapNode mapNode)
+        IEnumerator Wait()
+        {
+            yield return new WaitForSeconds(1);
+            background.gameObject.SetActive(false);
+        }
+        private void EnterNode(MapNode mapNode)
         {
             // we have access to blueprint name here as well
             Debug.Log("Entering node: " + mapNode.Node.blueprintName + " of type: " + mapNode.Node.nodeType);
             // load appropriate scene with context based on nodeType:
             // or show appropriate GUI over the map: 
             // if you choose to show GUI in some of these cases, do not forget to set "Locked" in MapPlayerTracker back to false
+            if (inst != null)
+            {
+                StopCoroutine(inst);
+            }
+            inst = StartCoroutine(Wait());
             switch (mapNode.Node.nodeType)
             {
                 case NodeType.MinorEnemy:
@@ -113,6 +124,7 @@ namespace Map
                 case NodeType.EliteEnemy:
                     break;
                 case NodeType.RestSite:
+                    GameManager.Instance.campUsed = true;
                     Instance.transicampfire();
                     break;
                 case NodeType.Treasure:
