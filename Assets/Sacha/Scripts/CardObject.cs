@@ -158,8 +158,8 @@ public class CardObject : MonoBehaviour
 
         gameManager.deck.DeplaceCardUtiliseToPlace();
         transform.localScale = new Vector3(2,2, 2);
-        rendeureur.sortingOrder = 10;
-        canvas.sortingOrder = 10;
+        rendeureur.sortingOrder = 1000;
+        canvas.sortingOrder = 1000;
         HideHandExceptThis();
 
     }
