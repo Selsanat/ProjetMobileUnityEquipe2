@@ -1204,13 +1204,13 @@ public class hero : entityManager
         if (m_role == Role.Arboriste)
         {
             gameManager.LifeArboriste = m_Pv;
-            GameManager.Instance.FM.DamageNumber(Camera.main.ScreenToWorldPoint(gameManager.FM.arboristeButton.transform.position), damage);
+            GameManager.Instance.FM.DamageNumber(Camera.main.ScreenToWorldPoint(gameManager.FM.arboristeButton.transform.position), damage * m_damageMultiplier);
 
         }
         else if (m_role == Role.Pretre)
         {
             gameManager.LifePretre = m_Pv;
-            GameManager.Instance.FM.DamageNumber(Camera.main.ScreenToWorldPoint(gameManager.FM.pretreButton.transform.position), damage);
+            GameManager.Instance.FM.DamageNumber(Camera.main.ScreenToWorldPoint(gameManager.FM.pretreButton.transform.position), damage * m_damageMultiplier);
         }
         else
         {

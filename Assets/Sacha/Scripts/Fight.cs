@@ -1395,7 +1395,8 @@ public class Fight : MonoBehaviour
         enemiesAtStartOfCombat.Clear();
         HeroesGameObjectRef.Clear();
         HeroesAltGameObjectRef.Clear();
-        Gm.needToResetMap = true;
+        MapPlayerTracker.Instance.mapManager.GenerateNewMap();
+        MapPlayerTracker.Instance.mapManager.SaveMap();
         Gm.SaveData();
     }
     private void LooseFight()
@@ -1777,11 +1778,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.Damage:
                         foreach (hero hero in selected)
                         {
-                         hero.takeDamage(card.DataCard.m_value);
-                        print(hero.m_Pv);
-                        StartCoroutine(Gm.CarteUtilisee.UpdateLife(hero));
-                        StartCoroutine(DamageNumberCorou(Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position), card.DataCard.m_value));
-                    }
+                            hero.takeDamage(card.DataCard.m_value);
+                            print(hero.m_Pv);
+                            StartCoroutine(Gm.CarteUtilisee.UpdateLife(hero));
+                            StartCoroutine(DamageNumberCorou(Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position), card.DataCard.m_value));
+                        }
                         break;
                     case dataCard.CardType.Heal:
                         foreach (hero hero in selected)
@@ -1946,12 +1947,12 @@ public class Fight : MonoBehaviour
                         }
                         break;
                     case dataCard.CardType.MurDeRonces:
+                        if (card.DataCard.m_isUpsideDown)
+                        {
+                            card.LaissePourMort();
+                        }
                         foreach (hero hero in selected)
                         {
-                            if (card.DataCard.m_isUpsideDown)
-                            {
-                                card.LaissePourMort();
-                            }
                             if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.MurDeRonces(hero);
@@ -2192,9 +2193,9 @@ public class Fight : MonoBehaviour
 
     public IEnumerator DamageNumberCorou(GameObject objet, int damage)
     {
+        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = damage.ToString();
         GameObject texte = GameObject.Instantiate(PrefabDmgText);
         texte.transform.position = objet.transform.position;
-        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = ""+damage;
         yield return new WaitForSeconds(2);
         Destroy(texte);
     }
@@ -2205,18 +2206,19 @@ public class Fight : MonoBehaviour
     }
     public IEnumerator DamageNumberCorou(Vector3 objet, int damage)
     {
+        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = damage.ToString();
         GameObject texte = GameObject.Instantiate(PrefabDmgText);
-
-        texte.transform.position = new Vector3(objet.x, objet.y+2, objet.z);
+        texte.transform.position = new Vector3(objet.x, objet.y - 2, objet.z);
         texte.transform.position = new Vector3(texte.transform.position.x + Random.Range(-1f, 1f), texte.transform.position.y + Random.Range(-1f, 1f), texte.transform.position.z);
-        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = "" + damage;
+        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = damage.ToString();
         yield return new WaitForSeconds(2);
         Destroy(texte);
     }
 
     public void DamageNumber(Vector3 objet, int damage)
     {
-        StartCoroutine(DamageNumberCorou(objet, damage));
+        Vector3 offset = new Vector3(0, 4, 0);
+        StartCoroutine(DamageNumberCorou(objet + offset, damage));
     }
     public void UpdateLifeAllies()
     {

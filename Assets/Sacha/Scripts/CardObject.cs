@@ -343,7 +343,6 @@ public class CardObject : MonoBehaviour
         print("pv avant : " + hero.getPv());
         GameObject Placeholder = new GameObject();
         Placeholder.transform.position = Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position);
-        GameManager.Instance.FM.DamageNumber(Placeholder, value);
         Destroy(Placeholder);
         if (hero.m_isDebufArmor)
         {
@@ -360,6 +359,8 @@ public class CardObject : MonoBehaviour
             hero.ArmorText.text = hero.getArmor().ToString();
 
         hero.m_Pv -= value * hero.m_damageMultiplier;
+        GameManager.Instance.FM.DamageNumber(Placeholder, value * hero.m_damageMultiplier);
+
         print("pv apr�s : " + hero.getPv());
         hero.m_slider.value = hero.m_Pv;
         hero.pvText.text = hero.getPv().ToString() + " / " + hero.getMaxPv().ToString();
@@ -595,8 +596,9 @@ public class CardObject : MonoBehaviour
         if (GameManager.Instance.FM.heroes[0].m_mana > 0)
         {
             takeDamage(enemy, GameManager.Instance.FM.heroes[0].m_mana);
-            AddCard();
         }
+        AddCard();
+
     }
 
     public void Apotasie()
@@ -750,7 +752,7 @@ public class CardObject : MonoBehaviour
         card.values = 6;
         foreach (hero enemies in GameManager.Instance.FM.enemiesAtStartOfCombat)
         {
-            if (enemies.getIsAlive() && !enemies.m_IsAttacking)
+            if (enemies.getIsAlive() && enemies.m_IsAttacking)
             {
                 enemies.addEffect(card);
                 gameManager.FM.UpdatePoisonValue(enemies);
