@@ -6,13 +6,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 
-public class TutoManager : MonoBehaviour
+public class NewTutoManager : MonoBehaviour
 {
-    public string prevName;
-    public string nextName;
-    private string name;
-    public Animator animator;
+    public GameObject[] parts;
 
+    private GameObject currentPart;
+
+    public Animator animator;
 
     private void Start()
     {
@@ -23,26 +23,24 @@ public class TutoManager : MonoBehaviour
             SceneManager.LoadScene(1);
         }
 
-    }
-    public void ChangeScenePrev()
-    {
-        name = prevName;
-        animator.SetTrigger("fadeout");
+        currentPart = parts[0];
     }
 
-    public void ChangeSceneNext()
+    public void ChangePart(GameObject pPart)
     {
-        name = nextName;
-        animator.SetTrigger("fadeout");
+        //animator.SetTrigger("fadeout");
+        currentPart.SetActive(false);
+        currentPart = pPart;
+        pPart.SetActive(true);
     }
 
-    public void skip()
+    public void Skip()
     {
         SceneManager.LoadScene(1);
     }
 
     public void OnFadeComplete()
     {
-        SceneManager.LoadScene(name);
+        //animator.SetTrigger("fadein");
     }
 }
