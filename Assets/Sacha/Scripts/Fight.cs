@@ -588,6 +588,8 @@ public class Fight : MonoBehaviour
             c.DataCard.m_isUpsideDown = false;
             c.gameObject.SetActive(false);
         }
+        GameObject.FindGameObjectWithTag("pretreLight").GetComponent<Light2D>().enabled = false;
+        GameObject.FindGameObjectWithTag("arboLight").GetComponent<Light2D>().enabled = false;
 
         StartTurn();
         
@@ -623,13 +625,14 @@ public class Fight : MonoBehaviour
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
                 arboristeButton.interactable = true;
-                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); });
+                            
+                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); GameObject.FindGameObjectWithTag("arboLight").GetComponent<Light2D>().enabled = false; });
 
             }
             else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
             {
                 pretreButton.interactable = true;
-                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); });
+                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); GameObject.FindGameObjectWithTag("pretreLight").GetComponent<Light2D>().enabled = false; });
                 
 
             }
@@ -1213,6 +1216,7 @@ public class Fight : MonoBehaviour
                         if (h.getMana() == h.m_manaMax)
                         {
                             h.isFull = true;
+                            GameObject.FindGameObjectWithTag("arboLight").GetComponent<Light2D>().enabled = true;
                             break;
 
                         }
@@ -1238,6 +1242,7 @@ public class Fight : MonoBehaviour
                         if (h.getMana() == h.m_manaMax)
                         {
                             h.isFull = true;
+                            GameObject.FindGameObjectWithTag("pretreLight").GetComponent<Light2D>().enabled = true;
                             break;
 
                         }
