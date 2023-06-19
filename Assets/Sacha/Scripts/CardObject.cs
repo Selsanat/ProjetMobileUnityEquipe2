@@ -137,7 +137,34 @@ public class CardObject : MonoBehaviour
             transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
             gameManager.HasCardInHand = true;
+            DisableHealthbar( false);
             
+
+        }
+    }
+
+    public void DisableHealthbar(bool TrueIfEnable)
+    {
+        if (this.DataCard.TargetEnnemies && !this.DataCard.TargetAllies)
+        {
+            foreach (hero hero in GameManager.Instance.FM.heroes)
+            {
+                for(int i = 0; i < hero.m_slider.transform.parent.childCount- 2; i++)
+                {
+                    hero.m_slider.transform.parent.GetChild(i).gameObject.SetActive(TrueIfEnable);
+                }
+
+            }
+        }
+        if (this.DataCard.TargetAllies && !this.DataCard.TargetEnnemies)
+        {
+            foreach (hero hero in GameManager.Instance.FM.enemies)
+            {
+                for (int i = 0; i < hero.m_slider.transform.parent.childCount - 1; i++)
+                {
+                    hero.m_slider.transform.parent.GetChild(i).gameObject.SetActive(TrueIfEnable);
+                }
+            }
         }
     }
     void OnMouseExit()
@@ -184,16 +211,19 @@ public class CardObject : MonoBehaviour
             
             if (transform.position.y >= gameManager.RangePourActiverCarte && gameManager.FM.mana >= costMana)   
             {
+
                 gameManager.CarteUtilisee = this;
                 gameManager.FM.Cardsend(this, indexHand); 
                 Slot = this.gameObject.transform;
                 FindObjectOfType<Deck>().CancelButton.gameObject.SetActive(true);
                 SelectedCard(DataCard.TargetAllies, DataCard.TargetEnnemies);
+                gameManager.deck.EndTurnButton.interactable = false;
 
 
             }
             else 
             {
+                DisableHealthbar(true);
                 if (Time.time - TempsClick < gameManager.TempsPourClickCardInspect && transform.position.y < gameManager.RangePourActiverCarte)
                 {
                     gameManager.InspectUI.UI.SetActive(true);
