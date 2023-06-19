@@ -303,7 +303,7 @@ MonoBehaviour:
     Santino\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
-  m_sharedMaterial: {fileID: -8128695050805484950, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
+  m_sharedMaterial: {fileID: -4049758276073571366, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -677,7 +677,7 @@ MonoBehaviour:
     SCHULZ Floriane'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
-  m_sharedMaterial: {fileID: -8128695050805484950, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
+  m_sharedMaterial: {fileID: -4049758276073571366, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -819,7 +819,7 @@ MonoBehaviour:
     MANSION Vincent'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
-  m_sharedMaterial: {fileID: -8128695050805484950, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
+  m_sharedMaterial: {fileID: -4049758276073571366, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1074,7 +1074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &900603252
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1825,7 +1825,7 @@ MonoBehaviour:
   m_text: "Cr\xE9dits"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
-  m_sharedMaterial: {fileID: -8128695050805484950, guid: 9491f898eb984ae42899b36c013c5d9c, type: 2}
+  m_sharedMaterial: {fileID: -4049758276073571366, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
