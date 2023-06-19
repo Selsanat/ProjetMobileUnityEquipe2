@@ -132,6 +132,7 @@ namespace Map
                 case NodeType.Store:
                     break;
                 case NodeType.Boss:
+                    Instance.transichamp();
                     break;
                 case NodeType.Mystery:
                     Instance.transitower();

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MenuSacha.unity
+    guid: 77d4409f9ae58454783f9fa4c5691a35
+  - enabled: 1
     path: Assets/Scenes/levelSelector.unity
     guid: 9a768f687b7bfa146bdcf433bedea731
   - enabled: 1
@@ -15,32 +18,8 @@ EditorBuildSettings:
     path: Assets/Leandro/Scene/Ecran win.unity
     guid: 09c35c3a36c6a664281ba68b531370d0
   - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart01.unity
-    guid: 1432da3e3a44292448208534f80186f9
-  - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart02.unity
-    guid: 60fa403a7f62c5f48b7ecbb12e2fea31
-  - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart03.unity
-    guid: b186568cc86b58c48ab77397bf77bb76
-  - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart04.unity
-    guid: fa7e6e3cb9bf3ce49a4c72659262c280
-  - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart05.unity
-    guid: b841cfbf911343c4cb5138360c8b4a2f
-  - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart06.unity
-    guid: a17302f614785234680d4912aa47bffb
-  - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart07.unity
-    guid: 76c5939bee50c044c954fe83356b42d2
-  - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart08.unity
-    guid: 6d6189c9a1d456e46b9f0472f0f4f5d5
-  - enabled: 1
-    path: Assets/Scenes/Tutorial/TutoPart09.unity
-    guid: e17480ae1c3a12e4b83d5c1b017ccaf2
+    path: Assets/Scenes/Tutorial/TutoScene.unity
+    guid: 9ac596cd66b7981488ed76ff689fa83e
   m_configObjects:
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 9b921a98ce607514785f74d7745d1548, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: ef8126afba5961744953b54db779178b, type: 2}

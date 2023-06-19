@@ -9,6 +9,8 @@ TagManager:
   - arbo
   - pretre
   - enemy
+  - arboLight
+  - pretreLight
   layers:
   - Default
   - TransparentFX

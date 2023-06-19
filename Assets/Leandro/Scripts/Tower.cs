@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Map;
 
 public class Tower : MonoBehaviour
 {
@@ -82,7 +83,9 @@ public class Tower : MonoBehaviour
         }
         yield return new WaitForSeconds(1);
         gameManager.transi.Play("Detransi");
-        SceneManager.LoadScene(0);
+        MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
+        MapPlayerTracker.Instance.mapManager.SaveMap();
+        SceneManager.LoadScene(1);
 
     }
     IEnumerator SoigneEtchangeScreen(bool isDruid)

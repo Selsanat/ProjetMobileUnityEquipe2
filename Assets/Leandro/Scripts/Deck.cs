@@ -311,6 +311,8 @@ public class Deck : MonoBehaviour
                 deck.Add(deckBasePriest[i]);
             }
         }
+
+
     }
     public void Start()
     {

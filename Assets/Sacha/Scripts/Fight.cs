@@ -19,7 +19,8 @@ using Slider = UnityEngine.UI.Slider;
 using Map;
 using DG.Tweening.Core.Easing;
 using Random = UnityEngine.Random;
-using static UnityEngine.Rendering.DebugUI; 
+using static UnityEngine.Rendering.DebugUI;
+using PathCreation.Examples;
 
 public class Fight : MonoBehaviour
 {
@@ -94,7 +95,7 @@ public class Fight : MonoBehaviour
     {
         if (test == false)
         {
-            if (SceneManager.GetActiveScene().buildIndex == 1)
+            if (SceneManager.GetActiveScene().buildIndex == 2)
             {
                 test = true;
                 StartFight();
@@ -267,7 +268,7 @@ public class Fight : MonoBehaviour
     {
         if(isChamp == false)
         {
-            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(6).gameObject.GetComponent<Light2D>();
+            Light2D lightDuBoutton = Boutton.gameObject.transform.GetChild(8).gameObject.GetComponent<Light2D>();
             lightDuBoutton.enabled = true;
         }
         else
@@ -452,6 +453,11 @@ public class Fight : MonoBehaviour
             en1.m_slider.value = en1.getPv();
             en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
             en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
+            en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
+            en1.ArmorText = GameObject.Find("shieldTextEn").GetComponent<TextMeshProUGUI>();
+            en1.ArmorText.text = en1.getArmor().ToString();
+            en1.Armor = GameObject.Find("shieldEn").GetComponent<Image>();
+            
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
@@ -473,6 +479,10 @@ public class Fight : MonoBehaviour
             en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
             en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            en1.ArmorText = GameObject.Find("shieldTextEn").GetComponent<TextMeshProUGUI>();
+            en1.Armor = GameObject.Find("shieldEn").GetComponent<Image>();
+
+            en1.ArmorText.text = en1.getArmor().ToString();
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.m_buffs = en1.m_slider.transform.parent.GetChild(4);
@@ -489,6 +499,10 @@ public class Fight : MonoBehaviour
             En2.pvText = GameObject.Find("pvEn2").GetComponent<TextMeshProUGUI>();
             En2.pvText.text = En2.getPv().ToString() + " / " + En2.getMaxPv().ToString();
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En2.Armor = GameObject.Find("shieldEn").GetComponent<Image>();
+
+            En2.ArmorText = GameObject.Find("shieldTextEn2").GetComponent<TextMeshProUGUI>();
+            En2.ArmorText.text = En2.getArmor().ToString();
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En2.m_buffs = En2.m_slider.transform.parent.GetChild(4);
@@ -510,6 +524,10 @@ public class Fight : MonoBehaviour
             en1.pvText = GameObject.Find("pvEn").GetComponent<TextMeshProUGUI>();
             en1.pvText.text = en1.getPv().ToString() + " / " + en1.getMaxPv().ToString();
             en1.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            en1.ArmorText = GameObject.Find("shieldTextEn").GetComponent<TextMeshProUGUI>();
+            en1.ArmorText.text = en1.getArmor().ToString();
+            en1.Armor = GameObject.Find("shieldEn").GetComponent<Image>();
+
             en1.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.m_buffs = en1.m_slider.transform.parent.GetChild(4);
@@ -526,6 +544,10 @@ public class Fight : MonoBehaviour
             En2.pvText = GameObject.Find("pvEn2").GetComponent<TextMeshProUGUI>();
             En2.pvText.text = En2.getPv().ToString() + " / " + En2.getMaxPv().ToString();
             En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En2.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En2.ArmorText = GameObject.Find("shieldTextEn2").GetComponent<TextMeshProUGUI>();
+            En2.Armor = GameObject.Find("shieldEn2").GetComponent<Image>();
+
             En2.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En2.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En2.m_buffs = En2.m_slider.transform.parent.GetChild(4);
@@ -542,7 +564,11 @@ public class Fight : MonoBehaviour
             En3.m_slider.value = En3.getPv();
             En3.pvText = GameObject.Find("pvEn3").GetComponent<TextMeshProUGUI>();
             En3.pvText.text = En3.getPv().ToString() + " / " + En3.getMaxPv().ToString();
+            En3.ArmorText = GameObject.Find("shieldTextEn3").GetComponent<TextMeshProUGUI>();
+            En3.ArmorText.text = En3.getArmor().ToString();
             En3.m_valueText = temp.GetComponentInChildren<TextMeshProUGUI>();
+            En3.Armor = GameObject.Find("shieldEn3").GetComponent<Image>();
+
             En3.m_spriteFocus = temp.GetComponentsInChildren<Image>()[3];
             En3.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             En3.m_buffs = En3.m_slider.transform.parent.GetChild(4);
@@ -563,6 +589,8 @@ public class Fight : MonoBehaviour
             c.DataCard.m_isUpsideDown = false;
             c.gameObject.SetActive(false);
         }
+        GameObject.FindGameObjectWithTag("pretreLight").GetComponent<Light2D>().enabled = false;
+        GameObject.FindGameObjectWithTag("arboLight").GetComponent<Light2D>().enabled = false;
 
         StartTurn();
         
@@ -598,13 +626,14 @@ public class Fight : MonoBehaviour
             if(E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Arboriste)
             {
                 arboristeButton.interactable = true;
-                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); });
+                            
+                arboristeButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(true)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax; isArboTransform = true; arboristeButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); GameObject.FindGameObjectWithTag("arboLight").GetComponent<Light2D>().enabled = false; });
 
             }
             else if (E.isFull && E.getIsAlive() && E.m_role == entityManager.Role.Pretre)
             {
                 pretreButton.interactable = true;
-                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); });
+                pretreButton.onClick.AddListener(() => { StartCoroutine(Gm.deck.TransfoCoroutine(false)); E.setMana(0); E.stockText.text = E.getMana().ToString() + " / " + E.m_manaMax ; isPretreTransform = true; pretreButton.onClick.RemoveAllListeners(); nbTransfo++; E.isFull = false; Gm.TranscendanceAchivement(); GameObject.FindGameObjectWithTag("pretreLight").GetComponent<Light2D>().enabled = false; });
                 
 
             }
@@ -989,7 +1018,7 @@ public class Fight : MonoBehaviour
             {
                 lightsAllies.Clear();
                 lightsEnnemies.Clear();
-                if(Gm.waveCounter == 12)
+                if(Gm.waveCounter == 11)
                 {
                     WinFinalFight();
                 }
@@ -1026,11 +1055,24 @@ public class Fight : MonoBehaviour
                 }
             }
             h.resetArmor();
-            UpdateArmorValue(h);
+            if (h.ArmorText != null)
+                h.ArmorText.text = h.getArmor().ToString();
+
+            if (h.m_role == entityManager.Role.Arboriste || h.m_role == entityManager.Role.Pretre)
+                UpdateArmorValue(h);
+
             h.setArmor(h.m_nextArmor);
             print(h.m_armor + "VOILA MON ARMOR");
             h.m_nextArmor = 0;
-            UpdateArmorValue(h);
+
+            if (h.ArmorText != null)
+                h.ArmorText.text = h.getArmor().ToString();
+
+            if(h.m_role == entityManager.Role.Arboriste || h.m_role == entityManager.Role.Pretre)
+            {
+                UpdateArmorValue(h);
+
+            }
         }
 
 
@@ -1087,7 +1129,7 @@ public class Fight : MonoBehaviour
         {
             lightsAllies.Clear();
             lightsEnnemies.Clear();
-            if (Gm.waveCounter == 12)
+            if (Gm.waveCounter == 11)
             {
                 WinFinalFight();
             }
@@ -1102,7 +1144,39 @@ public class Fight : MonoBehaviour
     {
         endturnbool = !endturnbool;
     }
+    public IEnumerator animMana()
+    {
 
+        FindObjectOfType<ParticleSystem>().GetComponent<PathFollower>().addPath();
+
+        yield return new WaitForSeconds(0.85f);
+        FindObjectOfType<ParticleSystem>().GetComponent<PathFollower>().removePath();
+        stockText.text = stock.ToString();
+        endTurnButton?.onClick.RemoveAllListeners();
+        endTurnButton?.onClick.AddListener(() => { chargeMana(3); });
+
+
+        foreach (hero h in heroes)
+        {
+            if (h.m_role == hero.Role.Arboriste && h.getMana() != h.m_manaMax)
+            {
+                arboristeButton?.onClick.RemoveAllListeners();
+                arboristeButton?.onClick.AddListener(() => { chargeMana(0); });
+                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+            }
+            else if (h.m_role == hero.Role.Pretre && h.getMana() != h.m_manaMax)
+            {
+
+                pretreButton?.onClick.RemoveAllListeners();
+                pretreButton?.onClick.AddListener(() => { chargeMana(1); });
+                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
+            }
+
+        }
+
+
+        yield return null;
+    }
     public void repMana()
     {
         if (coroutine != null)
@@ -1120,32 +1194,10 @@ public class Fight : MonoBehaviour
         stock += mana + venerations;
         venerations = 0;
         mana = 0;
-        stockText.text = stock.ToString();
         manaText.text = mana.ToString();
 
-        endTurnButton?.onClick.RemoveAllListeners();
-        //endTurnButton.GetComponentInChildren<TextMeshProUGUI>().text = "SKIP";
-        endTurnButton?.onClick.AddListener(() => { chargeMana(3); });
         
-        
-        foreach (hero h in heroes)
-        {
-            if(h.m_role == hero.Role.Arboriste && h.getMana() != h.m_manaMax)
-            {
-                arboristeButton?.onClick.RemoveAllListeners();
-                arboristeButton?.onClick.AddListener(() => { chargeMana(0); });
-                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
-            }
-            else if (h.m_role == hero.Role.Pretre && h.getMana() != h.m_manaMax)
-            {
-
-                pretreButton?.onClick.RemoveAllListeners();
-                pretreButton?.onClick.AddListener(() => { chargeMana(1); });
-                h.stockText.text = h.getMana().ToString() + " / " + h.m_manaMax;
-            }   
-            
-        }
-        
+        StartCoroutine(animMana());
         
     }
 
@@ -1165,6 +1217,7 @@ public class Fight : MonoBehaviour
                         if (h.getMana() == h.m_manaMax)
                         {
                             h.isFull = true;
+                            GameObject.FindGameObjectWithTag("arboLight").GetComponent<Light2D>().enabled = true;
                             break;
 
                         }
@@ -1190,6 +1243,7 @@ public class Fight : MonoBehaviour
                         if (h.getMana() == h.m_manaMax)
                         {
                             h.isFull = true;
+                            GameObject.FindGameObjectWithTag("pretreLight").GetComponent<Light2D>().enabled = true;
                             break;
 
                         }
@@ -1238,6 +1292,8 @@ public class Fight : MonoBehaviour
         foreach (hero En in enemiesAtStartOfCombat.ToList())
         {
             En.resetArmor();
+            En.ArmorText.text = En.getArmor().ToString();
+
             ennemyPlaying = En;
             En.EnemyAttack(heroes, false);
             foreach (hero h in heroes.ToList())
@@ -1356,7 +1412,8 @@ public class Fight : MonoBehaviour
         enemiesAtStartOfCombat.Clear();
         HeroesGameObjectRef.Clear();
         HeroesAltGameObjectRef.Clear();
-        Gm.needToResetMap = true;
+        MapPlayerTracker.Instance.mapManager.GenerateNewMap();
+        MapPlayerTracker.Instance.mapManager.SaveMap();
         Gm.SaveData();
     }
     private void LooseFight()
@@ -1379,7 +1436,7 @@ public class Fight : MonoBehaviour
         Gm.winoulose = false;
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
         Gm.transi.Play("Detransi");
 
         // A appeler lorsqu'on relance
@@ -1411,7 +1468,7 @@ public class Fight : MonoBehaviour
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
         Gm.winoulose = true;
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
         Gm.transi.Play("Detransi");
         //FindObjectOfType<MapManager>().GenerateNewMap();
     }
@@ -1670,7 +1727,7 @@ public class Fight : MonoBehaviour
         Gm.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
         Gm.transi.Play("Detransi");
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
         test = false;
 
     }
@@ -1738,11 +1795,11 @@ public class Fight : MonoBehaviour
                     case dataCard.CardType.Damage:
                         foreach (hero hero in selected)
                         {
-                         hero.takeDamage(card.DataCard.m_value);
-                        print(hero.m_Pv);
-                        StartCoroutine(Gm.CarteUtilisee.UpdateLife(hero));
-                        StartCoroutine(DamageNumberCorou(Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position), card.DataCard.m_value));
-                    }
+                            hero.takeDamage(card.DataCard.m_value);
+                            print(hero.m_Pv);
+                            StartCoroutine(Gm.CarteUtilisee.UpdateLife(hero));
+                            StartCoroutine(DamageNumberCorou(Camera.main.ScreenToWorldPoint(hero.m_slider.transform.position), card.DataCard.m_value));
+                        }
                         break;
                     case dataCard.CardType.Heal:
                         foreach (hero hero in selected)
@@ -1754,7 +1811,12 @@ public class Fight : MonoBehaviour
                         foreach (hero hero in selected)
                         {
                             hero.setArmor(card.DataCard.m_value); // mettre la valeur de l'armure
-                            Gm.FM.UpdateArmorValue(hero);
+                            if(hero.ArmorText != null)
+                                hero.ArmorText.text = hero.m_armor.ToString();
+
+                            if(hero.m_role == entityManager.Role.Pretre || hero.m_role == entityManager.Role.Arboriste)
+                                Gm.FM.UpdateArmorValue(hero);
+
                             if (Gm.isAbsolution)
                             {
                                 foreach (hero enemy in enemiesAtStartOfCombat)
@@ -1902,12 +1964,12 @@ public class Fight : MonoBehaviour
                         }
                         break;
                     case dataCard.CardType.MurDeRonces:
+                        if (card.DataCard.m_isUpsideDown)
+                        {
+                            card.LaissePourMort();
+                        }
                         foreach (hero hero in selected)
                         {
-                            if (card.DataCard.m_isUpsideDown)
-                            {
-                                card.LaissePourMort();
-                            }
                             if (!card.DataCard.m_isUpsideDown)
                             {
                                 card.MurDeRonces(hero);
@@ -2148,9 +2210,9 @@ public class Fight : MonoBehaviour
 
     public IEnumerator DamageNumberCorou(GameObject objet, int damage)
     {
+        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = damage.ToString();
         GameObject texte = GameObject.Instantiate(PrefabDmgText);
         texte.transform.position = objet.transform.position;
-        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = ""+damage;
         yield return new WaitForSeconds(2);
         Destroy(texte);
     }
@@ -2161,18 +2223,19 @@ public class Fight : MonoBehaviour
     }
     public IEnumerator DamageNumberCorou(Vector3 objet, int damage)
     {
+        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = damage.ToString();
         GameObject texte = GameObject.Instantiate(PrefabDmgText);
-
-        texte.transform.position = new Vector3(objet.x, objet.y+2, objet.z);
+        texte.transform.position = new Vector3(objet.x, objet.y - 2, objet.z);
         texte.transform.position = new Vector3(texte.transform.position.x + Random.Range(-1f, 1f), texte.transform.position.y + Random.Range(-1f, 1f), texte.transform.position.z);
-        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = "" + damage;
+        PrefabDmgText.transform.GetChild(0).GetComponent<TMP_Text>().text = damage.ToString();
         yield return new WaitForSeconds(2);
         Destroy(texte);
     }
 
     public void DamageNumber(Vector3 objet, int damage)
     {
-        StartCoroutine(DamageNumberCorou(objet, damage));
+        Vector3 offset = new Vector3(0, 4, 0);
+        StartCoroutine(DamageNumberCorou(objet + offset, damage));
     }
     public void UpdateLifeAllies()
     {

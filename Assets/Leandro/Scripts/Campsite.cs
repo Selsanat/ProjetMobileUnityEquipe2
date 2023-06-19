@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Map;
 
 public class Campsite : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class Campsite : MonoBehaviour
         gameManager = GameObject.FindObjectOfType<GameManager>();
         druide.gameObject.SetActive(false);
         pretre.gameObject.SetActive(false);
+        texte.text = "";
         inst = StartCoroutine(Ecrit("Choisissez un personnage a soigner"));
     }
     public IEnumerator Soigne(bool isDruid)
@@ -29,17 +31,17 @@ public class Campsite : MonoBehaviour
         string str = "Le personnage a été soigné !(";
         if (isDruid)
         {
-            gameManager.LifeArboriste += 25;
-            if (gameManager.LifeArboriste > 50)
-                gameManager.LifeArboriste = 50;
+            gameManager.LifeArboriste += 20;
+            if (gameManager.LifeArboriste > 40)
+                gameManager.LifeArboriste = 40;
 
             str += "" + gameManager.LifeArboriste;
         }
         else 
         {
-            gameManager.LifePretre += 25;
-            if (gameManager.LifePretre > 50)
-                gameManager.LifePretre = 50;
+            gameManager.LifePretre += 20;
+            if (gameManager.LifePretre > 40)
+                gameManager.LifePretre = 40;
             str += "" + gameManager.LifePretre;
         }
         str += "PV)\nCliquer pour continuer";
@@ -86,7 +88,9 @@ public class Campsite : MonoBehaviour
         }
         yield return new WaitForSeconds(1);
         gameManager.transi.Play("Detransi");
-        SceneManager.LoadScene(0);
+        MapPlayerTracker.Instance.setPlayerToNode(MapPlayerTracker.Instance._currentNode);
+        MapPlayerTracker.Instance.mapManager.SaveMap();
+        SceneManager.LoadScene(1);
 
     }
     IEnumerator SoigneEtchangeScreen(bool isDruid)
