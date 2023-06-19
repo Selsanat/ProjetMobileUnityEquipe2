@@ -1148,7 +1148,7 @@ public class Fight : MonoBehaviour
 
         FindObjectOfType<ParticleSystem>().GetComponent<PathFollower>().addPath();
 
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.85f);
         FindObjectOfType<ParticleSystem>().GetComponent<PathFollower>().removePath();
         stockText.text = stock.ToString();
         endTurnButton?.onClick.RemoveAllListeners();
