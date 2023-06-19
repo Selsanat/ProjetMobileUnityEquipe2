@@ -1017,7 +1017,7 @@ public class Fight : MonoBehaviour
             {
                 lightsAllies.Clear();
                 lightsEnnemies.Clear();
-                if(Gm.waveCounter == 12)
+                if(Gm.waveCounter == 11)
                 {
                     WinFinalFight();
                 }
@@ -1128,7 +1128,7 @@ public class Fight : MonoBehaviour
         {
             lightsAllies.Clear();
             lightsEnnemies.Clear();
-            if (Gm.waveCounter == 12)
+            if (Gm.waveCounter == 11)
             {
                 WinFinalFight();
             }
