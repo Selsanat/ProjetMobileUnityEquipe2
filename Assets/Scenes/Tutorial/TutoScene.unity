@@ -1241,7 +1241,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Apr\xE8s avoir cliqu\xE9 sur la fl\xE8che pour terminer votre tour, le
-    mana restant se transforme en v\xE9n\xE9ration. Attribuez la \xE0 un h\xE9ros
+    mana restant se transforme en v\xE9n\xE9ration. Attribuez-la \xE0 un h\xE9ros
     ou cliquez \xE0 nouveau sur la fl\xE8che pour la stocker."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
@@ -1898,8 +1898,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Lorsqu'un h\xE9ros poss\xE8de poss\xE8de suffisamment  de v\xE9n\xE9ration,
-    cliquez sur lui pour transformer ses cartes de classes et varier leurs effets."
+  m_text: "Lorsqu'un h\xE9ros poss\xE8de suffisamment  de v\xE9n\xE9ration, cliquez
+    sur lui pour transformer ses cartes de classes et varier leurs effets."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_sharedMaterial: {fileID: -4049758276073571366, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
@@ -3767,7 +3767,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Jouez en fonction des actions ennemis, affich\xE9es au-dessus d'eux pendant
+  m_text: "Jouez en fonction des actions ennemies, affich\xE9es au-dessus d'eux pendant
     votre tour. Bonne chance !"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
@@ -5341,7 +5341,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Observez les ennemis et choisissez le ou les h\xE9ros qui participeront
-    au combat. Vous pouvez voir leurs points de vie, leur niveau et leur points d'exp\xE9rience."
+    au combat. Vous pouvez voir leurs points de vie, leurs niveaux et leurs points
+    d'exp\xE9rience."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_sharedMaterial: {fileID: -4049758276073571366, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
@@ -6199,9 +6200,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Piochez de 4 cartes \xE0 chaque tour. Elles ont chacunes un c\xF4ut en
-    mana. Il y a des cartes communes et de classes, que vous d\xE9bloquerez selon
-    le niveau des h\xE9ros."
+  m_text: "Piochez 4 cartes \xE0 chaque tour. Elles ont chacune un co\xFBt en mana.
+    Il y a des cartes communes et de classes, que vous d\xE9bloquerez selon le niveau
+    des h\xE9ros."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
   m_sharedMaterial: {fileID: -4049758276073571366, guid: fc67f1821c2889c45b3634360c3bc5c8, type: 2}
