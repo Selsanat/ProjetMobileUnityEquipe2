@@ -286,6 +286,7 @@ public class Fight : MonoBehaviour
             mana -= Gm.CarteUtilisee.DataCard.m_manaCost; 
             manaText.text = mana.ToString();
             cancel.gameObject.SetActive(false);
+            Gm.CarteUtilisee.DisableHealthbar( true);
             DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
             Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
             dissolveController.isDissolving = true;
@@ -294,8 +295,9 @@ public class Fight : MonoBehaviour
             dissolveController.dissolveAmount = 1;
             Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
             isCardSend = true;
+            Gm.deck.EndTurnButton.interactable = true;
 
-            
+
         }
     }
     #endregion
@@ -446,6 +448,7 @@ public class Fight : MonoBehaviour
             en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
+            temp.GetComponent<Image>().rectTransform.sizeDelta = Gm.allWave[Gm.waveCounter][waveType][0].m_sprite.bounds.size * 100f;
             ennemisButton1 = temp.GetComponent<Button>();
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();

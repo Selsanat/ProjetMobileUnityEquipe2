@@ -555,7 +555,9 @@ public class Deck : MonoBehaviour
     }
     public void CancelChosenCard()
     {
+        gameManager.CarteUtilisee.DisableHealthbar(true);
         CancelChosenCard(false);
+        gameManager.deck.EndTurnButton.interactable = true;
     }
     [Button]
     private void BDrawCard() {
@@ -588,6 +590,7 @@ public class Deck : MonoBehaviour
             {
                 StartCoroutine(TransposeAtoB(gameManager.CarteUtilisee.gameObject, Vector3.Lerp(AllyCardTransform.position, EnnemyCardTransform.position, 0.5f)));
                 StartCoroutine(TransposeAtoBRotation(gameManager.CarteUtilisee.gameObject, Quaternion.Lerp(AllyCardTransform.rotation, EnnemyCardTransform.rotation, 0.5f)));
+
             }
             if (gameManager.CarteUtilisee.DataCard.BackCard.TargetAllies && !gameManager.CarteUtilisee.DataCard.BackCard.TargetEnnemies)
             {
