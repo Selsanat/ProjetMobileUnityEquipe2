@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     public MapPlayerTracker maptracker;
     public bool isPlayerConnected;
     public bool campUsed = false;
+    public bool ShouldResetMap = false;
     //private public MapNode _currentNode;
 
     public static GameObject Background;
@@ -182,37 +183,37 @@ public class GameManager : MonoBehaviour
     #region Achivements
     public void WinAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_victory, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_victory, 100f, null);
     }
 
     public void DeathAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_desolation, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_desolation, 100f, null);
     }
 
     public void RestAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_rest, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_rest, 100f, null);
     }
 
     public void TranscendanceAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_transcendance, 100f, null);
+        //.ReportProgress(GPGSIds.achievement_transcendance, 100f, null);
     }
 
     public void MiracleAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_miracle, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_miracle, 100f, null);
     }
 
     public void GrowthAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_growth, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_growth, 100f, null);
     }
 
     public void MasteryAchivement(int lvl)
     {
-        switch(lvl)
+/*        switch(lvl)
         {
             case 0:
                 Social.ReportProgress(GPGSIds.achievement_mastery, 0, null);
@@ -243,24 +244,24 @@ public class GameManager : MonoBehaviour
                 break;
 
 
-        }
+        }*/
     }
 
     public void TranscendanceBothHeroAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_achieve_completion, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_achieve_completion, 100f, null);
     }
 
 
     public void PeakPerformanceAchivement()
     {
-            Social.ReportProgress(GPGSIds.achievement_peak_performance, 100f, null);
+            //Social.ReportProgress(GPGSIds.achievement_peak_performance, 100f, null);
     }
 
     public void SurvivalAchivement()
     {
-        if(!campUsed)
-            Social.ReportProgress(GPGSIds.achievement_survival, 100f, null);
+        //if (!campUsed)
+            //Social.ReportProgress(GPGSIds.achievement_survival, 100f, null);
 
     }
 

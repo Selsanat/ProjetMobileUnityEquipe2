@@ -148,7 +148,7 @@ namespace Map
             gm.transi.Play("Transi");
             yield return new WaitForSeconds(1.5f);
             gm.transi.Play("Detransi");
-            GameObject.Find("OuterMapParent").SetActive(false);
+            GameObject.Find("OuterMapParent")?.SetActive(false);
             champSelection.setctive();
         }
         public IEnumerator TransiTower()

@@ -102,6 +102,7 @@ public class champSelector : MonoBehaviour
                     break;
                 }
                 GameObject en = Instantiate(gameManager.allWave[gameManager.waveCounter][wavetype][encount].prefab, go.transform);
+
                 en.transform.localScale = new Vector3(10, 10, 10);
                 en.transform.parent = go.transform;
                 en.GetComponentInChildren<Animator>().speed = 0;
