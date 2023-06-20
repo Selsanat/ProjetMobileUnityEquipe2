@@ -10,6 +10,7 @@ using GooglePlayGames.BasicApi;
 using static Unity.Burst.Intrinsics.X86;
 using GooglePlayGames;
 using NaughtyAttributes;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Fight))]
 public class GameManager : MonoBehaviour
@@ -99,12 +100,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //SignInGooglePlayServices();
-        if (needToResetMap)
-        {
-            MapPlayerTracker.Instance.mapManager.GenerateNewMap();
-            MapPlayerTracker.Instance.mapManager.SaveMap();
-            needToResetMap = false;
-        }
+        
         transi = transform.GetChild(0)?.gameObject.GetComponent<Animator>();
         FM = FindObjectOfType<Fight>();
         entityManager = FindObjectOfType<entityManager>();
@@ -128,11 +124,17 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-
             SaveData();
         }
+        if (needToResetMap && SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            print("reset");
+            MapPlayerTracker.Instance.mapManager.GenerateNewMap();
+            MapPlayerTracker.Instance.mapManager.SaveMap();
+            needToResetMap = false;
+        }
 
-        if(maptracker != null)
+        if (maptracker != null)
             maptracker = FindObjectOfType<MapPlayerTracker>();
 
 
@@ -157,7 +159,7 @@ public class GameManager : MonoBehaviour
     }*/
     public void SaveData()
     {
-        savingData data = new savingData(LifeArboriste, LifePretre, waveCounter, levelArboriste, levelPretre, expArboriste, expPretre, IsPretrePlayed, IsArboristePlayed);
+        savingData data = new savingData(LifeArboriste, LifePretre, waveCounter, levelArboriste, levelPretre, expArboriste, expPretre, IsPretrePlayed, IsArboristePlayed, needToResetMap);
         savingSysteme.SaveData(data);
     }
 
@@ -173,6 +175,7 @@ public class GameManager : MonoBehaviour
         expPretre = data.expPretre;
         IsPretrePlayed = data.isPretrePlayed;
         IsArboristePlayed = data.isArboPlayed;
+        needToResetMap = data.needToResetMap;
     }
 
 
