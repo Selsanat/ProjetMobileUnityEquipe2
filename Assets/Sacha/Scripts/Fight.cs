@@ -286,6 +286,7 @@ public class Fight : MonoBehaviour
             mana -= Gm.CarteUtilisee.DataCard.m_manaCost; 
             manaText.text = mana.ToString();
             cancel.gameObject.SetActive(false);
+            Gm.CarteUtilisee.DisableHealthbar( true);
             DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
             Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
             dissolveController.isDissolving = true;
@@ -294,8 +295,9 @@ public class Fight : MonoBehaviour
             dissolveController.dissolveAmount = 1;
             Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
             isCardSend = true;
+            Gm.deck.EndTurnButton.interactable = true;
 
-            
+
         }
     }
     #endregion
