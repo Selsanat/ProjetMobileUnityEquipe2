@@ -343,7 +343,7 @@ public class Fight : MonoBehaviour
             //ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
             ChangerBouttonEnGameObject(arboristeButton, PrefabHeroes[0], true, 0.16f, PrefabHeroesalt[0]);
             H2.m_slider = temp.GetComponentInChildren<Slider>();
-            H2.m_slider.maxValue = H2.getMaxPv();
+            H2.m_slider.maxValue = 40;
             H2.m_slider.value = H2.getPv();
             H2.pvText = GameObject.Find("pvChamp").GetComponent<TextMeshProUGUI>();
             H2.pvText.text = H2.getPv().ToString() + " / " + H2.getMaxPv().ToString();
@@ -1411,11 +1411,11 @@ public class Fight : MonoBehaviour
         Gm.HasCardInHand = false;
         Gm.debuffDraw = 0;
         Gm.isHoverButton = false;
+        Gm.needToResetMap = true;
         enemiesAtStartOfCombat.Clear();
         HeroesGameObjectRef.Clear();
         HeroesAltGameObjectRef.Clear();
-        MapPlayerTracker.Instance.mapManager.GenerateNewMap();
-        MapPlayerTracker.Instance.mapManager.SaveMap();
+        
         Gm.SaveData();
     }
     private void LooseFight()
