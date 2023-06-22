@@ -10,6 +10,7 @@ using GooglePlayGames.BasicApi;
 using static Unity.Burst.Intrinsics.X86;
 using GooglePlayGames;
 using NaughtyAttributes;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Fight))]
 public class GameManager : MonoBehaviour
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
     public MapPlayerTracker maptracker;
     public bool isPlayerConnected;
     public bool campUsed = false;
+    public bool ShouldResetMap = false;
     //private public MapNode _currentNode;
 
     public static GameObject Background;
@@ -99,12 +101,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //SignInGooglePlayServices();
-        if (needToResetMap)
-        {
-            MapPlayerTracker.Instance.mapManager.GenerateNewMap();
-            MapPlayerTracker.Instance.mapManager.SaveMap();
-            needToResetMap = false;
-        }
+        
         transi = transform.GetChild(0)?.gameObject.GetComponent<Animator>();
         FM = FindObjectOfType<Fight>();
         entityManager = FindObjectOfType<entityManager>();
@@ -128,11 +125,17 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-
             SaveData();
         }
+        if (needToResetMap && SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            print("reset");
+            MapPlayerTracker.Instance.mapManager.GenerateNewMap();
+            MapPlayerTracker.Instance.mapManager.SaveMap();
+            needToResetMap = false;
+        }
 
-        if(maptracker != null)
+        if (maptracker != null)
             maptracker = FindObjectOfType<MapPlayerTracker>();
 
 
@@ -157,7 +160,7 @@ public class GameManager : MonoBehaviour
     }*/
     public void SaveData()
     {
-        savingData data = new savingData(LifeArboriste, LifePretre, waveCounter, levelArboriste, levelPretre, expArboriste, expPretre, IsPretrePlayed, IsArboristePlayed);
+        savingData data = new savingData(LifeArboriste, LifePretre, waveCounter, levelArboriste, levelPretre, expArboriste, expPretre, IsPretrePlayed, IsArboristePlayed, needToResetMap);
         savingSysteme.SaveData(data);
     }
 
@@ -173,43 +176,44 @@ public class GameManager : MonoBehaviour
         expPretre = data.expPretre;
         IsPretrePlayed = data.isPretrePlayed;
         IsArboristePlayed = data.isArboPlayed;
+        needToResetMap = data.needToResetMap;
     }
 
 
     #region Achivements
     public void WinAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_victory, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_victory, 100f, null);
     }
 
     public void DeathAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_desolation, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_desolation, 100f, null);
     }
 
     public void RestAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_rest, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_rest, 100f, null);
     }
 
     public void TranscendanceAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_transcendance, 100f, null);
+        //.ReportProgress(GPGSIds.achievement_transcendance, 100f, null);
     }
 
     public void MiracleAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_miracle, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_miracle, 100f, null);
     }
 
     public void GrowthAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_growth, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_growth, 100f, null);
     }
 
     public void MasteryAchivement(int lvl)
     {
-        switch(lvl)
+/*        switch(lvl)
         {
             case 0:
                 Social.ReportProgress(GPGSIds.achievement_mastery, 0, null);
@@ -240,24 +244,24 @@ public class GameManager : MonoBehaviour
                 break;
 
 
-        }
+        }*/
     }
 
     public void TranscendanceBothHeroAchivement()
     {
-        Social.ReportProgress(GPGSIds.achievement_achieve_completion, 100f, null);
+        //Social.ReportProgress(GPGSIds.achievement_achieve_completion, 100f, null);
     }
 
 
     public void PeakPerformanceAchivement()
     {
-            Social.ReportProgress(GPGSIds.achievement_peak_performance, 100f, null);
+            //Social.ReportProgress(GPGSIds.achievement_peak_performance, 100f, null);
     }
 
     public void SurvivalAchivement()
     {
-        if(!campUsed)
-            Social.ReportProgress(GPGSIds.achievement_survival, 100f, null);
+        //if (!campUsed)
+            //Social.ReportProgress(GPGSIds.achievement_survival, 100f, null);
 
     }
 

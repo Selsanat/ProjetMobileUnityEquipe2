@@ -14,8 +14,9 @@ public class savingData
     public int expPretre;
     public bool isPretrePlayed;
     public bool isArboPlayed;
+    public bool needToResetMap;
 
-    public savingData(int lifeArbo, int lifePretre, int waveCount, int levelArbo, int levelPretre, int expArbo, int expPretre, bool isPretrePlayed, bool isArboPlayed)
+    public savingData(int lifeArbo, int lifePretre, int waveCount, int levelArbo, int levelPretre, int expArbo, int expPretre, bool isPretrePlayed, bool isArboPlayed, bool needToResetMap)
     {
         Debug.Log(lifeArbo + " " + lifePretre + " " + waveCount + " " + levelArbo + " " + levelPretre + " " + expArbo + " " + expPretre + " " + isPretrePlayed + " " + isArboPlayed);
         this.lifeArbo = lifeArbo;
@@ -27,5 +28,6 @@ public class savingData
         this.expPretre = expPretre;
         this.isPretrePlayed = isPretrePlayed;
         this.isArboPlayed = isArboPlayed;
+        this.needToResetMap = needToResetMap;
     }
 }

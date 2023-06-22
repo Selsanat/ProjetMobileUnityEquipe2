@@ -210,7 +210,11 @@ public class Fight : MonoBehaviour
         {
             foreach (Light2D light in lightsAllies)
             {
-                light.enabled = false;
+                if (light != null)
+                {
+                    light.enabled = false;
+                }
+                
             }
             ClearSide(true);
         }
@@ -218,7 +222,10 @@ public class Fight : MonoBehaviour
         {
             foreach (Light2D light in lightsEnnemies)
             {
-                light.enabled = false;
+                if (light != null)
+                {
+                    light.enabled = false;
+                }
             }
             ClearSide(false);
         }
@@ -286,6 +293,7 @@ public class Fight : MonoBehaviour
             mana -= Gm.CarteUtilisee.DataCard.m_manaCost; 
             manaText.text = mana.ToString();
             cancel.gameObject.SetActive(false);
+            Gm.CarteUtilisee.DisableHealthbar( true);
             DissolveController dissolveController = Gm.CarteUtilisee.GetComponent<DissolveController>();
             Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
             dissolveController.isDissolving = true;
@@ -294,8 +302,9 @@ public class Fight : MonoBehaviour
             dissolveController.dissolveAmount = 1;
             Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
             isCardSend = true;
+            Gm.deck.EndTurnButton.interactable = true;
 
-            
+
         }
     }
     #endregion
@@ -341,7 +350,7 @@ public class Fight : MonoBehaviour
             //ChangerBouttonEnGameObject(arboristeButton, heroSprite, true);
             ChangerBouttonEnGameObject(arboristeButton, PrefabHeroes[0], true, 0.16f, PrefabHeroesalt[0]);
             H2.m_slider = temp.GetComponentInChildren<Slider>();
-            H2.m_slider.maxValue = H2.getMaxPv();
+            H2.m_slider.maxValue = 40;
             H2.m_slider.value = H2.getPv();
             H2.pvText = GameObject.Find("pvChamp").GetComponent<TextMeshProUGUI>();
             H2.pvText.text = H2.getPv().ToString() + " / " + H2.getMaxPv().ToString();
@@ -446,6 +455,7 @@ public class Fight : MonoBehaviour
             en1 = Gm.allWave[Gm.waveCounter][waveType][0].SetEnemy();
             temp = GameObject.Find("enemy1");
             temp.GetComponent<Image>().sprite = ennemy1Sprite;
+            temp.GetComponent<Image>().rectTransform.sizeDelta = Gm.allWave[Gm.waveCounter][waveType][0].m_sprite.bounds.size * 100f;
             ennemisButton1 = temp.GetComponent<Button>();
             en1.m_slider = temp.GetComponentInChildren<Slider>();
             en1.m_slider.maxValue = en1.getMaxPv();
@@ -462,7 +472,32 @@ public class Fight : MonoBehaviour
             en1.m_spriteTypeAttack = temp.GetComponentsInChildren<Image>()[4];
             en1.m_buffs = en1.m_slider.transform.parent.GetChild(4);
             en1.setIsAlive(true);
-            ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false);
+
+
+            switch (Gm.allWave[Gm.waveCounter][waveType][0].m_role)
+            {
+                case entityManager.Role.ChienEnemy:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false, 0.2f);
+                    break;
+                case entityManager.Role.Mains:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false, 0.2f);
+                    break;
+                case entityManager.Role.Dragon:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false, 0.05f);
+                    break;
+
+                case entityManager.Role.Gargouilles:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false,0.05f);
+                    break;
+                case entityManager.Role.Demon:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false, 0.05f);
+                    break;
+                default:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false);
+                    break;
+            }
+
+
             GameObject.Find("enemy2").SetActive(false);
             GameObject.Find("enemy3").SetActive(false);
         }
@@ -507,7 +542,29 @@ public class Fight : MonoBehaviour
             En2.m_buffs = En2.m_slider.transform.parent.GetChild(4);
             En2.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false);
+            switch (Gm.allWave[Gm.waveCounter][waveType][1].m_role)
+            {
+                case entityManager.Role.ChienEnemy:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false, 0.2f);
+                    break;
+                case entityManager.Role.Mains:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false, 0.2f);
+                    break;
+                case entityManager.Role.Dragon:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false, 0.05f);
+                    break;
+
+                case entityManager.Role.Gargouilles:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false, 0.05f);
+                    break;
+                case entityManager.Role.Demon:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false, 0.05f);
+                    break;
+                default:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false);
+                    break;
+            }
+
             GameObject.Find("enemy3").SetActive(false);
 
         }
@@ -532,7 +589,29 @@ public class Fight : MonoBehaviour
             en1.m_buffs = en1.m_slider.transform.parent.GetChild(4);
             en1.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false);
+            switch (Gm.allWave[Gm.waveCounter][waveType][0].m_role)
+            {
+                case entityManager.Role.ChienEnemy:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false, 0.2f);
+                    break;
+                case entityManager.Role.Mains:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false, 0.2f);
+                    break;
+                case entityManager.Role.Dragon:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false, 0.05f);
+                    break;
+
+                case entityManager.Role.Gargouilles:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false, 0.05f);
+                    break;
+                case entityManager.Role.Demon:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false, 0.05f);
+                    break;
+                default:
+                    ChangerBouttonEnGameObject(ennemisButton1, Gm.allWave[Gm.waveCounter][waveType][0].prefab, false);
+                    break;
+            }
+
             En2 = Gm.allWave[Gm.waveCounter][waveType][1].SetEnemy();
             temp = GameObject.Find("enemy2");
             temp.GetComponent<Image>().sprite = ennemy2Sprite;
@@ -552,7 +631,29 @@ public class Fight : MonoBehaviour
             En2.m_buffs = En2.m_slider.transform.parent.GetChild(4);
             En2.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false);
+            switch (Gm.allWave[Gm.waveCounter][waveType][1].m_role)
+            {
+                case entityManager.Role.ChienEnemy:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false, 0.2f);
+                    break;
+                case entityManager.Role.Mains:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false, 0.2f);
+                    break;
+                case entityManager.Role.Dragon:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false, 0.05f);
+                    break;
+
+                case entityManager.Role.Gargouilles:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false, 0.05f);
+                    break;
+                case entityManager.Role.Demon:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false, 0.05f);
+                    break;
+                default:
+                    ChangerBouttonEnGameObject(ennemisButton2, Gm.allWave[Gm.waveCounter][waveType][1].prefab, false);
+                    break;
+            }
+
 
             En3 = Gm.allWave[Gm.waveCounter][waveType][2].SetEnemy();
             temp = GameObject.Find("enemy3");
@@ -573,7 +674,29 @@ public class Fight : MonoBehaviour
             En3.m_buffs = En3.m_slider.transform.parent.GetChild(4);
             En3.setIsAlive(true);
 
-            ChangerBouttonEnGameObject(ennemisButton3, Gm.allWave[Gm.waveCounter][waveType][2].prefab, false);
+            switch (Gm.allWave[Gm.waveCounter][waveType][2].m_role)
+            {
+                case entityManager.Role.ChienEnemy:
+                    ChangerBouttonEnGameObject(ennemisButton3, Gm.allWave[Gm.waveCounter][waveType][2].prefab, false, 0.2f);
+                    break;
+                case entityManager.Role.Mains:
+                    ChangerBouttonEnGameObject(ennemisButton3, Gm.allWave[Gm.waveCounter][waveType][2].prefab, false, 0.2f);
+                    break;
+                case entityManager.Role.Dragon:
+                    ChangerBouttonEnGameObject(ennemisButton3, Gm.allWave[Gm.waveCounter][waveType][2].prefab, false, 0.05f);
+                    break;
+
+                case entityManager.Role.Gargouilles:
+                    ChangerBouttonEnGameObject(ennemisButton3, Gm.allWave[Gm.waveCounter][waveType][2].prefab, false, 0.05f);
+                    break;
+                case entityManager.Role.Demon:
+                    ChangerBouttonEnGameObject(ennemisButton3, Gm.allWave[Gm.waveCounter][waveType][2].prefab, false, 0.05f);
+                    break;
+                default:
+                    ChangerBouttonEnGameObject(ennemisButton3, Gm.allWave[Gm.waveCounter][waveType][2].prefab, false);
+                    break;
+            }
+
         }
 
 
@@ -925,7 +1048,6 @@ public class Fight : MonoBehaviour
         }
         if (!selectedcard.AOEAllies && selectedcard.TargetAllies)
         {
-
             arboristeButton?.onClick.AddListener(() => { ClearSide(true); switchLightSelection(arboristeButton, true); if (perso2 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); StartCoroutine(CardAnimDisolve()); });
             pretreButton?.onClick.AddListener(() => { switchLightSelection(pretreButton, true); ClearSide(true); selectedhero.Add(heroes[0]); StartCoroutine(CardAnimDisolve()); });
         }
@@ -1408,11 +1530,11 @@ public class Fight : MonoBehaviour
         Gm.HasCardInHand = false;
         Gm.debuffDraw = 0;
         Gm.isHoverButton = false;
+        Gm.needToResetMap = true;
         enemiesAtStartOfCombat.Clear();
         HeroesGameObjectRef.Clear();
         HeroesAltGameObjectRef.Clear();
-        MapPlayerTracker.Instance.mapManager.GenerateNewMap();
-        MapPlayerTracker.Instance.mapManager.SaveMap();
+        
         Gm.SaveData();
     }
     private void LooseFight()
@@ -1437,9 +1559,6 @@ public class Fight : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(3);
         Gm.transi.Play("Detransi");
-
-        // A appeler lorsqu'on relance
-        /*FindObjectOfType<MapManager>().GenerateNewMap();*/
         
     }
 
@@ -1496,12 +1615,11 @@ public class Fight : MonoBehaviour
             }
             else
             {
-                lvlUpPriest = Gm.levelArboriste > lvlpriest;
+                lvlUpPriest = Gm.levelPretre > lvlpriest;
             }
             if (Gm.levelArboriste >= 6 && Gm.levelPretre >= 6)
                 Gm.PeakPerformanceAchivement();
         }
-
         #region AnimationBarreXP
         yield return new WaitUntil(() => Input.GetMouseButton(0));
         float TempsTransition = 5;
@@ -1741,7 +1859,7 @@ public class Fight : MonoBehaviour
         }
 
         StopCoroutine(coroutine);
-        Gm.deck.AfficheSideUiXP(perso1 && perso2);
+        Gm.deck.AfficheSideUiXP(perso1 && perso2 && GameManager.Instance.LifeArboriste>0 && GameManager.Instance.LifePretre > 0);
         Gm.deck.SetBonneBarreXp(heroes);
         Debug.Log("WIIIIIIIIIIIIIIIIIIIIIIIIIIIIN");
         isFirstTurn = true;

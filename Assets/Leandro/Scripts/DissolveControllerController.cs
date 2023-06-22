@@ -7,6 +7,7 @@ using UnityEngine.Rendering;
 using Color = UnityEngine.Color;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Map;
 
 public class DissolveControllerController : MonoBehaviour
 {
@@ -231,6 +232,12 @@ public class DissolveControllerController : MonoBehaviour
         yield return new WaitUntil(() => Input.GetMouseButton(0));
         yield return TransposeTextColo();
         StartCoroutine(Ecrit("Tel un chasseur impitoyable, vous réduisez les monstruosités à néant, laissant derrière vous un véritable charnier maccabre, victorieux dans cette danse sanglante"));
+        yield return new WaitUntil(() => Input.GetMouseButton(0));
+        GameManager.Instance.transi.Play("Transi");
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.ShouldResetMap = true;
+        SceneManager.LoadScene(0);
+        GameManager.Instance.transi.Play("Detransi");
     }
 
     IEnumerator EcranMort()
@@ -269,6 +276,7 @@ public class DissolveControllerController : MonoBehaviour
         yield return new WaitUntil(() => Input.GetMouseButton(0));
         GameManager.Instance.transi.Play("Transi");
         yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.ShouldResetMap = true;
         SceneManager.LoadScene(0);
         GameManager.Instance.transi.Play("Detransi");
     }

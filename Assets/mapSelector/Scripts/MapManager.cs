@@ -13,6 +13,7 @@ namespace Map
 
         private void Start()
         {
+
             if (PlayerPrefs.HasKey("Map"))
             {
                 var mapJson = PlayerPrefs.GetString("Map");
@@ -25,9 +26,18 @@ namespace Map
                 }
                 else
                 {
-                    CurrentMap = map;
-                    // player has not reached the boss yet, load the current map
-                    view.ShowMap(map);
+                    if (GameManager.Instance.ShouldResetMap)
+                    {
+                        GameManager.Instance.ShouldResetMap = false;
+                        GenerateNewMap();
+                    }
+                    else
+                    {
+                        CurrentMap = map;
+                        // player has not reached the boss yet, load the current map
+                        view.ShowMap(map);
+                    }
+
                 }
             }
             else
