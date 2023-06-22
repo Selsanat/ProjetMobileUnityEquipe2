@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Attaque
   m_EditorClassIdentifier: 
   m_manaCost: 1
-  m_value: 50
+  m_value: 3
   m_index: 0
   nombreDexecutiion: 1
   unlockLevel: 0
