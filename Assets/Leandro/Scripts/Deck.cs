@@ -639,6 +639,7 @@ public class Deck : MonoBehaviour
         }
         objetABouger.transform.position = position;
 
+
     }
     public IEnumerator TransposeAtoBRotation(GameObject objetABouger, Quaternion position, float vitesse = 1f)
     {

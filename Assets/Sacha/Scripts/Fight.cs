@@ -66,6 +66,7 @@ public class Fight : MonoBehaviour
     public List<GameObject> HeroesAltGameObjectRef;
     public List<GameObject> EnnemiesGameObjectRef;
     public hero ennemyPlaying;
+    bool isDiscarding = false;
     
 
     public int mana;
@@ -291,6 +292,7 @@ public class Fight : MonoBehaviour
         if (selectedhero.Count != 0)
         {
             mana -= Gm.CarteUtilisee.DataCard.m_manaCost; 
+            if(mana < 0) mana = 0;
             manaText.text = mana.ToString();
             cancel.gameObject.SetActive(false);
             Gm.CarteUtilisee.DisableHealthbar( true);
@@ -303,6 +305,8 @@ public class Fight : MonoBehaviour
             Gm.CarteUtilisee.canvas.gameObject.SetActive(false);
             isCardSend = true;
             Gm.deck.EndTurnButton.interactable = true;
+            Gm.FM.isDiscarding = false;
+
 
 
         }
@@ -826,226 +830,280 @@ public class Fight : MonoBehaviour
         
         //play.onClick.AddListener(() => { if (conditionjouer) StartCoroutine(CardAnimDisolve()); });
         //[WIP]je dois le changer[WIP]
-        
-        if (!selectedcard.AOEEnnemies && selectedcard.TargetEnnemies)
+        if(!isDiscarding)
         {
-            ennemisButton1?.onClick.AddListener(() => 
+            if (!selectedcard.AOEEnnemies && selectedcard.TargetEnnemies)
             {
-                Deselection(false);
-                if (Gm.IsAnyProv) 
-                { 
-                    if(enemiesAtStartOfCombat[0].getIsProvocation()) 
+                ennemisButton1?.onClick.AddListener(() =>
+                {
+                    Deselection(false);
+                    if (Gm.IsAnyProv)
                     {
-                        
-                        if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum )
+                        if (enemiesAtStartOfCombat[0].getIsProvocation())
                         {
-                            if(enemiesAtStartOfCombat[0].m_IsAttacking)
+
+                            if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
+                            {
+                                if (enemiesAtStartOfCombat[0].m_IsAttacking && !isDiscarding)
+                                {
+                                    selectedhero.Add(enemiesAtStartOfCombat[0]);
+                                    StartCoroutine(CardAnimDisolve());
+                                    switchLightSelection(ennemisButton1, false);
+                                    isDiscarding = true;
+                                }
+
+                            }
+                            else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
+                            {
+                                if (!enemiesAtStartOfCombat[0].m_IsAttacking && !isDiscarding)
+                                {
+                                    selectedhero.Add(enemiesAtStartOfCombat[0]);
+                                    StartCoroutine(CardAnimDisolve());
+                                    switchLightSelection(ennemisButton1, false);
+                                    isDiscarding = true;
+
+                                }
+
+                            }
+                            else
+                            {
+                                if(!isDiscarding)
+                                {
+                                    selectedhero.Add(enemiesAtStartOfCombat[0]);
+                                    StartCoroutine(CardAnimDisolve());
+                                    switchLightSelection(ennemisButton1, false);
+                                    isDiscarding = true;
+                                }
+                                
+
+                            }
+
+
+                        }
+
+
+                    }
+                    else
+                    {
+                        if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
+                        {
+                            if (enemiesAtStartOfCombat[0].m_IsAttacking && !isDiscarding)
                             {
                                 selectedhero.Add(enemiesAtStartOfCombat[0]);
                                 StartCoroutine(CardAnimDisolve());
                                 switchLightSelection(ennemisButton1, false);
+                                isDiscarding = true;
+
                             }
-                                
+
                         }
                         else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
                         {
-                            if (!enemiesAtStartOfCombat[0].m_IsAttacking)
+                            if (!enemiesAtStartOfCombat[0].m_IsAttacking && !isDiscarding)
                             {
                                 selectedhero.Add(enemiesAtStartOfCombat[0]);
                                 StartCoroutine(CardAnimDisolve());
                                 switchLightSelection(ennemisButton1, false);
+                                isDiscarding = true;
+
                             }
 
                         }
                         else
                         {
-                            selectedhero.Add(enemiesAtStartOfCombat[0]);
-                            StartCoroutine(CardAnimDisolve());
-                            switchLightSelection(ennemisButton1, false);
+                            if(!isDiscarding)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[0]);
+                                StartCoroutine(CardAnimDisolve());
+                                switchLightSelection(ennemisButton1, false);
+                                isDiscarding = true;
+                            }
+                            
+
                         }
-
-                        
-                    } 
-                    
-
-                }
-                else
-                {
-                    if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
-                    {
-                        if (enemiesAtStartOfCombat[0].m_IsAttacking)
-                        {
-                            selectedhero.Add(enemiesAtStartOfCombat[0]);
-                            StartCoroutine(CardAnimDisolve());
-                            switchLightSelection(ennemisButton1, false);
-                        }
-
                     }
-                    else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
-                    {
-                        if (!enemiesAtStartOfCombat[0].m_IsAttacking)
-                        {
-                            selectedhero.Add(enemiesAtStartOfCombat[0]);
-                            StartCoroutine(CardAnimDisolve());
-                            switchLightSelection(ennemisButton1, false);
-                        }
+                });
 
+                ennemisButton2?.onClick.AddListener(() =>
+                {
+                    ClearSide(false);
+                    if (Gm.IsAnyProv)
+                    {
+                        if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
+                        {
+                            if (enemiesAtStartOfCombat[1].m_IsAttacking)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[1]);
+                                StartCoroutine(CardAnimDisolve());
+                                switchLightSelection(ennemisButton2, false);
+                                isDiscarding = true;
+
+                            }
+
+                        }
+                        else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
+                        {
+                            if (!enemiesAtStartOfCombat[1].m_IsAttacking)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[1]);
+                                StartCoroutine(CardAnimDisolve());
+                                switchLightSelection(ennemisButton2, false);
+                                isDiscarding = true;
+
+                            }
+
+                        }
+                        else
+                        {
+                            selectedhero.Add(enemiesAtStartOfCombat[1]);
+                            StartCoroutine(CardAnimDisolve());
+                            switchLightSelection(ennemisButton2, false);
+                            isDiscarding = true;
+
+                        }
                     }
                     else
                     {
-                        selectedhero.Add(enemiesAtStartOfCombat[0]);
-                        StartCoroutine(CardAnimDisolve());
-                        switchLightSelection(ennemisButton1, false);
-                    }
-                }
-            });
+                        if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
+                        {
+                            if (enemiesAtStartOfCombat[1].m_IsAttacking && !isDiscarding)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[1]);
+                                StartCoroutine(CardAnimDisolve());
+                                switchLightSelection(ennemisButton2, false);
+                                isDiscarding = true;
 
-            ennemisButton2?.onClick.AddListener(() =>
+                            }
+
+                        }
+                        else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
+                        {
+                            if (!enemiesAtStartOfCombat[1].m_IsAttacking && !isDiscarding)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[1]);
+                                StartCoroutine(CardAnimDisolve());
+                                switchLightSelection(ennemisButton2, false);
+                                isDiscarding = true;
+
+                            }
+
+                        }
+
+                        else
+                        {
+                            if(!isDiscarding)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[1]);
+                                StartCoroutine(CardAnimDisolve());
+                                switchLightSelection(ennemisButton2, false);
+                                isDiscarding = true;
+                            }
+                            
+
+                        }
+                    }
+                });
+                ennemisButton3?.onClick.AddListener(() =>
+                {
+                    Deselection(false);
+                    if (Gm.IsAnyProv)
+                    {
+                        if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
+                        {
+                            if (enemiesAtStartOfCombat[2].m_IsAttacking)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[2]);
+                                switchLightSelection(ennemisButton3, false);
+                                isDiscarding = true;
+
+                            }
+
+                        }
+                        else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
+                        {
+                            if (!enemiesAtStartOfCombat[2].m_IsAttacking)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[2]);
+                                switchLightSelection(ennemisButton3, false);
+                                isDiscarding = true;
+
+                            }
+
+                        }
+                        else
+                        {
+                            selectedhero.Add(enemiesAtStartOfCombat[2]);
+                            switchLightSelection(ennemisButton3, false);
+                            isDiscarding = true;
+
+                        }
+                    }
+                    else
+                    {
+                        if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
+                        {
+                            if (enemiesAtStartOfCombat[2].m_IsAttacking && !isDiscarding)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[2]);
+                                StartCoroutine(CardAnimDisolve());
+                                switchLightSelection(ennemisButton3, false);
+                                isDiscarding = true;
+
+                            }
+
+                        }
+                        else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
+                        {
+                            if (!enemiesAtStartOfCombat[2].m_IsAttacking && !isDiscarding)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[2]);
+                                StartCoroutine(CardAnimDisolve());
+                                switchLightSelection(ennemisButton3, false);
+                                isDiscarding = true;
+
+                            }
+
+                        }
+                        else
+                        {
+                            if(!isDiscarding)
+                            {
+                                selectedhero.Add(enemiesAtStartOfCombat[2]);
+                                StartCoroutine(CardAnimDisolve());
+                                switchLightSelection(ennemisButton3, false);
+                                isDiscarding = true;
+                            }
+                            
+
+                        }
+                    }
+                });
+
+
+                //ennemisButton1.OnDeselect(clearCardSelected());
+
+
+
+
+            }
+            else
             {
-                ClearSide(false);
-                if (Gm.IsAnyProv)
+                if (selectedcard.AOEEnnemies)
                 {
-                    if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
+                    foreach (hero ennemy in enemiesAtStartOfCombat)
                     {
-                        if (enemiesAtStartOfCombat[1].m_IsAttacking)
+                        if (ennemy.getIsAlive())
                         {
-                            selectedhero.Add(enemiesAtStartOfCombat[1]);
-                            StartCoroutine(CardAnimDisolve());
-                            switchLightSelection(ennemisButton2, false);
+                            selectedhero.Add(ennemy);
+                            ActivateSideLights(false);
                         }
 
                     }
-                    else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
-                    {
-                        if (!enemiesAtStartOfCombat[1].m_IsAttacking)
-                        {
-                            selectedhero.Add(enemiesAtStartOfCombat[1]);
-                            StartCoroutine(CardAnimDisolve());
-                            switchLightSelection(ennemisButton2, false);
-                        }
-
-                    }
-                    else
-                    {
-                        selectedhero.Add(enemiesAtStartOfCombat[1]);
-                        StartCoroutine(CardAnimDisolve());
-                        switchLightSelection(ennemisButton2, false);
-                    }
+                    StartCoroutine(CardAnimDisolve());
                 }
-                else
-                {
-                    if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
-                    {
-                        if (enemiesAtStartOfCombat[1].m_IsAttacking)
-                        {
-                            selectedhero.Add(enemiesAtStartOfCombat[1]);
-                            StartCoroutine(CardAnimDisolve());
-                            switchLightSelection(ennemisButton2, false);
-                        }
-
-                    }
-                    else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
-                    {
-                        if (!enemiesAtStartOfCombat[1].m_IsAttacking)
-                        {
-                            selectedhero.Add(enemiesAtStartOfCombat[1]);
-                            StartCoroutine(CardAnimDisolve());
-                            switchLightSelection(ennemisButton2, false);
-                        }
-
-                    }
-
-                    else
-                    {
-                        selectedhero.Add(enemiesAtStartOfCombat[1]);
-                        StartCoroutine(CardAnimDisolve());
-                        switchLightSelection(ennemisButton2, false);
-                    }
-                }
-            });
-            ennemisButton3?.onClick.AddListener(() =>
-            {
-                Deselection(false);
-                if (Gm.IsAnyProv)
-                {
-                    if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
-                    {
-                        if (enemiesAtStartOfCombat[2].m_IsAttacking)
-                        {
-                            selectedhero.Add(enemiesAtStartOfCombat[2]);
-                            switchLightSelection(ennemisButton3, false);
-                        }
-
-                    }
-                    else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
-                    {
-                        if (!enemiesAtStartOfCombat[2].m_IsAttacking)
-                        {
-                            selectedhero.Add(enemiesAtStartOfCombat[2]);
-                            switchLightSelection(ennemisButton3, false);
-                        }
-
-                    }
-                    else
-                    {
-                        selectedhero.Add(enemiesAtStartOfCombat[2]);
-                        switchLightSelection(ennemisButton3, false);
-                    }
-                }
-                else
-                {
-                    if (selectedcard.CardTypes == dataCard.CardType.HabemusDominum)
-                    {
-                        if (enemiesAtStartOfCombat[2].m_IsAttacking)
-                        {
-                            selectedhero.Add(enemiesAtStartOfCombat[2]);
-                            StartCoroutine(CardAnimDisolve());
-                            switchLightSelection(ennemisButton3, false);
-                        }
-
-                    }
-                    else if (selectedcard.CardTypes == dataCard.CardType.DiabolusEst)
-                    {
-                        if (!enemiesAtStartOfCombat[2].m_IsAttacking)
-                        {
-                            selectedhero.Add(enemiesAtStartOfCombat[2]);
-                            StartCoroutine(CardAnimDisolve());
-                            switchLightSelection(ennemisButton3, false);
-                        }
-
-                    }
-                    else
-                    {
-                        selectedhero.Add(enemiesAtStartOfCombat[2]);
-                        StartCoroutine(CardAnimDisolve());
-                        switchLightSelection(ennemisButton3, false);
-                    }
-                }
-            });
-
-
-            //ennemisButton1.OnDeselect(clearCardSelected());
-
-
-
-
-        }
-        else
-        {
-            if (selectedcard.AOEEnnemies)
-            {
-                foreach (hero ennemy in enemiesAtStartOfCombat)
-                {
-                    if(ennemy.getIsAlive())
-                    {
-                        selectedhero.Add(ennemy);
-                        ActivateSideLights(false);
-                    }
-                    
-                }
-                StartCoroutine(CardAnimDisolve());
             }
         }
+        
         if (!selectedcard.AOEAllies && selectedcard.TargetAllies)
         {
             arboristeButton?.onClick.AddListener(() => { ClearSide(true); switchLightSelection(arboristeButton, true); if (perso2 == true) selectedhero.Add(heroes[1]); else selectedhero.Add(heroes[0]); StartCoroutine(CardAnimDisolve()); });

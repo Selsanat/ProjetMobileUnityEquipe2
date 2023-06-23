@@ -211,7 +211,6 @@ public class CardObject : MonoBehaviour
             
             if (transform.position.y >= gameManager.RangePourActiverCarte && gameManager.FM.mana >= costMana)   
             {
-
                 gameManager.CarteUtilisee = this;
                 gameManager.FM.Cardsend(this, indexHand); 
                 Slot = this.gameObject.transform;
