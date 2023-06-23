@@ -56,7 +56,7 @@ public class Menu : MonoBehaviour
     }
     private void Update()
     {
-            Title.transform.position += new Vector3(0, Mathf.Sin(Time.time)*.0015f, 0);
+            //Title.transform.position += new Vector3(0, Mathf.Sin(Time.time)*.0015f, 0);
     }
     public void reloadScene()
     {
